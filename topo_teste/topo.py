@@ -5,6 +5,11 @@
 # LAN = eth1 ; P2P(core) = eth0
 # ==========================================================
 
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+from topo_descovery import export_topology
+
 from mininet.net import Mininet
 from mininet.node import Node, OVSBridge
 from mininet.link import TCLink
@@ -124,6 +129,8 @@ def run():
 
     print("\n✅ Topologia iniciada!")
     print("Use 'vtysh' em cada roteador para verificar rotas.\n")
+
+    export_topology(net)
 
     CLI(net)
     net.stop()
