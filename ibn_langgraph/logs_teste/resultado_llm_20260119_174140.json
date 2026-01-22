@@ -1,0 +1,66 @@
+[
+    {
+        "id": 1,
+        "intent_original": "Remove the static route to 10.3.0.0/24 from router r1.",
+        "classificacao": {
+            "name": "remove_static_route_10.3.0.0_24_from_r1",
+            "confidence": 1.0,
+            "category": "static_route_del",
+            "rationale": ""
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.3.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "router",
+                "quantifier": "all",
+                "constraints": [
+                    {
+                        "type": "ip_in_cidr",
+                        "cidr": "10.3.0.0/24"
+                    }
+                ],
+                "role": "sources"
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r1",
+                    "op": "static_route_del",
+                    "args": {
+                        "dst_cidr": "10.3.0.0/24"
+                    }
+                },
+                {
+                    "device": "r1",
+                    "op": "route_verify",
+                    "args": {
+                        "dst_cidr": "10.3.0.0/24"
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    }
+]

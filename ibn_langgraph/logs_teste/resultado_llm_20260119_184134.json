@@ -1,0 +1,206 @@
+[
+    {
+        "id": 1,
+        "erro": "cannot access local variable 'intent_obj' where it is not associated with a value"
+    },
+    {
+        "id": 2,
+        "erro": "cannot access local variable 'intent_obj' where it is not associated with a value"
+    },
+    {
+        "id": 3,
+        "erro": "cannot access local variable 'intent_obj' where it is not associated with a value"
+    },
+    {
+        "id": 4,
+        "erro": "cannot access local variable 'intent_obj' where it is not associated with a value"
+    },
+    {
+        "id": 5,
+        "erro": "cannot access local variable 'intent_obj' where it is not associated with a value"
+    },
+    {
+        "id": 6,
+        "erro": "cannot access local variable 'intent_obj' where it is not associated with a value"
+    },
+    {
+        "id": 7,
+        "erro": "cannot access local variable 'intent_obj' where it is not associated with a value"
+    },
+    {
+        "id": 8,
+        "intent_original": "Make router r2 forward packets between its interfaces.",
+        "classificacao": {
+            "name": "forward_through",
+            "confidence": 0.9,
+            "category": "static_route_add",
+            "rationale": "The user is configuring a static route on router r2 to forward packets between its interfaces, which matches the category of adding/configuring a static route."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r2",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "router",
+                "quantifier": "single",
+                "constraints": [
+                    {
+                        "type": "interface",
+                        "name": "interfaces"
+                    }
+                ],
+                "role": "sources"
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {}
+    },
+    {
+        "id": 9,
+        "erro": "'string' does not appear to be an IPv4 or IPv6 network"
+    },
+    {
+        "id": 10,
+        "intent_original": "Ping 10.3.0.1 from router r1.",
+        "classificacao": {
+            "name": "ping-10.3.0.1-from-r1",
+            "confidence": 1.0,
+            "category": "icmp_ping",
+            "rationale": ""
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "router",
+                "quantifier": "single",
+                "constraints": [
+                    {
+                        "type": "ip_in_cidr",
+                        "cidr": "10.3.0.0/24"
+                    }
+                ],
+                "role": "sources"
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {}
+    },
+    {
+        "id": 11,
+        "intent_original": "Check connectivity from r2 to the host at 10.4.0.1.",
+        "classificacao": {
+            "name": "check-connectivity",
+            "confidence": 0.9,
+            "category": "icmp_ping",
+            "rationale": "Intent is a diagnostic test for reachability, which falls under icmp_ping category."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r2",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "host",
+                "quantifier": "single",
+                "constraints": [
+                    {
+                        "type": "ip_in_cidr",
+                        "cidr": "10.4.0.1/32"
+                    }
+                ],
+                "role": "targets"
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {}
+    },
+    {
+        "id": 12,
+        "erro": "cannot access local variable 'intent_obj' where it is not associated with a value"
+    },
+    {
+        "id": 13,
+        "erro": "cannot access local variable 'intent_obj' where it is not associated with a value"
+    },
+    {
+        "id": 14,
+        "intent_original": "Prevent hosts in network 10.2.0.0/24 from sending ping requests through router r2.",
+        "classificacao": {
+            "name": "prevent-ping-requests",
+            "confidence": 0.9,
+            "category": "static_route_del",
+            "rationale": "Removing routing entry to prevent hosts in network 10.2.0.0/24 from sending ping requests through router r2"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r2",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "host",
+                "quantifier": "any",
+                "constraints": [
+                    {
+                        "type": "ip_in_cidr",
+                        "cidr": "10.2.0.0/24"
+                    }
+                ],
+                "role": "sources"
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {}
+    },
+    {
+        "id": 15,
+        "erro": "cannot access local variable 'intent_obj' where it is not associated with a value"
+    }
+]

@@ -1,0 +1,125 @@
+{
+  "planning_fewshots": [
+    {
+      "category": "static_route_add",
+      "facts": {
+        "intent": "Configure a static route on router ROUTER_SRC to reach the DST_CIDR network via router ROUTER_GW.",
+        "src_router": "ROUTER_SRC",
+        "dst_cidr": "DST_CIDR",
+        "via_router": "ROUTER_GW",
+        "allowed_next_hops": ["ROUTER_GW"],
+        "single_device_focus": true
+      },
+      "output": {
+        "Plan": {
+          "steps": [
+            {
+              "device": "ROUTER_SRC",
+              "op": "static_route_add",
+              "args": {
+                "target_network": "DST_CIDR",
+                "exit_gateway": "ROUTER_GW"
+              }
+            }
+          ],
+          "warnings": [],
+          "needs_human": false
+        }
+      }
+    },
+    {
+      "category": "static_route_del",
+      "facts": {
+        "intent": "Remove the static route to DST_CIDR from router ROUTER_SRC.",
+        "src_router": "ROUTER_SRC",
+        "dst_cidr": "DST_CIDR",
+        "single_device_focus": true
+      },
+      "output": {
+        "Plan": {
+          "steps": [
+            {
+              "device": "ROUTER_SRC",
+              "op": "static_route_del",
+              "args": {
+                "dst_cidr": "DST_CIDR"
+              }
+            }
+          ],
+          "warnings": [],
+          "needs_human": false
+        }
+      }
+    },
+    {
+      "category": "ip_forward_enable",
+      "facts": {
+        "intent": "Enable IPv4 forwarding on router ROUTER_SRC.",
+        "src_router": "ROUTER_SRC",
+        "single_device_focus": true
+      },
+      "output": {
+        "Plan": {
+          "steps": [
+            {
+              "device": "ROUTER_SRC",
+              "op": "ip_forward_enable",
+              "args": {}
+            }
+          ],
+          "warnings": [],
+          "needs_human": false
+        }
+      }
+    },
+    {
+      "category": "icmp_ping",
+      "facts": {
+        "intent": "Ping DST_IP from DEVICE_SRC to verify connectivity.",
+        "src_device": "DEVICE_SRC",
+        "dst_ip": "DST_IP",
+        "count": 3
+      },
+      "output": {
+        "Plan": {
+          "steps": [
+            {
+              "device": "DEVICE_SRC",
+              "op": "icmp_ping",
+              "args": {
+                "dst_ip": "DST_IP",
+                "count": 3
+              }
+            }
+          ],
+          "warnings": [],
+          "needs_human": false
+        }
+      }
+    },
+    {
+      "category": "firewall_drop_icmp_src",
+      "facts": {
+        "intent": "Block ICMP traffic coming from SRC_CIDR on router ROUTER_SRC.",
+        "src_router": "ROUTER_SRC",
+        "src_cidr": "SRC_CIDR",
+        "single_device_focus": true
+      },
+      "output": {
+        "Plan": {
+          "steps": [
+            {
+              "device": "ROUTER_SRC",
+              "op": "firewall_drop_icmp_src",
+              "args": {
+                "src_cidr": "SRC_CIDR"
+              }
+            }
+          ],
+          "warnings": [],
+          "needs_human": false
+        }
+      }
+    }
+  ]
+}

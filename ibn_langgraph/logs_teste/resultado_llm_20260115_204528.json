@@ -1,0 +1,58 @@
+[
+    {
+        "id": 1,
+        "intent_original": "Enable connectivity from router r3 to the 10.2.0.0/24 network",
+        "classificacao": {
+            "name": "enable-connection-to-network",
+            "confidence": 0.9,
+            "category": "ip_forward_enable",
+            "rationale": "Enabling IP forwarding for a specific network range"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r3",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.2.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "router",
+                "quantifier": "to",
+                "constraints": [
+                    {
+                        "type": "connected_to",
+                        "name": "r3"
+                    }
+                ],
+                "role": "sources"
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r3",
+                    "action": "ip_forward_enable",
+                    "op": "enable_ip_forwarding",
+                    "args": {}
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    }
+]

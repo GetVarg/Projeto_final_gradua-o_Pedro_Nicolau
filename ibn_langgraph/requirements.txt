@@ -1,0 +1,6 @@
+langgraph
+langchain
+langchain-ollama
+pydantic
+langchain-core
+langchain-community

@@ -1,0 +1,806 @@
+[
+    {
+        "id": 1,
+        "intent_original": "Configure a static route on router r1 to reach the 10.3.0.0/24 network via router r0.",
+        "classificacao": {
+            "name": "static_route_add",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "intent mentions a destination network/IP and implies a path/next-hop"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.3.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "subnet",
+                "value": "10.3.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "router",
+                "quantifier": "each",
+                "constraints": [
+                    {
+                        "type": "connected_to",
+                        "name": "r0"
+                    }
+                ],
+                "role": "next_hops"
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r1",
+                    "op": "static_route_add",
+                    "args": {
+                        "target_network": "10.3.0.0/24",
+                        "exit_gateway": "r0"
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 2,
+        "intent_original": "Make router r2 able to reach the 10.4.0.0/24 subnet using r0 as the next hop.",
+        "classificacao": {
+            "name": "static_route_add",
+            "confidence": 1.0,
+            "category": "configuration",
+            "rationale": "Intent mentions a destination network and implies a path/next-hop"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r2",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.4.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "subnet",
+                "value": "10.4.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "router|host",
+                "quantifier": "each",
+                "constraints": [
+                    {
+                        "type": "connected_to",
+                        "name": "r0"
+                    }
+                ],
+                "role": "next_hops"
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r2",
+                    "op": "static_route_add",
+                    "args": {
+                        "target_network": "10.4.0.0/24",
+                        "exit_gateway": "r0"
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 3,
+        "intent_original": "Add a static routing entry on r3 so that traffic destined to 10.2.0.0/24 is forwarded through router r0.",
+        "classificacao": {
+            "name": "static_route_add",
+            "confidence": 1.0,
+            "category": "configuration",
+            "rationale": "intent mentions a destination network/IP and implies a path/next-hop"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r3",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.2.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "subnet",
+                "value": "10.2.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "router",
+                "quantifier": "each",
+                "constraints": [
+                    {
+                        "type": "connected_to",
+                        "name": "r3"
+                    }
+                ],
+                "role": "sources"
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r3",
+                    "op": "static_route_add",
+                    "args": {
+                        "target_network": "10.2.0.0/24",
+                        "exit_gateway": "r0"
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 4,
+        "intent_original": "Remove the static route to 10.3.0.0/24 from router r1.",
+        "classificacao": {
+            "name": "static_route_del",
+            "confidence": 0.9,
+            "category": "removal_cleanup",
+            "rationale": "Intent mentions removing a static route, which is a removal action"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.3.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "router",
+                "quantifier": "all",
+                "constraints": [
+                    {
+                        "type": "ip_in_cidr",
+                        "cidr": "10.3.0.0/24"
+                    }
+                ],
+                "role": "sources"
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r1",
+                    "op": "static_route_del",
+                    "args": {
+                        "dst_cidr": "10.3.0.0/24"
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 5,
+        "intent_original": "Router r2 should no longer route traffic to the 10.4.0.0/24 network.",
+        "classificacao": {
+            "name": "static_route_del",
+            "confidence": 1.0,
+            "category": "removal_cleanup",
+            "rationale": "Intent mentions removing a static route, with a specific destination network"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r2",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.4.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "subnet",
+                "value": "10.4.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "router",
+                "quantifier": "all",
+                "constraints": [
+                    {
+                        "type": "ip_in_cidr",
+                        "cidr": "10.4.0.0/24"
+                    }
+                ],
+                "role": "sources"
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r2",
+                    "op": "static_route_del",
+                    "args": {
+                        "dst_cidr": "10.4.0.0/24"
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 6,
+        "intent_original": "Delete the static routing entry for subnet 10.2.0.0/24 configured on router r3.",
+        "classificacao": {
+            "name": "static_route_del",
+            "confidence": 1.0,
+            "category": "removal_cleanup",
+            "rationale": "Intent mentions deletion of a static routing entry, which is a removal action"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r3",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.2.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "subnet",
+                "value": "10.2.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "router",
+                "quantifier": "single",
+                "constraints": [
+                    {
+                        "type": "connected_to",
+                        "name": "r3"
+                    }
+                ],
+                "role": "sources"
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r3",
+                    "op": "static_route_del",
+                    "args": {
+                        "dst_cidr": "10.2.0.0/24"
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 7,
+        "intent_original": "Enable IP forwarding on router r1.",
+        "classificacao": {
+            "name": "ip_forward_enable",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "Intent implies enabling packet forwarding at OS/kernel level"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "router",
+                "quantifier": "single",
+                "constraints": [
+                    {
+                        "type": "ip_in_cidr",
+                        "cidr": ""
+                    },
+                    {
+                        "type": "name",
+                        "name": "r1"
+                    }
+                ],
+                "role": "sources"
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r1",
+                    "op": "ip_forward_enable",
+                    "args": {}
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 8,
+        "intent_original": "Make router r2 forward packets between its interfaces.",
+        "classificacao": {
+            "name": "ip_forward_enable",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "Intent implies forwarding behavior without specifying a destination network/IP, aligning with ip_forward_enable"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r2",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "router",
+                "quantifier": "single",
+                "constraints": [
+                    {
+                        "type": "interface",
+                        "name": "interfaces"
+                    }
+                ],
+                "role": "sources"
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {}
+    },
+    {
+        "id": 9,
+        "erro": "'string' does not appear to be an IPv4 or IPv6 network"
+    },
+    {
+        "id": 10,
+        "intent_original": "Ping 10.3.0.1 from router r1.",
+        "classificacao": {
+            "name": "icmp_ping",
+            "confidence": 0.9,
+            "category": "monitoring",
+            "rationale": "Intent mentions a destination IP address and implies a test of reachability"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "router",
+                "quantifier": "single",
+                "constraints": [
+                    {
+                        "type": "ip_in_cidr",
+                        "cidr": "10.3.0.0/24"
+                    }
+                ],
+                "role": "sources"
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {}
+    },
+    {
+        "id": 11,
+        "intent_original": "Check connectivity from r2 to the host at 10.4.0.1.",
+        "classificacao": {
+            "name": "connectivity_verify",
+            "confidence": 0.9,
+            "category": "monitoring",
+            "rationale": "The intent mentions checking connectivity, which is a monitoring action."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r2",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "host",
+                "quantifier": "single",
+                "constraints": [
+                    {
+                        "type": "ip_in_cidr",
+                        "cidr": "10.4.0.1/32"
+                    }
+                ],
+                "role": "targets"
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {}
+    },
+    {
+        "id": 12,
+        "intent_original": "Send ICMP echo requests from router r3 to IP address 10.2.0.1.",
+        "classificacao": {
+            "name": "icmp_ping",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "Intent implies sending a test packet, which is a common use case for ICMP echo requests"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r3",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.2.0.1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "router",
+                "quantifier": "single",
+                "constraints": [
+                    {
+                        "type": "connected_to",
+                        "name": "r3"
+                    }
+                ],
+                "role": "sources"
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r3",
+                    "op": "icmp_ping",
+                    "args": {
+                        "dst_ip": "10.2.0.1",
+                        "count": 3
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 13,
+        "intent_original": "Block ICMP traffic from the 10.1.0.0/24 subnet on router r1.",
+        "classificacao": {
+            "name": "firewall_drop_icmp_src",
+            "confidence": 0.9,
+            "category": "control_security",
+            "rationale": "Blocking ICMP traffic from a specific subnet"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.1.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "subnet",
+                "value": "10.1.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "router",
+                "quantifier": "single",
+                "constraints": [
+                    {
+                        "type": "ip_in_cidr",
+                        "cidr": "10.1.0.0/24"
+                    },
+                    {
+                        "type": "name",
+                        "name": "r1"
+                    }
+                ],
+                "role": "sources"
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r1",
+                    "op": "firewall_drop_icmp_src",
+                    "args": {
+                        "src_cidr": "10.1.0.0/24"
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 14,
+        "intent_original": "Prevent hosts in network 10.2.0.0/24 from sending ping requests through router r2.",
+        "classificacao": {
+            "name": "firewall_drop_icmp_src",
+            "confidence": 1.0,
+            "category": "control_security",
+            "rationale": "Prevents hosts in a specific network from sending ICMP pings, indicating a security control measure."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r2",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "host",
+                "quantifier": "any",
+                "constraints": [
+                    {
+                        "type": "ip_in_cidr",
+                        "cidr": "10.2.0.0/24"
+                    }
+                ],
+                "role": "sources"
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {}
+    },
+    {
+        "id": 15,
+        "intent_original": "Install a firewall rule on router r3 to drop ICMP packets originating from 10.3.0.0/24.",
+        "classificacao": {
+            "name": "firewall_drop_icmp_src",
+            "confidence": 1.0,
+            "category": "control_security",
+            "rationale": "Installing a firewall rule matches the control security intent, and dropping ICMP packets from a specific source IP address matches the firewall drop ICMP src operation."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r3",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.3.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "router",
+                "quantifier": "single",
+                "constraints": [
+                    {
+                        "type": "ip_in_cidr",
+                        "cidr": "10.3.0.0/24"
+                    },
+                    {
+                        "type": "connected_to",
+                        "name": "r3"
+                    }
+                ],
+                "role": "sources"
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r3",
+                    "op": "firewall_drop_icmp_src",
+                    "args": {
+                        "src_cidr": "10.3.0.0/24"
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    }
+]

@@ -1,0 +1,95 @@
+[
+    {
+        "id": 1,
+        "intent_original": "Configure a static route on router r1 to reach the 10.4.0.0/24 network via router r0.",
+        "classificacao": {
+            "name": "configure_route",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "This intent is related to configuring a static route on a specific router, indicating a setup or configuration action."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.4.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "subnet",
+                "value": "10.4.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [],
+        "plan": {
+            "steps": [],
+            "warnings": [
+                "Plan node not executed"
+            ],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {}
+    },
+    {
+        "id": 2,
+        "intent_original": "Ensure that all hosts in the 10.1.0.0/24 subnet can ping their gateway at 10.1.0.1.",
+        "classificacao": {
+            "name": "ensure-hosts-can-ping-gateway",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "Ensuring network connectivity for hosts within a specific subnet"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "ip",
+                "value": "10.1.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.1.0.1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "subnet",
+                "value": "10.1.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [],
+        "plan": {
+            "steps": [],
+            "warnings": [
+                "Plan node not executed"
+            ],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {}
+    }
+]

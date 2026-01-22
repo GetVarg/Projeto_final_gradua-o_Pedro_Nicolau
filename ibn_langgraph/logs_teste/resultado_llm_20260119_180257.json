@@ -1,0 +1,167 @@
+[
+    {
+        "id": 1,
+        "intent_original": "Enable IP forwarding on router r1.",
+        "classificacao": {
+            "name": "enable_ip_forwarding",
+            "confidence": 0.9,
+            "category": "ip_forward_enable",
+            "rationale": "Explicit mention of enabling global packet forwarding at OS level"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "router",
+                "quantifier": "single",
+                "constraints": [
+                    {
+                        "type": "ip_in_cidr",
+                        "cidr": ""
+                    },
+                    {
+                        "type": "name",
+                        "name": "r1"
+                    }
+                ],
+                "role": "sources"
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r1",
+                    "op": "static_route_add",
+                    "args": {
+                        "target_network": "10.3.0.0/24",
+                        "exit_gateway": "r0"
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 2,
+        "intent_original": "Make r3 forward packets between interfaces",
+        "classificacao": {
+            "name": "r3",
+            "confidence": 0.9,
+            "category": "static_route_add",
+            "rationale": "Forwarding packets through a specific interface"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r3",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "router",
+                "quantifier": "single",
+                "constraints": [
+                    {
+                        "type": "interface",
+                        "name": "interfaces"
+                    }
+                ],
+                "role": "sources"
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 3,
+        "erro": "'string' does not appear to be an IPv4 or IPv6 network"
+    },
+    {
+        "id": 4,
+        "intent_original": "Remove the static route to 10.3.0.0/24 from router r1.",
+        "classificacao": {
+            "name": "remove_static_route_10.3.0.0_24_from_r1",
+            "confidence": 1.0,
+            "category": "static_route_del",
+            "rationale": ""
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.3.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "router",
+                "quantifier": "all",
+                "constraints": [
+                    {
+                        "type": "ip_in_cidr",
+                        "cidr": "10.3.0.0/24"
+                    }
+                ],
+                "role": "sources"
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r1",
+                    "op": "static_route_del",
+                    "args": {
+                        "dst_cidr": "10.3.0.0/24"
+                    }
+                },
+                {
+                    "device": "r1",
+                    "op": "route_verify",
+                    "args": {
+                        "dst_cidr": "10.3.0.0/24"
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    }
+]

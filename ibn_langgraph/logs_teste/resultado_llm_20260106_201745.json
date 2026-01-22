@@ -1,0 +1,168 @@
+[
+    {
+        "id": 1,
+        "intent_original": "Estabeleça uma rota estática do roteador r1 para a rede do r4 usando o r0 como salto.",
+        "classificacao": {
+            "name": "static_route_setup",
+            "confidence": 0.9,
+            "category": "config",
+            "rationale": "Setting up a static route for the router r1 to connect to the network of router r4 using router r0 as a hop."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r4",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "prompt_contexto": {},
+        "plano_gerado": {
+            "steps": [
+                {
+                    "device": "r0",
+                    "action": "configure",
+                    "commands": [
+                        "ip route 10.0.0.0/24 via r1-eth0"
+                    ]
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 2,
+        "intent_original": "Garanta que todos os hosts da sub-rede 10.1.0.0/24 consigam pingar o gateway 10.255.1.1.",
+        "classificacao": {
+            "name": "subnet-gateway-assignment",
+            "confidence": 0.9,
+            "category": "config",
+            "rationale": "Ensures that all hosts in the specified subnet can reach the designated gateway"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "ip",
+                "value": "10.1.0.0",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.255.1.1",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "subnet",
+                "value": "10.1.0.0/24",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "prompt_contexto": {},
+        "plano_gerado": {
+            "steps": [
+                {
+                    "device": "r0",
+                    "action": "configure",
+                    "commands": [
+                        "ip route 10.0.0.0/24 gateway 10.0.0.5",
+                        "ip route 20.0.0.0/24 gateway 20.0.0.1",
+                        "ip route 30.0.0.0/24 gateway 30.0.0.1",
+                        "ip route 40.0.0.0/24 gateway 40.0.0.1",
+                        "ip route 50.0.0.0/24 gateway 50.0.0.1"
+                    ]
+                },
+                {
+                    "device": "r1",
+                    "action": "configure",
+                    "commands": [
+                        "ip route 10.0.0.0/24 gateway 10.0.0.5",
+                        "ip route 20.0.0.0/24 gateway 20.0.0.1"
+                    ]
+                },
+                {
+                    "device": "r2",
+                    "action": "configure",
+                    "commands": [
+                        "ip route 10.0.0.0/24 gateway 10.0.0.5",
+                        "ip route 30.0.0.0/24 gateway 30.0.0.1"
+                    ]
+                },
+                {
+                    "device": "r3",
+                    "action": "configure",
+                    "commands": [
+                        "ip route 10.0.0.0/24 gateway 10.0.0.5",
+                        "ip route 40.0.0.0/24 gateway 40.0.0.1"
+                    ]
+                },
+                {
+                    "device": "r4",
+                    "action": "configure",
+                    "commands": [
+                        "ip route 10.0.0.0/24 gateway 10.0.0.5",
+                        "ip route 50.0.0.0/24 gateway 50.0.0.1"
+                    ]
+                },
+                {
+                    "device": "s1",
+                    "action": "configure",
+                    "commands": [
+                        "ip route 20.0.0.0/24 gateway 20.0.0.1"
+                    ]
+                },
+                {
+                    "device": "s2",
+                    "action": "configure",
+                    "commands": [
+                        "ip route 30.0.0.0/24 gateway 30.0.0.1"
+                    ]
+                },
+                {
+                    "device": "s3",
+                    "action": "configure",
+                    "commands": [
+                        "ip route 40.0.0.0/24 gateway 40.0.0.1"
+                    ]
+                },
+                {
+                    "device": "s4",
+                    "action": "configure",
+                    "commands": [
+                        "ip route 50.0.0.0/24 gateway 50.0.0.1"
+                    ]
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    }
+]

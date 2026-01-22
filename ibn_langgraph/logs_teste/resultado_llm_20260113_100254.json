@@ -1,0 +1,46 @@
+[
+    {
+        "id": 1,
+        "intent_original": "Garanta que todos os hosts da sub-rede 10.1.0.0/24 consigam pingar o gateway 10.255.1.1.",
+        "classificacao": {
+            "name": "subnet-gateway-assignment",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "Ensures that all hosts in the specified subnet can reach the designated gateway"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "ip",
+                "value": "10.1.0.0",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.255.1.1",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "subnet",
+                "value": "10.1.0.0/24",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [
+                "Plan node not executed"
+            ],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    }
+]

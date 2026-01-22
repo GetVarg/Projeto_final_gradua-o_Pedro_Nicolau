@@ -1,0 +1,67 @@
+[
+    {
+        "id": 1,
+        "intent_original": "Create a static routing entry on r1 so that traffic destined for r4’s network is forwarded through r0.",
+        "classificacao": {
+            "name": "create_static_route",
+            "confidence": 0.9,
+            "category": "control_security",
+            "rationale": "This intent involves creating a new configuration, indicating control security"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r2",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r3",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r4",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "service",
+                "value": "static routing",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [
+                "Plan node not executed"
+            ],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    }
+]

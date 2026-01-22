@@ -1,0 +1,80 @@
+[
+    {
+        "id": 1,
+        "intent_original": "Impeça que qualquer host conectado ao switch s1 acesse o servidor web em h41.",
+        "classificacao": {
+            "name": "access_server_web",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "Request to configure access to server web for hosts connected to switch s1"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "switch",
+                "value": "s1",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h41",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "s4",
+                    "action": "ovs_set_controller",
+                    "op": "set_controller_ip",
+                    "args": {
+                        "controller_ip": "192.168.1.100"
+                    }
+                },
+                {
+                    "device": "s1",
+                    "action": "qos_limit_iface",
+                    "op": "limit_rate",
+                    "args": {
+                        "iface": "s1-eth3",
+                        "rate_mbit": 100
+                    }
+                },
+                {
+                    "device": "h11",
+                    "action": "firewall_drop_icmp_src",
+                    "op": "drop_icmp_src",
+                    "args": {
+                        "src_cidr": "192.168.1.0/24"
+                    }
+                },
+                {
+                    "device": "s4",
+                    "action": "static_route_add",
+                    "op": "add_route",
+                    "args": {
+                        "dst_cidr": "8.8.8.8/32",
+                        "next_hop": "192.168.1.100"
+                    }
+                },
+                {
+                    "device": "s4",
+                    "action": "static_route_del",
+                    "op": "del_route",
+                    "args": {
+                        "dst_cidr": "8.8.8.8/32"
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    }
+]

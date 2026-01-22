@@ -1,0 +1,67 @@
+[
+    {
+        "id": 1,
+        "intent_original": "Estabeleça uma rota estática do roteador r1 para a rede do r4 usando o r0 como salto.",
+        "classificacao": {
+            "name": "static_route_setup",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "Setting up a static route for the router r1 to connect to the network of router r4 using router r0 as a hop."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r2",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r3",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r4",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "service",
+                "value": "static_route",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [
+                "Plan node not executed"
+            ],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    }
+]

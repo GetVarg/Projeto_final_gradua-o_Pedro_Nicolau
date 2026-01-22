@@ -1,0 +1,168 @@
+{
+  "devices": {
+    "r0": {
+      "interfaces": {
+        "r0-eth1": {
+          "peer": "r1-eth0"
+        },
+        "r0-eth2": {
+          "peer": "r2-eth0"
+        },
+        "r0-eth3": {
+          "peer": "r3-eth0"
+        },
+        "r0-eth4": {
+          "peer": "r4-eth0"
+        }
+      }
+    },
+    "r1": {
+      "interfaces": {
+        "r1-eth1": {
+          "peer": "s1-eth3"
+        },
+        "r1-eth0": {
+          "peer": "r0-eth1"
+        }
+      }
+    },
+    "r2": {
+      "interfaces": {
+        "r2-eth1": {
+          "peer": "s2-eth3"
+        },
+        "r2-eth0": {
+          "peer": "r0-eth2"
+        }
+      }
+    },
+    "r3": {
+      "interfaces": {
+        "r3-eth1": {
+          "peer": "s3-eth3"
+        },
+        "r3-eth0": {
+          "peer": "r0-eth3"
+        }
+      }
+    },
+    "r4": {
+      "interfaces": {
+        "r4-eth1": {
+          "peer": "s4-eth3"
+        },
+        "r4-eth0": {
+          "peer": "r0-eth4"
+        }
+      }
+    },
+    "h11": {
+      "interfaces": {
+        "h11-eth0": {
+          "peer": "s1-eth1"
+        }
+      }
+    },
+    "h12": {
+      "interfaces": {
+        "h12-eth0": {
+          "peer": "s1-eth2"
+        }
+      }
+    },
+    "h21": {
+      "interfaces": {
+        "h21-eth0": {
+          "peer": "s2-eth1"
+        }
+      }
+    },
+    "h22": {
+      "interfaces": {
+        "h22-eth0": {
+          "peer": "s2-eth2"
+        }
+      }
+    },
+    "h31": {
+      "interfaces": {
+        "h31-eth0": {
+          "peer": "s3-eth1"
+        }
+      }
+    },
+    "h32": {
+      "interfaces": {
+        "h32-eth0": {
+          "peer": "s3-eth2"
+        }
+      }
+    },
+    "h41": {
+      "interfaces": {
+        "h41-eth0": {
+          "peer": "s4-eth1"
+        }
+      }
+    },
+    "h42": {
+      "interfaces": {
+        "h42-eth0": {
+          "peer": "s4-eth2"
+        }
+      }
+    },
+    "s1": {
+      "interfaces": {
+        "s1-eth1": {
+          "peer": "h11-eth0"
+        },
+        "s1-eth2": {
+          "peer": "h12-eth0"
+        },
+        "s1-eth3": {
+          "peer": "r1-eth1"
+        }
+      }
+    },
+    "s2": {
+      "interfaces": {
+        "s2-eth1": {
+          "peer": "h21-eth0"
+        },
+        "s2-eth2": {
+          "peer": "h22-eth0"
+        },
+        "s2-eth3": {
+          "peer": "r2-eth1"
+        }
+      }
+    },
+    "s3": {
+      "interfaces": {
+        "s3-eth1": {
+          "peer": "h31-eth0"
+        },
+        "s3-eth2": {
+          "peer": "h32-eth0"
+        },
+        "s3-eth3": {
+          "peer": "r3-eth1"
+        }
+      }
+    },
+    "s4": {
+      "interfaces": {
+        "s4-eth1": {
+          "peer": "h41-eth0"
+        },
+        "s4-eth2": {
+          "peer": "h42-eth0"
+        },
+        "s4-eth3": {
+          "peer": "r4-eth1"
+        }
+      }
+    }
+  }
+}

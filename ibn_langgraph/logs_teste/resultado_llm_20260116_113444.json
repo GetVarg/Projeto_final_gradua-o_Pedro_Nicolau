@@ -1,0 +1,82 @@
+[
+    {
+        "id": 1,
+        "intent_original": "Configure a static route on router r2 to reach the 10.3.0.0/24 network via router r0.",
+        "classificacao": {
+            "name": "static_route_add",
+            "confidence": 1.0,
+            "category": "static_route_add",
+            "rationale": "The intent is adding a static route configuration to the router r2, specifying the destination network and the gateway router r0."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r2",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.3.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "subnet",
+                "value": "10.3.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "router",
+                "quantifier": "single",
+                "constraints": [
+                    {
+                        "type": "connected_to",
+                        "name": "r0"
+                    }
+                ],
+                "role": "next_hops"
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r2",
+                    "action": "configure",
+                    "op": "static_route_add",
+                    "args": {
+                        "target_network": "10.3.0.0/24"
+                    }
+                },
+                {
+                    "device": "r0",
+                    "action": "configure",
+                    "op": "next_hop_set",
+                    "args": {
+                        "exit_gateway": "r0"
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    }
+]

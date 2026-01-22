@@ -1,0 +1,198 @@
+[
+    {
+        "id": 1,
+        "intent_original": "Connect all secondary routers (r1–r4) to the central router r0 so that they can communicate with each other",
+        "classificacao": {
+            "name": "sdn_flow_add",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "Connecting multiple devices via SDN flow"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r4",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "router",
+                "quantifier": "all",
+                "constraints": [
+                    {
+                        "type": "connected_to",
+                        "name": "r0"
+                    }
+                ],
+                "role": "sources"
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r4",
+                    "op": "sdn_flow_add",
+                    "args": {
+                        "match": {
+                            "src_ip": "10.0.0.1/24"
+                        },
+                        "actions": {
+                            "output_port": 1
+                        },
+                        "priority": 100
+                    }
+                },
+                {
+                    "device": "r4",
+                    "op": "route_verify",
+                    "args": {
+                        "dst_cidr": "10.0.0.0/24"
+                    }
+                },
+                {
+                    "device": "r1",
+                    "op": "sdn_flow_add",
+                    "args": {
+                        "match": {
+                            "src_ip": "10.0.0.2/24"
+                        },
+                        "actions": {
+                            "output_port": 2
+                        },
+                        "priority": 100
+                    }
+                },
+                {
+                    "device": "r1",
+                    "op": "route_verify",
+                    "args": {
+                        "dst_cidr": "10.0.0.0/24"
+                    }
+                },
+                {
+                    "device": "r2",
+                    "op": "sdn_flow_add",
+                    "args": {
+                        "match": {
+                            "src_ip": "10.0.0.3/24"
+                        },
+                        "actions": {
+                            "output_port": 3
+                        },
+                        "priority": 100
+                    }
+                },
+                {
+                    "device": "r2",
+                    "op": "route_verify",
+                    "args": {
+                        "dst_cidr": "10.0.0.0/24"
+                    }
+                },
+                {
+                    "device": "r3",
+                    "op": "sdn_flow_add",
+                    "args": {
+                        "match": {
+                            "src_ip": "10.0.0.4/24"
+                        },
+                        "actions": {
+                            "output_port": 4
+                        },
+                        "priority": 100
+                    }
+                },
+                {
+                    "device": "r3",
+                    "op": "route_verify",
+                    "args": {
+                        "dst_cidr": "10.0.0.0/24"
+                    }
+                },
+                {
+                    "device": "r1",
+                    "op": "ovs_set_controller",
+                    "args": {
+                        "bridge": "br-ex",
+                        "controller_ip": "10.0.0.100",
+                        "controller_port": 6633
+                    }
+                },
+                {
+                    "device": "r4",
+                    "op": "ovs_set_controller",
+                    "args": {
+                        "bridge": "br-ex",
+                        "controller_ip": "10.0.0.100",
+                        "controller_port": 6633
+                    }
+                },
+                {
+                    "device": "r1",
+                    "op": "interface_up",
+                    "args": {
+                        "interface": "eth0"
+                    }
+                },
+                {
+                    "device": "r2",
+                    "op": "interface_up",
+                    "args": {
+                        "interface": "eth0"
+                    }
+                },
+                {
+                    "device": "r3",
+                    "op": "interface_up",
+                    "args": {
+                        "interface": "eth0"
+                    }
+                },
+                {
+                    "device": "r4",
+                    "op": "interface_up",
+                    "args": {
+                        "interface": "eth0"
+                    }
+                },
+                {
+                    "device": "r1",
+                    "op": "ip_forward_enable",
+                    "args": {}
+                },
+                {
+                    "device": "r2",
+                    "op": "ip_forward_enable",
+                    "args": {}
+                },
+                {
+                    "device": "r3",
+                    "op": "ip_forward_enable",
+                    "args": {}
+                },
+                {
+                    "device": "r4",
+                    "op": "ip_forward_enable",
+                    "args": {}
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    }
+]

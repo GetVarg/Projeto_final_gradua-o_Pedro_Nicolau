@@ -1,0 +1,97 @@
+[
+    {
+        "id": 1,
+        "intent_original": "Configure a static route on router r1 to reach the 10.4.0.0/24 network via router r0.",
+        "classificacao": {
+            "name": "configure_route",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "This intent is related to configuring a static route on a specific router, indicating a setup or configuration action."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.4.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "subnet",
+                "value": "10.4.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "router",
+                "quantifier": "single",
+                "constraints": [
+                    {
+                        "type": "connected_to",
+                        "name": "r0"
+                    }
+                ],
+                "role": "next_hops"
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r0",
+                    "action": "configure",
+                    "op": "static_route_add",
+                    "args": {
+                        "dst_cidr": "10.0.1.0/30",
+                        "next_hop": "10.0.1.2"
+                    }
+                },
+                {
+                    "device": "s1",
+                    "action": "configure",
+                    "op": "static_route_add",
+                    "args": {
+                        "dst_cidr": "10.1.0.0/24",
+                        "next_hop": "10.1.0.1"
+                    }
+                }
+            ],
+            "warnings": [
+                "Step 0: dst_cidr '10.0.1.0/30' is directly connected on 'r0' (via '10.0.1.0/30'); dropped.",
+                "Step 1: dst_cidr '10.1.0.0/24' is directly connected on 'r1' (via '10.1.0.0/24'); dropped.",
+                "Step 1: next_hop '10.1.0.1' is not an IP of a 1-hop neighbor of 'r1'; dropped.",
+                "Step 2: dst_cidr '10.2.0.0/24' is directly connected on 'r2' (via '10.2.0.0/24'); dropped.",
+                "Step 2: next_hop '10.2.0.1' is not an IP of a 1-hop neighbor of 'r2'; dropped.",
+                "Step 3: dst_cidr '10.3.0.0/24' is directly connected on 'r3' (via '10.3.0.0/24'); dropped.",
+                "Step 3: next_hop '10.3.0.1' is not an IP of a 1-hop neighbor of 'r3'; dropped.",
+                "Step 4: dst_cidr '10.4.0.0/24' is directly connected on 'r4' (via '10.4.0.0/24'); dropped.",
+                "Step 4: next_hop '10.4.0.1' is not an IP of a 1-hop neighbor of 'r4'; dropped.",
+                "Step 5: dst_cidr '10.1.0.0/24' is directly connected on 's1' (via '10.1.0.0/24'); dropped.",
+                "Step 5: dst_cidr '10.1.0.0/24' is directly connected on 's1' (via '10.1.0.0/24'); dropped.",
+                "Step 5: dst_cidr '10.1.0.0/24' is directly connected on 's1' (via '10.1.0.0/24'); dropped."
+            ],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    }
+]

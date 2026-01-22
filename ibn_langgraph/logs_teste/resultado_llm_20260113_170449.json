@@ -1,0 +1,1144 @@
+[
+    {
+        "id": 1,
+        "intent_original": "Configure a static route on router r1 to reach the 10.4.0.0/24 network via router r0.",
+        "classificacao": {
+            "name": "configure_route",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "This intent is related to configuring a static route on a specific router, indicating a setup or configuration action."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h11",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h12",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h21",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h22",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h31",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h32",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h41",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h42",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.4.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "subnet",
+                "value": "10.4.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [
+                "Plan node not executed"
+            ],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 2,
+        "intent_original": "Ensure that all hosts in the 10.1.0.0/24 subnet can ping their gateway at 10.1.0.1.",
+        "classificacao": {
+            "name": "ensure-hosts-can-ping-gateway",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "Ensuring network connectivity for hosts within a specific subnet"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "service",
+                "value": "ping",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [
+                "Plan node not executed"
+            ],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 3,
+        "intent_original": "Configure OSPF on all routers to enable automatic neighbor discovery.",
+        "classificacao": {
+            "name": "configure-ospf",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "Setting up OSPF configuration for automatic neighbor discovery"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r2",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r3",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [
+                "Plan node not executed"
+            ],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 4,
+        "intent_original": "Remove the default route from router r2 and configure a new default route via interface r2-eth0 toward router r0.",
+        "classificacao": {
+            "name": "remove_default_route",
+            "confidence": 0.9,
+            "category": "control_security",
+            "rationale": "Intent is related to configuring security settings on the network"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r2",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h11",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h12",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h21",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h22",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h31",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h32",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h41",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h42",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "interface",
+                "value": "r2-eth0",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [
+                "Plan node not executed"
+            ],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 5,
+        "intent_original": "Enable IP packet forwarding on router r3 to allow traffic between switch s3 and router r0.",
+        "classificacao": {
+            "name": "enable_packet_forwarding",
+            "confidence": 0.9,
+            "category": "control_security",
+            "rationale": "This intent is related to configuring network security settings, specifically enabling IP packet forwarding on a router."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r3",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "switch",
+                "value": "s3",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [
+                "Plan node not executed"
+            ],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 6,
+        "intent_original": "Block any host connected to switch s1 from accessing host h41 over HTTP.",
+        "classificacao": {
+            "name": "block-host-access",
+            "confidence": 0.9,
+            "category": "control_security",
+            "rationale": "Blocking access to a specific host and port on a switch"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "switch",
+                "value": "s1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h41",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [
+                "Plan node not executed"
+            ],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 7,
+        "intent_original": "Create an isolated network zone for the finance department hosts h21 and h22.",
+        "classificacao": {
+            "name": "create_network_zone",
+            "confidence": 0.9,
+            "category": "control_security",
+            "rationale": "Creating a new network zone is a security-related operation"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "host",
+                "value": "h21",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h22",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [
+                "Plan node not executed"
+            ],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 8,
+        "intent_original": "Allow only SSH traffic originating from router r1 to access the central router r0.",
+        "classificacao": {
+            "name": "ssh-traffic-control",
+            "confidence": 0.9,
+            "category": "control_security",
+            "rationale": "Configuring firewall rules or ACLs to restrict incoming traffic"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "service",
+                "value": "SSH",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [
+                "Plan node not executed"
+            ],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 9,
+        "intent_original": "Configure a firewall on router r0 to drop ICMP packets originating from the 10.3.0.0/24 network.",
+        "classificacao": {
+            "name": "configure-firewall",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "Setting up a firewall rule to block specific network traffic"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "ip",
+                "value": "10.3.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "service",
+                "value": "ICMP",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [
+                "Plan node not executed"
+            ],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 10,
+        "intent_original": "Isolate switch s4 from the rest of the topology, allowing only management access via router r0.",
+        "classificacao": {
+            "name": "isolation",
+            "confidence": 0.9,
+            "category": "control_security",
+            "rationale": "Request to isolate a specific device or group of devices for security purposes"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "switch",
+                "value": "s4",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "service",
+                "value": "management",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [
+                "Plan node not executed"
+            ],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 11,
+        "intent_original": "If supported, configure all switches to operate in SDN mode using OpenFlow 1.3.",
+        "classificacao": {
+            "name": "configure-switches-sdn-mode",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "Intent is related to configuring network settings"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "service",
+                "value": "OpenFlow 1.3",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [
+                "Plan node not executed"
+            ],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {}
+    },
+    {
+        "id": 12,
+        "intent_original": "If SDN is enabled, configure the SDN controller at IP 192.168.56.101 to manage switch s2.",
+        "classificacao": {
+            "name": "configure-sdn-controller",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "This intent specifies a configuration action for the SDN controller, indicating that it should be configured at a specific IP address."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "ip",
+                "value": "192.168.56.101",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "service",
+                "value": "SDN controller",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [
+                "Plan node not executed"
+            ],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 13,
+        "intent_original": "Ensure that all HTTP traffic originating from the 10.2.0.0/24 network is explicitly forwarded through router r0 for inspection.",
+        "classificacao": {
+            "name": "explicit-forwarding-traffic",
+            "confidence": 0.9,
+            "category": "control_security",
+            "rationale": "ensuring secure forwarding of traffic"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "ip",
+                "value": "10.2.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "service",
+                "value": "HTTP",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [
+                "Plan node not executed"
+            ],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 14,
+        "intent_original": "Verify that there is no redundant physical path between routers r1 and r4 in the current topology.",
+        "classificacao": {
+            "name": "verify-redundant-path",
+            "confidence": 0.9,
+            "category": "diagnostic",
+            "rationale": "This intent is related to network diagnostics, specifically checking for redundant paths between specific routers."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r4",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h11",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h12",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h21",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h22",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h31",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h32",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h41",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h42",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [
+                "Plan node not executed"
+            ],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 15,
+        "intent_original": "Limit the bandwidth of interface r1-eth1 to 10 Mbps.",
+        "classificacao": {
+            "name": "bandwidth_limitation",
+            "confidence": 0.9,
+            "category": "control_security",
+            "rationale": "This intent is related to controlling and securing network resources, specifically limiting bandwidth on a specific interface."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "interface",
+                "value": "r1-eth1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "service",
+                "value": "bandwidth limiting",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [
+                "Plan node not executed"
+            ],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 16,
+        "intent_original": "Check for potential routing loops between routers r1, r0, and r2.",
+        "classificacao": {
+            "name": "check_routing_loops",
+            "confidence": 0.9,
+            "category": "diagnostic",
+            "rationale": "Checking for potential issues in the network topology"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r2",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [
+                "Plan node not executed"
+            ],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 17,
+        "intent_original": "Monitor CPU utilization on all FRR routers.",
+        "classificacao": {
+            "name": "cpu-utilization-monitoring",
+            "confidence": 0.9,
+            "category": "monitoring",
+            "rationale": "Intent is related to monitoring a specific metric (CPU utilization) on a specific resource (FRR routers)"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "h11",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "h12",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "h21",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "h22",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "h31",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "h32",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "h41",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "h42",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "service",
+                "value": "FRR",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [
+                "Plan node not executed"
+            ],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {}
+    },
+    {
+        "id": 18,
+        "intent_original": "Analyze the routing table of router r4 and confirm the path to the 10.3.0.0/24 LAN.",
+        "classificacao": {
+            "name": "analyze_routing_table",
+            "confidence": 0.9,
+            "category": "diagnostic",
+            "rationale": "The intent is related to gathering information about the network configuration, which is a diagnostic task."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r4",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h11",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h12",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h21",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h22",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h31",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h32",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h41",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h42",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.3.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "subnet",
+                "value": "10.3.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [
+                "Plan node not executed"
+            ],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 19,
+        "intent_original": "Simulate a failure on the r0–r1 link and verify the resulting loss of connectivity for host h11.",
+        "classificacao": {
+            "name": "simulate_failure",
+            "confidence": 0.9,
+            "category": "control_security",
+            "rationale": "This intent is related to testing security controls by simulating a failure on a specific link and verifying the response."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "host",
+                "value": "h11",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [
+                "Plan node not executed"
+            ],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 20,
+        "intent_original": "Generate an inventory report comparing the physical topology with the JSON topology description.",
+        "classificacao": {
+            "name": "generate_inventory_report",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "This intent is related to generating a report, which is typically a configuration-related task."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r2",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r3",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "switch",
+                "value": "s1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "switch",
+                "value": "s2",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "switch",
+                "value": "s3",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "switch",
+                "value": "s4",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h11",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h12",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h21",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h22",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h31",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h32",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h41",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h42",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [
+                "Plan node not executed"
+            ],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    }
+]

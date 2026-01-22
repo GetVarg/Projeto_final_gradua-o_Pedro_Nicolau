@@ -1,0 +1,730 @@
+[
+    {
+        "id": 1,
+        "intent_original": "Estabeleça uma rota estática do roteador r1 para a rede do r4 usando o r0 como salto.",
+        "classificacao": {
+            "name": "error",
+            "confidence": 0.0,
+            "category": "config",
+            "rationale": "[WinError 10061] Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r4",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plano_gerado": null,
+        "status_verificacao": {}
+    },
+    {
+        "id": 2,
+        "intent_original": "Garanta que todos os hosts da sub-rede 10.1.0.0/24 consigam pingar o gateway 10.255.1.1.",
+        "classificacao": {
+            "name": "error",
+            "confidence": 0.0,
+            "category": "config",
+            "rationale": "[WinError 10061] Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "ip",
+                "value": "10.1.0.0",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.255.1.1",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "subnet",
+                "value": "10.1.0.0/24",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plano_gerado": null,
+        "status_verificacao": {}
+    },
+    {
+        "id": 3,
+        "intent_original": "Configure o protocolo OSPF em todos os roteadores para vizinhança automática.",
+        "classificacao": {
+            "name": "error",
+            "confidence": 0.0,
+            "category": "config",
+            "rationale": "[WinError 10061] Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "service",
+                "value": "ospf",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plano_gerado": null,
+        "status_verificacao": {}
+    },
+    {
+        "id": 4,
+        "intent_original": "Remova a rota padrão do roteador r2 e aponte o tráfego de saída para a interface r2-eth0.",
+        "classificacao": {
+            "name": "error",
+            "confidence": 0.0,
+            "category": "config",
+            "rationale": "[WinError 10061] Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r2",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "interface",
+                "value": "r2-eth0",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plano_gerado": null,
+        "status_verificacao": {}
+    },
+    {
+        "id": 5,
+        "intent_original": "Habilite o encaminhamento de pacotes IP no nó r3 para permitir trânsito entre s3 e r0.",
+        "classificacao": {
+            "name": "error",
+            "confidence": 0.0,
+            "category": "config",
+            "rationale": "[WinError 10061] Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r3",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "switch",
+                "value": "s3",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plano_gerado": null,
+        "status_verificacao": {}
+    },
+    {
+        "id": 6,
+        "intent_original": "Impeça que qualquer host conectado ao switch s1 acesse o servidor web em h41.",
+        "classificacao": {
+            "name": "error",
+            "confidence": 0.0,
+            "category": "config",
+            "rationale": "[WinError 10061] Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "switch",
+                "value": "s1",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h41",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plano_gerado": null,
+        "status_verificacao": {}
+    },
+    {
+        "id": 7,
+        "intent_original": "Crie uma zona isolada para o departamento financeiro (h21 e h22).",
+        "classificacao": {
+            "name": "create-isolation-zone",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "Creating a isolated zone for the finance department"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "host",
+                "value": "h21",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h22",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plano_gerado": null,
+        "status_verificacao": {}
+    },
+    {
+        "id": 8,
+        "intent_original": "Permita apenas tráfego SSH vindo de r1 para o roteador central r0.",
+        "classificacao": {
+            "name": "ssh-traffic-permission",
+            "confidence": 0.9,
+            "category": "control_security",
+            "rationale": "Allowing only SSH traffic from R1 to the central router R0"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "service",
+                "value": "ssh",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plano_gerado": null,
+        "status_verificacao": {}
+    },
+    {
+        "id": 9,
+        "intent_original": "Configure um firewall no r0 para descartar pacotes ICMP vindos da rede 10.3.0.0/24.",
+        "classificacao": {
+            "name": "configure_firewall",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "Configuring a firewall to discard ICMP packets from the 10.3.0.0/24 network"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.3.0.0",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "subnet",
+                "value": "10.3.0.0/24",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "service",
+                "value": "icmp",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plano_gerado": null,
+        "status_verificacao": {}
+    },
+    {
+        "id": 10,
+        "intent_original": "Isole o switch s4 de toda a topologia, exceto conexões do administrador.",
+        "classificacao": {
+            "name": "isolate_or_switch_s4",
+            "confidence": 0.9,
+            "category": "control_security",
+            "rationale": "Intent to isolate or switch S4 devices across the topology, excluding administrative connections."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "switch",
+                "value": "s4",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plano_gerado": null,
+        "status_verificacao": {}
+    },
+    {
+        "id": 11,
+        "intent_original": "Mude o modo de operação dos switches para SDN usando OpenFlow 1.3.",
+        "classificacao": {
+            "name": "openflow-configuration",
+            "confidence": 0.9,
+            "category": "control_security",
+            "rationale": "Intent specifies a configuration change for OpenFlow protocol"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "service",
+                "value": "openflow",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plano_gerado": null,
+        "status_verificacao": {}
+    },
+    {
+        "id": 12,
+        "intent_original": "Configure o controlador SDN no IP 192.168.56.101 para gerenciar o switch s2.",
+        "classificacao": {
+            "name": "configure-sdn-controller",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "Intent especifica a configuração de um controlador SDN em uma IP específica"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "switch",
+                "value": "s2",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "192.168.56.101",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plano_gerado": null,
+        "status_verificacao": {}
+    },
+    {
+        "id": 13,
+        "intent_original": "Redirecione tráfego HTTP da rede 10.2.0.0 para passar pelo nó r0.",
+        "classificacao": {
+            "name": "redirect_http_traffic",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "Redirecting HTTP traffic from subnet 10.2.0.0 to node r0"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.2.0.0",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "service",
+                "value": "http",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plano_gerado": null,
+        "status_verificacao": {}
+    },
+    {
+        "id": 14,
+        "intent_original": "Crie um caminho redundante entre r1 e r4 com baixa latência.",
+        "classificacao": {
+            "name": "create-redundant-path",
+            "confidence": 0.9,
+            "category": "control_security",
+            "rationale": "Intent relacionado a segurança, criando um caminho redundante para garantir disponibilidade"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r4",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plano_gerado": null,
+        "status_verificacao": {}
+    },
+    {
+        "id": 15,
+        "intent_original": "Limite a largura de banda da interface r1-eth1 para 10Mbps.",
+        "classificacao": {
+            "name": "set-bandwidth-limit",
+            "confidence": 0.9,
+            "category": "control_security",
+            "rationale": "Setting a specific bandwidth limit on an interface"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "interface",
+                "value": "r1-eth1",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plano_gerado": null,
+        "status_verificacao": {}
+    },
+    {
+        "id": 16,
+        "intent_original": "Verifique se existe algum loop de roteamento entre r1, r0 e r2.",
+        "classificacao": {
+            "name": "verify-routing-loop",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "Checking for routing loops in a network configuration"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r2",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plano_gerado": null,
+        "status_verificacao": {}
+    },
+    {
+        "id": 17,
+        "intent_original": "Monitore o uso de CPU de todos os roteadores FRR.",
+        "classificacao": {
+            "name": "cpu_usage_monitoring",
+            "confidence": 0.9,
+            "category": "monitoring",
+            "rationale": "Monitoring CPU usage of all FRR routers"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "service",
+                "value": "frr",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plano_gerado": null,
+        "status_verificacao": {}
+    },
+    {
+        "id": 18,
+        "intent_original": "Analise a tabela de rotas de r4 e confirme o caminho para a LAN do r3.",
+        "classificacao": {
+            "name": "configurar-rotas",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "Intent relacionado à configuração de rotas de rede"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r3",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r4",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plano_gerado": null,
+        "status_verificacao": {}
+    },
+    {
+        "id": 19,
+        "intent_original": "Simule uma falha no link r0-r1 e mostre o novo caminho de h11.",
+        "classificacao": {
+            "name": "simulate_failure",
+            "confidence": 0.9,
+            "category": "control_security",
+            "rationale": "Intent relacionado a simulação de falhas para testes de segurança"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h11",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plano_gerado": null,
+        "status_verificacao": {}
+    },
+    {
+        "id": 20,
+        "intent_original": "Gere um relatório de inventário comparando a física com o arquivo JSON.",
+        "classificacao": {
+            "name": "gerar-relatorio-inventario",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "Intent de criar um relatório de inventário, que é uma configuração de sistema"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r2",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r3",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r4",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "switch",
+                "value": "h11",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "switch",
+                "value": "h12",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "switch",
+                "value": "h21",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "switch",
+                "value": "h22",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "switch",
+                "value": "h31",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "switch",
+                "value": "h32",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "switch",
+                "value": "h41",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "switch",
+                "value": "h42",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h11",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h12",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h21",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h22",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h31",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h32",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h41",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h42",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            }
+        ],
+        "plano_gerado": null,
+        "status_verificacao": {}
+    }
+]

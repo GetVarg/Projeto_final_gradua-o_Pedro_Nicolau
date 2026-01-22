@@ -1,0 +1,67 @@
+[
+    {
+        "id": 1,
+        "intent_original": "Configure a static route on router r1 to reach the 10.4.0.0/24 network via router r0.",
+        "classificacao": {
+            "name": "static_route_add",
+            "confidence": 0.99,
+            "category": "static_route_add",
+            "rationale": "The intent is adding a static route on router r1 to reach the specified network."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.4.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "subnet",
+                "value": "10.4.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "router",
+                "quantifier": "single",
+                "constraints": [
+                    {
+                        "type": "connected_to",
+                        "name": "r0"
+                    }
+                ],
+                "role": "next_hops"
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [
+                "Step 0: missing/invalid dst_cidr and cannot derive from dst_network/dst_mask; dropped."
+            ],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    }
+]

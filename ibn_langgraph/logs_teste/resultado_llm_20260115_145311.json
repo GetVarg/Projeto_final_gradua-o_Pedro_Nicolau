@@ -1,0 +1,41 @@
+[
+    {
+        "id": 1,
+        "intent_original": "Configure a static route on router r1 to reach the 10.4.0.0/24 network via router r0.",
+        "classificacao": {
+            "name": "configure_route",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "This intent is related to configuring a static route on a specific router, indicating a setup or configuration action."
+        },
+        "entidades_extraidas": [],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "router",
+                "quantifier": "single",
+                "constraints": [
+                    {
+                        "type": "connected_to",
+                        "name": "r0"
+                    }
+                ],
+                "role": "next_hops"
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [
+                "Step 0: invalid next_hop='s1-eth3'; expected neighbor IP or egress interface; dropped.",
+                "Step 1: invalid next_hop='s2-eth3'; expected neighbor IP or egress interface; dropped.",
+                "Step 2: invalid next_hop='s3-eth3'; expected neighbor IP or egress interface; dropped.",
+                "Step 3: invalid next_hop='s4-eth3'; expected neighbor IP or egress interface; dropped."
+            ],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    }
+]

@@ -1,0 +1,1428 @@
+[
+    {
+        "id": 1,
+        "intent_original": "Estabeleça uma rota estática do roteador r1 para a rede do r4 usando o r0 como salto.",
+        "classificacao": {
+            "name": "static_route_setup",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "Setting up a static route for the router r1 to connect to the network of router r4 using router r0 as a hop."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r4",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r1",
+                    "action": "configure",
+                    "op": "static_route_add",
+                    "args": {
+                        "dst_cidr": "10.0.0.0/24",
+                        "next_hop": "r0-eth4"
+                    }
+                },
+                {
+                    "device": "r0",
+                    "action": "configure",
+                    "op": "static_route_add",
+                    "args": {
+                        "dst_cidr": "10.0.0.0/24",
+                        "next_hop": "r1-eth0"
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 2,
+        "intent_original": "Garanta que todos os hosts da sub-rede 10.1.0.0/24 consigam pingar o gateway 10.255.1.1.",
+        "classificacao": {
+            "name": "subnet-gateway-assignment",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "Ensures that all hosts in the specified subnet can reach the designated gateway"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "ip",
+                "value": "10.1.0.0",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.255.1.1",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "subnet",
+                "value": "10.1.0.0/24",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [
+                "Plan node not executed"
+            ],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {}
+    },
+    {
+        "id": 3,
+        "intent_original": "Configure o protocolo OSPF em todos os roteadores para vizinhança automática.",
+        "classificacao": {
+            "name": "configure-ospf-neighborship",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "Configuração de configuração de rede"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "service",
+                "value": "ospf",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [
+                "Plan node not executed"
+            ],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {}
+    },
+    {
+        "id": 4,
+        "intent_original": "Remova a rota padrão do roteador r2 e aponte o tráfego de saída para a interface r2-eth0.",
+        "classificacao": {
+            "name": "removal_cleanup",
+            "confidence": 0.9,
+            "category": "control_security",
+            "rationale": "Intent to remove default route from router r2 and redirect outgoing traffic to interface r2-eth0"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r2",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "interface",
+                "value": "r2-eth0",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r2",
+                    "action": "static_route_del",
+                    "op": "remove_default_route",
+                    "args": {
+                        "dst_cidr": "default_route_cidr"
+                    }
+                },
+                {
+                    "device": "s2",
+                    "action": "static_route_add",
+                    "op": "add_outgoing_traffic_to_r2-eth0",
+                    "args": {
+                        "next_hop": "r2-eth1",
+                        "dst_cidr": "default_route_cidr"
+                    }
+                },
+                {
+                    "device": "r0",
+                    "action": "ip_forward_enable",
+                    "op": "enable_ip_forwarding",
+                    "args": {}
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 5,
+        "intent_original": "Habilite o encaminhamento de pacotes IP no nó r3 para permitir trânsito entre s3 e r0.",
+        "classificacao": {
+            "name": "enable-traffic-routing",
+            "confidence": 0.9,
+            "category": "control_security",
+            "rationale": "Enabling traffic routing for specific nodes to allow communication between certain services"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r3",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "switch",
+                "value": "s3",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r3",
+                    "action": "configure",
+                    "op": "static_route_add",
+                    "args": {
+                        "dst_cidr": "10.1.1.0/24",
+                        "next_hop": "s3-eth3"
+                    }
+                },
+                {
+                    "device": "s3",
+                    "action": "configure",
+                    "op": "static_route_add",
+                    "args": {
+                        "dst_cidr": "10.2.2.0/24",
+                        "next_hop": "h31-eth1"
+                    }
+                },
+                {
+                    "device": "r0",
+                    "action": "configure",
+                    "op": "ip_forward_enable",
+                    "args": {}
+                },
+                {
+                    "device": "h31",
+                    "action": "configure",
+                    "op": "firewall_drop_icmp_src",
+                    "args": {
+                        "src_cidr": "10.3.3.0/24"
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 6,
+        "intent_original": "Impeça que qualquer host conectado ao switch s1 acesse o servidor web em h41.",
+        "classificacao": {
+            "name": "access_server_web",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "Request to configure access to server web for hosts connected to switch s1"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "switch",
+                "value": "s1",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h41",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "s1",
+                    "action": "configure",
+                    "op": "static_route_add",
+                    "args": {
+                        "dst_cidr": "10.0.0.0/24",
+                        "next_hop": "h11-eth0"
+                    }
+                },
+                {
+                    "device": "h11",
+                    "action": "configure",
+                    "op": "static_route_add",
+                    "args": {
+                        "dst_cidr": "10.0.0.0/24",
+                        "next_hop": "s1-eth1"
+                    }
+                },
+                {
+                    "device": "h12",
+                    "action": "configure",
+                    "op": "static_route_add",
+                    "args": {
+                        "dst_cidr": "10.0.0.0/24",
+                        "next_hop": "s1-eth2"
+                    }
+                },
+                {
+                    "device": "r1",
+                    "action": "configure",
+                    "op": "static_route_add",
+                    "args": {
+                        "dst_cidr": "10.0.0.0/24",
+                        "next_hop": "s1-eth3"
+                    }
+                },
+                {
+                    "device": "s4",
+                    "action": "configure",
+                    "op": "static_route_add",
+                    "args": {
+                        "dst_cidr": "10.0.0.0/24",
+                        "next_hop": "h41-eth0"
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 7,
+        "intent_original": "Crie uma zona isolada para o departamento financeiro (h21 e h22).",
+        "classificacao": {
+            "name": "create-isolation-zone",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "Creating a isolated zone for the finance department"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "host",
+                "value": "h21",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h22",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "s2",
+                    "action": "ovs_set_controller",
+                    "op": "set_controller_ip",
+                    "args": {
+                        "controller_ip": "10.0.0.1"
+                    }
+                },
+                {
+                    "device": "h21",
+                    "action": "firewall_drop_icmp_src",
+                    "op": "add_route",
+                    "args": {
+                        "dst_cidr": "10.0.0.0/24",
+                        "src_cidr": "10.0.1.0/24"
+                    }
+                },
+                {
+                    "device": "h22",
+                    "action": "firewall_drop_icmp_src",
+                    "op": "add_route",
+                    "args": {
+                        "dst_cidr": "10.0.0.0/24",
+                        "src_cidr": "10.0.2.0/24"
+                    }
+                },
+                {
+                    "device": "s2",
+                    "action": "qos_limit_iface",
+                    "op": "set_rate_mbit",
+                    "args": {
+                        "iface": "s2-eth1",
+                        "rate_mbit": 100
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 8,
+        "intent_original": "Permita apenas tráfego SSH vindo de r1 para o roteador central r0.",
+        "classificacao": {
+            "name": "ssh-traffic-permission",
+            "confidence": 0.9,
+            "category": "control_security",
+            "rationale": "Allowing only SSH traffic from R1 to the central router R0"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "service",
+                "value": "ssh",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r1",
+                    "action": "configure",
+                    "op": "static_route_add",
+                    "args": {
+                        "dst_cidr": "10.0.0.0/24",
+                        "next_hop": "r0-eth1"
+                    }
+                },
+                {
+                    "device": "r0",
+                    "action": "configure",
+                    "op": "static_route_del",
+                    "args": {}
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 9,
+        "intent_original": "Configure um firewall no r0 para descartar pacotes ICMP vindos da rede 10.3.0.0/24.",
+        "classificacao": {
+            "name": "configure_firewall",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "Configuring a firewall to discard ICMP packets from the 10.3.0.0/24 network"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.3.0.0",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "subnet",
+                "value": "10.3.0.0/24",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "service",
+                "value": "icmp",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r0",
+                    "action": "firewall_drop_icmp_src",
+                    "op": "configure",
+                    "args": {
+                        "src_cidr": "10.3.0.0/24"
+                    }
+                },
+                {
+                    "device": "r1",
+                    "action": "firewall_drop_icmp_src",
+                    "op": "configure",
+                    "args": {
+                        "src_cidr": "10.3.0.0/24"
+                    }
+                },
+                {
+                    "device": "r2",
+                    "action": "firewall_drop_icmp_src",
+                    "op": "configure",
+                    "args": {
+                        "src_cidr": "10.3.0.0/24"
+                    }
+                },
+                {
+                    "device": "r3",
+                    "action": "firewall_drop_icmp_src",
+                    "op": "configure",
+                    "args": {
+                        "src_cidr": "10.3.0.0/24"
+                    }
+                },
+                {
+                    "device": "r4",
+                    "action": "firewall_drop_icmp_src",
+                    "op": "configure",
+                    "args": {
+                        "src_cidr": "10.3.0.0/24"
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 10,
+        "intent_original": "Isole o switch s4 de toda a topologia, exceto conexões do administrador.",
+        "classificacao": {
+            "name": "isolate_or_switch_s4",
+            "confidence": 0.9,
+            "category": "control_security",
+            "rationale": "Intent to isolate or switch S4 devices across the topology, excluding administrative connections."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "switch",
+                "value": "s4",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "s4",
+                    "action": "ovs_set_controller",
+                    "op": "set_controller_ip",
+                    "args": {
+                        "controller_ip": "10.1.1.100"
+                    }
+                },
+                {
+                    "device": "h41",
+                    "action": "firewall_drop_icmp_src",
+                    "op": "add_rule",
+                    "args": {
+                        "src_cidr": "10.1.1.0/24"
+                    }
+                },
+                {
+                    "device": "s4",
+                    "action": "qos_limit_iface",
+                    "op": "set_rate_mbit",
+                    "args": {
+                        "iface": "s4-eth1",
+                        "rate_mbit": 100
+                    }
+                },
+                {
+                    "device": "r4",
+                    "action": "ip_forward_enable",
+                    "op": "enable_ip_forwarding"
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 11,
+        "intent_original": "Mude o modo de operação dos switches para SDN usando OpenFlow 1.3.",
+        "classificacao": {
+            "name": "openflow-configuration",
+            "confidence": 0.9,
+            "category": "control_security",
+            "rationale": "Intent specifies a configuration change for OpenFlow protocol"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "service",
+                "value": "openflow",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [
+                "Plan node not executed"
+            ],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {}
+    },
+    {
+        "id": 12,
+        "intent_original": "Configure o controlador SDN no IP 192.168.56.101 para gerenciar o switch s2.",
+        "classificacao": {
+            "name": "configure-sdn-controller",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "Intent especifica a configuração de um controlador SDN em uma IP específica"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "switch",
+                "value": "s2",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "192.168.56.101",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "s2",
+                    "action": "ovs_set_controller",
+                    "op": "set_controller_ip",
+                    "args": {
+                        "controller_ip": "10.1.1.100"
+                    }
+                },
+                {
+                    "device": "h21",
+                    "action": "ovs_set_controller",
+                    "op": "set_controller_port",
+                    "args": {
+                        "controller_port": 8080
+                    }
+                },
+                {
+                    "device": "r2",
+                    "action": "ip_forward_enable",
+                    "op": "enable_ip_forwarding"
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 13,
+        "intent_original": "Redirecione tráfego HTTP da rede 10.2.0.0 para passar pelo nó r0.",
+        "classificacao": {
+            "name": "redirect_http_traffic",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "Redirecting HTTP traffic from subnet 10.2.0.0 to node r0"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.2.0.0",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "service",
+                "value": "http",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r0",
+                    "action": "configure",
+                    "op": "static_route_add",
+                    "args": {
+                        "dst_cidr": "10.2.0.0/24",
+                        "next_hop": "r1-eth0"
+                    }
+                },
+                {
+                    "device": "r1",
+                    "action": "configure",
+                    "op": "ip_forward_enable",
+                    "args": {}
+                },
+                {
+                    "device": "r2",
+                    "action": "configure",
+                    "op": "static_route_add",
+                    "args": {
+                        "dst_cidr": "10.2.0.0/24",
+                        "next_hop": "s2-eth3"
+                    }
+                },
+                {
+                    "device": "r3",
+                    "action": "configure",
+                    "op": "static_route_add",
+                    "args": {
+                        "dst_cidr": "10.2.0.0/24",
+                        "next_hop": "s3-eth3"
+                    }
+                },
+                {
+                    "device": "r4",
+                    "action": "configure",
+                    "op": "static_route_add",
+                    "args": {
+                        "dst_cidr": "10.2.0.0/24",
+                        "next_hop": "s4-eth3"
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 14,
+        "intent_original": "Crie um caminho redundante entre r1 e r4 com baixa latência.",
+        "classificacao": {
+            "name": "create-redundant-path",
+            "confidence": 0.9,
+            "category": "control_security",
+            "rationale": "Intent relacionado a segurança, criando um caminho redundante para garantir disponibilidade"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r4",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r4",
+                    "action": "configure",
+                    "op": "static_route_add",
+                    "args": {
+                        "dst_cidr": "10.0.0.0/24",
+                        "next_hop": "s4-eth3"
+                    }
+                },
+                {
+                    "device": "r1",
+                    "action": "configure",
+                    "op": "static_route_add",
+                    "args": {
+                        "dst_cidr": "20.0.0.0/24",
+                        "next_hop": "s1-eth3"
+                    }
+                },
+                {
+                    "device": "s4",
+                    "action": "configure",
+                    "op": "static_route_del",
+                    "args": {}
+                },
+                {
+                    "device": "r0",
+                    "action": "configure",
+                    "op": "static_route_add",
+                    "args": {
+                        "dst_cidr": "30.0.0.0/24",
+                        "next_hop": "s4-eth1"
+                    }
+                },
+                {
+                    "device": "s1",
+                    "action": "configure",
+                    "op": "static_route_del",
+                    "args": {}
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 15,
+        "intent_original": "Limite a largura de banda da interface r1-eth1 para 10Mbps.",
+        "classificacao": {
+            "name": "set-bandwidth-limit",
+            "confidence": 0.9,
+            "category": "control_security",
+            "rationale": "Setting a specific bandwidth limit on an interface"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "interface",
+                "value": "r1-eth1",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r1",
+                    "action": "qos_limit_iface",
+                    "op": "set_rate_mbit",
+                    "args": {
+                        "rate_mbit": 100
+                    }
+                },
+                {
+                    "device": "s1",
+                    "action": "qos_limit_iface",
+                    "op": "set_rate_mbit",
+                    "args": {
+                        "rate_mbit": 200
+                    }
+                },
+                {
+                    "device": "r0",
+                    "action": "qos_limit_iface",
+                    "op": "set_rate_mbit",
+                    "args": {
+                        "rate_mbit": 300
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 16,
+        "intent_original": "Verifique se existe algum loop de roteamento entre r1, r0 e r2.",
+        "classificacao": {
+            "name": "verify-routing-loop",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "Checking for routing loops in a network configuration"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r2",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r0",
+                    "action": "probe",
+                    "op": "verify_routing_loop",
+                    "args": {}
+                },
+                {
+                    "device": "r1",
+                    "action": "probe",
+                    "op": "verify_routing_loop",
+                    "args": {}
+                },
+                {
+                    "device": "r2",
+                    "action": "probe",
+                    "op": "verify_routing_loop",
+                    "args": {}
+                },
+                {
+                    "device": "r3",
+                    "action": "probe",
+                    "op": "verify_routing_loop",
+                    "args": {}
+                },
+                {
+                    "device": "r4",
+                    "action": "probe",
+                    "op": "verify_routing_loop",
+                    "args": {}
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 17,
+        "intent_original": "Monitore o uso de CPU de todos os roteadores FRR.",
+        "classificacao": {
+            "name": "cpu_usage_monitoring",
+            "confidence": 0.9,
+            "category": "monitoring",
+            "rationale": "Monitoring CPU usage of all FRR routers"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "service",
+                "value": "frr",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [
+                "Plan node not executed"
+            ],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {}
+    },
+    {
+        "id": 18,
+        "intent_original": "Analise a tabela de rotas de r4 e confirme o caminho para a LAN do r3.",
+        "classificacao": {
+            "name": "configurar-rotas",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "Intent relacionado à configuração de rotas de rede"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r3",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r4",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r3",
+                    "action": "static_route_add",
+                    "op": "add_route_to_r3",
+                    "args": {
+                        "dst_cidr": "10.0.0.0/24",
+                        "next_hop": "s3-eth1"
+                    }
+                },
+                {
+                    "device": "r4",
+                    "action": "static_route_add",
+                    "op": "add_route_to_r4",
+                    "args": {
+                        "dst_cidr": "20.0.0.0/24",
+                        "next_hop": "s4-eth1"
+                    }
+                },
+                {
+                    "device": "s3",
+                    "action": "static_route_add",
+                    "op": "add_route_to_s3",
+                    "args": {
+                        "dst_cidr": "30.0.0.0/24",
+                        "next_hop": "h31-eth0"
+                    }
+                },
+                {
+                    "device": "s4",
+                    "action": "static_route_add",
+                    "op": "add_route_to_s4",
+                    "args": {
+                        "dst_cidr": "40.0.0.0/24",
+                        "next_hop": "h41-eth0"
+                    }
+                },
+                {
+                    "device": "r3",
+                    "action": "ip_forward_enable",
+                    "op": "enable_ip_forwarding_on_r3"
+                },
+                {
+                    "device": "r4",
+                    "action": "ip_forward_enable",
+                    "op": "enable_ip_forwarding_on_r4"
+                },
+                {
+                    "device": "s3",
+                    "action": "firewall_drop_icmp_src",
+                    "op": "drop_icmp_src_traffic_on_s3"
+                },
+                {
+                    "device": "s4",
+                    "action": "firewall_drop_icmp_src",
+                    "op": "drop_icmp_src_traffic_on_s4"
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 19,
+        "intent_original": "Simule uma falha no link r0-r1 e mostre o novo caminho de h11.",
+        "classificacao": {
+            "name": "simulate_failure",
+            "confidence": 0.9,
+            "category": "control_security",
+            "rationale": "Intent relacionado a simulação de falhas para testes de segurança"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h11",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r1",
+                    "action": "configure",
+                    "op": "static_route_add",
+                    "args": {
+                        "dst_cidr": "10.0.0.0/24",
+                        "next_hop": "s1-eth3"
+                    }
+                },
+                {
+                    "device": "h11",
+                    "action": "configure",
+                    "op": "static_route_add",
+                    "args": {
+                        "dst_cidr": "20.0.0.0/24",
+                        "next_hop": "s1-eth1"
+                    }
+                },
+                {
+                    "device": "r2",
+                    "action": "configure",
+                    "op": "static_route_add",
+                    "args": {
+                        "dst_cidr": "30.0.0.0/24",
+                        "next_hop": "s3-eth3"
+                    }
+                },
+                {
+                    "device": "r4",
+                    "action": "configure",
+                    "op": "static_route_add",
+                    "args": {
+                        "dst_cidr": "40.0.0.0/24",
+                        "next_hop": "r0-eth4"
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 20,
+        "intent_original": "Gere um relatório de inventário comparando a física com o arquivo JSON.",
+        "classificacao": {
+            "name": "gerar-relatorio-inventario",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "Intent de criar um relatório de inventário, que é uma configuração de sistema"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r2",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r3",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r4",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "switch",
+                "value": "h11",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "switch",
+                "value": "h12",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "switch",
+                "value": "h21",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "switch",
+                "value": "h22",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "switch",
+                "value": "h31",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "switch",
+                "value": "h32",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "switch",
+                "value": "h41",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "switch",
+                "value": "h42",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h11",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h12",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h21",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h22",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h31",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h32",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h41",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            },
+            {
+                "type": "host",
+                "value": "h42",
+                "meta": {
+                    "source": "A+B+C"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r0",
+                    "action": "configure",
+                    "op": "static_route_add",
+                    "args": {
+                        "dst_cidr": "h12-eth0/24",
+                        "next_hop": "s1-eth2"
+                    }
+                },
+                {
+                    "device": "r0",
+                    "action": "configure",
+                    "op": "static_route_add",
+                    "args": {
+                        "dst_cidr": "h31-eth0/24",
+                        "next_hop": "s3-eth1"
+                    }
+                },
+                {
+                    "device": "r0",
+                    "action": "configure",
+                    "op": "static_route_del",
+                    "args": {
+                        "dst_cidr": "h12-eth0/24"
+                    }
+                },
+                {
+                    "device": "r0",
+                    "action": "configure",
+                    "op": "static_route_del",
+                    "args": {
+                        "dst_cidr": "h31-eth0/24"
+                    }
+                },
+                {
+                    "device": "s1",
+                    "action": "configure",
+                    "op": "ip_forward_enable"
+                },
+                {
+                    "device": "s2",
+                    "action": "configure",
+                    "op": "firewall_drop_icmp_src",
+                    "args": {
+                        "src_cidr": "h21-eth0/24"
+                    }
+                },
+                {
+                    "device": "s3",
+                    "action": "configure",
+                    "op": "qos_limit_iface",
+                    "args": {
+                        "iface": "h32-eth0",
+                        "rate_mbit": 100
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    }
+]

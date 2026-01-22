@@ -1,0 +1,6 @@
+[
+    {
+        "id": 1,
+        "erro": "Object of type Entity is not JSON serializable"
+    }
+]

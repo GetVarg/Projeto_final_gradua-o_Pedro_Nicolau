@@ -1,4 +1,3 @@
-from mininet.net import Mininet
 import json
 
 def export_topology(net, output="topologia.json"):

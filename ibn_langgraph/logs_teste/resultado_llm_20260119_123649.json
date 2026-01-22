@@ -1,0 +1,160 @@
+[
+    {
+        "id": 1,
+        "intent_original": "Make router r3 able to reach the 10.1.0.0/24 subnet.",
+        "classificacao": {
+            "name": "r3-10.1.0.0/24",
+            "confidence": 0.9,
+            "category": "static_route_add",
+            "rationale": "User wants to configure a path to a specific network via a gateway"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r3",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.1.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "router",
+                "quantifier": "single",
+                "constraints": [
+                    {
+                        "type": "ip_in_cidr",
+                        "cidr": "10.1.0.0/24"
+                    }
+                ],
+                "role": "targets"
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r3",
+                    "action": "configure",
+                    "op": "static_route_add",
+                    "args": {
+                        "target_network": "10.1.0.0/24",
+                        "exit_gateway": "via_router"
+                    }
+                },
+                {
+                    "device": "r3",
+                    "action": "cleanup",
+                    "op": "static_route_del",
+                    "args": {
+                        "dst_cidr": "10.1.0.0/24"
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 2,
+        "intent_original": "To access subnet 10.3.0.0/24, configure r1 so that packets are forwarded through router r0.",
+        "classificacao": {
+            "name": "access_subnet_10.3.0.0_24",
+            "confidence": 0.9,
+            "category": "static_route_add",
+            "rationale": "User wants to access a specific subnet and configure packet forwarding through a gateway"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.3.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "subnet",
+                "value": "10.3.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "router",
+                "quantifier": "each",
+                "constraints": [
+                    {
+                        "type": "connected_to",
+                        "name": "r0"
+                    }
+                ],
+                "role": "next_hops"
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r1",
+                    "action": "configure",
+                    "op": "static_route_add",
+                    "args": {
+                        "target_network": "10.3.0.0/24",
+                        "exit_gateway": "r0"
+                    }
+                },
+                {
+                    "device": "r3",
+                    "action": "configure",
+                    "op": "static_route_add",
+                    "args": {
+                        "target_network": "10.2.0.0/24",
+                        "exit_gateway": "r0"
+                    }
+                },
+                {
+                    "device": "r1",
+                    "action": "configure",
+                    "op": "static_route_add",
+                    "args": {
+                        "target_network": "10.4.0.0/24",
+                        "exit_gateway": "r0"
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    }
+]

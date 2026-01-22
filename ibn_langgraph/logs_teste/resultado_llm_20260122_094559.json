@@ -1,0 +1,76 @@
+[
+    {
+        "id": 1,
+        "intent_original": "Connect all secondary routers (r1–r4) to the central router r0 so that they can communicate with each other",
+        "classificacao": {
+            "name": "connect_all_routers",
+            "confidence": 0.9,
+            "category": "static_route_add",
+            "rationale": "The intent is to add routes for secondary routers to communicate with each other, which aligns with the category of adding a static route."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r4",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "router",
+                "quantifier": "all",
+                "constraints": [
+                    {
+                        "type": "connected_to",
+                        "name": "r0"
+                    }
+                ],
+                "role": "sources"
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r4",
+                    "op": "static_route_add",
+                    "args": {
+                        "target_network": "10.3.0.0/24",
+                        "exit_gateway": "r1"
+                    }
+                },
+                {
+                    "device": "r4",
+                    "op": "static_route_add",
+                    "args": {
+                        "target_network": "10.2.0.0/24",
+                        "exit_gateway": "r2"
+                    }
+                },
+                {
+                    "device": "r4",
+                    "op": "static_route_add",
+                    "args": {
+                        "target_network": "10.1.0.0/24",
+                        "exit_gateway": "r3"
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    }
+]

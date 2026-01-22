@@ -1,0 +1,87 @@
+[
+    {
+        "id": 1,
+        "intent_original": "Configure uma rota estática no r2 para que a rede 10.1.0.0/24 seja acessível através do IP 10.0.2.1.",
+        "classificacao": {
+            "name": "static-route-config",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "configuring a static route for the specified network and IP address"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r2",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.0.2.1",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.1.0.0",
+                "meta": {
+                    "source": "A+B"
+                }
+            },
+            {
+                "type": "subnet",
+                "value": "10.1.0.0/24",
+                "meta": {
+                    "source": "A+B"
+                }
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r2",
+                    "action": "static_route_add",
+                    "op": "add_static_route",
+                    "args": {
+                        "dst_cidr": "10.0.0.0/24",
+                        "next_hop": "s2-eth3"
+                    }
+                },
+                {
+                    "device": "s2",
+                    "action": "static_route_add",
+                    "op": "add_static_route",
+                    "args": {
+                        "dst_cidr": "20.0.0.0/24",
+                        "next_hop": "h21-eth0"
+                    }
+                },
+                {
+                    "device": "r0",
+                    "action": "static_route_add",
+                    "op": "add_static_route",
+                    "args": {
+                        "dst_cidr": "30.0.0.0/24",
+                        "next_hop": "r1-eth0"
+                    }
+                },
+                {
+                    "device": "s2",
+                    "action": "static_route_del",
+                    "op": "delete_static_route",
+                    "args": {
+                        "dst_cidr": "20.0.0.0/24"
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    }
+]

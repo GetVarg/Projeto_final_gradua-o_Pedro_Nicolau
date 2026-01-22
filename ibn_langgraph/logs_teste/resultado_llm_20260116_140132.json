@@ -1,0 +1,233 @@
+[
+    {
+        "id": 1,
+        "intent_original": "Configure a static route on router r2 to reach the 10.3.0.0/24 network via router r0.",
+        "classificacao": {
+            "name": "static_route_add",
+            "confidence": 1.0,
+            "category": "static_route_add",
+            "rationale": "The intent is adding a static route configuration to the router r2, specifying the destination network and the gateway router r0."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r2",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.3.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "subnet",
+                "value": "10.3.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "router",
+                "quantifier": "single",
+                "constraints": [
+                    {
+                        "type": "connected_to",
+                        "name": "r0"
+                    }
+                ],
+                "role": "next_hops"
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r0",
+                    "action": "configure",
+                    "op": "static_route_add",
+                    "args": {
+                        "target_network": "10.3.0.0/24",
+                        "exit_gateway": "r3"
+                    }
+                },
+                {
+                    "device": "r2",
+                    "action": "configure",
+                    "op": "static_route_add",
+                    "args": {
+                        "target_network": "10.2.0.0/24",
+                        "exit_gateway": "s2"
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 2,
+        "intent_original": "Enable connectivity from router r3 to the 10.2.0.0/24 network",
+        "classificacao": {
+            "name": "enable-connection-to-network",
+            "confidence": 0.9,
+            "category": "ip_forward_enable",
+            "rationale": "Enabling IP forwarding for a specific network range"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r3",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.2.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "router",
+                "quantifier": "to",
+                "constraints": [
+                    {
+                        "type": "connected_to",
+                        "name": "r3"
+                    }
+                ],
+                "role": "sources"
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r3",
+                    "action": "configure",
+                    "op": "static_route_add",
+                    "args": {
+                        "target_network": "10.3.0.0/24",
+                        "exit_gateway": "s3"
+                    }
+                },
+                {
+                    "device": "r4",
+                    "action": "configure",
+                    "op": "static_route_add",
+                    "args": {
+                        "target_network": "10.4.0.0/24",
+                        "exit_gateway": "r1"
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 3,
+        "intent_original": "Configure a static route on router r1 to reach the 10.4.0.0/24 network via router r0.",
+        "classificacao": {
+            "name": "static_route_add",
+            "confidence": 0.99,
+            "category": "static_route_add",
+            "rationale": "The intent is adding a static route on router r1 to reach the specified network."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.4.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "subnet",
+                "value": "10.4.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "router",
+                "quantifier": "single",
+                "constraints": [
+                    {
+                        "type": "connected_to",
+                        "name": "r0"
+                    }
+                ],
+                "role": "next_hops"
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r1",
+                    "action": "configure",
+                    "op": "static_route_add",
+                    "args": {
+                        "target_network": "10.3.0.0/24",
+                        "exit_gateway": "r3"
+                    }
+                },
+                {
+                    "device": "s1",
+                    "action": "probe",
+                    "op": "neighbor",
+                    "args": {
+                        "target_network": "10.3.0.0/24"
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    }
+]

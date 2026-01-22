@@ -1,0 +1,58 @@
+[
+    {
+        "id": 1,
+        "intent_original": "Ensure that all hosts in the 10.1.0.0/24 subnet can ping their gateway at 10.1.0.1.",
+        "classificacao": {
+            "name": "ensure-hosts-can-ping-gateway",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "Ensuring network connectivity for hosts within a specific subnet"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "ip",
+                "value": "10.1.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.1.0.1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "subnet",
+                "value": "10.1.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "host",
+                "quantifier": "all",
+                "constraints": [
+                    {
+                        "type": "ip_in_cidr",
+                        "cidr": "10.1.0.0/24"
+                    }
+                ],
+                "role": "sources"
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    }
+]

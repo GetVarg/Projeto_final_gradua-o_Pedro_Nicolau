@@ -1,0 +1,149 @@
+[
+    {
+        "id": 1,
+        "intent_original": "Configure a static route on router r1 to reach the 10.4.0.0/24 network via router r0.",
+        "classificacao": {
+            "name": "configure_route",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "This intent is related to configuring a static route on a specific router, indicating a setup or configuration action."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.4.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "subnet",
+                "value": "10.4.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "router",
+                "quantifier": "single",
+                "constraints": [
+                    {
+                        "type": "connected_to",
+                        "name": "r0"
+                    }
+                ],
+                "role": "next_hops"
+            }
+        ],
+        "plan": {
+            "steps": [
+                {
+                    "device": "r1",
+                    "action": "configure_route",
+                    "op": "static_route_add",
+                    "args": {
+                        "dst_cidr": "10.1.0.0/24",
+                        "next_hop": "s1-eth3"
+                    }
+                },
+                {
+                    "device": "s1",
+                    "action": "configure_route",
+                    "op": "static_route_add",
+                    "args": {
+                        "dst_cidr": "10.1.0.0/24",
+                        "next_hop": "h11-eth0"
+                    }
+                },
+                {
+                    "device": "r0",
+                    "action": "configure_route",
+                    "op": "static_route_add",
+                    "args": {
+                        "dst_cidr": "10.0.1.0/30",
+                        "next_hop": "r1-eth0"
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    },
+    {
+        "id": 2,
+        "intent_original": "Ensure that all hosts in the 10.1.0.0/24 subnet can ping their gateway at 10.1.0.1.",
+        "classificacao": {
+            "name": "ensure-hosts-can-ping-gateway",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "Ensuring network connectivity for hosts within a specific subnet"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "ip",
+                "value": "10.1.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.1.0.1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "subnet",
+                "value": "10.1.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "host",
+                "quantifier": "all",
+                "constraints": [
+                    {
+                        "type": "ip_in_cidr",
+                        "cidr": "10.1.0.0/24"
+                    }
+                ],
+                "role": "sources"
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [
+                "Plan node not executed"
+            ],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {}
+    }
+]
