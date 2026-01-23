@@ -1,0 +1,32 @@
+[
+    {
+        "id_teste": 1,
+        "intent": "Remove the static route to 10.3.0.0/24 from router r1.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r1": [
+                "vtysh -c 'conf t' -c 'no ip route 10.3.0.0/24'"
+            ]
+        }
+    },
+    {
+        "id_teste": 2,
+        "intent": "Router r2 should no longer route traffic to the 10.4.0.0/24 network.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r2": [
+                "vtysh -c 'conf t' -c 'no ip route 10.4.0.0/24'"
+            ]
+        }
+    },
+    {
+        "id_teste": 3,
+        "intent": "Delete the static routing entry for subnet 10.2.0.0/24 configured on router r3.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r3": [
+                "vtysh -c 'conf t' -c 'no ip route 10.2.0.0/24'"
+            ]
+        }
+    }
+]

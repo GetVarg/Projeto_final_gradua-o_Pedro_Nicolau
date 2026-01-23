@@ -75,6 +75,16 @@ intents_para_testar = [
     "Install a firewall rule on router r3 to drop ICMP packets originating from 10.3.0.0/24."
 ]
 
+intents_para_testar = [
+    "Remove the static route to 10.3.0.0/24 from router r1.",
+
+    # mais aberto
+    "Router r2 should no longer route traffic to the 10.4.0.0/24 network.",
+
+    # técnico
+    "Delete the static routing entry for subnet 10.2.0.0/24 configured on router r3."
+]
+
 # intents_para_testar = [
 #     # 1. Static routing
 #     "Configure a static route on router r1 to reach the 10.4.0.0/24 network via router r0.",
@@ -146,63 +156,80 @@ def rodar_bateria_de_testes():
     import time
     app = build_graph()
     resultados = []
+    comandos_execucao = [] # Lista para armazenar apenas os comandos CLI
     
     print(f"Iniciando bateria de {len(intents_para_testar)} testes...")
 
     for i, texto_intencao in enumerate(intents_para_testar):
         print(f"[{i+1}/{len(intents_para_testar)}] Testando: {texto_intencao[:50]}...")
         
-        # Configuração inicial do estado para cada teste
-        # O thread_id permite que o SQLite do LangGraph armazene cada teste separadamente
         config = {"configurable": {"thread_id": f"teste_{i+1}"}}
         estado_inicial = {
             "user_intent_text": texto_intencao,
             "needs_human": False,
-            "topology": {},  # Inicializa vazio para evitar KeyError
+            "topology": {},
             "entities": [],
-            "plan": {
-                "steps": [],
-                "warnings": [],
-                "needs_human": True,
-                "dry_run": True
-            },
-            "requirements": []
+            "plan": {"steps": [], "warnings": [], "needs_human": True, "dry_run": True},
+            "requirements": [],
+            "cli_commands": None,
         }
 
         try:
-            # Executa o grafo completo
             inicio = time.time()
             final_state = app.invoke(estado_inicial, config)
             fim = time.time()
-            # Armazena o que a LLM gerou no nó 'plan' ou 'context'
+
+            # --- PARTE NOVA: Captura de Resultados Gerais ---
             intent_obj = final_state.get("intent")
             plan_obj = final_state.get("plan")
-
             resultado_teste = {
                 "id": i + 1,
                 "intent_original": texto_intencao,
                 "classificacao": intent_obj.model_dump() if hasattr(intent_obj, "model_dump") else intent_obj,
-                "entidades_extraidas": [e.model_dump() if hasattr(e, "model_dump") else e for e in final_state.get("entities", [])],
-                "entity_selectors": final_state.get("entity_selectors", []),
                 "plan": plan_obj.model_dump() if hasattr(plan_obj, "model_dump") else plan_obj,
-                "status_verificacao": final_state.get("verification", {})
             }
             resultados.append(resultado_teste)
+
+            # --- PARTE NOVA: Captura de Comandos CLI ---
+            # Extrai o dicionário exec_result que você definiu no nó de geração de comandos
+            exec_result = final_state.get("cli_commands")
+            print(exec_result)
+            if exec_result is not None:
+                comandos_execucao.append({
+                    "id_teste": i + 1,
+                    "intent": texto_intencao,
+                    "status": exec_result.get("status"),
+                    "commands": exec_result.get("commands") # O JSON de comandos CLI
+                })
+            else:
+                comandos_execucao.append({
+                    "id_teste": i + 1,
+                    "intent": texto_intencao,
+                    "cli": exec_result
+                })
             
-            print(f"[OK] Teste {i+1} finalizado. Intent detectada: {intent_obj.name}. Tempo de excução: {fim - inicio}")
+            print(f"[OK] Teste {i+1} finalizado. Tempo: {fim - inicio:.2f}s")
+
         except Exception as e:
             print(f"Erro no teste {i+1}: {e}")
             resultados.append({"id": i+1, "erro": str(e)})
 
-    # Salva o log completo em JSON para sua análise de IC
+    # --- SALVAMENTO DOS ARQUIVOS ---
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    arquivo_saida = f"logs_teste/resultado_llm_{timestamp}.json"
-    
     os.makedirs("logs_teste", exist_ok=True)
-    with open(arquivo_saida, "w", encoding="utf-8") as f:
+
+    # 1. Salva o Log de Inteligência (Intent e Plano)
+    arquivo_log = f"logs_teste/resultado_llm_{timestamp}.json"
+    with open(arquivo_log, "w", encoding="utf-8") as f:
         json.dump(resultados, f, indent=4, ensure_ascii=False)
+
+    # 2. Salva o Log de Comandos (O que você pediu)
+    arquivo_comandos = f"logs_teste/comandos_cli_{timestamp}.json"
+    with open(arquivo_comandos, "w", encoding="utf-8") as f:
+        json.dump(comandos_execucao, f, indent=4, ensure_ascii=False)
     
-    print(f"\nTestes concluídos! Log salvo em: {arquivo_saida}")
+    print(f"\n[SUCESSO] Log de processamento salvo em: {arquivo_log}")
+    print(f"[SUCESSO] Comandos CLI gerados salvos em: {arquivo_comandos}")
 
 if __name__ == "__main__":
     rodar_bateria_de_testes()

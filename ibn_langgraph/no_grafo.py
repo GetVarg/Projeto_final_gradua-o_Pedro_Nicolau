@@ -1,4 +1,4 @@
-import re
+import re, os
 import json
 from typing import Dict, List, Any, Tuple, Set, Optional  # O correto é typing, não types
 from main import IBNState, Entity, ExecPlan, Intent, Requirement # Importe todos os tipos necessários
@@ -114,6 +114,37 @@ def node_command_profile(state: IBNState) -> IBNState:
 
     }
     return state
+
+def build_capability_profile(cmd_profile: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    View compacta para o LLM:
+    - mantém somente o que ele precisa para montar steps válidos
+    - reduz tamanho do prompt e chance de alucinação/deriva
+    """
+    supported_ops = cmd_profile.get("supported_ops", {}) or {}
+
+    ops = sorted(supported_ops.keys())
+
+    requires_map: Dict[str, List[str]] = {}
+    optional_map: Dict[str, List[str]] = {}
+    targets_map: Dict[str, List[str]] = {}
+
+    for op, meta in supported_ops.items():
+        req = meta.get("requires", []) or []
+        opt = meta.get("optional", []) or []
+        tgt = meta.get("targets", []) or []
+        requires_map[op] = list(req)
+        optional_map[op] = list(opt)
+        targets_map[op] = list(tgt)
+
+    # Mantém somente o essencial: listas curtas e fáceis de obedecer
+    return {
+        "supported_ops": ops,
+        "requires": requires_map,
+        "optional": optional_map,
+        "targets": targets_map,
+    }
+
 
 def node_intent(state: IBNState) -> IBNState:
     text = state["user_intent_text"]
@@ -309,25 +340,6 @@ def _validate_against_topology(
 
     return valid, unknown
 
-
-# # =========================================================
-# # Heurística: quando chamar LLM (fallback) para NER?
-# # =========================================================
-# def _entities_are_sufficient(state: IBNState, ents_valid: Dict[str, List[str]]) -> bool:
-#     intent = state.get("intent")
-#     cat = getattr(intent, "category", "config") if intent else "config"
-
-#     devices_found = len(ents_valid["routers"]) + len(ents_valid["switches"]) + len(ents_valid["hosts"])
-#     addrs_found = len(ents_valid["ips"]) + len(ents_valid["cidrs"]) + len(ents_valid["interfaces"])
-#     services_found = len(ents_valid["services"])
-
-#     if cat in ("control_security", "removal_cleanup"):
-#         return (devices_found + addrs_found) >= 1 or services_found >= 1
-#     if cat in ("monitoring", "diagnostic"):
-#         return devices_found >= 1 or addrs_found >= 1
-#     return devices_found >= 1 or addrs_found >= 1 or services_found >= 1
-
-
 def _extract_with_llm_entities_and_selectors(text: str, topo: Dict[str, Any]) -> Dict[str, Any]:
     devices_map = topo.get("devices", {}) or {}
     device_names = sorted(devices_map.keys())
@@ -336,14 +348,23 @@ def _extract_with_llm_entities_and_selectors(text: str, topo: Dict[str, Any]) ->
     You are a Network Intent Parser. Your goal is to map user natural language into technical entities and selectors.
 
     CORE LOGIC:
-    1. ENTITIES: Extract names of devices (routers, switches, hosts), IPs, CIDRs, or interfaces that are EXPLICITLY written in the text.
-    2. SELECTORS: Create a selector ONLY if the user refers to a group or a set of devices using words like "all", "every", "any", "each", "hosts in...", "routers connected to...".
-    3. DISCRIMINATION: If a device is mentioned by name (e.g., "r1"), it is an ENTITY. If a group is mentioned (e.g., "all hosts"), it is a SELECTOR.
+    1. ENTITIES: Extract names of devices (r1, h1), IPs (10.0.0.1), CIDRs, or specific interface names (eth0) EXPLICITLY mentioned.
+    2. SELECTORS (GROUPS): Create a selector ONLY if the user refers to a collective set of devices using quantifiers like "all", "every", "any", "each", or "hosts in...".
+    3. DISCRIMINATION: 
+       - If a device is mentioned by name (e.g., "r2"), it is an ENTITY. 
+       - Do NOT create a selector for a specific device's attributes (like "its interfaces" or "its ports") unless those attributes are explicitly named.
+       - If the user says "router r2", everything related to r2 should stay in "entities".
 
     ROLE DEFINITIONS:
-    - "sources": The initiator of traffic or the primary subject of the configuration.
+    - "sources": The initiator of traffic or the primary subject of configuration.
     - "targets": The destination network, IP, or device.
-    - "next_hops": Gateway devices or intermediate nodes (often preceded by "via" or "through").
+    - "next_hops": Gateway devices or intermediate nodes.
+
+    HARD RULES:
+    - NO PLACEHOLDERS: Never output literals like "<INTERFACE>", "<CIDR>", "<DEVICE_NAME>", or "string".
+    - EXPLICIT ONLY: If a specific name or value is not in the text, do not include it in a constraint.
+    - SELECTOR VS ENTITY: "Make router r2 forward" -> r2 is an entity. "Make all routers forward" -> selector.
+    - If the user refers to "interfaces" of a specific entity without naming them, ignore the interfaces in the JSON and focus on the named entity.
 
     SCHEMA:
     {
@@ -356,15 +377,15 @@ def _extract_with_llm_entities_and_selectors(text: str, topo: Dict[str, Any]) ->
           "device_type": "host|router|switch|device",
           "quantifier": "all|any|single|each",
           "constraints": [
-            {"type": "ip_in_cidr", "cidr": "string"},
-            {"type": "connected_to", "name": "deviceName"}
+            {"type": "ip_in_cidr", "cidr": "<CIDR>"},
+            {"type": "connected_to", "name": "<DEVICE_NAME>"}
           ],
           "role": "sources|targets|next_hops"
         }
       ]
     }
 
-    STRICT CONDITION: If no group words/quantifiers are used, "selectors" MUST be an empty list [].
+    STRICT CONDITION: If no group quantifiers (all, every, each, etc.) are used for the main subject, "selectors" MUST be an empty list [].
     Respond ONLY with valid JSON.
     """.strip()
 
@@ -582,12 +603,13 @@ def node_anonymize(state: IBNState) -> IBNState:
 
 def _resolve_selectors_against_topology(selectors: List[Dict[str, Any]], topo: Dict[str, Any]) -> Dict[str, List[str]]:
     devices = topo.get("devices", {}) or {}
+
     def all_of_type(dtype: str) -> List[str]:
         if dtype in ("device", "any", "unknown"):
             return list(devices.keys())
         return [n for n, m in devices.items() if (m.get("type") == dtype)]
+
     def connected_to(name: str) -> Set[str]:
-        # depende do formato: você tem peer nas interfaces no validate_static_policy
         out = set()
         for dev, meta in devices.items():
             ifaces = meta.get("interfaces", {}) or {}
@@ -596,24 +618,35 @@ def _resolve_selectors_against_topology(selectors: List[Dict[str, Any]], topo: D
                 if isinstance(peer, str) and name in peer:
                     out.add(dev)
         return out
-    
+
     resolved = {"routers": [], "switches": [], "hosts": [], "interfaces": [], "ips": [], "cidrs": [], "services": []}
 
     for sel in selectors or []:
         if sel.get("kind") != "device_set":
             continue
+
         dtype = (sel.get("device_type") or "device").strip().lower()
         quant = (sel.get("quantifier") or "unknown").strip().lower()
         constraints = sel.get("constraints") or []
 
         candidate = set(all_of_type(dtype))
+
         for c in constraints:
             ctype = (c.get("type") or "").strip().lower()
+
             if ctype == "ip_in_cidr":
                 cidr = c.get("cidr")
+
+                # ✅ sanitização barata (sem regex): precisa ser string e ser um CIDR parseável
                 if not isinstance(cidr, str) or not cidr:
                     continue
-                net = ipaddress.ip_network(cidr, strict=False)
+
+                try:
+                    net = ipaddress.ip_network(cidr, strict=False)
+                except ValueError:
+                    # Ignora constraint inválido ao invés de quebrar o programa
+                    # (se quiser “subir” isso pra warnings/needs_human, veja a nota abaixo)
+                    continue
 
                 keep = set()
                 for dev in candidate:
@@ -638,12 +671,10 @@ def _resolve_selectors_against_topology(selectors: List[Dict[str, Any]], topo: D
                 if isinstance(name, str) and name:
                     candidate = candidate.intersection(connected_to(name))
 
-        # quantifier (por enquanto, só "all" = mantém tudo; "single" pega 1)
         chosen = sorted(candidate)
         if quant == "single" and chosen:
             chosen = chosen[:1]
 
-        # coloca no bucket correto
         if dtype == "host":
             resolved["hosts"].extend(chosen)
         elif dtype == "router":
@@ -651,8 +682,6 @@ def _resolve_selectors_against_topology(selectors: List[Dict[str, Any]], topo: D
         elif dtype == "switch":
             resolved["switches"].extend(chosen)
         else:
-            # se vier "device", você pode decidir um comportamento
-            # aqui vou jogar em hosts/routers/switches conforme type real
             for dev in chosen:
                 t = (devices.get(dev) or {}).get("type")
                 if t == "host":
@@ -662,7 +691,6 @@ def _resolve_selectors_against_topology(selectors: List[Dict[str, Any]], topo: D
                 elif t == "switch":
                     resolved["switches"].append(dev)
 
-    # dedup
     for k in ["routers", "switches", "hosts"]:
         resolved[k] = sorted(set(resolved[k]))
     return resolved
@@ -887,6 +915,8 @@ def node_plan(state: IBNState) -> IBNState:
     supported_ops = sorted((cmd_profile.get("supported_ops") or {}).keys())
     allowed_ops_str = "|".join(supported_ops)
 
+    cap_profile = build_capability_profile(cmd_profile)
+
     topo_context = build_planner_context(
         topology=topology,
         entities=entities,
@@ -928,7 +958,9 @@ def node_plan(state: IBNState) -> IBNState:
 
         CLOSED-WORLD CONSTRAINT (MANDATORY):
         - You MUST treat NetworkContext as a CLOSED WORLD.
-        - Every value used in any step ("device", "op", and every value inside "args") MUST appear verbatim in NetworkContext.facts or in CommandProfile.supported_ops.
+        - step.op MUST be one of CapabilityProfile.supported_ops.
+        - step.args MUST use ONLY keys allowed by CapabilityProfile.requires[step.op] and CapabilityProfile.optional[step.op].
+        - Every VALUE inside args (e.g., "r1", "10.3.0.0/24") MUST appear verbatim in NetworkContext.facts.
         - If a required value is not present in NetworkContext.facts, you MUST NOT invent it; instead set "needs_human": true and explain what is missing.
         - If any step would require touching a device not listed in NetworkContext.facts.src_router, you MUST set "needs_human": true.
 
@@ -987,11 +1019,71 @@ def node_plan(state: IBNState) -> IBNState:
         - step.args MUST be {}
     """.strip()
 
+    ICMP_PING_BLOCK = """
+        SPECIALIZATION: icmp_ping
+
+        MANDATORY RULES:
+        - Generate EXACTLY 1 step.
+        - step.device MUST be the source device (usually facts.src_router).
+        - step.op MUST be "icmp_ping".
+        - step.args MUST contain "dst_ip". 
+        - Use the IP address associated with the target device/interface found in NetworkContext.
+    """.strip()
+
+    FIREWALL_DROP_ICMP_BLOCK = """
+        SPECIALIZATION: firewall_drop_icmp_src
+
+        MANDATORY RULES:
+        - Generate EXACTLY 1 step.
+        - step.device MUST be the router where the security policy is applied (facts.src_router).
+        - step.op MUST be "firewall_drop_icmp_src".
+        - step.args MUST include "src_cidr".
+        - The "src_cidr" MUST be a valid subnet string from NetworkContext.
+    """.strip()
+
+    INTERFACE_UP_DOWN_BLOCK = """
+        SPECIALIZATION: interface_up / interface_down
+
+        MANDATORY RULES:
+        - step.device MUST be the device owner of the interface.
+        - step.op MUST be "interface_up" or "interface_down" as specified in the intent.
+        - step.args MUST include "interface" name (e.g., "eth0").
+        - If the interface name is not explicit, use NetworkContext to find the interface connecting to the mentioned peer.
+    """.strip()
+
+    QOS_LIMIT_BLOCK = """
+        SPECIALIZATION: qos_limit_iface
+
+        MANDATORY RULES:
+        - step.device MUST be the device where the limit is applied.
+        - step.op MUST be "qos_limit_iface".
+        - step.args MUST include "iface" and "rate_mbit".
+        - If "rate_mbit" is not specified in the Intent, set "needs_human": true and ask for the bandwidth limit.
+    """.strip()
+
+    VERIFY_BLOCK = """
+        SPECIALIZATION: connectivity_verify / route_verify
+
+        MANDATORY RULES:
+        - This is a monitoring task.
+        - step.op MUST be "connectivity_verify" (for end-to-end) or "route_verify" (for table check).
+        - step.args MUST include "dst_ip" (for connectivity) or "dst_cidr" (for route).
+        - Generate steps ONLY for the device performing the verification.
+    """.strip()
+
     
     TASK_BY_CAT = {
         "static_route_add": STATIC_ROUTE_ADD_BLOCK,
         "static_route_del": STATIC_ROUTE_DEL_BLOCK,
         "ip_forward_enable": IP_FORWARD_ENABLE_BLOCK,
+        "icmp_ping": ICMP_PING_BLOCK,
+        "firewall_drop_icmp_src": FIREWALL_DROP_ICMP_BLOCK,
+        "firewall_allow_icmp_src": FIREWALL_DROP_ICMP_BLOCK.replace("drop", "allow"),
+        "interface_up": INTERFACE_UP_DOWN_BLOCK,
+        "interface_down": INTERFACE_UP_DOWN_BLOCK,
+        "qos_limit_iface": QOS_LIMIT_BLOCK,
+        "connectivity_verify": VERIFY_BLOCK,
+        "route_verify": VERIFY_BLOCK
     }
 
     task_block = TASK_BY_CAT.get(intent_op)
@@ -1035,8 +1127,8 @@ def node_plan(state: IBNState) -> IBNState:
         Intent:
         {json.dumps(intent_obj, indent=2)}
 
-        CommandProfile:
-        {json.dumps(cmd_profile, indent=2)}
+        CapabilityProfile:
+        {json.dumps(cap_profile, indent=2)}
 
         NetworkContext:
         {json.dumps(topo_context, indent=2)}
@@ -1079,6 +1171,87 @@ def node_plan(state: IBNState) -> IBNState:
 
     except Exception as e:
         state["plan"] = ExecPlan(steps=[], warnings=[f"LLM error: {e}"], needs_human=True)
+    return state
+
+def node_generate_cli(state: IBNState) -> IBNState:
+    plan = state.get("plan")
+    profile = state.get("command_profile", {})
+    topology = state.get("topology", {})
+
+    if plan.needs_human:
+        return state
+    
+    with open("fewshots/cli_templates.json", "r") as f:
+        templates = json.load(f)
+
+    
+    system_prompt = f"""
+        You are a Network CLI Generator. 
+        Translate the Abstract Plan steps into concrete commands using the provided Syntax Templates and Topology.
+
+        SYNTAX TEMPLATES:
+        {json.dumps(templates, indent=2)}
+
+        TOPOLOGY CONTEXT:
+        {json.dumps(topology, indent=2)}
+
+        RULES:
+        1. For each step in the plan, find the matching 'op' in the Templates.
+        2. Replace placeholders (like {{interface}} or {{dst_ip}}) with real values from the plan's 'args' or Topology.
+        3. If the device stack is 'linux+frr', prioritize 'vtysh' for routing and 'ip/sysctl' for system.
+        4. Return ONLY a JSON object mapping EACH device name from the plan to a list of commands.
+        Example: {{"r1": ["cmd1", "cmd2"]}}
+        5. Do not use backslash escapes like \'. If you need quotes inside a command, use single quotes ' WITHOUT escaping.
+    """
+
+    user_content = f"Abstract Plan to translate: {json.dumps(plan.dict(), indent=2)}"
+
+    try:
+        response = llm.invoke([
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_content}
+        ])
+        print(response)
+        
+        # O parse do JSON (limpeza de caracteres extras da LLM)
+        import re
+        raw = (response.content or "").strip()
+
+        i = raw.find("{")
+        j = raw.rfind("}")
+        if i == -1 or j == -1 or j <= i:
+            raise ValueError("LLM did not return a JSON object.")
+
+        blob = raw[i:j+1]
+
+        # Corrige escape inválido de JSON que o modelo está usando
+        blob = blob.replace("\\'", "'")
+
+        commands_json = json.loads(blob)
+
+        # valida chaves = devices do plano
+        plan_dict = plan.model_dump() if hasattr(plan, "model_dump") else plan.dict()
+        plan_steps = plan_dict.get("steps", []) or []
+        plan_devices = {s.get("device") for s in plan_steps if isinstance(s, dict) and s.get("device")}
+        plan_devices.discard(None)
+
+        if plan_devices and set(commands_json.keys()) != plan_devices:
+            raise ValueError(f"CLI keys must match plan devices {plan_devices}, got {set(commands_json.keys())}")
+
+        print("commands_json: ", commands_json)
+
+        state["cli_commands"] = {
+            "status": "CLI_GENERATED",
+            "commands": commands_json
+        }
+    except Exception as e:
+        state["cli_commands"] = {
+            "status": "CLI_FAILED",
+            "error": str(e),
+            "raw": raw[:1000]  # opcional, pra debugar sem explodir tamanho
+        }
+        state["needs_human"] = True
+
     return state
 
 # ===== NÓS DE FINALIZAÇÃO (Apenas para fechar o grafo) =====

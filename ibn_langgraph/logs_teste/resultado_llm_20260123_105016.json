@@ -1,0 +1,6 @@
+[
+    {
+        "id": 1,
+        "erro": "Invalid format specifier ' [\"cmd1\", \"cmd2\"]' for object of type 'str'"
+    }
+]

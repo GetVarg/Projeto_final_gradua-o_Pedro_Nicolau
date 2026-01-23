@@ -1,0 +1,12 @@
+[
+    {
+        "id_teste": 1,
+        "intent": "Configure a static route on router r1 to reach the 10.3.0.0/24 network via router r0.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r1": [
+                "vtysh -c 'conf t' -c 'ip route 10.3.0.0/24 r0'"
+            ]
+        }
+    }
+]

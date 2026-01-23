@@ -1,0 +1,44 @@
+[
+    {
+        "id": 1,
+        "intent_original": "Make router r2 forward packets between its interfaces.",
+        "classificacao": {
+            "name": "ip_forward_enable",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "Intent implies forwarding behavior without specifying a destination network/IP, aligning with ip_forward_enable"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r2",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "entity_selectors": [
+            {
+                "kind": "device_set",
+                "device_type": "router",
+                "quantifier": "single",
+                "constraints": [
+                    {
+                        "type": "interface",
+                        "name": "<INTERFACE>"
+                    }
+                ],
+                "role": "sources"
+            }
+        ],
+        "plan": {
+            "steps": [],
+            "warnings": [],
+            "needs_human": true,
+            "dry_run": true
+        },
+        "status_verificacao": {
+            "status": "verified_by_simulation"
+        }
+    }
+]

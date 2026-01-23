@@ -1,0 +1,28 @@
+{
+  "static_route_add": {
+    "context": "router linux+frr",
+    "templates": ["vtysh -c 'conf t' -c 'ip route {target_network} {exit_gateway}'"]
+  },
+  "static_route_del": {
+    "context": "router linux+frr",
+    "templates": [
+      "vtysh -c 'conf t' -c 'no ip route {dst_cidr}'"
+    ]
+  },
+  "ip_forward_enable": {
+    "context": "router/host linux",
+    "templates": ["sysctl -w net.ipv4.ip_forward=1"]
+  },
+  "firewall_drop_icmp_src": {
+    "context": "router linux",
+    "templates": ["iptables -A FORWARD -p icmp -s {src_cidr} -j DROP"]
+  },
+  "interface_up": {
+    "context": "any linux",
+    "templates": ["ip link set {interface} up"]
+  },
+  "ovs_set_controller": {
+    "context": "switch ovs",
+    "templates": ["ovs-vsctl set-controller {bridge} tcp:{controller_ip}:{controller_port}"]
+  }
+}

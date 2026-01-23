@@ -12,7 +12,8 @@ from no_grafo import (
     node_decide_exec, 
     node_execute,
     node_command_profile,
-    node_verify
+    node_verify,
+    node_generate_cli
 )
 
 def build_graph():
@@ -28,6 +29,7 @@ def build_graph():
     workflow.add_node("requirements", node_requirements)
     workflow.add_node("anonymize", node_anonymize)
     workflow.add_node("plan", node_plan)
+    workflow.add_node("generate_cli", node_generate_cli)
     workflow.add_node("decide_exec", node_decide_exec)
     workflow.add_node("execute", node_execute)
     workflow.add_node("verify", node_verify)
@@ -61,7 +63,8 @@ def build_graph():
     )
 
     workflow.add_edge("command_profile", "plan")
-    workflow.add_edge("plan", "decide_exec")
+    workflow.add_edge("plan", "generate_cli")        # Novo fluxo
+    workflow.add_edge("generate_cli", "decide_exec") # Conecta ao decisor
     workflow.add_edge("decide_exec", "execute")
     workflow.add_edge("execute", "verify")
     workflow.add_edge("verify", END)

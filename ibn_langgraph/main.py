@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import TypedDict, List, Dict, Optional
+from typing import TypedDict, List, Dict, Optional, Any
 from datetime import datetime
 from pathlib import Path
 import re
@@ -43,6 +43,7 @@ class IBNState(TypedDict, total=False):
 
     # perfil de comandos / ambiente
     command_profile: Dict
+    cli_commands: Optional[Dict[str, Any]]
 
     # controle
     needs_human: bool
