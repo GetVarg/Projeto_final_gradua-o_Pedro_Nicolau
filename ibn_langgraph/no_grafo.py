@@ -2,7 +2,7 @@ import re, os
 import json
 from typing import Dict, List, Any, Tuple, Set, Optional  # O correto é typing, não types
 from main import IBNState, Entity, ExecPlan, Intent, Requirement # Importe todos os tipos necessários
-from tools import load_topologia
+from tools import load_topologia, normalize_static_route_step
 
 from langchain_ollama import ChatOllama
 OLLAMA_MODEL = "llama3.2:3b"
@@ -518,64 +518,118 @@ def build_context_slice(topo: Dict[str, Any], ents_valid: Dict[str, List[str]]) 
     }
 
 
-# ========================================================= 
-# node_entities (A+B+C + warnings explícitos)
-# =========================================================
 def node_entities(state: IBNState) -> IBNState:
+    import ipaddress
+
     text = state["user_intent_text"]
-    topo = state.get("topology_full") or load_topologia()
+    topo = load_topologia()
     state["topology_full"] = topo
 
     parsed = _extract_with_llm_entities_and_selectors(text, topo)
 
+    print("--------------------------PARSED--------------------------")
+    print(parsed)
+
+    # 1) filtro literal só para nomes de dispositivos
     for cat in ["routers", "switches", "hosts"]:
         if cat in parsed["entities"]:
             parsed["entities"][cat] = [
-                val for val in parsed["entities"][cat] 
-                if val.lower() in text.lower()
+                val for val in parsed["entities"][cat]
+                if isinstance(val, str) and val.lower() in (text or "").lower()
             ]
 
-    raw_addr_list = parsed["entities"].get("ips", []) + parsed["entities"].get("cidrs", [])
-    clean_ips = []
-    clean_cidrs = []
-    
-    for addr in raw_addr_list:
-        if "/" in addr:
-            # Se tem barra, forçamos para o balde de CIDRs
-            clean_cidrs.append(addr)
-        else:
-            # Caso contrário, tratamos como IP individual
-            clean_ips.append(addr)
-
-    for addr in raw_addr_list:
-            if "/" in addr:
-                # Se tem barra, forçamos para o balde de CIDRs
-                clean_cidrs.append(addr)
-            else:
-                # Caso contrário, tratamos como IP individual
-                clean_ips.append(addr)
-    
     ents = parsed["entities"]
 
+    def _looks_like_ip(s: str) -> bool:
+        try:
+            ipaddress.ip_address(s)
+            return True
+        except Exception:
+            return False
+
+    def _looks_like_cidr(s: str) -> bool:
+        try:
+            ipaddress.ip_network(s, strict=False)
+            return True
+        except Exception:
+            return False
+
+    # garante chaves
+    for k in ["ips", "cidrs", "hosts", "routers", "switches", "interfaces", "services"]:
+        ents.setdefault(k, [])
+
+    moved_from_hosts = []
+    remaining_hosts = []
+
+    for v in ents["hosts"]:
+        if not isinstance(v, str):
+            continue
+        vv = v.strip()
+        if _looks_like_cidr(vv):
+            ents["cidrs"].append(vv)
+            moved_from_hosts.append(vv)
+        elif _looks_like_ip(vv):
+            ents["ips"].append(vv)
+            moved_from_hosts.append(vv)
+        else:
+            remaining_hosts.append(vv)
+
+    ents["hosts"] = remaining_hosts
+
+    # 3) Unifica IPs/CIDRs vindos de ips+cidrs (remove duplicata e corrige mistura)
+    raw_addr_list = list(ents.get("ips", [])) + list(ents.get("cidrs", []))
+
+    clean_ips = []
+    clean_cidrs = []
+
+    for addr in raw_addr_list:
+        if not isinstance(addr, str):
+            continue
+        a = addr.strip()
+        if "/" in a:
+            # CIDR
+            if _looks_like_cidr(a):
+                clean_cidrs.append(str(ipaddress.ip_network(a, strict=False)))
+        else:
+            # IP
+            if _looks_like_ip(a):
+                clean_ips.append(str(ipaddress.ip_address(a)))
+
+    ents["ips"] = sorted(set(clean_ips))
+    ents["cidrs"] = sorted(set(clean_cidrs))
+
+    # (opcional) log pra você ver quando a LLM erra o tipo
+    if moved_from_hosts:
+        state.setdefault("warnings", [])
+        state["warnings"].append(
+            f"Normalized entities: moved {moved_from_hosts} from hosts -> ips/cidrs"
+        )
+
     selectors = parsed.get("selectors", [])
+    has_host_selector = any(
+        (s.get("kind") == "device_set" and (s.get("device_type") or "").lower() == "host")
+        for s in (selectors or [])
+    )
 
     valid_ents, unknown_ab = _validate_against_topology(ents, topo)
 
     unknown_msgs = []
     for k in ["routers", "switches", "hosts", "interfaces"]:
         if unknown_ab.get(k):
+            if k == "hosts" and has_host_selector:
+                continue  # não trava o pipeline por isso
             unknown_msgs.append(f"Unknown {k} referenced by intent: {', '.join(unknown_ab[k])}")
 
     if unknown_msgs:
         state.setdefault("warnings", [])
         state["warnings"].extend(unknown_msgs)
-        state["needs_human"] = True  # segurança: não automatiza se citou entidade inexistente
+        state["needs_human"] = True
 
-    # entidades finais no formato esperado
     state["entities"] = _to_entity_list(valid_ents, source="LLM_ENTITIES")
     state["entity_selectors"] = selectors
 
     return state
+
 
 # ===== NÓ 3: Requisitos (Validar se o pedido faz sentido) =====
 def node_requirements(state: IBNState) -> IBNState:
@@ -723,6 +777,7 @@ def _resolve_selectors_against_topology_by_role(selectors, topo):
 
 
 def node_context(state: IBNState) -> IBNState:
+
     topo = state.get("topology_full") or {}
     selectors = state.get("entity_selectors") or []
 
@@ -774,7 +829,6 @@ def node_context(state: IBNState) -> IBNState:
     # 3️⃣ Guarda candidatos de next-hop (não entram no slice)
     state["selector_next_hops_candidates"] = resolved_by_role.get("next_hops", {})
 
-    # 4️⃣ Só sources + targets entram no slice
     scoped = _merge_entities(
         resolved_by_role.get("sources", {}),
         resolved_by_role.get("targets", {}),
@@ -783,7 +837,6 @@ def node_context(state: IBNState) -> IBNState:
     for k in ents_valid:
         ents_valid[k] = sorted(set(ents_valid[k] + scoped.get(k, [])))
 
-    # 5️⃣ Continua igual ao seu código
     if not any(ents_valid[k] for k in ents_valid):
         state.setdefault("warnings", [])
         state["warnings"].append(
@@ -792,6 +845,7 @@ def node_context(state: IBNState) -> IBNState:
         state["needs_human"] = True
         state["topology"] = {"devices": {}}
         state["topology_slice_entities"] = ents_valid
+        
         return state
 
     state["topology"] = build_context_slice(topo, ents_valid)
@@ -817,17 +871,31 @@ def entities_to_jsonable(entities: List[Any]) -> List[dict]:
 
 def extract_fields_from_entities(entities: List[dict]) -> Dict[str, Optional[str]]:
     routers = [e["value"] for e in entities if e.get("type") == "router"]
-    cidr = None
+
+    dst_cidr = None
+    dst_ip = None
+
     for e in entities:
         if e.get("type") in ("ip", "subnet"):
-            m = CIDR_RE.search(e.get("value", "") or "")
-            if m:
-                cidr = m.group(0)
-                break
+            v = (e.get("value") or "").strip()
+
+            # CIDR
+            m = CIDR_RE.search(v)
+            if m and not dst_cidr:
+                dst_cidr = m.group(0)
+                continue
+
+            # IP puro (sem /)
+            # (aceita "10.4.0.1" e também "10.4.0.1/24" -> cai no CIDR acima)
+            if "/" not in v and not dst_ip:
+                dst_ip = v
+
     return {
-        "routers": routers,     # você decide depois qual é src/via
-        "dst_cidr": cidr
+        "routers": routers,
+        "dst_cidr": dst_cidr,
+        "dst_ip": dst_ip,
     }
+
 
 def router_neighbors_from_interfaces(topology: dict, router: str) -> List[str]:
     devices = topology.get("devices", {})
@@ -866,6 +934,9 @@ def build_planner_context(topology: dict, entities: List[Any], intent_text: str)
 
     routers = fields["routers"]
     dst_cidr = fields["dst_cidr"]
+    dst_ip = fields["dst_ip"]
+
+
 
     # Heurística mínima: se tiver 2 routers, assume [src, via] pela ordem do intent
     # (ideal: pegar src_router do selector/intent parser)
@@ -884,6 +955,7 @@ def build_planner_context(topology: dict, entities: List[Any], intent_text: str)
             "intent": intent_text,
             "src_router": src_router,
             "dst_cidr": dst_cidr,
+            "dst_ip": dst_ip,
             "via_router": via_router,
             "dst_gateway_device": dst_gateway,
             "allowed_next_hops": allowed,
@@ -1020,14 +1092,17 @@ def node_plan(state: IBNState) -> IBNState:
     """.strip()
 
     ICMP_PING_BLOCK = """
-        SPECIALIZATION: icmp_ping
+    SPECIALIZATION: icmp_ping
 
-        MANDATORY RULES:
-        - Generate EXACTLY 1 step.
-        - step.device MUST be the source device (usually facts.src_router).
-        - step.op MUST be "icmp_ping".
-        - step.args MUST contain "dst_ip". 
-        - Use the IP address associated with the target device/interface found in NetworkContext.
+    MANDATORY RULES:
+    - Generate EXACTLY 1 step.
+    - step.device MUST equal NetworkContext.facts.src_router.
+    - step.op MUST be "icmp_ping".
+    - step.args MUST be exactly:
+    {"dst_ip": NetworkContext.facts.dst_ip}
+    OR {"dst_ip": NetworkContext.facts.dst_ip, "count": <small int>}
+    - NEVER generate static routes, firewall rules, interface changes, or any other ops for a ping intent.
+    - If dst_ip is missing in NetworkContext.facts, set needs_human=true.
     """.strip()
 
     FIREWALL_DROP_ICMP_BLOCK = """
@@ -1138,12 +1213,6 @@ def node_plan(state: IBNState) -> IBNState:
 
     try:
 
-        
-        print("------------------------BASE_SYSTEM_PROMPT------------------------")
-        print(BASE_SYSTEM_PROMPT)
-
-        print("------------------------user------------------------")
-        print(user)
 
         resp = llm.invoke([{"role": "system", "content": BASE_SYSTEM_PROMPT},
                             {"role": "user", "content": user}])
@@ -1174,19 +1243,144 @@ def node_plan(state: IBNState) -> IBNState:
     return state
 
 def node_generate_cli(state: IBNState) -> IBNState:
+    import json
+    import ipaddress
+    from copy import deepcopy
+
     plan = state.get("plan")
     profile = state.get("command_profile", {})
     topology = state.get("topology", {})
 
-    if plan.needs_human:
+    if not plan or plan.needs_human:
         return state
-    
+
+    # ---------------------------------------------------------------------
+    # Helpers: resolução determinística de next-hop (portável, sem regex)
+    # ---------------------------------------------------------------------
+    def _is_ip(s: str) -> bool:
+        try:
+            ipaddress.ip_address(s)
+            return True
+        except Exception:
+            return False
+
+    def _peer_device(peer: str):
+        # aceita "r0-eth1" ou "r0"
+        if not isinstance(peer, str) or not peer:
+            return None
+        return peer.split("-", 1)[0]
+
+    def resolve_next_hop_ip(device: str, gateway: str, topo: dict):
+        """
+        Retorna o IP da interface do gateway que está ligada diretamente ao device.
+        Exige topo['devices'][dev]['interfaces'][if]['peer'/'ip'].
+        """
+        devices = (topo or {}).get("devices", {})
+        dev_intfs = (devices.get(device, {}) or {}).get("interfaces", {}) or {}
+
+        # acha uma interface do device cujo peer aponta para gateway
+        peer_value = None
+        for ifname, meta in dev_intfs.items():
+            peer = (meta or {}).get("peer")
+            if _peer_device(peer) == gateway:
+                peer_value = peer  # ex: "r0-eth1" ou "r0"
+                break
+
+        if not peer_value:
+            return None
+
+        gw_intfs = (devices.get(gateway, {}) or {}).get("interfaces", {}) or {}
+
+        # Caso 1: peer inclui interface do gateway (ex: "r0-eth1")
+        if isinstance(peer_value, str) and "-" in peer_value:
+            ip = (gw_intfs.get(peer_value, {}) or {}).get("ip")
+            return ip if isinstance(ip, str) and _is_ip(ip) else None
+
+        # Caso 2: peer veio só como "r0" -> procura no gateway uma interface cujo peerDevice == device
+        for gw_if, gw_meta in gw_intfs.items():
+            if _peer_device((gw_meta or {}).get("peer")) == device:
+                ip = (gw_meta or {}).get("ip")
+                return ip if isinstance(ip, str) and _is_ip(ip) else None
+
+        return None
+
+    def normalize_static_route_step(step: dict, topo: dict) -> dict:
+        """
+        Para static_route_add, garante args.exit_gateway_ip a partir de args.exit_gateway.
+        Não altera o step original (cópia).
+        """
+        step = deepcopy(step)
+        args = step.get("args") or {}
+        dev = step.get("device")
+        gw = args.get("exit_gateway")
+
+        if not dev or not gw:
+            return step
+
+        if args.get("exit_gateway_ip"):
+            return step
+
+        # Gateway literal como IP
+        if isinstance(gw, str) and _is_ip(gw):
+            args["exit_gateway_ip"] = gw
+            step["args"] = args
+            return step
+
+        # Gateway como nome de device (ex: r0)
+        if isinstance(gw, str):
+            nh_ip = resolve_next_hop_ip(dev, gw, topo)
+            if nh_ip:
+                args["exit_gateway_ip"] = nh_ip
+                step["args"] = args
+
+        return step
+
+    # ---------------------------------------------------------------------
+    # Carrega templates
+    # ---------------------------------------------------------------------
     with open("fewshots/cli_templates.json", "r") as f:
         templates = json.load(f)
 
-    
+    # ---------------------------------------------------------------------
+    # Normaliza o plan ANTES de enviar à LLM (ex: exit_gateway -> exit_gateway_ip)
+    # ---------------------------------------------------------------------
+    plan_dict = plan.model_dump() if hasattr(plan, "model_dump") else plan.dict()
+    steps = plan_dict.get("steps", []) or []
+    normalized_steps = []
+
+    for s in steps:
+        if isinstance(s, dict) and s.get("op") == "static_route_add":
+            normalized_steps.append(normalize_static_route_step(s, topology))
+        else:
+            normalized_steps.append(s)
+
+    plan_dict["steps"] = normalized_steps
+
+    # Lista de devices permitidos (evita a LLM inventar keys extras como "r0")
+    plan_devices = sorted({
+        s.get("device")
+        for s in plan_dict.get("steps", [])
+        if isinstance(s, dict) and s.get("device")
+    })
+
+    # (Opcional, mas recomendado) Fail-fast se static_route_add não tiver exit_gateway_ip
+    for s in plan_dict.get("steps", []):
+        if isinstance(s, dict) and s.get("op") == "static_route_add":
+            args = s.get("args") or {}
+            if "exit_gateway_ip" not in args:
+                state["cli_commands"] = {
+                    "status": "CLI_FAILED",
+                    "error": f"Unable to resolve exit_gateway_ip for device={s.get('device')} exit_gateway={args.get('exit_gateway')}",
+                    "raw": json.dumps(plan_dict, indent=2)[:1000],
+                }
+                state["needs_human"] = True
+                return state
+
+    # ---------------------------------------------------------------------
+    # Prompt
+    # ---------------------------------------------------------------------
     system_prompt = f"""
-        You are a Network CLI Generator. 
+        You are a Network CLI Generator.
         Translate the Abstract Plan steps into concrete commands using the provided Syntax Templates and Topology.
 
         SYNTAX TEMPLATES:
@@ -1200,21 +1394,23 @@ def node_generate_cli(state: IBNState) -> IBNState:
         2. Replace placeholders (like {{interface}} or {{dst_ip}}) with real values from the plan's 'args' or Topology.
         3. If the device stack is 'linux+frr', prioritize 'vtysh' for routing and 'ip/sysctl' for system.
         4. Return ONLY a JSON object mapping EACH device name from the plan to a list of commands.
-        Example: {{"r1": ["cmd1", "cmd2"]}}
+           - Output keys MUST be exactly the allowed devices.
+           - Do NOT include any device not present in the plan.
+           - Do NOT add helper steps unless explicitly present in the plan.
         5. Do not use backslash escapes like \'. If you need quotes inside a command, use single quotes ' WITHOUT escaping.
     """
 
-    user_content = f"Abstract Plan to translate: {json.dumps(plan.dict(), indent=2)}"
+    user_content = (
+        f"Allowed devices (MUST be the ONLY JSON keys): {plan_devices}\n"
+        f"Abstract Plan to translate:\n{json.dumps(plan_dict, indent=2)}"
+    )
 
     try:
         response = llm.invoke([
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_content}
         ])
-        print(response)
-        
-        # O parse do JSON (limpeza de caracteres extras da LLM)
-        import re
+
         raw = (response.content or "").strip()
 
         i = raw.find("{")
@@ -1222,37 +1418,31 @@ def node_generate_cli(state: IBNState) -> IBNState:
         if i == -1 or j == -1 or j <= i:
             raise ValueError("LLM did not return a JSON object.")
 
-        blob = raw[i:j+1]
-
-        # Corrige escape inválido de JSON que o modelo está usando
-        blob = blob.replace("\\'", "'")
+        blob = raw[i:j + 1]
+        blob = blob.replace("\\'", "'")  # tolera escape inválido
 
         commands_json = json.loads(blob)
 
-        # valida chaves = devices do plano
-        plan_dict = plan.model_dump() if hasattr(plan, "model_dump") else plan.dict()
-        plan_steps = plan_dict.get("steps", []) or []
-        plan_devices = {s.get("device") for s in plan_steps if isinstance(s, dict) and s.get("device")}
-        plan_devices.discard(None)
+        # valida chaves = devices do plano (normalizado)
+        if plan_devices and set(commands_json.keys()) != set(plan_devices):
+            raise ValueError(f"CLI keys must match plan devices {set(plan_devices)}, got {set(commands_json.keys())}")
 
-        if plan_devices and set(commands_json.keys()) != plan_devices:
-            raise ValueError(f"CLI keys must match plan devices {plan_devices}, got {set(commands_json.keys())}")
-
-        print("commands_json: ", commands_json)
 
         state["cli_commands"] = {
             "status": "CLI_GENERATED",
             "commands": commands_json
         }
+
     except Exception as e:
         state["cli_commands"] = {
             "status": "CLI_FAILED",
             "error": str(e),
-            "raw": raw[:1000]  # opcional, pra debugar sem explodir tamanho
+            "raw": (raw[:1000] if 'raw' in locals() else "")
         }
         state["needs_human"] = True
 
     return state
+
 
 # ===== NÓS DE FINALIZAÇÃO (Apenas para fechar o grafo) =====
 def node_decide_exec(state: IBNState) -> IBNState:

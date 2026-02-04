@@ -1,0 +1,7 @@
+[
+    {
+        "id": 1,
+        "intent_original": "Prevent hosts in network 10.2.0.0/24 from sending ping requests through router r2.",
+        "erro": "cannot access local variable 'ents' where it is not associated with a value"
+    }
+]

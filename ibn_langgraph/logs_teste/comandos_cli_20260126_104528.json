@@ -1,0 +1,12 @@
+[
+    {
+        "id_teste": 1,
+        "intent": "Remove the static route to 10.3.0.0/24 from router r1.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r1": [
+                "ip route del 10.3.0.0/24"
+            ]
+        }
+    }
+]

@@ -1,0 +1,119 @@
+[
+    {
+        "id": 1,
+        "intent_original": "Prevent hosts in network 10.2.0.0/24 from sending ping requests through router r2.",
+        "classificacao": {
+            "name": "firewall_drop_icmp_src",
+            "confidence": 1.0,
+            "category": "control_security",
+            "rationale": "Prevents hosts in a specific network from sending ICMP pings, indicating a security control measure."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r2",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "context_slice": {
+            "devices": {
+                "r2": {
+                    "interfaces": {
+                        "r2-eth1": {
+                            "peer": "s2-eth3",
+                            "ip": "10.2.0.1",
+                            "cidr": "10.2.0.0/24",
+                            "role": "lan_uplink"
+                        },
+                        "r2-eth0": {
+                            "peer": "r0-eth2",
+                            "ip": "10.255.2.0",
+                            "cidr": "10.255.2.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "h22": {
+                    "interfaces": {
+                        "h22-eth0": {
+                            "peer": "s2-eth2",
+                            "ip": "10.2.0.11",
+                            "cidr": "10.2.0.0/24",
+                            "role": "lan_access"
+                        }
+                    },
+                    "type": "host"
+                },
+                "h21": {
+                    "interfaces": {
+                        "h21-eth0": {
+                            "peer": "s2-eth1",
+                            "ip": "10.2.0.10",
+                            "cidr": "10.2.0.0/24",
+                            "role": "lan_access"
+                        }
+                    },
+                    "type": "host"
+                },
+                "s2": {
+                    "interfaces": {
+                        "s2-eth1": {
+                            "peer": "h21-eth0",
+                            "cidr": "10.2.0.0/24",
+                            "role": "l2_segment"
+                        },
+                        "s2-eth2": {
+                            "peer": "h22-eth0",
+                            "cidr": "10.2.0.0/24",
+                            "role": "l2_segment"
+                        },
+                        "s2-eth3": {
+                            "peer": "r2-eth1",
+                            "cidr": "10.2.0.0/24",
+                            "role": "l2_segment"
+                        }
+                    },
+                    "type": "switch"
+                },
+                "r0": {
+                    "interfaces": {
+                        "r0-eth1": {
+                            "peer": "r1-eth0",
+                            "ip": "10.255.1.1",
+                            "cidr": "10.255.1.0/31",
+                            "role": "transit"
+                        },
+                        "r0-eth2": {
+                            "peer": "r2-eth0",
+                            "ip": "10.255.2.1",
+                            "cidr": "10.255.2.0/31",
+                            "role": "transit"
+                        },
+                        "r0-eth3": {
+                            "peer": "r3-eth0",
+                            "ip": "10.255.3.1",
+                            "cidr": "10.255.3.0/31",
+                            "role": "transit"
+                        },
+                        "r0-eth4": {
+                            "peer": "r4-eth0",
+                            "ip": "10.255.4.1",
+                            "cidr": "10.255.4.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                }
+            }
+        },
+        "plan": {
+            "steps": [],
+            "warnings": [],
+            "needs_human": "True",
+            "dry_run": "True"
+        }
+    }
+]

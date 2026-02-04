@@ -1,0 +1,294 @@
+[
+    {
+        "id_teste": 1,
+        "intent": "Set up a static route on router r1 for the 10.3.0.0/24 prefix using r0 as the next hop.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r1": [
+                "ip route add 10.3.0.0/24 via 10.255.1.1"
+            ]
+        }
+    },
+    {
+        "id_teste": 2,
+        "intent": "On r1, add a static routing entry so that traffic for subnet 10.3.0.0/24 is forwarded through r0.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r1": [
+                "ip route add 10.3.0.0/24 via 10.255.1.1"
+            ]
+        }
+    },
+    {
+        "id_teste": 3,
+        "intent": "Configure router r2 with a static route to reach the 10.4.0.0/24 network via r0.",
+        "cli": null
+    },
+    {
+        "id_teste": 4,
+        "intent": "Create a static route in r2 pointing the 10.4.0.0/24 subnet to gateway r0.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r2": [
+                "ip route add 10.4.0.0/24 via 10.255.2.1"
+            ]
+        }
+    },
+    {
+        "id_teste": 5,
+        "intent": "Provision a static route on r3 so packets destined to 10.2.0.0/24 go through router r0.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r3": [
+                "sysctl -w net.ipv4.ip_forward=1",
+                "ip route add 10.2.0.0/24 via 10.255.3.1"
+            ]
+        }
+    },
+    {
+        "id_teste": 6,
+        "intent": "Define a static routing rule on router r3 for prefix 10.2.0.0/24 using r0.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r3": [
+                "ip route add 10.2.0.0/24 via 10.255.3.1"
+            ]
+        }
+    },
+    {
+        "id_teste": 7,
+        "intent": "Remove the static route to the 10.3.0.0/24 network from router r1.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r1": [
+                "ip route del 10.3.0.0/24"
+            ]
+        }
+    },
+    {
+        "id_teste": 8,
+        "intent": "On r1, delete any static routing entry associated with subnet 10.3.0.0/24.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r1": [
+                "ip route del 10.3.0.0/24"
+            ]
+        }
+    },
+    {
+        "id_teste": 9,
+        "intent": "Ensure router r2 no longer has a route configured for the 10.4.0.0/24 prefix.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r2": [
+                "ip route del 10.4.0.0/24"
+            ]
+        }
+    },
+    {
+        "id_teste": 10,
+        "intent": "Clear the static routing rule on r2 that forwards traffic to 10.4.0.0/24.",
+        "cli": null
+    },
+    {
+        "id_teste": 11,
+        "intent": "Delete the static route entry on router r3 for the 10.2.0.0/24 subnet.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r3": [
+                "ip route del 10.2.0.0/24"
+            ]
+        }
+    },
+    {
+        "id_teste": 12,
+        "intent": "Make sure r3 no longer routes traffic towards the 10.2.0.0/24 network.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r3": [
+                "ip route del 10.2.0.0/24"
+            ]
+        }
+    },
+    {
+        "id_teste": 13,
+        "intent": "Enable IPv4 packet forwarding on router r1.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r1": [
+                "sysctl -w net.ipv4.ip_forward=1"
+            ]
+        }
+    },
+    {
+        "id_teste": 14,
+        "intent": "Turn on IP forwarding functionality on r1.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r1": [
+                "sysctl -w net.ipv4.ip_forward=1"
+            ]
+        }
+    },
+    {
+        "id_teste": 15,
+        "intent": "Activate packet forwarding between interfaces on router r2.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r2": [
+                "sysctl -w net.ipv4.ip_forward=1"
+            ]
+        }
+    },
+    {
+        "id_teste": 16,
+        "intent": "Ensure that router r2 is configured to forward IP packets.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r2": [
+                "sysctl -w net.ipv4.ip_forward=1"
+            ]
+        }
+    },
+    {
+        "id_teste": 17,
+        "intent": "Set the net.ipv4.ip_forward parameter to 1 on router r3.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r3": [
+                "sysctl -w net.ipv4.ip_forward=1"
+            ]
+        }
+    },
+    {
+        "id_teste": 18,
+        "intent": "Switch on IP forwarding support at the kernel level on r3.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r3": [
+                "sysctl -w net.ipv4.ip_forward=1"
+            ]
+        }
+    },
+    {
+        "id_teste": 19,
+        "intent": "From router r1, send ICMP echo requests to the address 10.3.0.1.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r1": [
+                "ping -c 1 '10.3.0.1'"
+            ]
+        }
+    },
+    {
+        "id_teste": 20,
+        "intent": "Test connectivity from r1 by pinging host 10.3.0.1.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r1": [
+                "ping -c 1 '10.3.0.1'"
+            ]
+        }
+    },
+    {
+        "id_teste": 21,
+        "intent": "Verify reachability from router r2 to IP 10.4.0.1 using ICMP.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r2": [
+                "ping -c 1 '10.255.4.1'"
+            ]
+        }
+    },
+    {
+        "id_teste": 22,
+        "intent": "On r2, run a ping test towards the host located at 10.4.0.1.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r2": [
+                "ping -c 1 '10.4.0.1'"
+            ]
+        }
+    },
+    {
+        "id_teste": 23,
+        "intent": "Initiate an ICMP echo test from router r3 to 10.2.0.1.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r3": [
+                "sysctl -w net.ipv4.ip_forward=1",
+                "ip route del 10.255.2.0/31"
+            ]
+        }
+    },
+    {
+        "id_teste": 24,
+        "intent": "Check network connectivity by pinging 10.2.0.1 from r3.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r3": [
+                "ping -c 1 '10.2.0.1'"
+            ]
+        }
+    },
+    {
+        "id_teste": 25,
+        "intent": "Block ICMP packets originating from the 10.1.0.0/24 subnet on router r1.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r1": [
+                "iptables -A FORWARD -p icmp -s {src_cidr} -j DROP"
+            ]
+        }
+    },
+    {
+        "id_teste": 26,
+        "intent": "On r1, install a rule to drop ICMP traffic sourced from 10.1.0.0/24.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r1": [
+                "iptables -A FORWARD -p icmp -s {src_cidr} -j DROP"
+            ]
+        }
+    },
+    {
+        "id_teste": 27,
+        "intent": "Prevent ICMP echo requests from the 10.2.0.0/24 network from passing through router r2.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r2": [
+                "iptables -A FORWARD -p icmp -s {src_cidr} -j DROP"
+            ]
+        }
+    },
+    {
+        "id_teste": 28,
+        "intent": "Configure r2 to deny ICMP traffic coming from subnet 10.2.0.0/24.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r2": [
+                "iptables -A FORWARD -p icmp -s 10.2.0.0/24 -j DROP"
+            ]
+        }
+    },
+    {
+        "id_teste": 29,
+        "intent": "Drop ICMP packets originating in the 10.3.0.0/24 subnet on router r3.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r3": [
+                "iptables -A FORWARD -p icmp -s {src_cidr} -j DROP"
+            ]
+        }
+    },
+    {
+        "id_teste": 30,
+        "intent": "Set up a firewall rule on r3 to filter out ICMP traffic from 10.3.0.0/24.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r3": [
+                "iptables -A FORWARD -p icmp -s {src_cidr} -j DROP"
+            ]
+        }
+    }
+]

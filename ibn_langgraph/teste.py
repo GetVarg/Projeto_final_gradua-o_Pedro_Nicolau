@@ -3,172 +3,148 @@ import os
 from datetime import datetime
 from grafo_final import build_graph  # Importa sua função que compila o grafo
 
-intents_para_testar = [
 
+intents_para_testar = [
     # =========================
     # static_route_add
     # =========================
-
-    # direto
     "Configure a static route on router r1 to reach the 10.3.0.0/24 network via router r0.",
-
-    # mais aberto
     "Make router r2 able to reach the 10.4.0.0/24 subnet using r0 as the next hop.",
-
-    # técnico
     "Add a static routing entry on r3 so that traffic destined to 10.2.0.0/24 is forwarded through router r0.",
-
 
     # =========================
     # static_route_del
     # =========================
-
-    # direto
     "Remove the static route to 10.3.0.0/24 from router r1.",
-
-    # mais aberto
     "Router r2 should no longer route traffic to the 10.4.0.0/24 network.",
-
-    # técnico
     "Delete the static routing entry for subnet 10.2.0.0/24 configured on router r3.",
-
 
     # =========================
     # ip_forward_enable
     # =========================
-
-    # direto
     "Enable IP forwarding on router r1.",
-
-    # mais aberto
     "Make router r2 forward packets between its interfaces.",
-
-    # técnico
     "Enable net.ipv4.ip_forward on router r3.",
-
 
     # =========================
     # icmp_ping
     # =========================
-
-    # direto
     "Ping 10.3.0.1 from router r1.",
-
-    # mais aberto
     "Check connectivity from r2 to the host at 10.4.0.1.",
-
-    # técnico
     "Send ICMP echo requests from router r3 to IP address 10.2.0.1.",
-
 
     # =========================
     # firewall_drop_icmp_src
     # =========================
-
-    # direto
     "Block ICMP traffic from the 10.1.0.0/24 subnet on router r1.",
-
-    # mais aberto
     "Prevent hosts in network 10.2.0.0/24 from sending ping requests through router r2.",
-
-    # técnico
     "Install a firewall rule on router r3 to drop ICMP packets originating from 10.3.0.0/24."
 ]
 
 intents_para_testar = [
-    "Remove the static route to 10.3.0.0/24 from router r1.",
+    # =========================
+    # static_route_add (6)
+    # =========================
+    "Set up a static route on router r1 for the 10.3.0.0/24 prefix using r0 as the next hop.",
+    "On r1, add a static routing entry so that traffic for subnet 10.3.0.0/24 is forwarded through r0.",
+    "Configure router r2 with a static route to reach the 10.4.0.0/24 network via r0.",
+    "Create a static route in r2 pointing the 10.4.0.0/24 subnet to gateway r0.",
+    "Provision a static route on r3 so packets destined to 10.2.0.0/24 go through router r0.",
+    "Define a static routing rule on router r3 for prefix 10.2.0.0/24 using r0.",
 
-    # mais aberto
-    "Router r2 should no longer route traffic to the 10.4.0.0/24 network.",
+    # =========================
+    # static_route_del (6)
+    # =========================
+    "Remove the static route to the 10.3.0.0/24 network from router r1.",
+    "On r1, delete any static routing entry associated with subnet 10.3.0.0/24.",
+    "Ensure router r2 no longer has a route configured for the 10.4.0.0/24 prefix.",
+    "Clear the static routing rule on r2 that forwards traffic to 10.4.0.0/24.",
+    "Delete the static route entry on router r3 for the 10.2.0.0/24 subnet.",
+    "Make sure r3 no longer routes traffic towards the 10.2.0.0/24 network.",
 
-    # técnico
-    "Delete the static routing entry for subnet 10.2.0.0/24 configured on router r3."
+    # =========================
+    # ip_forward_enable (6)
+    # =========================
+    "Enable IPv4 packet forwarding on router r1.",
+    "Turn on IP forwarding functionality on r1.",
+    "Activate packet forwarding between interfaces on router r2.",
+    "Ensure that router r2 is configured to forward IP packets.",
+    "Set the net.ipv4.ip_forward parameter to 1 on router r3.",
+    "Switch on IP forwarding support at the kernel level on r3.",
+
+    # =========================
+    # icmp_ping (6)
+    # =========================
+    "From router r1, send ICMP echo requests to the address 10.3.0.1.",
+    "Test connectivity from r1 by pinging host 10.3.0.1.",
+    "Verify reachability from router r2 to IP 10.4.0.1 using ICMP.",
+    "On r2, run a ping test towards the host located at 10.4.0.1.",
+    "Initiate an ICMP echo test from router r3 to 10.2.0.1.",
+    "Check network connectivity by pinging 10.2.0.1 from r3.",
+
+    # =========================
+    # firewall_drop_icmp_src (6)
+    # =========================
+    "Block ICMP packets originating from the 10.1.0.0/24 subnet on router r1.",
+    "On r1, install a rule to drop ICMP traffic sourced from 10.1.0.0/24.",
+    "Prevent ICMP echo requests from the 10.2.0.0/24 network from passing through router r2.",
+    "Configure r2 to deny ICMP traffic coming from subnet 10.2.0.0/24.",
+    "Drop ICMP packets originating in the 10.3.0.0/24 subnet on router r3.",
+    "Set up a firewall rule on r3 to filter out ICMP traffic from 10.3.0.0/24."
 ]
 
-# intents_para_testar = [
-#     # 1. Static routing
-#     "Configure a static route on router r1 to reach the 10.4.0.0/24 network via router r0.",
 
-#     # 2. LAN connectivity to gateway
-#     "Ensure that all hosts in the 10.1.0.0/24 subnet can ping their gateway at 10.1.0.1.",
+def to_jsonable(obj):
+    """
+    Converte objetos comuns do pipeline (Pydantic, dataclass, list/dict, etc.)
+    para algo serializável em JSON, sem depender de regex.
+    """
+    if obj is None:
+        return None
 
-#     # 3. Dynamic routing (OSPF)
-#     "Configure OSPF on all routers to enable automatic neighbor discovery.",
+    # Pydantic v2
+    if hasattr(obj, "model_dump"):
+        return obj.model_dump()
 
-#     # 4. Default route adjustment
-#     "Remove the default route from router r2 and configure a new default route via interface r2-eth0 toward router r0.",
+    # Pydantic v1
+    if hasattr(obj, "dict"):
+        try:
+            return obj.dict()
+        except Exception:
+            pass
 
-#     # 5. IP forwarding
-#     "Enable IP packet forwarding on router r3 to allow traffic between switch s3 and router r0.",
+    # dataclasses
+    if hasattr(obj, "__dataclass_fields__"):
+        from dataclasses import asdict
+        return asdict(obj)
 
-#     # 6. Access control between LANs
-#     "Block any host connected to switch s1 from accessing host h41 over HTTP.",
+    # dict / list
+    if isinstance(obj, dict):
+        return {k: to_jsonable(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [to_jsonable(v) for v in obj]
 
-#     # 7. Network isolation (security zone)
-#     "Create an isolated network zone for the finance department hosts h21 and h22.",
+    # fallback: tenta serializar como string
+    return str(obj)
 
-#     # 8. Restricted management access
-#     "Allow only SSH traffic originating from router r1 to access the central router r0.",
-
-#     # 9. ICMP filtering
-#     "Configure a firewall on router r0 to drop ICMP packets originating from the 10.3.0.0/24 network.",
-
-#     # 10. Switch isolation
-#     "Isolate switch s4 from the rest of the topology, allowing only management access via router r0.",
-
-#     # 11. SDN switch mode (conditional)
-#     "If supported, configure all switches to operate in SDN mode using OpenFlow 1.3.",
-
-#     # 12. SDN controller assignment
-#     "If SDN is enabled, configure the SDN controller at IP 192.168.56.101 to manage switch s2.",
-
-#     # 13. Traffic redirection / inspection
-#     "Ensure that all HTTP traffic originating from the 10.2.0.0/24 network is explicitly forwarded through router r0 for inspection.",
-
-#     # 14. Physical topology validation
-#     "Verify that there is no redundant physical path between routers r1 and r4 in the current topology.",
-
-#     # 15. Bandwidth limitation
-#     "Limit the bandwidth of interface r1-eth1 to 10 Mbps.",
-
-#     # 16. Routing loop detection
-#     "Check for potential routing loops between routers r1, r0, and r2.",
-
-#     # 17. Resource monitoring
-#     "Monitor CPU utilization on all FRR routers.",
-
-#     # 18. Route analysis
-#     "Analyze the routing table of router r4 and confirm the path to the 10.3.0.0/24 LAN.",
-
-#     # 19. Failure simulation
-#     "Simulate a failure on the r0–r1 link and verify the resulting loss of connectivity for host h11.",
-
-#     # 20. Inventory validation
-#     "Generate an inventory report comparing the physical topology with the JSON topology description."
-# ]
-
-
-# intents_para_testar = [
-#     "Garanta que todos os hosts da sub-rede 10.1.0.0/24 consigam pingar o gateway 10.255.1.1."
-# ]
 
 def rodar_bateria_de_testes():
     import time
     app = build_graph()
     resultados = []
-    comandos_execucao = [] # Lista para armazenar apenas os comandos CLI
-    
+    comandos_execucao = []
+
     print(f"Iniciando bateria de {len(intents_para_testar)} testes...")
 
     for i, texto_intencao in enumerate(intents_para_testar):
         print(f"[{i+1}/{len(intents_para_testar)}] Testando: {texto_intencao[:50]}...")
-        
+
         config = {"configurable": {"thread_id": f"teste_{i+1}"}}
         estado_inicial = {
             "user_intent_text": texto_intencao,
             "needs_human": False,
-            "topology": {},
-            "entities": [],
+            "topology": {},        # aqui você guarda o "context slice" em algum momento
+            "entities": [],        # aqui você guarda entidades extraídas
             "plan": {"steps": [], "warnings": [], "needs_human": True, "dry_run": True},
             "requirements": [],
             "cli_commands": None,
@@ -179,57 +155,68 @@ def rodar_bateria_de_testes():
             final_state = app.invoke(estado_inicial, config)
             fim = time.time()
 
-            # --- PARTE NOVA: Captura de Resultados Gerais ---
+            # --- Captura: Intent / Entidades / Contexto / Plano ---
             intent_obj = final_state.get("intent")
+            entities_obj = final_state.get("entities")  # <- entidades extraídas/validadas
+
+            # context slice pode estar em chaves diferentes dependendo do seu grafo
+            # (mantive fallback pra não quebrar o log caso o nome mude)
+            context_slice_obj = (
+                final_state.get("context_slice")
+                or final_state.get("topology")      # muitas vezes você usa "topology" pra carregar o slice final
+                or final_state.get("topo_context")  # se você separou isso em outro campo
+            )
+
             plan_obj = final_state.get("plan")
+
             resultado_teste = {
                 "id": i + 1,
                 "intent_original": texto_intencao,
-                "classificacao": intent_obj.model_dump() if hasattr(intent_obj, "model_dump") else intent_obj,
-                "plan": plan_obj.model_dump() if hasattr(plan_obj, "model_dump") else plan_obj,
+                "classificacao": to_jsonable(intent_obj),
+                "entidades_extraidas": to_jsonable(entities_obj),
+                "context_slice": to_jsonable(context_slice_obj),
+                "plan": to_jsonable(plan_obj),
             }
             resultados.append(resultado_teste)
 
-            # --- PARTE NOVA: Captura de Comandos CLI ---
-            # Extrai o dicionário exec_result que você definiu no nó de geração de comandos
+            # --- Captura: Comandos CLI ---
             exec_result = final_state.get("cli_commands")
-            print(exec_result)
             if exec_result is not None:
+                exec_result = to_jsonable(exec_result)
                 comandos_execucao.append({
                     "id_teste": i + 1,
                     "intent": texto_intencao,
                     "status": exec_result.get("status"),
-                    "commands": exec_result.get("commands") # O JSON de comandos CLI
+                    "commands": exec_result.get("commands")
                 })
             else:
                 comandos_execucao.append({
                     "id_teste": i + 1,
                     "intent": texto_intencao,
-                    "cli": exec_result
+                    "cli": None
                 })
-            
+
             print(f"[OK] Teste {i+1} finalizado. Tempo: {fim - inicio:.2f}s")
 
         except Exception as e:
             print(f"Erro no teste {i+1}: {e}")
-            resultados.append({"id": i+1, "erro": str(e)})
+            resultados.append({"id": i + 1, "intent_original": texto_intencao, "erro": str(e)})
 
     # --- SALVAMENTO DOS ARQUIVOS ---
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     os.makedirs("logs_teste", exist_ok=True)
 
-    # 1. Salva o Log de Inteligência (Intent e Plano)
     arquivo_log = f"logs_teste/resultado_llm_{timestamp}.json"
     with open(arquivo_log, "w", encoding="utf-8") as f:
         json.dump(resultados, f, indent=4, ensure_ascii=False)
 
-    # 2. Salva o Log de Comandos (O que você pediu)
     arquivo_comandos = f"logs_teste/comandos_cli_{timestamp}.json"
     with open(arquivo_comandos, "w", encoding="utf-8") as f:
         json.dump(comandos_execucao, f, indent=4, ensure_ascii=False)
-    
+
     print(f"\n[SUCESSO] Log de processamento salvo em: {arquivo_log}")
     print(f"[SUCESSO] Comandos CLI gerados salvos em: {arquivo_comandos}")
+
 
 if __name__ == "__main__":
     rodar_bateria_de_testes()

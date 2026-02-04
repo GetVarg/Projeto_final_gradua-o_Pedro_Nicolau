@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "intent_original": "Check connectivity from r2 to the host at 10.4.0.1.",
+        "classificacao": {
+            "name": "connectivity_verify",
+            "confidence": 0.9,
+            "category": "monitoring",
+            "rationale": "The intent mentions checking connectivity, which is a monitoring action."
+        },
+        "plan": {
+            "steps": [
+                {
+                    "device": "r2",
+                    "op": "connectivity_verify",
+                    "args": {
+                        "dst_ip": "10.4.0.1"
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        }
+    }
+]

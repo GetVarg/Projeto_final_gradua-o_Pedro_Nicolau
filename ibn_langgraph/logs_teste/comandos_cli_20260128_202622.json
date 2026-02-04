@@ -1,0 +1,7 @@
+[
+    {
+        "id_teste": 1,
+        "intent": "Check connectivity from r2 to the host at 10.4.0.1.",
+        "cli": null
+    }
+]

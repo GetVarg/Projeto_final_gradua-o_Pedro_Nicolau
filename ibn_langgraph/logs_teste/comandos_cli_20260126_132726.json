@@ -1,0 +1,12 @@
+[
+    {
+        "id_teste": 1,
+        "intent": "Ping 10.3.0.1 from router r1.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r1": [
+                "ping -c 1 '10.3.0.1'"
+            ]
+        }
+    }
+]

@@ -120,6 +120,31 @@
           "needs_human": false
         }
       }
+    },
+    {
+      "category": "connectivity_verify",
+      "facts": {
+        "intent": "Check connectivity from DEVICE_SRC to DST_IP.",
+        "src_device": "DEVICE_SRC",
+        "dst_ip": "DST_IP",
+        "count": 1
+      },
+      "output": {
+        "Plan": {
+          "steps": [
+            {
+              "device": "DEVICE_SRC",
+              "op": "connectivity_verify",
+              "args": {
+                "dst_ip": "DST_IP",
+                "count": 1
+              }
+            }
+          ],
+          "warnings": [],
+          "needs_human": false
+        }
+      }
     }
   ]
 }

@@ -1,0 +1,12 @@
+[
+    {
+        "id_teste": 1,
+        "intent": "Prevent hosts in network 10.2.0.0/24 from sending ping requests through router r2.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r2": [
+                "iptables -A FORWARD -p icmp -s 10.2.0.0/24 -j DROP"
+            ]
+        }
+    }
+]
