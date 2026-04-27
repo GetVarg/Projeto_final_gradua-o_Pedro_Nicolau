@@ -1,0 +1,8 @@
+[
+    {
+        "id_teste": 1,
+        "intent": "On r1, add a static routing entry so that traffic for subnet 10.3.0.0/24 is forwarded through r0",
+        "status": "CLI_FAILED",
+        "commands": null
+    }
+]

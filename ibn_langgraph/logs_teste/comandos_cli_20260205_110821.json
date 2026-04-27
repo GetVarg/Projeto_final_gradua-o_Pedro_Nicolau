@@ -1,0 +1,7 @@
+[
+    {
+        "id_teste": 1,
+        "intent": "Configure router r2 with a static route to reach the 10.4.0.0/24 network via r0.",
+        "cli": null
+    }
+]

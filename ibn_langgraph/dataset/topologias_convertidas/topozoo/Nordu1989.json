@@ -1,0 +1,278 @@
+{
+  "devices": {
+    "0": {
+      "type": "router",
+      "interfaces": {
+        "0-eth0": {
+          "ip": "10.0.0.1",
+          "cidr": "10.0.0.0/30",
+          "peer": "1-eth0"
+        },
+        "0-eth1": {
+          "ip": "172.16.0.1",
+          "cidr": "172.16.0.0/24",
+          "peer": "h_0_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "0",
+        "source_id": "0",
+        "topology_id": "topozoo/Nordu1989"
+      }
+    },
+    "1": {
+      "type": "router",
+      "interfaces": {
+        "1-eth0": {
+          "ip": "10.0.0.2",
+          "cidr": "10.0.0.0/30",
+          "peer": "0-eth0"
+        },
+        "1-eth1": {
+          "ip": "10.0.1.1",
+          "cidr": "10.0.1.0/30",
+          "peer": "2-eth0"
+        },
+        "1-eth2": {
+          "ip": "10.0.2.1",
+          "cidr": "10.0.2.0/30",
+          "peer": "3-eth0"
+        },
+        "1-eth3": {
+          "ip": "172.16.1.1",
+          "cidr": "172.16.1.0/24",
+          "peer": "h_1_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "1",
+        "source_id": "1",
+        "topology_id": "topozoo/Nordu1989"
+      }
+    },
+    "2": {
+      "type": "router",
+      "interfaces": {
+        "2-eth0": {
+          "ip": "10.0.1.2",
+          "cidr": "10.0.1.0/30",
+          "peer": "1-eth1"
+        },
+        "2-eth1": {
+          "ip": "172.16.2.1",
+          "cidr": "172.16.2.0/24",
+          "peer": "h_2_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "2",
+        "source_id": "2",
+        "topology_id": "topozoo/Nordu1989"
+      }
+    },
+    "3": {
+      "type": "router",
+      "interfaces": {
+        "3-eth0": {
+          "ip": "10.0.2.2",
+          "cidr": "10.0.2.0/30",
+          "peer": "1-eth2"
+        },
+        "3-eth1": {
+          "ip": "10.0.3.1",
+          "cidr": "10.0.3.0/30",
+          "peer": "4-eth0"
+        },
+        "3-eth2": {
+          "ip": "172.16.3.1",
+          "cidr": "172.16.3.0/24",
+          "peer": "h_3_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "3",
+        "source_id": "3",
+        "topology_id": "topozoo/Nordu1989"
+      }
+    },
+    "4": {
+      "type": "router",
+      "interfaces": {
+        "4-eth0": {
+          "ip": "10.0.3.2",
+          "cidr": "10.0.3.0/30",
+          "peer": "3-eth1"
+        },
+        "4-eth1": {
+          "ip": "172.16.4.1",
+          "cidr": "172.16.4.0/24",
+          "peer": "h_4_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "4",
+        "source_id": "4",
+        "topology_id": "topozoo/Nordu1989"
+      }
+    },
+    "h_0_1": {
+      "type": "host",
+      "interfaces": {
+        "h_0_1-eth0": {
+          "ip": "172.16.0.10",
+          "cidr": "172.16.0.0/24",
+          "peer": "0-eth1"
+        }
+      },
+      "meta": {
+        "attached_to": "0",
+        "topology_id": "topozoo/Nordu1989"
+      }
+    },
+    "h_1_1": {
+      "type": "host",
+      "interfaces": {
+        "h_1_1-eth0": {
+          "ip": "172.16.1.10",
+          "cidr": "172.16.1.0/24",
+          "peer": "1-eth3"
+        }
+      },
+      "meta": {
+        "attached_to": "1",
+        "topology_id": "topozoo/Nordu1989"
+      }
+    },
+    "h_2_1": {
+      "type": "host",
+      "interfaces": {
+        "h_2_1-eth0": {
+          "ip": "172.16.2.10",
+          "cidr": "172.16.2.0/24",
+          "peer": "2-eth1"
+        }
+      },
+      "meta": {
+        "attached_to": "2",
+        "topology_id": "topozoo/Nordu1989"
+      }
+    },
+    "h_3_1": {
+      "type": "host",
+      "interfaces": {
+        "h_3_1-eth0": {
+          "ip": "172.16.3.10",
+          "cidr": "172.16.3.0/24",
+          "peer": "3-eth2"
+        }
+      },
+      "meta": {
+        "attached_to": "3",
+        "topology_id": "topozoo/Nordu1989"
+      }
+    },
+    "h_4_1": {
+      "type": "host",
+      "interfaces": {
+        "h_4_1-eth0": {
+          "ip": "172.16.4.10",
+          "cidr": "172.16.4.0/24",
+          "peer": "4-eth1"
+        }
+      },
+      "meta": {
+        "attached_to": "4",
+        "topology_id": "topozoo/Nordu1989"
+      }
+    }
+  },
+  "networks": {
+    "LINK_0_1": {
+      "cidr": "10.0.0.0/30",
+      "gateway_device": "0",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "0",
+        "endpoint_b": "1"
+      }
+    },
+    "LINK_1_2": {
+      "cidr": "10.0.1.0/30",
+      "gateway_device": "1",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "1",
+        "endpoint_b": "2"
+      }
+    },
+    "LINK_1_3": {
+      "cidr": "10.0.2.0/30",
+      "gateway_device": "1",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "1",
+        "endpoint_b": "3"
+      }
+    },
+    "LINK_3_4": {
+      "cidr": "10.0.3.0/30",
+      "gateway_device": "3",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "3",
+        "endpoint_b": "4"
+      }
+    },
+    "LAN_0_1": {
+      "cidr": "172.16.0.0/24",
+      "gateway_device": "0",
+      "gateway_ip": "172.16.0.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_0_1"
+      }
+    },
+    "LAN_1_1": {
+      "cidr": "172.16.1.0/24",
+      "gateway_device": "1",
+      "gateway_ip": "172.16.1.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_1_1"
+      }
+    },
+    "LAN_2_1": {
+      "cidr": "172.16.2.0/24",
+      "gateway_device": "2",
+      "gateway_ip": "172.16.2.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_2_1"
+      }
+    },
+    "LAN_3_1": {
+      "cidr": "172.16.3.0/24",
+      "gateway_device": "3",
+      "gateway_ip": "172.16.3.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_3_1"
+      }
+    },
+    "LAN_4_1": {
+      "cidr": "172.16.4.0/24",
+      "gateway_device": "4",
+      "gateway_ip": "172.16.4.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_4_1"
+      }
+    }
+  },
+  "meta": {
+    "source": "topohub",
+    "topology_id": "topozoo/Nordu1989",
+    "num_source_nodes": 5,
+    "num_source_edges": 4
+  }
+}

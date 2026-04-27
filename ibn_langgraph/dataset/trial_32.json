@@ -1,0 +1,652 @@
+{
+  "dataset_name": "plan_items_inputs",
+  "source_dataset": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\primeiro_dataset.json",
+  "topologies_source": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\topologias_convertidas\\topozoo\\Abilene.json",
+  "num_records": 4,
+  "num_topologies_used": 1,
+  "num_items": 1,
+  "items": [
+    {
+      "id": "32__Abilene",
+      "input": {
+        "dataset_name": "plan_items_inputs",
+        "source_dataset": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\primeiro_dataset.json",
+        "topologies_source": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\topologias_convertidas\\topozoo\\Abilene.json",
+        "num_records": 4,
+        "num_topologies_used": 1,
+        "topology_id": "Abilene",
+        "topology_path": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\topologias_convertidas\\topozoo\\Abilene.json",
+        "topology_slice": {
+          "devices": {
+            "0": {
+              "type": "router",
+              "interfaces": {
+                "0-eth0": {
+                  "ip": "10.0.0.1",
+                  "cidr": "10.0.0.0/30",
+                  "peer": "1-eth0"
+                },
+                "0-eth1": {
+                  "ip": "10.0.1.1",
+                  "cidr": "10.0.1.0/30",
+                  "peer": "2-eth0"
+                },
+                "0-eth2": {
+                  "ip": "172.16.0.1",
+                  "cidr": "172.16.0.0/24",
+                  "peer": "h_0_1-eth0"
+                }
+              },
+              "meta": {
+                "source_name": "0",
+                "source_id": "0",
+                "topology_id": "topozoo/Abilene"
+              }
+            },
+            "2": {
+              "type": "router",
+              "interfaces": {
+                "2-eth0": {
+                  "ip": "10.0.1.2",
+                  "cidr": "10.0.1.0/30",
+                  "peer": "0-eth1"
+                },
+                "2-eth1": {
+                  "ip": "10.0.3.1",
+                  "cidr": "10.0.3.0/30",
+                  "peer": "9-eth0"
+                },
+                "2-eth2": {
+                  "ip": "172.16.2.1",
+                  "cidr": "172.16.2.0/24",
+                  "peer": "h_2_1-eth0"
+                }
+              },
+              "meta": {
+                "source_name": "2",
+                "source_id": "2",
+                "topology_id": "topozoo/Abilene"
+              }
+            },
+            "3": {
+              "type": "router",
+              "interfaces": {
+                "3-eth0": {
+                  "ip": "10.0.4.1",
+                  "cidr": "10.0.4.0/30",
+                  "peer": "4-eth0"
+                },
+                "3-eth1": {
+                  "ip": "10.0.5.1",
+                  "cidr": "10.0.5.0/30",
+                  "peer": "6-eth0"
+                },
+                "3-eth2": {
+                  "ip": "172.16.3.1",
+                  "cidr": "172.16.3.0/24",
+                  "peer": "h_3_1-eth0"
+                }
+              },
+              "meta": {
+                "source_name": "3",
+                "source_id": "3",
+                "topology_id": "topozoo/Abilene"
+              }
+            },
+            "4": {
+              "type": "router",
+              "interfaces": {
+                "4-eth0": {
+                  "ip": "10.0.4.2",
+                  "cidr": "10.0.4.0/30",
+                  "peer": "3-eth0"
+                },
+                "4-eth1": {
+                  "ip": "10.0.6.1",
+                  "cidr": "10.0.6.0/30",
+                  "peer": "5-eth0"
+                },
+                "4-eth2": {
+                  "ip": "10.0.7.1",
+                  "cidr": "10.0.7.0/30",
+                  "peer": "6-eth1"
+                },
+                "4-eth3": {
+                  "ip": "172.16.4.1",
+                  "cidr": "172.16.4.0/24",
+                  "peer": "h_4_1-eth0"
+                }
+              },
+              "meta": {
+                "source_name": "4",
+                "source_id": "4",
+                "topology_id": "topozoo/Abilene"
+              }
+            },
+            "5": {
+              "type": "router",
+              "interfaces": {
+                "5-eth0": {
+                  "ip": "10.0.6.2",
+                  "cidr": "10.0.6.0/30",
+                  "peer": "4-eth1"
+                },
+                "5-eth1": {
+                  "ip": "10.0.8.1",
+                  "cidr": "10.0.8.0/30",
+                  "peer": "8-eth0"
+                },
+                "5-eth2": {
+                  "ip": "172.16.5.1",
+                  "cidr": "172.16.5.0/24",
+                  "peer": "h_5_1-eth0"
+                }
+              },
+              "meta": {
+                "source_name": "5",
+                "source_id": "5",
+                "topology_id": "topozoo/Abilene"
+              }
+            },
+            "6": {
+              "type": "router",
+              "interfaces": {
+                "6-eth0": {
+                  "ip": "10.0.5.2",
+                  "cidr": "10.0.5.0/30",
+                  "peer": "3-eth1"
+                },
+                "6-eth1": {
+                  "ip": "10.0.7.2",
+                  "cidr": "10.0.7.0/30",
+                  "peer": "4-eth2"
+                },
+                "6-eth2": {
+                  "ip": "10.0.9.1",
+                  "cidr": "10.0.9.0/30",
+                  "peer": "7-eth0"
+                },
+                "6-eth3": {
+                  "ip": "172.16.6.1",
+                  "cidr": "172.16.6.0/24",
+                  "peer": "h_6_1-eth0"
+                }
+              },
+              "meta": {
+                "source_name": "6",
+                "source_id": "6",
+                "topology_id": "topozoo/Abilene"
+              }
+            },
+            "9": {
+              "type": "router",
+              "interfaces": {
+                "9-eth0": {
+                  "ip": "10.0.3.2",
+                  "cidr": "10.0.3.0/30",
+                  "peer": "2-eth1"
+                },
+                "9-eth1": {
+                  "ip": "10.0.12.2",
+                  "cidr": "10.0.12.0/30",
+                  "peer": "8-eth2"
+                },
+                "9-eth2": {
+                  "ip": "10.0.13.1",
+                  "cidr": "10.0.13.0/30",
+                  "peer": "10-eth2"
+                },
+                "9-eth3": {
+                  "ip": "172.16.9.1",
+                  "cidr": "172.16.9.0/24",
+                  "peer": "h_9_1-eth0"
+                }
+              },
+              "meta": {
+                "source_name": "9",
+                "source_id": "9",
+                "topology_id": "topozoo/Abilene"
+              }
+            },
+            "h_2_1": {
+              "type": "host",
+              "interfaces": {
+                "h_2_1-eth0": {
+                  "ip": "172.16.2.10",
+                  "cidr": "172.16.2.0/24",
+                  "peer": "2-eth2"
+                }
+              },
+              "meta": {
+                "attached_to": "2",
+                "topology_id": "topozoo/Abilene"
+              }
+            },
+            "h_4_1": {
+              "type": "host",
+              "interfaces": {
+                "h_4_1-eth0": {
+                  "ip": "172.16.4.10",
+                  "cidr": "172.16.4.0/24",
+                  "peer": "4-eth3"
+                }
+              },
+              "meta": {
+                "attached_to": "4",
+                "topology_id": "topozoo/Abilene"
+              }
+            }
+          },
+          "networks": {
+            "LINK_0_2": {
+              "cidr": "10.0.1.0/30",
+              "gateway_device": "0",
+              "meta": {
+                "kind": "p2p_link",
+                "endpoint_a": "0",
+                "endpoint_b": "2"
+              }
+            },
+            "LINK_2_9": {
+              "cidr": "10.0.3.0/30",
+              "gateway_device": "2",
+              "meta": {
+                "kind": "p2p_link",
+                "endpoint_a": "2",
+                "endpoint_b": "9"
+              }
+            },
+            "LINK_3_4": {
+              "cidr": "10.0.4.0/30",
+              "gateway_device": "3",
+              "meta": {
+                "kind": "p2p_link",
+                "endpoint_a": "3",
+                "endpoint_b": "4"
+              }
+            },
+            "LINK_4_5": {
+              "cidr": "10.0.6.0/30",
+              "gateway_device": "4",
+              "meta": {
+                "kind": "p2p_link",
+                "endpoint_a": "4",
+                "endpoint_b": "5"
+              }
+            },
+            "LINK_4_6": {
+              "cidr": "10.0.7.0/30",
+              "gateway_device": "4",
+              "meta": {
+                "kind": "p2p_link",
+                "endpoint_a": "4",
+                "endpoint_b": "6"
+              }
+            },
+            "LAN_2_1": {
+              "cidr": "172.16.2.0/24",
+              "gateway_device": "2",
+              "gateway_ip": "172.16.2.1",
+              "meta": {
+                "kind": "access_lan",
+                "host": "h_2_1"
+              }
+            },
+            "LAN_4_1": {
+              "cidr": "172.16.4.0/24",
+              "gateway_device": "4",
+              "gateway_ip": "172.16.4.1",
+              "meta": {
+                "kind": "access_lan",
+                "host": "h_4_1"
+              }
+            }
+          }
+        },
+        "records": [
+          {
+            "input": {
+              "root_intent": "Measure UDP path performance between router 2 and router 4, including latency, jitter, packet loss, and reachability.",
+              "intent_text": "Measure latency between router 2 and router 4 for UDP traffic.",
+              "op_spec": {
+                "op": "probe_measure",
+                "description": "Measure network performance or reachability to a destination using a probe operation.",
+                "targets": [
+                  "host",
+                  "router"
+                ],
+                "requires": [
+                  "dst_ip"
+                ],
+                "optional": [
+                  "metric",
+                  "src_ip",
+                  "protocol",
+                  "address_family",
+                  "packet_count",
+                  "request_data_size",
+                  "response_data_size",
+                  "interval",
+                  "frequency"
+                ],
+                "args_schema": {},
+                "examples": []
+              },
+              "entities": [
+                {
+                  "type": "router",
+                  "value": "2",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "router",
+                  "value": "4",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "service",
+                  "value": "udp",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                }
+              ],
+              "notes": {
+                "metric": "latency"
+              }
+            },
+            "meta": {
+              "source_dataset_id": 32,
+              "task_view": "discretize_intent",
+              "subintent_id": "S1",
+              "anchors": [
+                "2",
+                "4"
+              ],
+              "classification_raw": {
+                "op": "probe_measure"
+              },
+              "entity_selectors": [],
+              "warnings": [
+                "selector_hits=0 | RAG base_hits=16 thr=0.25 | expanded_hits=16 thr=0.35"
+              ],
+              "needs_human": false,
+              "topology_id": "Abilene",
+              "topology_path": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\topologias_convertidas\\topozoo\\Abilene.json",
+              "rag": {
+                "q_base": "2 4 udp",
+                "q_exp": "2 4",
+                "base_hits": 16,
+                "expanded_hits": 16,
+                "base_threshold": 0.25,
+                "expanded_threshold": 0.35,
+                "selector_devices": [],
+                "selector_hits": 0
+              }
+            }
+          },
+          {
+            "input": {
+              "root_intent": "Measure UDP path performance between router 2 and router 4, including latency, jitter, packet loss, and reachability.",
+              "intent_text": "Measure jitter between router 2 and router 4 for UDP traffic.",
+              "op_spec": {
+                "op": "probe_measure",
+                "description": "Measure network performance or reachability to a destination using a probe operation.",
+                "targets": [
+                  "host",
+                  "router"
+                ],
+                "requires": [
+                  "dst_ip"
+                ],
+                "optional": [
+                  "metric",
+                  "src_ip",
+                  "protocol",
+                  "address_family",
+                  "packet_count",
+                  "request_data_size",
+                  "response_data_size",
+                  "interval",
+                  "frequency"
+                ],
+                "args_schema": {},
+                "examples": []
+              },
+              "entities": [
+                {
+                  "type": "router",
+                  "value": "2",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "router",
+                  "value": "4",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "service",
+                  "value": "udp",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                }
+              ],
+              "notes": {
+                "metric": "jitter"
+              }
+            },
+            "meta": {
+              "source_dataset_id": 32,
+              "task_view": "discretize_intent",
+              "subintent_id": "S2",
+              "anchors": [
+                "2",
+                "4"
+              ],
+              "classification_raw": {
+                "op": "probe_measure"
+              },
+              "entity_selectors": [],
+              "warnings": [
+                "selector_hits=0 | RAG base_hits=16 thr=0.25 | expanded_hits=16 thr=0.35"
+              ],
+              "needs_human": false,
+              "topology_id": "Abilene",
+              "topology_path": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\topologias_convertidas\\topozoo\\Abilene.json",
+              "rag": {
+                "q_base": "2 4 udp",
+                "q_exp": "2 4",
+                "base_hits": 16,
+                "expanded_hits": 16,
+                "base_threshold": 0.25,
+                "expanded_threshold": 0.35,
+                "selector_devices": [],
+                "selector_hits": 0
+              }
+            }
+          },
+          {
+            "input": {
+              "root_intent": "Measure UDP path performance between router 2 and router 4, including latency, jitter, packet loss, and reachability.",
+              "intent_text": "Measure packet loss between router 2 and router 4 for UDP traffic.",
+              "op_spec": {
+                "op": "probe_measure",
+                "description": "Measure network performance or reachability to a destination using a probe operation.",
+                "targets": [
+                  "host",
+                  "router"
+                ],
+                "requires": [
+                  "dst_ip"
+                ],
+                "optional": [
+                  "metric",
+                  "src_ip",
+                  "protocol",
+                  "address_family",
+                  "packet_count",
+                  "request_data_size",
+                  "response_data_size",
+                  "interval",
+                  "frequency"
+                ],
+                "args_schema": {},
+                "examples": []
+              },
+              "entities": [
+                {
+                  "type": "router",
+                  "value": "2",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "router",
+                  "value": "4",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "service",
+                  "value": "udp",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                }
+              ],
+              "notes": {
+                "metric": "loss"
+              }
+            },
+            "meta": {
+              "source_dataset_id": 32,
+              "task_view": "discretize_intent",
+              "subintent_id": "S3",
+              "anchors": [
+                "2",
+                "4"
+              ],
+              "classification_raw": {
+                "op": "probe_measure"
+              },
+              "entity_selectors": [],
+              "warnings": [
+                "selector_hits=0 | RAG base_hits=16 thr=0.25 | expanded_hits=16 thr=0.35"
+              ],
+              "needs_human": false,
+              "topology_id": "Abilene",
+              "topology_path": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\topologias_convertidas\\topozoo\\Abilene.json",
+              "rag": {
+                "q_base": "2 4 udp",
+                "q_exp": "2 4",
+                "base_hits": 16,
+                "expanded_hits": 16,
+                "base_threshold": 0.25,
+                "expanded_threshold": 0.35,
+                "selector_devices": [],
+                "selector_hits": 0
+              }
+            }
+          },
+          {
+            "input": {
+              "root_intent": "Measure UDP path performance between router 2 and router 4, including latency, jitter, packet loss, and reachability.",
+              "intent_text": "Check reachability between router 2 and router 4.",
+              "op_spec": {
+                "op": "probe_measure",
+                "description": "Measure network performance or reachability to a destination using a probe operation.",
+                "targets": [
+                  "host",
+                  "router"
+                ],
+                "requires": [
+                  "dst_ip"
+                ],
+                "optional": [
+                  "metric",
+                  "src_ip",
+                  "protocol",
+                  "address_family",
+                  "packet_count",
+                  "request_data_size",
+                  "response_data_size",
+                  "interval",
+                  "frequency"
+                ],
+                "args_schema": {},
+                "examples": []
+              },
+              "entities": [
+                {
+                  "type": "router",
+                  "value": "2",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "router",
+                  "value": "4",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "service",
+                  "value": "udp",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                }
+              ],
+              "notes": {
+                "metric": "reachability"
+              }
+            },
+            "meta": {
+              "source_dataset_id": 32,
+              "task_view": "discretize_intent",
+              "subintent_id": "S4",
+              "anchors": [
+                "2",
+                "4"
+              ],
+              "classification_raw": {
+                "op": "probe_measure"
+              },
+              "entity_selectors": [],
+              "warnings": [
+                "selector_hits=0 | RAG base_hits=16 thr=0.25 | expanded_hits=16 thr=0.35"
+              ],
+              "needs_human": false,
+              "topology_id": "Abilene",
+              "topology_path": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\topologias_convertidas\\topozoo\\Abilene.json",
+              "rag": {
+                "q_base": "2 4 udp",
+                "q_exp": "2 4",
+                "base_hits": 16,
+                "expanded_hits": 16,
+                "base_threshold": 0.25,
+                "expanded_threshold": 0.35,
+                "selector_devices": [],
+                "selector_hits": 0
+              }
+            }
+          }
+        ]
+      },
+      "output": {}
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "intent_original": "On r1, add a static routing entry so that traffic for subnet 10.3.0.0/24 is forwarded through r0",
+        "classificacao": {
+            "name": "static_route_add",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "The intent specifies adding a static routing entry to forward traffic for subnet 10.3.0.0/24 through interface r0."
+        },
+        "entidades_extraidas": [],
+        "context_slice": {
+            "devices": {}
+        },
+        "plan": {
+            "steps": [],
+            "warnings": [],
+            "needs_human": "True",
+            "dry_run": "True"
+        }
+    }
+]

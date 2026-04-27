@@ -1,0 +1,715 @@
+{
+  "devices": {
+    "11136": {
+      "type": "router",
+      "interfaces": {
+        "11136-eth0": {
+          "ip": "10.0.0.1",
+          "cidr": "10.0.0.0/30",
+          "peer": "7505319-eth0"
+        },
+        "11136-eth1": {
+          "ip": "10.0.1.1",
+          "cidr": "10.0.1.0/30",
+          "peer": "6131977-eth0"
+        },
+        "11136-eth2": {
+          "ip": "10.0.2.1",
+          "cidr": "10.0.2.0/30",
+          "peer": "6339949-eth0"
+        },
+        "11136-eth3": {
+          "ip": "10.0.3.1",
+          "cidr": "10.0.3.0/30",
+          "peer": "6436654-eth0"
+        },
+        "11136-eth4": {
+          "ip": "10.0.4.1",
+          "cidr": "10.0.4.0/30",
+          "peer": "5919280-eth0"
+        },
+        "11136-eth5": {
+          "ip": "10.0.5.1",
+          "cidr": "10.0.5.0/30",
+          "peer": "38977461-eth0"
+        },
+        "11136-eth6": {
+          "ip": "10.0.6.1",
+          "cidr": "10.0.6.0/30",
+          "peer": "5909558-eth0"
+        },
+        "11136-eth7": {
+          "ip": "10.0.7.1",
+          "cidr": "10.0.7.0/30",
+          "peer": "72571-eth0"
+        },
+        "11136-eth8": {
+          "ip": "10.0.8.1",
+          "cidr": "10.0.8.0/30",
+          "peer": "21732830-eth0"
+        },
+        "11136-eth9": {
+          "ip": "172.16.0.1",
+          "cidr": "172.16.0.0/24",
+          "peer": "h_11136_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "11136",
+        "source_id": 11136,
+        "topology_id": "caida/2024-08/559"
+      }
+    },
+    "7505319": {
+      "type": "router",
+      "interfaces": {
+        "7505319-eth0": {
+          "ip": "10.0.0.2",
+          "cidr": "10.0.0.0/30",
+          "peer": "11136-eth0"
+        },
+        "7505319-eth1": {
+          "ip": "10.0.9.1",
+          "cidr": "10.0.9.0/30",
+          "peer": "6131977-eth1"
+        },
+        "7505319-eth2": {
+          "ip": "10.0.10.1",
+          "cidr": "10.0.10.0/30",
+          "peer": "5919280-eth1"
+        },
+        "7505319-eth3": {
+          "ip": "172.16.1.1",
+          "cidr": "172.16.1.0/24",
+          "peer": "h_7505319_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "7505319",
+        "source_id": 7505319,
+        "topology_id": "caida/2024-08/559"
+      }
+    },
+    "6131977": {
+      "type": "router",
+      "interfaces": {
+        "6131977-eth0": {
+          "ip": "10.0.1.2",
+          "cidr": "10.0.1.0/30",
+          "peer": "11136-eth1"
+        },
+        "6131977-eth1": {
+          "ip": "10.0.9.2",
+          "cidr": "10.0.9.0/30",
+          "peer": "7505319-eth1"
+        },
+        "6131977-eth2": {
+          "ip": "10.0.11.1",
+          "cidr": "10.0.11.0/30",
+          "peer": "38977461-eth1"
+        },
+        "6131977-eth3": {
+          "ip": "10.0.12.1",
+          "cidr": "10.0.12.0/30",
+          "peer": "21732830-eth1"
+        },
+        "6131977-eth4": {
+          "ip": "10.0.13.1",
+          "cidr": "10.0.13.0/30",
+          "peer": "5919280-eth2"
+        },
+        "6131977-eth5": {
+          "ip": "172.16.2.1",
+          "cidr": "172.16.2.0/24",
+          "peer": "h_6131977_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "6131977",
+        "source_id": 6131977,
+        "topology_id": "caida/2024-08/559"
+      }
+    },
+    "6339949": {
+      "type": "router",
+      "interfaces": {
+        "6339949-eth0": {
+          "ip": "10.0.2.2",
+          "cidr": "10.0.2.0/30",
+          "peer": "11136-eth2"
+        },
+        "6339949-eth1": {
+          "ip": "172.16.3.1",
+          "cidr": "172.16.3.0/24",
+          "peer": "h_6339949_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "6339949",
+        "source_id": 6339949,
+        "topology_id": "caida/2024-08/559"
+      }
+    },
+    "6436654": {
+      "type": "router",
+      "interfaces": {
+        "6436654-eth0": {
+          "ip": "10.0.3.2",
+          "cidr": "10.0.3.0/30",
+          "peer": "11136-eth3"
+        },
+        "6436654-eth1": {
+          "ip": "172.16.4.1",
+          "cidr": "172.16.4.0/24",
+          "peer": "h_6436654_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "6436654",
+        "source_id": 6436654,
+        "topology_id": "caida/2024-08/559"
+      }
+    },
+    "5919279": {
+      "type": "router",
+      "interfaces": {
+        "5919279-eth0": {
+          "ip": "10.0.14.1",
+          "cidr": "10.0.14.0/30",
+          "peer": "5919280-eth3"
+        },
+        "5919279-eth1": {
+          "ip": "172.16.5.1",
+          "cidr": "172.16.5.0/24",
+          "peer": "h_5919279_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "5919279",
+        "source_id": 5919279,
+        "topology_id": "caida/2024-08/559"
+      }
+    },
+    "5919280": {
+      "type": "router",
+      "interfaces": {
+        "5919280-eth0": {
+          "ip": "10.0.4.2",
+          "cidr": "10.0.4.0/30",
+          "peer": "11136-eth4"
+        },
+        "5919280-eth1": {
+          "ip": "10.0.10.2",
+          "cidr": "10.0.10.0/30",
+          "peer": "7505319-eth2"
+        },
+        "5919280-eth2": {
+          "ip": "10.0.13.2",
+          "cidr": "10.0.13.0/30",
+          "peer": "6131977-eth4"
+        },
+        "5919280-eth3": {
+          "ip": "10.0.14.2",
+          "cidr": "10.0.14.0/30",
+          "peer": "5919279-eth0"
+        },
+        "5919280-eth4": {
+          "ip": "172.16.6.1",
+          "cidr": "172.16.6.0/24",
+          "peer": "h_5919280_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "5919280",
+        "source_id": 5919280,
+        "topology_id": "caida/2024-08/559"
+      }
+    },
+    "38977461": {
+      "type": "router",
+      "interfaces": {
+        "38977461-eth0": {
+          "ip": "10.0.5.2",
+          "cidr": "10.0.5.0/30",
+          "peer": "11136-eth5"
+        },
+        "38977461-eth1": {
+          "ip": "10.0.11.2",
+          "cidr": "10.0.11.0/30",
+          "peer": "6131977-eth2"
+        },
+        "38977461-eth2": {
+          "ip": "172.16.7.1",
+          "cidr": "172.16.7.0/24",
+          "peer": "h_38977461_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "38977461",
+        "source_id": 38977461,
+        "topology_id": "caida/2024-08/559"
+      }
+    },
+    "5909558": {
+      "type": "router",
+      "interfaces": {
+        "5909558-eth0": {
+          "ip": "10.0.6.2",
+          "cidr": "10.0.6.0/30",
+          "peer": "11136-eth6"
+        },
+        "5909558-eth1": {
+          "ip": "172.16.8.1",
+          "cidr": "172.16.8.0/24",
+          "peer": "h_5909558_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "5909558",
+        "source_id": 5909558,
+        "topology_id": "caida/2024-08/559"
+      }
+    },
+    "72571": {
+      "type": "router",
+      "interfaces": {
+        "72571-eth0": {
+          "ip": "10.0.7.2",
+          "cidr": "10.0.7.0/30",
+          "peer": "11136-eth7"
+        },
+        "72571-eth1": {
+          "ip": "172.16.9.1",
+          "cidr": "172.16.9.0/24",
+          "peer": "h_72571_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "72571",
+        "source_id": 72571,
+        "topology_id": "caida/2024-08/559"
+      }
+    },
+    "21732830": {
+      "type": "router",
+      "interfaces": {
+        "21732830-eth0": {
+          "ip": "10.0.8.2",
+          "cidr": "10.0.8.0/30",
+          "peer": "11136-eth8"
+        },
+        "21732830-eth1": {
+          "ip": "10.0.12.2",
+          "cidr": "10.0.12.0/30",
+          "peer": "6131977-eth3"
+        },
+        "21732830-eth2": {
+          "ip": "172.16.10.1",
+          "cidr": "172.16.10.0/24",
+          "peer": "h_21732830_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "21732830",
+        "source_id": 21732830,
+        "topology_id": "caida/2024-08/559"
+      }
+    },
+    "h_11136_1": {
+      "type": "host",
+      "interfaces": {
+        "h_11136_1-eth0": {
+          "ip": "172.16.0.10",
+          "cidr": "172.16.0.0/24",
+          "peer": "11136-eth9"
+        }
+      },
+      "meta": {
+        "attached_to": "11136",
+        "topology_id": "caida/2024-08/559"
+      }
+    },
+    "h_7505319_1": {
+      "type": "host",
+      "interfaces": {
+        "h_7505319_1-eth0": {
+          "ip": "172.16.1.10",
+          "cidr": "172.16.1.0/24",
+          "peer": "7505319-eth3"
+        }
+      },
+      "meta": {
+        "attached_to": "7505319",
+        "topology_id": "caida/2024-08/559"
+      }
+    },
+    "h_6131977_1": {
+      "type": "host",
+      "interfaces": {
+        "h_6131977_1-eth0": {
+          "ip": "172.16.2.10",
+          "cidr": "172.16.2.0/24",
+          "peer": "6131977-eth5"
+        }
+      },
+      "meta": {
+        "attached_to": "6131977",
+        "topology_id": "caida/2024-08/559"
+      }
+    },
+    "h_6339949_1": {
+      "type": "host",
+      "interfaces": {
+        "h_6339949_1-eth0": {
+          "ip": "172.16.3.10",
+          "cidr": "172.16.3.0/24",
+          "peer": "6339949-eth1"
+        }
+      },
+      "meta": {
+        "attached_to": "6339949",
+        "topology_id": "caida/2024-08/559"
+      }
+    },
+    "h_6436654_1": {
+      "type": "host",
+      "interfaces": {
+        "h_6436654_1-eth0": {
+          "ip": "172.16.4.10",
+          "cidr": "172.16.4.0/24",
+          "peer": "6436654-eth1"
+        }
+      },
+      "meta": {
+        "attached_to": "6436654",
+        "topology_id": "caida/2024-08/559"
+      }
+    },
+    "h_5919279_1": {
+      "type": "host",
+      "interfaces": {
+        "h_5919279_1-eth0": {
+          "ip": "172.16.5.10",
+          "cidr": "172.16.5.0/24",
+          "peer": "5919279-eth1"
+        }
+      },
+      "meta": {
+        "attached_to": "5919279",
+        "topology_id": "caida/2024-08/559"
+      }
+    },
+    "h_5919280_1": {
+      "type": "host",
+      "interfaces": {
+        "h_5919280_1-eth0": {
+          "ip": "172.16.6.10",
+          "cidr": "172.16.6.0/24",
+          "peer": "5919280-eth4"
+        }
+      },
+      "meta": {
+        "attached_to": "5919280",
+        "topology_id": "caida/2024-08/559"
+      }
+    },
+    "h_38977461_1": {
+      "type": "host",
+      "interfaces": {
+        "h_38977461_1-eth0": {
+          "ip": "172.16.7.10",
+          "cidr": "172.16.7.0/24",
+          "peer": "38977461-eth2"
+        }
+      },
+      "meta": {
+        "attached_to": "38977461",
+        "topology_id": "caida/2024-08/559"
+      }
+    },
+    "h_5909558_1": {
+      "type": "host",
+      "interfaces": {
+        "h_5909558_1-eth0": {
+          "ip": "172.16.8.10",
+          "cidr": "172.16.8.0/24",
+          "peer": "5909558-eth1"
+        }
+      },
+      "meta": {
+        "attached_to": "5909558",
+        "topology_id": "caida/2024-08/559"
+      }
+    },
+    "h_72571_1": {
+      "type": "host",
+      "interfaces": {
+        "h_72571_1-eth0": {
+          "ip": "172.16.9.10",
+          "cidr": "172.16.9.0/24",
+          "peer": "72571-eth1"
+        }
+      },
+      "meta": {
+        "attached_to": "72571",
+        "topology_id": "caida/2024-08/559"
+      }
+    },
+    "h_21732830_1": {
+      "type": "host",
+      "interfaces": {
+        "h_21732830_1-eth0": {
+          "ip": "172.16.10.10",
+          "cidr": "172.16.10.0/24",
+          "peer": "21732830-eth2"
+        }
+      },
+      "meta": {
+        "attached_to": "21732830",
+        "topology_id": "caida/2024-08/559"
+      }
+    }
+  },
+  "networks": {
+    "LINK_11136_7505319": {
+      "cidr": "10.0.0.0/30",
+      "gateway_device": "11136",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "11136",
+        "endpoint_b": "7505319"
+      }
+    },
+    "LINK_11136_6131977": {
+      "cidr": "10.0.1.0/30",
+      "gateway_device": "11136",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "11136",
+        "endpoint_b": "6131977"
+      }
+    },
+    "LINK_11136_6339949": {
+      "cidr": "10.0.2.0/30",
+      "gateway_device": "11136",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "11136",
+        "endpoint_b": "6339949"
+      }
+    },
+    "LINK_11136_6436654": {
+      "cidr": "10.0.3.0/30",
+      "gateway_device": "11136",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "11136",
+        "endpoint_b": "6436654"
+      }
+    },
+    "LINK_11136_5919280": {
+      "cidr": "10.0.4.0/30",
+      "gateway_device": "11136",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "11136",
+        "endpoint_b": "5919280"
+      }
+    },
+    "LINK_11136_38977461": {
+      "cidr": "10.0.5.0/30",
+      "gateway_device": "11136",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "11136",
+        "endpoint_b": "38977461"
+      }
+    },
+    "LINK_11136_5909558": {
+      "cidr": "10.0.6.0/30",
+      "gateway_device": "11136",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "11136",
+        "endpoint_b": "5909558"
+      }
+    },
+    "LINK_11136_72571": {
+      "cidr": "10.0.7.0/30",
+      "gateway_device": "11136",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "11136",
+        "endpoint_b": "72571"
+      }
+    },
+    "LINK_11136_21732830": {
+      "cidr": "10.0.8.0/30",
+      "gateway_device": "11136",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "11136",
+        "endpoint_b": "21732830"
+      }
+    },
+    "LINK_7505319_6131977": {
+      "cidr": "10.0.9.0/30",
+      "gateway_device": "7505319",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "7505319",
+        "endpoint_b": "6131977"
+      }
+    },
+    "LINK_7505319_5919280": {
+      "cidr": "10.0.10.0/30",
+      "gateway_device": "7505319",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "7505319",
+        "endpoint_b": "5919280"
+      }
+    },
+    "LINK_6131977_38977461": {
+      "cidr": "10.0.11.0/30",
+      "gateway_device": "6131977",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "6131977",
+        "endpoint_b": "38977461"
+      }
+    },
+    "LINK_6131977_21732830": {
+      "cidr": "10.0.12.0/30",
+      "gateway_device": "6131977",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "6131977",
+        "endpoint_b": "21732830"
+      }
+    },
+    "LINK_6131977_5919280": {
+      "cidr": "10.0.13.0/30",
+      "gateway_device": "6131977",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "6131977",
+        "endpoint_b": "5919280"
+      }
+    },
+    "LINK_5919279_5919280": {
+      "cidr": "10.0.14.0/30",
+      "gateway_device": "5919279",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "5919279",
+        "endpoint_b": "5919280"
+      }
+    },
+    "LAN_11136_1": {
+      "cidr": "172.16.0.0/24",
+      "gateway_device": "11136",
+      "gateway_ip": "172.16.0.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_11136_1"
+      }
+    },
+    "LAN_7505319_1": {
+      "cidr": "172.16.1.0/24",
+      "gateway_device": "7505319",
+      "gateway_ip": "172.16.1.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_7505319_1"
+      }
+    },
+    "LAN_6131977_1": {
+      "cidr": "172.16.2.0/24",
+      "gateway_device": "6131977",
+      "gateway_ip": "172.16.2.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_6131977_1"
+      }
+    },
+    "LAN_6339949_1": {
+      "cidr": "172.16.3.0/24",
+      "gateway_device": "6339949",
+      "gateway_ip": "172.16.3.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_6339949_1"
+      }
+    },
+    "LAN_6436654_1": {
+      "cidr": "172.16.4.0/24",
+      "gateway_device": "6436654",
+      "gateway_ip": "172.16.4.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_6436654_1"
+      }
+    },
+    "LAN_5919279_1": {
+      "cidr": "172.16.5.0/24",
+      "gateway_device": "5919279",
+      "gateway_ip": "172.16.5.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_5919279_1"
+      }
+    },
+    "LAN_5919280_1": {
+      "cidr": "172.16.6.0/24",
+      "gateway_device": "5919280",
+      "gateway_ip": "172.16.6.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_5919280_1"
+      }
+    },
+    "LAN_38977461_1": {
+      "cidr": "172.16.7.0/24",
+      "gateway_device": "38977461",
+      "gateway_ip": "172.16.7.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_38977461_1"
+      }
+    },
+    "LAN_5909558_1": {
+      "cidr": "172.16.8.0/24",
+      "gateway_device": "5909558",
+      "gateway_ip": "172.16.8.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_5909558_1"
+      }
+    },
+    "LAN_72571_1": {
+      "cidr": "172.16.9.0/24",
+      "gateway_device": "72571",
+      "gateway_ip": "172.16.9.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_72571_1"
+      }
+    },
+    "LAN_21732830_1": {
+      "cidr": "172.16.10.0/24",
+      "gateway_device": "21732830",
+      "gateway_ip": "172.16.10.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_21732830_1"
+      }
+    }
+  },
+  "meta": {
+    "source": "topohub",
+    "topology_id": "caida/2024-08/559",
+    "num_source_nodes": 11,
+    "num_source_edges": 15
+  }
+}

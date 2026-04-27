@@ -1,0 +1,1114 @@
+{
+  "devices": {
+    "0": {
+      "type": "router",
+      "interfaces": {
+        "0-eth0": {
+          "ip": "10.0.0.1",
+          "cidr": "10.0.0.0/30",
+          "peer": "2-eth0"
+        },
+        "0-eth1": {
+          "ip": "172.16.0.1",
+          "cidr": "172.16.0.0/24",
+          "peer": "h_0_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "0",
+        "source_id": "0",
+        "topology_id": "topozoo/Marnet"
+      }
+    },
+    "2": {
+      "type": "router",
+      "interfaces": {
+        "2-eth0": {
+          "ip": "10.0.0.2",
+          "cidr": "10.0.0.0/30",
+          "peer": "0-eth0"
+        },
+        "2-eth1": {
+          "ip": "10.0.1.1",
+          "cidr": "10.0.1.0/30",
+          "peer": "3-eth0"
+        },
+        "2-eth2": {
+          "ip": "10.0.2.1",
+          "cidr": "10.0.2.0/30",
+          "peer": "4-eth0"
+        },
+        "2-eth3": {
+          "ip": "10.0.3.1",
+          "cidr": "10.0.3.0/30",
+          "peer": "5-eth0"
+        },
+        "2-eth4": {
+          "ip": "10.0.4.1",
+          "cidr": "10.0.4.0/30",
+          "peer": "7-eth0"
+        },
+        "2-eth5": {
+          "ip": "10.0.5.1",
+          "cidr": "10.0.5.0/30",
+          "peer": "10-eth0"
+        },
+        "2-eth6": {
+          "ip": "10.0.6.1",
+          "cidr": "10.0.6.0/30",
+          "peer": "11-eth0"
+        },
+        "2-eth7": {
+          "ip": "10.0.7.1",
+          "cidr": "10.0.7.0/30",
+          "peer": "12-eth0"
+        },
+        "2-eth8": {
+          "ip": "10.0.8.1",
+          "cidr": "10.0.8.0/30",
+          "peer": "13-eth0"
+        },
+        "2-eth9": {
+          "ip": "10.0.9.1",
+          "cidr": "10.0.9.0/30",
+          "peer": "14-eth0"
+        },
+        "2-eth10": {
+          "ip": "10.0.10.1",
+          "cidr": "10.0.10.0/30",
+          "peer": "15-eth0"
+        },
+        "2-eth11": {
+          "ip": "10.0.11.1",
+          "cidr": "10.0.11.0/30",
+          "peer": "16-eth0"
+        },
+        "2-eth12": {
+          "ip": "10.0.12.1",
+          "cidr": "10.0.12.0/30",
+          "peer": "17-eth0"
+        },
+        "2-eth13": {
+          "ip": "10.0.13.1",
+          "cidr": "10.0.13.0/30",
+          "peer": "18-eth0"
+        },
+        "2-eth14": {
+          "ip": "10.0.14.1",
+          "cidr": "10.0.14.0/30",
+          "peer": "19-eth0"
+        },
+        "2-eth15": {
+          "ip": "172.16.1.1",
+          "cidr": "172.16.1.0/24",
+          "peer": "h_2_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "2",
+        "source_id": "2",
+        "topology_id": "topozoo/Marnet"
+      }
+    },
+    "3": {
+      "type": "router",
+      "interfaces": {
+        "3-eth0": {
+          "ip": "10.0.1.2",
+          "cidr": "10.0.1.0/30",
+          "peer": "2-eth1"
+        },
+        "3-eth1": {
+          "ip": "172.16.2.1",
+          "cidr": "172.16.2.0/24",
+          "peer": "h_3_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "3",
+        "source_id": "3",
+        "topology_id": "topozoo/Marnet"
+      }
+    },
+    "4": {
+      "type": "router",
+      "interfaces": {
+        "4-eth0": {
+          "ip": "10.0.2.2",
+          "cidr": "10.0.2.0/30",
+          "peer": "2-eth2"
+        },
+        "4-eth1": {
+          "ip": "10.0.15.1",
+          "cidr": "10.0.15.0/30",
+          "peer": "7-eth1"
+        },
+        "4-eth2": {
+          "ip": "10.0.16.1",
+          "cidr": "10.0.16.0/30",
+          "peer": "10-eth1"
+        },
+        "4-eth3": {
+          "ip": "10.0.17.1",
+          "cidr": "10.0.17.0/30",
+          "peer": "11-eth1"
+        },
+        "4-eth4": {
+          "ip": "10.0.18.1",
+          "cidr": "10.0.18.0/30",
+          "peer": "16-eth1"
+        },
+        "4-eth5": {
+          "ip": "10.0.19.1",
+          "cidr": "10.0.19.0/30",
+          "peer": "17-eth1"
+        },
+        "4-eth6": {
+          "ip": "10.0.20.1",
+          "cidr": "10.0.20.0/30",
+          "peer": "18-eth1"
+        },
+        "4-eth7": {
+          "ip": "10.0.21.1",
+          "cidr": "10.0.21.0/30",
+          "peer": "19-eth1"
+        },
+        "4-eth8": {
+          "ip": "172.16.3.1",
+          "cidr": "172.16.3.0/24",
+          "peer": "h_4_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "4",
+        "source_id": "4",
+        "topology_id": "topozoo/Marnet"
+      }
+    },
+    "5": {
+      "type": "router",
+      "interfaces": {
+        "5-eth0": {
+          "ip": "10.0.3.2",
+          "cidr": "10.0.3.0/30",
+          "peer": "2-eth3"
+        },
+        "5-eth1": {
+          "ip": "10.0.22.1",
+          "cidr": "10.0.22.0/30",
+          "peer": "17-eth2"
+        },
+        "5-eth2": {
+          "ip": "172.16.4.1",
+          "cidr": "172.16.4.0/24",
+          "peer": "h_5_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "5",
+        "source_id": "5",
+        "topology_id": "topozoo/Marnet"
+      }
+    },
+    "7": {
+      "type": "router",
+      "interfaces": {
+        "7-eth0": {
+          "ip": "10.0.4.2",
+          "cidr": "10.0.4.0/30",
+          "peer": "2-eth4"
+        },
+        "7-eth1": {
+          "ip": "10.0.15.2",
+          "cidr": "10.0.15.0/30",
+          "peer": "4-eth1"
+        },
+        "7-eth2": {
+          "ip": "172.16.5.1",
+          "cidr": "172.16.5.0/24",
+          "peer": "h_7_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "7",
+        "source_id": "7",
+        "topology_id": "topozoo/Marnet"
+      }
+    },
+    "8": {
+      "type": "router",
+      "interfaces": {
+        "8-eth0": {
+          "ip": "10.0.23.1",
+          "cidr": "10.0.23.0/30",
+          "peer": "17-eth3"
+        },
+        "8-eth1": {
+          "ip": "172.16.6.1",
+          "cidr": "172.16.6.0/24",
+          "peer": "h_8_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "8",
+        "source_id": "8",
+        "topology_id": "topozoo/Marnet"
+      }
+    },
+    "10": {
+      "type": "router",
+      "interfaces": {
+        "10-eth0": {
+          "ip": "10.0.5.2",
+          "cidr": "10.0.5.0/30",
+          "peer": "2-eth5"
+        },
+        "10-eth1": {
+          "ip": "10.0.16.2",
+          "cidr": "10.0.16.0/30",
+          "peer": "4-eth2"
+        },
+        "10-eth2": {
+          "ip": "172.16.7.1",
+          "cidr": "172.16.7.0/24",
+          "peer": "h_10_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "10",
+        "source_id": "10",
+        "topology_id": "topozoo/Marnet"
+      }
+    },
+    "11": {
+      "type": "router",
+      "interfaces": {
+        "11-eth0": {
+          "ip": "10.0.6.2",
+          "cidr": "10.0.6.0/30",
+          "peer": "2-eth6"
+        },
+        "11-eth1": {
+          "ip": "10.0.17.2",
+          "cidr": "10.0.17.0/30",
+          "peer": "4-eth3"
+        },
+        "11-eth2": {
+          "ip": "172.16.8.1",
+          "cidr": "172.16.8.0/24",
+          "peer": "h_11_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "11",
+        "source_id": "11",
+        "topology_id": "topozoo/Marnet"
+      }
+    },
+    "12": {
+      "type": "router",
+      "interfaces": {
+        "12-eth0": {
+          "ip": "10.0.7.2",
+          "cidr": "10.0.7.0/30",
+          "peer": "2-eth7"
+        },
+        "12-eth1": {
+          "ip": "172.16.9.1",
+          "cidr": "172.16.9.0/24",
+          "peer": "h_12_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "12",
+        "source_id": "12",
+        "topology_id": "topozoo/Marnet"
+      }
+    },
+    "13": {
+      "type": "router",
+      "interfaces": {
+        "13-eth0": {
+          "ip": "10.0.8.2",
+          "cidr": "10.0.8.0/30",
+          "peer": "2-eth8"
+        },
+        "13-eth1": {
+          "ip": "172.16.10.1",
+          "cidr": "172.16.10.0/24",
+          "peer": "h_13_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "13",
+        "source_id": "13",
+        "topology_id": "topozoo/Marnet"
+      }
+    },
+    "14": {
+      "type": "router",
+      "interfaces": {
+        "14-eth0": {
+          "ip": "10.0.9.2",
+          "cidr": "10.0.9.0/30",
+          "peer": "2-eth9"
+        },
+        "14-eth1": {
+          "ip": "172.16.11.1",
+          "cidr": "172.16.11.0/24",
+          "peer": "h_14_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "14",
+        "source_id": "14",
+        "topology_id": "topozoo/Marnet"
+      }
+    },
+    "15": {
+      "type": "router",
+      "interfaces": {
+        "15-eth0": {
+          "ip": "10.0.10.2",
+          "cidr": "10.0.10.0/30",
+          "peer": "2-eth10"
+        },
+        "15-eth1": {
+          "ip": "172.16.12.1",
+          "cidr": "172.16.12.0/24",
+          "peer": "h_15_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "15",
+        "source_id": "15",
+        "topology_id": "topozoo/Marnet"
+      }
+    },
+    "16": {
+      "type": "router",
+      "interfaces": {
+        "16-eth0": {
+          "ip": "10.0.11.2",
+          "cidr": "10.0.11.0/30",
+          "peer": "2-eth11"
+        },
+        "16-eth1": {
+          "ip": "10.0.18.2",
+          "cidr": "10.0.18.0/30",
+          "peer": "4-eth4"
+        },
+        "16-eth2": {
+          "ip": "172.16.13.1",
+          "cidr": "172.16.13.0/24",
+          "peer": "h_16_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "16",
+        "source_id": "16",
+        "topology_id": "topozoo/Marnet"
+      }
+    },
+    "17": {
+      "type": "router",
+      "interfaces": {
+        "17-eth0": {
+          "ip": "10.0.12.2",
+          "cidr": "10.0.12.0/30",
+          "peer": "2-eth12"
+        },
+        "17-eth1": {
+          "ip": "10.0.19.2",
+          "cidr": "10.0.19.0/30",
+          "peer": "4-eth5"
+        },
+        "17-eth2": {
+          "ip": "10.0.22.2",
+          "cidr": "10.0.22.0/30",
+          "peer": "5-eth1"
+        },
+        "17-eth3": {
+          "ip": "10.0.23.2",
+          "cidr": "10.0.23.0/30",
+          "peer": "8-eth0"
+        },
+        "17-eth4": {
+          "ip": "172.16.14.1",
+          "cidr": "172.16.14.0/24",
+          "peer": "h_17_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "17",
+        "source_id": "17",
+        "topology_id": "topozoo/Marnet"
+      }
+    },
+    "18": {
+      "type": "router",
+      "interfaces": {
+        "18-eth0": {
+          "ip": "10.0.13.2",
+          "cidr": "10.0.13.0/30",
+          "peer": "2-eth13"
+        },
+        "18-eth1": {
+          "ip": "10.0.20.2",
+          "cidr": "10.0.20.0/30",
+          "peer": "4-eth6"
+        },
+        "18-eth2": {
+          "ip": "172.16.15.1",
+          "cidr": "172.16.15.0/24",
+          "peer": "h_18_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "18",
+        "source_id": "18",
+        "topology_id": "topozoo/Marnet"
+      }
+    },
+    "19": {
+      "type": "router",
+      "interfaces": {
+        "19-eth0": {
+          "ip": "10.0.14.2",
+          "cidr": "10.0.14.0/30",
+          "peer": "2-eth14"
+        },
+        "19-eth1": {
+          "ip": "10.0.21.2",
+          "cidr": "10.0.21.0/30",
+          "peer": "4-eth7"
+        },
+        "19-eth2": {
+          "ip": "172.16.16.1",
+          "cidr": "172.16.16.0/24",
+          "peer": "h_19_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "19",
+        "source_id": "19",
+        "topology_id": "topozoo/Marnet"
+      }
+    },
+    "h_0_1": {
+      "type": "host",
+      "interfaces": {
+        "h_0_1-eth0": {
+          "ip": "172.16.0.10",
+          "cidr": "172.16.0.0/24",
+          "peer": "0-eth1"
+        }
+      },
+      "meta": {
+        "attached_to": "0",
+        "topology_id": "topozoo/Marnet"
+      }
+    },
+    "h_2_1": {
+      "type": "host",
+      "interfaces": {
+        "h_2_1-eth0": {
+          "ip": "172.16.1.10",
+          "cidr": "172.16.1.0/24",
+          "peer": "2-eth15"
+        }
+      },
+      "meta": {
+        "attached_to": "2",
+        "topology_id": "topozoo/Marnet"
+      }
+    },
+    "h_3_1": {
+      "type": "host",
+      "interfaces": {
+        "h_3_1-eth0": {
+          "ip": "172.16.2.10",
+          "cidr": "172.16.2.0/24",
+          "peer": "3-eth1"
+        }
+      },
+      "meta": {
+        "attached_to": "3",
+        "topology_id": "topozoo/Marnet"
+      }
+    },
+    "h_4_1": {
+      "type": "host",
+      "interfaces": {
+        "h_4_1-eth0": {
+          "ip": "172.16.3.10",
+          "cidr": "172.16.3.0/24",
+          "peer": "4-eth8"
+        }
+      },
+      "meta": {
+        "attached_to": "4",
+        "topology_id": "topozoo/Marnet"
+      }
+    },
+    "h_5_1": {
+      "type": "host",
+      "interfaces": {
+        "h_5_1-eth0": {
+          "ip": "172.16.4.10",
+          "cidr": "172.16.4.0/24",
+          "peer": "5-eth2"
+        }
+      },
+      "meta": {
+        "attached_to": "5",
+        "topology_id": "topozoo/Marnet"
+      }
+    },
+    "h_7_1": {
+      "type": "host",
+      "interfaces": {
+        "h_7_1-eth0": {
+          "ip": "172.16.5.10",
+          "cidr": "172.16.5.0/24",
+          "peer": "7-eth2"
+        }
+      },
+      "meta": {
+        "attached_to": "7",
+        "topology_id": "topozoo/Marnet"
+      }
+    },
+    "h_8_1": {
+      "type": "host",
+      "interfaces": {
+        "h_8_1-eth0": {
+          "ip": "172.16.6.10",
+          "cidr": "172.16.6.0/24",
+          "peer": "8-eth1"
+        }
+      },
+      "meta": {
+        "attached_to": "8",
+        "topology_id": "topozoo/Marnet"
+      }
+    },
+    "h_10_1": {
+      "type": "host",
+      "interfaces": {
+        "h_10_1-eth0": {
+          "ip": "172.16.7.10",
+          "cidr": "172.16.7.0/24",
+          "peer": "10-eth2"
+        }
+      },
+      "meta": {
+        "attached_to": "10",
+        "topology_id": "topozoo/Marnet"
+      }
+    },
+    "h_11_1": {
+      "type": "host",
+      "interfaces": {
+        "h_11_1-eth0": {
+          "ip": "172.16.8.10",
+          "cidr": "172.16.8.0/24",
+          "peer": "11-eth2"
+        }
+      },
+      "meta": {
+        "attached_to": "11",
+        "topology_id": "topozoo/Marnet"
+      }
+    },
+    "h_12_1": {
+      "type": "host",
+      "interfaces": {
+        "h_12_1-eth0": {
+          "ip": "172.16.9.10",
+          "cidr": "172.16.9.0/24",
+          "peer": "12-eth1"
+        }
+      },
+      "meta": {
+        "attached_to": "12",
+        "topology_id": "topozoo/Marnet"
+      }
+    },
+    "h_13_1": {
+      "type": "host",
+      "interfaces": {
+        "h_13_1-eth0": {
+          "ip": "172.16.10.10",
+          "cidr": "172.16.10.0/24",
+          "peer": "13-eth1"
+        }
+      },
+      "meta": {
+        "attached_to": "13",
+        "topology_id": "topozoo/Marnet"
+      }
+    },
+    "h_14_1": {
+      "type": "host",
+      "interfaces": {
+        "h_14_1-eth0": {
+          "ip": "172.16.11.10",
+          "cidr": "172.16.11.0/24",
+          "peer": "14-eth1"
+        }
+      },
+      "meta": {
+        "attached_to": "14",
+        "topology_id": "topozoo/Marnet"
+      }
+    },
+    "h_15_1": {
+      "type": "host",
+      "interfaces": {
+        "h_15_1-eth0": {
+          "ip": "172.16.12.10",
+          "cidr": "172.16.12.0/24",
+          "peer": "15-eth1"
+        }
+      },
+      "meta": {
+        "attached_to": "15",
+        "topology_id": "topozoo/Marnet"
+      }
+    },
+    "h_16_1": {
+      "type": "host",
+      "interfaces": {
+        "h_16_1-eth0": {
+          "ip": "172.16.13.10",
+          "cidr": "172.16.13.0/24",
+          "peer": "16-eth2"
+        }
+      },
+      "meta": {
+        "attached_to": "16",
+        "topology_id": "topozoo/Marnet"
+      }
+    },
+    "h_17_1": {
+      "type": "host",
+      "interfaces": {
+        "h_17_1-eth0": {
+          "ip": "172.16.14.10",
+          "cidr": "172.16.14.0/24",
+          "peer": "17-eth4"
+        }
+      },
+      "meta": {
+        "attached_to": "17",
+        "topology_id": "topozoo/Marnet"
+      }
+    },
+    "h_18_1": {
+      "type": "host",
+      "interfaces": {
+        "h_18_1-eth0": {
+          "ip": "172.16.15.10",
+          "cidr": "172.16.15.0/24",
+          "peer": "18-eth2"
+        }
+      },
+      "meta": {
+        "attached_to": "18",
+        "topology_id": "topozoo/Marnet"
+      }
+    },
+    "h_19_1": {
+      "type": "host",
+      "interfaces": {
+        "h_19_1-eth0": {
+          "ip": "172.16.16.10",
+          "cidr": "172.16.16.0/24",
+          "peer": "19-eth2"
+        }
+      },
+      "meta": {
+        "attached_to": "19",
+        "topology_id": "topozoo/Marnet"
+      }
+    }
+  },
+  "networks": {
+    "LINK_0_2": {
+      "cidr": "10.0.0.0/30",
+      "gateway_device": "0",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "0",
+        "endpoint_b": "2"
+      }
+    },
+    "LINK_2_3": {
+      "cidr": "10.0.1.0/30",
+      "gateway_device": "2",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "2",
+        "endpoint_b": "3"
+      }
+    },
+    "LINK_2_4": {
+      "cidr": "10.0.2.0/30",
+      "gateway_device": "2",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "2",
+        "endpoint_b": "4"
+      }
+    },
+    "LINK_2_5": {
+      "cidr": "10.0.3.0/30",
+      "gateway_device": "2",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "2",
+        "endpoint_b": "5"
+      }
+    },
+    "LINK_2_7": {
+      "cidr": "10.0.4.0/30",
+      "gateway_device": "2",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "2",
+        "endpoint_b": "7"
+      }
+    },
+    "LINK_2_10": {
+      "cidr": "10.0.5.0/30",
+      "gateway_device": "2",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "2",
+        "endpoint_b": "10"
+      }
+    },
+    "LINK_2_11": {
+      "cidr": "10.0.6.0/30",
+      "gateway_device": "2",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "2",
+        "endpoint_b": "11"
+      }
+    },
+    "LINK_2_12": {
+      "cidr": "10.0.7.0/30",
+      "gateway_device": "2",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "2",
+        "endpoint_b": "12"
+      }
+    },
+    "LINK_2_13": {
+      "cidr": "10.0.8.0/30",
+      "gateway_device": "2",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "2",
+        "endpoint_b": "13"
+      }
+    },
+    "LINK_2_14": {
+      "cidr": "10.0.9.0/30",
+      "gateway_device": "2",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "2",
+        "endpoint_b": "14"
+      }
+    },
+    "LINK_2_15": {
+      "cidr": "10.0.10.0/30",
+      "gateway_device": "2",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "2",
+        "endpoint_b": "15"
+      }
+    },
+    "LINK_2_16": {
+      "cidr": "10.0.11.0/30",
+      "gateway_device": "2",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "2",
+        "endpoint_b": "16"
+      }
+    },
+    "LINK_2_17": {
+      "cidr": "10.0.12.0/30",
+      "gateway_device": "2",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "2",
+        "endpoint_b": "17"
+      }
+    },
+    "LINK_2_18": {
+      "cidr": "10.0.13.0/30",
+      "gateway_device": "2",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "2",
+        "endpoint_b": "18"
+      }
+    },
+    "LINK_2_19": {
+      "cidr": "10.0.14.0/30",
+      "gateway_device": "2",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "2",
+        "endpoint_b": "19"
+      }
+    },
+    "LINK_4_7": {
+      "cidr": "10.0.15.0/30",
+      "gateway_device": "4",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "4",
+        "endpoint_b": "7"
+      }
+    },
+    "LINK_4_10": {
+      "cidr": "10.0.16.0/30",
+      "gateway_device": "4",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "4",
+        "endpoint_b": "10"
+      }
+    },
+    "LINK_4_11": {
+      "cidr": "10.0.17.0/30",
+      "gateway_device": "4",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "4",
+        "endpoint_b": "11"
+      }
+    },
+    "LINK_4_16": {
+      "cidr": "10.0.18.0/30",
+      "gateway_device": "4",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "4",
+        "endpoint_b": "16"
+      }
+    },
+    "LINK_4_17": {
+      "cidr": "10.0.19.0/30",
+      "gateway_device": "4",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "4",
+        "endpoint_b": "17"
+      }
+    },
+    "LINK_4_18": {
+      "cidr": "10.0.20.0/30",
+      "gateway_device": "4",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "4",
+        "endpoint_b": "18"
+      }
+    },
+    "LINK_4_19": {
+      "cidr": "10.0.21.0/30",
+      "gateway_device": "4",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "4",
+        "endpoint_b": "19"
+      }
+    },
+    "LINK_5_17": {
+      "cidr": "10.0.22.0/30",
+      "gateway_device": "5",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "5",
+        "endpoint_b": "17"
+      }
+    },
+    "LINK_8_17": {
+      "cidr": "10.0.23.0/30",
+      "gateway_device": "8",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "8",
+        "endpoint_b": "17"
+      }
+    },
+    "LAN_0_1": {
+      "cidr": "172.16.0.0/24",
+      "gateway_device": "0",
+      "gateway_ip": "172.16.0.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_0_1"
+      }
+    },
+    "LAN_2_1": {
+      "cidr": "172.16.1.0/24",
+      "gateway_device": "2",
+      "gateway_ip": "172.16.1.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_2_1"
+      }
+    },
+    "LAN_3_1": {
+      "cidr": "172.16.2.0/24",
+      "gateway_device": "3",
+      "gateway_ip": "172.16.2.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_3_1"
+      }
+    },
+    "LAN_4_1": {
+      "cidr": "172.16.3.0/24",
+      "gateway_device": "4",
+      "gateway_ip": "172.16.3.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_4_1"
+      }
+    },
+    "LAN_5_1": {
+      "cidr": "172.16.4.0/24",
+      "gateway_device": "5",
+      "gateway_ip": "172.16.4.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_5_1"
+      }
+    },
+    "LAN_7_1": {
+      "cidr": "172.16.5.0/24",
+      "gateway_device": "7",
+      "gateway_ip": "172.16.5.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_7_1"
+      }
+    },
+    "LAN_8_1": {
+      "cidr": "172.16.6.0/24",
+      "gateway_device": "8",
+      "gateway_ip": "172.16.6.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_8_1"
+      }
+    },
+    "LAN_10_1": {
+      "cidr": "172.16.7.0/24",
+      "gateway_device": "10",
+      "gateway_ip": "172.16.7.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_10_1"
+      }
+    },
+    "LAN_11_1": {
+      "cidr": "172.16.8.0/24",
+      "gateway_device": "11",
+      "gateway_ip": "172.16.8.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_11_1"
+      }
+    },
+    "LAN_12_1": {
+      "cidr": "172.16.9.0/24",
+      "gateway_device": "12",
+      "gateway_ip": "172.16.9.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_12_1"
+      }
+    },
+    "LAN_13_1": {
+      "cidr": "172.16.10.0/24",
+      "gateway_device": "13",
+      "gateway_ip": "172.16.10.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_13_1"
+      }
+    },
+    "LAN_14_1": {
+      "cidr": "172.16.11.0/24",
+      "gateway_device": "14",
+      "gateway_ip": "172.16.11.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_14_1"
+      }
+    },
+    "LAN_15_1": {
+      "cidr": "172.16.12.0/24",
+      "gateway_device": "15",
+      "gateway_ip": "172.16.12.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_15_1"
+      }
+    },
+    "LAN_16_1": {
+      "cidr": "172.16.13.0/24",
+      "gateway_device": "16",
+      "gateway_ip": "172.16.13.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_16_1"
+      }
+    },
+    "LAN_17_1": {
+      "cidr": "172.16.14.0/24",
+      "gateway_device": "17",
+      "gateway_ip": "172.16.14.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_17_1"
+      }
+    },
+    "LAN_18_1": {
+      "cidr": "172.16.15.0/24",
+      "gateway_device": "18",
+      "gateway_ip": "172.16.15.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_18_1"
+      }
+    },
+    "LAN_19_1": {
+      "cidr": "172.16.16.0/24",
+      "gateway_device": "19",
+      "gateway_ip": "172.16.16.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_19_1"
+      }
+    }
+  },
+  "meta": {
+    "source": "topohub",
+    "topology_id": "topozoo/Marnet",
+    "num_source_nodes": 17,
+    "num_source_edges": 24
+  }
+}

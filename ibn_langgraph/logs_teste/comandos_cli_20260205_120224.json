@@ -1,0 +1,81 @@
+[
+    {
+        "id_teste": 1,
+        "intent": "Set up a static route on router r1 for the 10.3.0.0/24 prefix using r0 as the next hop.",
+        "status": "CLI_FAILED",
+        "commands": null
+    },
+    {
+        "id_teste": 6,
+        "intent": "Define a static routing rule on router r3 for prefix 10.2.0.0/24 using r0.",
+        "status": "CLI_FAILED",
+        "commands": null
+    },
+    {
+        "id_teste": 7,
+        "intent": "Remove the static route to the 10.3.0.0/24 network from router r1.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r1": [
+                {
+                    "op": "static_route_del",
+                    "args": {
+                        "dst_cidr": "10.3.0.0/24"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "id_teste": 9,
+        "intent": "Ensure router r2 no longer has a route configured for the 10.4.0.0/24 prefix.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r2": [
+                "ip route del 10.4.0.0/24"
+            ]
+        }
+    },
+    {
+        "id_teste": 10,
+        "intent": "Clear the static routing rule on r2 that forwards traffic to 10.4.0.0/24.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r2": [
+                "ip route del 10.4.0.0/24"
+            ]
+        }
+    },
+    {
+        "id_teste": 11,
+        "intent": "Delete the static route entry on router r3 for the 10.2.0.0/24 subnet.",
+        "status": "CLI_FAILED",
+        "commands": null
+    },
+    {
+        "id_teste": 12,
+        "intent": "Make sure r3 no longer routes traffic towards the 10.2.0.0/24 network.",
+        "cli": null
+    },
+    {
+        "id_teste": 17,
+        "intent": "Set the net.ipv4.ip_forward parameter to 1 on router r3.",
+        "status": "CLI_FAILED",
+        "commands": null
+    },
+    {
+        "id_teste": 27,
+        "intent": "Prevent ICMP echo requests from the 10.2.0.0/24 network from passing through router r2.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "ROUTER_SRC": [
+                "iptables -A FORWARD -p icmp -s {src_cidr} -j DROP"
+            ]
+        }
+    },
+    {
+        "id_teste": 30,
+        "intent": "Set up a firewall rule on r3 to filter out ICMP traffic from 10.3.0.0/24.",
+        "cli": null
+    }
+]

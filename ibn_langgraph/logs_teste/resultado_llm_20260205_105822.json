@@ -1,0 +1,7 @@
+[
+    {
+        "id": 1,
+        "intent_original": "Set up a static route on router r1 for the 10.3.0.0/24 prefix using r0 as the next hop.",
+        "erro": "'cli_templates'"
+    }
+]

@@ -93,6 +93,9 @@ intents_para_testar = [
     "Set up a firewall rule on r3 to filter out ICMP traffic from 10.3.0.0/24."
 ]
 
+intents_para_testar = [
+    "Configure IP addresses, subnet masks, gateways, and unique locally administered MAC addresses for each interface of each device in the network, assigning MAC addresses sequentially starting from 02:00:00:00:00:01."
+]
 
 def to_jsonable(obj):
     """

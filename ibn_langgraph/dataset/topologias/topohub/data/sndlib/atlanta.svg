@@ -1,0 +1,55 @@
+<svg id="topo" viewBox="33.00 -487.75 506.00 478.50" xmlns="http://www.w3.org/2000/svg">
+<style>#topo path {fill: none; stroke: grey; stroke-width: 1.8400px;} #topo circle {fill: lightblue; stroke: none; stroke-width: 0.3px; vector-effect: non-scaling-stroke; r: 3.6800px;} #topo text {fill: black; stroke: none; font-size: 5.5200px; font-family: sans-serif; text-anchor:middle; transform: translateY(0.3em);} #topo path.country {fill: lightgrey; stroke: black; stroke-width: 1px; vector-effect: non-scaling-stroke; visibility: visible;} #topo path.selection {fill: none; stroke: red; stroke-width: 1px; vector-effect: non-scaling-stroke; visibility: visible;} #topo path.utilization {visibility: hidden;}</style>
+<path data-id="0-5" d="M283.00,-248.00,339.00,-151.00"/>
+<path data-id="0-6" d="M283.00,-248.00,185.00,-323.00"/>
+<path data-id="0-7" d="M283.00,-248.00,384.00,-298.00"/>
+<path data-id="1-2" d="M451.00,-201.00,516.00,-230.00"/>
+<path data-id="1-4" d="M451.00,-201.00,459.00,-31.00"/>
+<path data-id="1-5" d="M451.00,-201.00,339.00,-151.00"/>
+<path data-id="2-4" d="M516.00,-230.00,459.00,-31.00"/>
+<path data-id="2-7" d="M516.00,-230.00,384.00,-298.00"/>
+<path data-id="3-4" d="M324.00,-43.00,459.00,-31.00"/>
+<path data-id="3-5" d="M324.00,-43.00,339.00,-151.00"/>
+<path data-id="5-12" d="M339.00,-151.00,216.00,-59.00"/>
+<path data-id="6-9" d="M185.00,-323.00,147.00,-403.00"/>
+<path data-id="6-13" d="M185.00,-323.00,97.00,-218.00"/>
+<path data-id="7-8" d="M384.00,-298.00,318.00,-353.00"/>
+<path data-id="7-14" d="M384.00,-298.00,463.00,-431.00"/>
+<path data-id="8-9" d="M318.00,-353.00,147.00,-403.00"/>
+<path data-id="8-11" d="M318.00,-353.00,253.00,-466.00"/>
+<path data-id="8-14" d="M318.00,-353.00,463.00,-431.00"/>
+<path data-id="9-11" d="M147.00,-403.00,253.00,-466.00"/>
+<path data-id="10-12" d="M56.00,-132.00,216.00,-59.00"/>
+<path data-id="10-13" d="M56.00,-132.00,97.00,-218.00"/>
+<path data-id="12-13" d="M216.00,-59.00,97.00,-218.00"/>
+<circle data-id="0" cx="283.00" cy="-248.00" r="3.68px"/>
+<text data-id="0" x="283.00" y="-248.00">N1</text>
+<circle data-id="1" cx="451.00" cy="-201.00" r="3.68px"/>
+<text data-id="1" x="451.00" y="-201.00">N2</text>
+<circle data-id="2" cx="516.00" cy="-230.00" r="3.68px"/>
+<text data-id="2" x="516.00" y="-230.00">N3</text>
+<circle data-id="3" cx="324.00" cy="-43.00" r="3.68px"/>
+<text data-id="3" x="324.00" y="-43.00">N4</text>
+<circle data-id="4" cx="459.00" cy="-31.00" r="3.68px"/>
+<text data-id="4" x="459.00" y="-31.00">N5</text>
+<circle data-id="5" cx="339.00" cy="-151.00" r="3.68px"/>
+<text data-id="5" x="339.00" y="-151.00">N6</text>
+<circle data-id="6" cx="185.00" cy="-323.00" r="3.68px"/>
+<text data-id="6" x="185.00" y="-323.00">N7</text>
+<circle data-id="7" cx="384.00" cy="-298.00" r="3.68px"/>
+<text data-id="7" x="384.00" y="-298.00">N8</text>
+<circle data-id="8" cx="318.00" cy="-353.00" r="3.68px"/>
+<text data-id="8" x="318.00" y="-353.00">N9</text>
+<circle data-id="9" cx="147.00" cy="-403.00" r="3.68px"/>
+<text data-id="9" x="147.00" y="-403.00">N10</text>
+<circle data-id="10" cx="56.00" cy="-132.00" r="3.68px"/>
+<text data-id="10" x="56.00" y="-132.00">N11</text>
+<circle data-id="11" cx="253.00" cy="-466.00" r="3.68px"/>
+<text data-id="11" x="253.00" y="-466.00">N12</text>
+<circle data-id="12" cx="216.00" cy="-59.00" r="3.68px"/>
+<text data-id="12" x="216.00" y="-59.00">N13</text>
+<circle data-id="13" cx="97.00" cy="-218.00" r="3.68px"/>
+<text data-id="13" x="97.00" y="-218.00">N14</text>
+<circle data-id="14" cx="463.00" cy="-431.00" r="3.68px"/>
+<text data-id="14" x="463.00" y="-431.00">N15</text>
+</svg>

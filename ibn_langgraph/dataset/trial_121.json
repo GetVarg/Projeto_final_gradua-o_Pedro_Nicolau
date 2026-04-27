@@ -1,0 +1,716 @@
+{
+  "dataset_name": "plan_items_inputs",
+  "source_dataset": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\primeiro_dataset.json",
+  "topologies_source": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\topologias_convertidas\\africa.json",
+  "num_records": 4,
+  "num_topologies_used": 1,
+  "num_items": 1,
+  "items": [
+    {
+      "id": "121__africa",
+      "input": {
+        "dataset_name": "plan_items_inputs",
+        "source_dataset": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\primeiro_dataset.json",
+        "topologies_source": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\topologias_convertidas\\africa.json",
+        "num_records": 4,
+        "num_topologies_used": 1,
+        "topology_id": "africa",
+        "topology_path": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\topologias_convertidas\\africa.json",
+        "topology_slice": {
+          "devices": {
+            "6272": {
+              "type": "router",
+              "interfaces": {
+                "6272-eth0": {
+                  "ip": "10.0.0.1",
+                  "cidr": "10.0.0.0/30",
+                  "peer": "1433-eth0"
+                },
+                "6272-eth1": {
+                  "ip": "10.0.1.1",
+                  "cidr": "10.0.1.0/30",
+                  "peer": "6261-eth0"
+                }
+              },
+              "meta": {
+                "source_name": "6272",
+                "source_id": 6272,
+                "topology_id": "africa"
+              }
+            },
+            "6252": {
+              "type": "router",
+              "interfaces": {
+                "6252-eth0": {
+                  "ip": "10.0.9.1",
+                  "cidr": "10.0.9.0/30",
+                  "peer": "1433-eth1"
+                },
+                "6252-eth1": {
+                  "ip": "10.0.10.1",
+                  "cidr": "10.0.10.0/30",
+                  "peer": "6241-eth0"
+                }
+              },
+              "meta": {
+                "source_name": "6252",
+                "source_id": 6252,
+                "topology_id": "africa"
+              }
+            },
+            "5893": {
+              "type": "router",
+              "interfaces": {
+                "5893-eth0": {
+                  "ip": "10.0.30.1",
+                  "cidr": "10.0.30.0/30",
+                  "peer": "1433-eth2"
+                },
+                "5893-eth1": {
+                  "ip": "10.0.31.1",
+                  "cidr": "10.0.31.0/30",
+                  "peer": "5881-eth0"
+                }
+              },
+              "meta": {
+                "source_name": "5893",
+                "source_id": 5893,
+                "topology_id": "africa"
+              }
+            },
+            "5014": {
+              "type": "router",
+              "interfaces": {
+                "5014-eth0": {
+                  "ip": "10.0.92.1",
+                  "cidr": "10.0.92.0/30",
+                  "peer": "1433-eth3"
+                },
+                "5014-eth1": {
+                  "ip": "10.0.93.1",
+                  "cidr": "10.0.93.0/30",
+                  "peer": "4996-eth0"
+                }
+              },
+              "meta": {
+                "source_name": "5014",
+                "source_id": 5014,
+                "topology_id": "africa"
+              }
+            },
+            "4377": {
+              "type": "router",
+              "interfaces": {
+                "4377-eth0": {
+                  "ip": "10.0.164.2",
+                  "cidr": "10.0.164.0/30",
+                  "peer": "4392-eth1"
+                },
+                "4377-eth1": {
+                  "ip": "10.0.165.2",
+                  "cidr": "10.0.165.0/30",
+                  "peer": "4388-eth0"
+                },
+                "4377-eth2": {
+                  "ip": "10.0.171.1",
+                  "cidr": "10.0.171.0/30",
+                  "peer": "1433-eth4"
+                }
+              },
+              "meta": {
+                "source_name": "4377",
+                "source_id": 4377,
+                "topology_id": "africa"
+              }
+            },
+            "3009": {
+              "type": "router",
+              "interfaces": {
+                "3009-eth0": {
+                  "ip": "10.1.9.1",
+                  "cidr": "10.1.9.0/30",
+                  "peer": "3005-eth0"
+                },
+                "3009-eth1": {
+                  "ip": "10.1.10.1",
+                  "cidr": "10.1.10.0/30",
+                  "peer": "1433-eth5"
+                }
+              },
+              "meta": {
+                "source_name": "3009",
+                "source_id": 3009,
+                "topology_id": "africa"
+              }
+            },
+            "1433": {
+              "type": "router",
+              "interfaces": {
+                "1433-eth0": {
+                  "ip": "10.0.0.2",
+                  "cidr": "10.0.0.0/30",
+                  "peer": "6272-eth0"
+                },
+                "1433-eth1": {
+                  "ip": "10.0.9.2",
+                  "cidr": "10.0.9.0/30",
+                  "peer": "6252-eth0"
+                },
+                "1433-eth2": {
+                  "ip": "10.0.30.2",
+                  "cidr": "10.0.30.0/30",
+                  "peer": "5893-eth0"
+                },
+                "1433-eth3": {
+                  "ip": "10.0.92.2",
+                  "cidr": "10.0.92.0/30",
+                  "peer": "5014-eth0"
+                },
+                "1433-eth4": {
+                  "ip": "10.0.171.2",
+                  "cidr": "10.0.171.0/30",
+                  "peer": "4377-eth2"
+                },
+                "1433-eth5": {
+                  "ip": "10.1.10.2",
+                  "cidr": "10.1.10.0/30",
+                  "peer": "3009-eth1"
+                },
+                "1433-eth6": {
+                  "ip": "10.1.183.1",
+                  "cidr": "10.1.183.0/30",
+                  "peer": "937-eth1"
+                },
+                "1433-eth7": {
+                  "ip": "10.1.184.1",
+                  "cidr": "10.1.184.0/30",
+                  "peer": "935-eth1"
+                }
+              },
+              "meta": {
+                "source_name": "1433",
+                "source_id": 1433,
+                "topology_id": "africa"
+              }
+            },
+            "937": {
+              "type": "router",
+              "interfaces": {
+                "937-eth0": {
+                  "ip": "10.1.155.2",
+                  "cidr": "10.1.155.0/30",
+                  "peer": "1668-eth4"
+                },
+                "937-eth1": {
+                  "ip": "10.1.183.2",
+                  "cidr": "10.1.183.0/30",
+                  "peer": "1433-eth6"
+                }
+              },
+              "meta": {
+                "source_name": "937",
+                "source_id": 937,
+                "topology_id": "africa"
+              }
+            },
+            "935": {
+              "type": "router",
+              "interfaces": {
+                "935-eth0": {
+                  "ip": "10.1.156.2",
+                  "cidr": "10.1.156.0/30",
+                  "peer": "1668-eth5"
+                },
+                "935-eth1": {
+                  "ip": "10.1.184.2",
+                  "cidr": "10.1.184.0/30",
+                  "peer": "1433-eth7"
+                },
+                "935-eth2": {
+                  "ip": "10.1.234.1",
+                  "cidr": "10.1.234.0/30",
+                  "peer": "933-eth1"
+                },
+                "935-eth3": {
+                  "ip": "10.1.235.1",
+                  "cidr": "10.1.235.0/30",
+                  "peer": "929-eth2"
+                }
+              },
+              "meta": {
+                "source_name": "935",
+                "source_id": 935,
+                "topology_id": "africa"
+              }
+            }
+          },
+          "networks": {
+            "LINK_6272_1433": {
+              "cidr": "10.0.0.0/30",
+              "gateway_device": "6272",
+              "meta": {
+                "kind": "p2p_link",
+                "endpoint_a": "6272",
+                "endpoint_b": "1433"
+              }
+            },
+            "LINK_6252_1433": {
+              "cidr": "10.0.9.0/30",
+              "gateway_device": "6252",
+              "meta": {
+                "kind": "p2p_link",
+                "endpoint_a": "6252",
+                "endpoint_b": "1433"
+              }
+            },
+            "LINK_5893_1433": {
+              "cidr": "10.0.30.0/30",
+              "gateway_device": "5893",
+              "meta": {
+                "kind": "p2p_link",
+                "endpoint_a": "5893",
+                "endpoint_b": "1433"
+              }
+            },
+            "LINK_5014_1433": {
+              "cidr": "10.0.92.0/30",
+              "gateway_device": "5014",
+              "meta": {
+                "kind": "p2p_link",
+                "endpoint_a": "5014",
+                "endpoint_b": "1433"
+              }
+            },
+            "LINK_4377_1433": {
+              "cidr": "10.0.171.0/30",
+              "gateway_device": "4377",
+              "meta": {
+                "kind": "p2p_link",
+                "endpoint_a": "4377",
+                "endpoint_b": "1433"
+              }
+            },
+            "LINK_3009_1433": {
+              "cidr": "10.1.10.0/30",
+              "gateway_device": "3009",
+              "meta": {
+                "kind": "p2p_link",
+                "endpoint_a": "3009",
+                "endpoint_b": "1433"
+              }
+            },
+            "LINK_1433_937": {
+              "cidr": "10.1.183.0/30",
+              "gateway_device": "1433",
+              "meta": {
+                "kind": "p2p_link",
+                "endpoint_a": "1433",
+                "endpoint_b": "937"
+              }
+            },
+            "LINK_1433_935": {
+              "cidr": "10.1.184.0/30",
+              "gateway_device": "1433",
+              "meta": {
+                "kind": "p2p_link",
+                "endpoint_a": "1433",
+                "endpoint_b": "935"
+              }
+            }
+          }
+        },
+        "records": [
+          {
+            "input": {
+              "root_intent": "On router 1433, in BGP 64512, advertise 10.1.10.0/30, set local-preference to 200, enable graceful-restart, and configure neighbor 10.0.0.1 with remote-as 64512",
+              "intent_text": "Advertise network 10.1.10.0/30 in the BGP process with local AS 64512 on router 1433",
+              "op_spec": {
+                "op": "protocols_config",
+                "description": "",
+                "targets": [],
+                "requires": [],
+                "optional": [],
+                "args_schema": {},
+                "examples": []
+              },
+              "entities": [
+                {
+                  "type": "router",
+                  "value": "1433",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "ip",
+                  "value": "10.0.0.1",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "subnet",
+                  "value": "10.1.10.0/30",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "service",
+                  "value": "BGP",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "service",
+                  "value": "graceful-restart",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                }
+              ],
+              "notes": {
+                "protocol": "bgp",
+                "scope": "process"
+              }
+            },
+            "meta": {
+              "source_dataset_id": 121,
+              "task_view": "discretize_intent",
+              "subintent_id": "S1",
+              "anchors": [
+                "1433",
+                "64512",
+                "10.1.10.0/30"
+              ],
+              "classification_raw": {
+                "op": "protocols_config"
+              },
+              "entity_selectors": [
+                {
+                  "kind": "device_set",
+                  "device_type": "router",
+                  "quantifier": "any",
+                  "constraints": [],
+                  "role": "sources"
+                }
+              ],
+              "warnings": [
+                "Unknown interfaces referenced by intent: router 1433",
+                "selector_hits=1 | RAG base_hits=1 thr=0.35 | expanded_hits=17 thr=0.35"
+              ],
+              "needs_human": true,
+              "topology_id": "africa",
+              "topology_path": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\topologias_convertidas\\africa.json",
+              "rag": {
+                "q_base": "1433 10.0.0.1 10.1.10.0/30 BGP graceful-restart router",
+                "q_exp": "1433",
+                "base_hits": 1,
+                "expanded_hits": 17,
+                "base_threshold": 0.35,
+                "expanded_threshold": 0.35,
+                "selector_devices": [
+                  "6272"
+                ],
+                "selector_hits": 1
+              }
+            }
+          },
+          {
+            "input": {
+              "root_intent": "On router 1433, in BGP 64512, advertise 10.1.10.0/30, set local-preference to 200, enable graceful-restart, and configure neighbor 10.0.0.1 with remote-as 64512",
+              "intent_text": "Set local-preference to 200 in the BGP process with local AS 64512 on router 1433",
+              "op_spec": {
+                "op": "protocols_config",
+                "description": "",
+                "targets": [],
+                "requires": [],
+                "optional": [],
+                "args_schema": {},
+                "examples": []
+              },
+              "entities": [
+                {
+                  "type": "router",
+                  "value": "1433",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "ip",
+                  "value": "10.0.0.1",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "subnet",
+                  "value": "10.1.10.0/30",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "service",
+                  "value": "BGP",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "service",
+                  "value": "graceful-restart",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                }
+              ],
+              "notes": {
+                "protocol": "bgp",
+                "attribute": "local_preference",
+                "scope": "process"
+              }
+            },
+            "meta": {
+              "source_dataset_id": 121,
+              "task_view": "discretize_intent",
+              "subintent_id": "S2",
+              "anchors": [
+                "1433",
+                "64512",
+                "200"
+              ],
+              "classification_raw": {
+                "op": "protocols_config"
+              },
+              "entity_selectors": [
+                {
+                  "kind": "device_set",
+                  "device_type": "router",
+                  "quantifier": "any",
+                  "constraints": [],
+                  "role": "sources"
+                }
+              ],
+              "warnings": [
+                "Unknown interfaces referenced by intent: router 1433",
+                "selector_hits=1 | RAG base_hits=1 thr=0.35 | expanded_hits=17 thr=0.35"
+              ],
+              "needs_human": true,
+              "topology_id": "africa",
+              "topology_path": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\topologias_convertidas\\africa.json",
+              "rag": {
+                "q_base": "1433 10.0.0.1 10.1.10.0/30 BGP graceful-restart router",
+                "q_exp": "1433",
+                "base_hits": 1,
+                "expanded_hits": 17,
+                "base_threshold": 0.35,
+                "expanded_threshold": 0.35,
+                "selector_devices": [
+                  "6272"
+                ],
+                "selector_hits": 1
+              }
+            }
+          },
+          {
+            "input": {
+              "root_intent": "On router 1433, in BGP 64512, advertise 10.1.10.0/30, set local-preference to 200, enable graceful-restart, and configure neighbor 10.0.0.1 with remote-as 64512",
+              "intent_text": "Enable graceful restart in the BGP process with local AS 64512 on router 1433",
+              "op_spec": {
+                "op": "protocols_config",
+                "description": "",
+                "targets": [],
+                "requires": [],
+                "optional": [],
+                "args_schema": {},
+                "examples": []
+              },
+              "entities": [
+                {
+                  "type": "router",
+                  "value": "1433",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "ip",
+                  "value": "10.0.0.1",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "subnet",
+                  "value": "10.1.10.0/30",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "service",
+                  "value": "BGP",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "service",
+                  "value": "graceful-restart",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                }
+              ],
+              "notes": {
+                "protocol": "bgp",
+                "scope": "process"
+              }
+            },
+            "meta": {
+              "source_dataset_id": 121,
+              "task_view": "discretize_intent",
+              "subintent_id": "S3",
+              "anchors": [
+                "1433",
+                "64512",
+                "graceful-restart"
+              ],
+              "classification_raw": {
+                "op": "protocols_config"
+              },
+              "entity_selectors": [
+                {
+                  "kind": "device_set",
+                  "device_type": "router",
+                  "quantifier": "any",
+                  "constraints": [],
+                  "role": "sources"
+                }
+              ],
+              "warnings": [
+                "Unknown interfaces referenced by intent: router 1433",
+                "selector_hits=1 | RAG base_hits=1 thr=0.35 | expanded_hits=17 thr=0.35"
+              ],
+              "needs_human": true,
+              "topology_id": "africa",
+              "topology_path": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\topologias_convertidas\\africa.json",
+              "rag": {
+                "q_base": "1433 10.0.0.1 10.1.10.0/30 BGP graceful-restart router",
+                "q_exp": "1433",
+                "base_hits": 1,
+                "expanded_hits": 17,
+                "base_threshold": 0.35,
+                "expanded_threshold": 0.35,
+                "selector_devices": [
+                  "6272"
+                ],
+                "selector_hits": 1
+              }
+            }
+          },
+          {
+            "input": {
+              "root_intent": "On router 1433, in BGP 64512, advertise 10.1.10.0/30, set local-preference to 200, enable graceful-restart, and configure neighbor 10.0.0.1 with remote-as 64512",
+              "intent_text": "Configure neighbor 10.0.0.1 with remote AS 64512 in the BGP process on router 1433",
+              "op_spec": {
+                "op": "protocols_config",
+                "description": "",
+                "targets": [],
+                "requires": [],
+                "optional": [],
+                "args_schema": {},
+                "examples": []
+              },
+              "entities": [
+                {
+                  "type": "router",
+                  "value": "1433",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "ip",
+                  "value": "10.0.0.1",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "subnet",
+                  "value": "10.1.10.0/30",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "service",
+                  "value": "BGP",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "service",
+                  "value": "graceful-restart",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                }
+              ],
+              "notes": {
+                "protocol": "bgp"
+              }
+            },
+            "meta": {
+              "source_dataset_id": 121,
+              "task_view": "discretize_intent",
+              "subintent_id": "S4",
+              "anchors": [
+                "1433",
+                "10.0.0.1",
+                "64512"
+              ],
+              "classification_raw": {
+                "op": "protocols_config"
+              },
+              "entity_selectors": [
+                {
+                  "kind": "device_set",
+                  "device_type": "router",
+                  "quantifier": "any",
+                  "constraints": [],
+                  "role": "sources"
+                }
+              ],
+              "warnings": [
+                "Unknown interfaces referenced by intent: router 1433",
+                "selector_hits=1 | RAG base_hits=1 thr=0.35 | expanded_hits=17 thr=0.35"
+              ],
+              "needs_human": true,
+              "topology_id": "africa",
+              "topology_path": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\topologias_convertidas\\africa.json",
+              "rag": {
+                "q_base": "1433 10.0.0.1 10.1.10.0/30 BGP graceful-restart router",
+                "q_exp": "1433",
+                "base_hits": 1,
+                "expanded_hits": 17,
+                "base_threshold": 0.35,
+                "expanded_threshold": 0.35,
+                "selector_devices": [
+                  "6272"
+                ],
+                "selector_hits": 1
+              }
+            }
+          }
+        ]
+      },
+      "output": {}
+    }
+  ]
+}

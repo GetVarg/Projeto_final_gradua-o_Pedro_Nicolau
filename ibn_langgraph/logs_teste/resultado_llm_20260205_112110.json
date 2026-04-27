@@ -1,0 +1,7 @@
+[
+    {
+        "id": 1,
+        "intent_original": "Configure router r2 with a static route to reach the 10.4.0.0/24 network via r0.",
+        "erro": "'ExecPlan' object is not subscriptable"
+    }
+]

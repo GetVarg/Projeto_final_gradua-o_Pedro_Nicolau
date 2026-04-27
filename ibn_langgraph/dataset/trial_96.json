@@ -1,0 +1,239 @@
+{
+  "dataset_name": "plan_items_inputs",
+  "source_dataset": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\primeiro_dataset.json",
+  "topologies_source": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\topologias_convertidas\\africa.json",
+  "num_records": 1,
+  "num_topologies_used": 1,
+  "num_items": 1,
+  "items": [
+    {
+      "id": "96__africa",
+      "input": {
+        "dataset_name": "plan_items_inputs",
+        "source_dataset": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\primeiro_dataset.json",
+        "topologies_source": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\topologias_convertidas\\africa.json",
+        "num_records": 1,
+        "num_topologies_used": 1,
+        "topology_id": "africa",
+        "topology_path": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\topologias_convertidas\\africa.json",
+        "topology_slice": {
+          "devices": {
+            "3033": {
+              "type": "router",
+              "interfaces": {
+                "3033-eth0": {
+                  "ip": "10.1.0.2",
+                  "cidr": "10.1.0.0/30",
+                  "peer": "3035-eth1"
+                },
+                "3033-eth1": {
+                  "ip": "10.1.1.1",
+                  "cidr": "10.1.1.0/30",
+                  "peer": "3031-eth0"
+                }
+              },
+              "meta": {
+                "source_name": "3033",
+                "source_id": 3033,
+                "topology_id": "africa"
+              }
+            },
+            "3037": {
+              "type": "router",
+              "interfaces": {
+                "3037-eth0": {
+                  "ip": "10.0.254.2",
+                  "cidr": "10.0.254.0/30",
+                  "peer": "3039-eth1"
+                },
+                "3037-eth1": {
+                  "ip": "10.0.255.1",
+                  "cidr": "10.0.255.0/30",
+                  "peer": "3035-eth0"
+                }
+              },
+              "meta": {
+                "source_name": "3037",
+                "source_id": 3037,
+                "topology_id": "africa"
+              }
+            },
+            "3035": {
+              "type": "router",
+              "interfaces": {
+                "3035-eth0": {
+                  "ip": "10.0.255.2",
+                  "cidr": "10.0.255.0/30",
+                  "peer": "3037-eth1"
+                },
+                "3035-eth1": {
+                  "ip": "10.1.0.1",
+                  "cidr": "10.1.0.0/30",
+                  "peer": "3033-eth0"
+                }
+              },
+              "meta": {
+                "source_name": "3035",
+                "source_id": 3035,
+                "topology_id": "africa"
+              }
+            }
+          },
+          "networks": {
+            "LINK_3037_3035": {
+              "cidr": "10.0.255.0/30",
+              "gateway_device": "3037",
+              "meta": {
+                "kind": "p2p_link",
+                "endpoint_a": "3037",
+                "endpoint_b": "3035"
+              }
+            },
+            "LINK_3035_3033": {
+              "cidr": "10.1.0.0/30",
+              "gateway_device": "3035",
+              "meta": {
+                "kind": "p2p_link",
+                "endpoint_a": "3035",
+                "endpoint_b": "3033"
+              }
+            }
+          }
+        },
+        "records": [
+          {
+            "input": {
+              "root_intent": "Configure router 3035 with a static route to 10.1.2.0/30 via 10.1.0.2 with administrative distance 50",
+              "intent_text": "Configure router 3035 with a static route to 10.1.2.0/30 via 10.1.0.2 with administrative distance 50",
+              "op_spec": {
+                "op": "static_route_add",
+                "description": "Add a static route on a device to reach a destination prefix via a next-hop gateway, output interface, or null route.",
+                "targets": [
+                  "router",
+                  "host"
+                ],
+                "requires": [
+                  "target_network"
+                ],
+                "optional": [
+                  "exit_gateway",
+                  "out_interface",
+                  "distance",
+                  "metric",
+                  "tag",
+                  "vrf_name",
+                  "blackhole",
+                  "address_family"
+                ],
+                "args_schema": {},
+                "examples": []
+              },
+              "entities": [
+                {
+                  "type": "router",
+                  "value": "3035",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "ip",
+                  "value": "10.1.0.2",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "subnet",
+                  "value": "10.1.2.0/30",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "service",
+                  "value": "static route",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                }
+              ],
+              "notes": {
+                "administrative_distance": 50
+              }
+            },
+            "meta": {
+              "source_dataset_id": 96,
+              "task_view": "discretize_intent",
+              "subintent_id": "S1",
+              "anchors": [
+                "3035",
+                "10.1.2.0/30",
+                "10.1.0.2",
+                "50"
+              ],
+              "classification_raw": {
+                "op": "static_route_add"
+              },
+              "entity_selectors": [],
+              "warnings": [
+                "Unknown interfaces referenced by intent: r2-eth0",
+                "selector_hits=0 | RAG base_hits=1 thr=0.35 | expanded_hits=5 thr=0.35"
+              ],
+              "needs_human": true,
+              "topology_id": "africa",
+              "topology_path": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\topologias_convertidas\\africa.json",
+              "rag": {
+                "q_base": "3035 10.1.0.2 10.1.2.0/30 static route",
+                "q_exp": "3035",
+                "base_hits": 1,
+                "expanded_hits": 5,
+                "base_threshold": 0.35,
+                "expanded_threshold": 0.35,
+                "selector_devices": [],
+                "selector_hits": 0
+              }
+            }
+          }
+        ]
+      },
+      "output": {
+        "esperado": {
+          "steps": [
+            {
+              "device": "3035",
+              "op": "static_route_add_frr",
+              "command": "ip route",
+              "args": {
+                "dst_cidr": "10.1.2.0/30",
+                "next_hop_ip": "10.1.0.2",
+                "administrative_distance": 50
+              }
+            }
+          ],
+          "missing": [],
+          "notes_used": [
+            "administrative_distance"
+          ]
+        },
+        "recebido": {
+          "steps": [
+            {
+              "device": "3035",
+              "op": "static_route_add_frr",
+              "args": {
+                "target_network": "10.1.2.0/30",
+                "exit_gateway": "10.1.0.2",
+                "distance": 50
+              }
+            }
+          ],
+          "missing": [],
+          "notes_used": [
+            "administrative_distance"
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,183 @@
+{
+  "devices": {
+    "10": {
+      "type": "router",
+      "interfaces": {
+        "10-eth0": {
+          "ip": "10.0.0.1",
+          "cidr": "10.0.0.0/30",
+          "peer": "11-eth0"
+        },
+        "10-eth1": {
+          "ip": "10.0.1.1",
+          "cidr": "10.0.1.0/30",
+          "peer": "15-eth0"
+        },
+        "10-eth2": {
+          "ip": "172.16.0.1",
+          "cidr": "172.16.0.0/24",
+          "peer": "h_10_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "10",
+        "source_id": "10",
+        "topology_id": "topozoo/Pacificwave"
+      }
+    },
+    "11": {
+      "type": "router",
+      "interfaces": {
+        "11-eth0": {
+          "ip": "10.0.0.2",
+          "cidr": "10.0.0.0/30",
+          "peer": "10-eth0"
+        },
+        "11-eth1": {
+          "ip": "10.0.2.1",
+          "cidr": "10.0.2.0/30",
+          "peer": "15-eth1"
+        },
+        "11-eth2": {
+          "ip": "172.16.1.1",
+          "cidr": "172.16.1.0/24",
+          "peer": "h_11_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "11",
+        "source_id": "11",
+        "topology_id": "topozoo/Pacificwave"
+      }
+    },
+    "15": {
+      "type": "router",
+      "interfaces": {
+        "15-eth0": {
+          "ip": "10.0.1.2",
+          "cidr": "10.0.1.0/30",
+          "peer": "10-eth1"
+        },
+        "15-eth1": {
+          "ip": "10.0.2.2",
+          "cidr": "10.0.2.0/30",
+          "peer": "11-eth1"
+        },
+        "15-eth2": {
+          "ip": "172.16.2.1",
+          "cidr": "172.16.2.0/24",
+          "peer": "h_15_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "15",
+        "source_id": "15",
+        "topology_id": "topozoo/Pacificwave"
+      }
+    },
+    "h_10_1": {
+      "type": "host",
+      "interfaces": {
+        "h_10_1-eth0": {
+          "ip": "172.16.0.10",
+          "cidr": "172.16.0.0/24",
+          "peer": "10-eth2"
+        }
+      },
+      "meta": {
+        "attached_to": "10",
+        "topology_id": "topozoo/Pacificwave"
+      }
+    },
+    "h_11_1": {
+      "type": "host",
+      "interfaces": {
+        "h_11_1-eth0": {
+          "ip": "172.16.1.10",
+          "cidr": "172.16.1.0/24",
+          "peer": "11-eth2"
+        }
+      },
+      "meta": {
+        "attached_to": "11",
+        "topology_id": "topozoo/Pacificwave"
+      }
+    },
+    "h_15_1": {
+      "type": "host",
+      "interfaces": {
+        "h_15_1-eth0": {
+          "ip": "172.16.2.10",
+          "cidr": "172.16.2.0/24",
+          "peer": "15-eth2"
+        }
+      },
+      "meta": {
+        "attached_to": "15",
+        "topology_id": "topozoo/Pacificwave"
+      }
+    }
+  },
+  "networks": {
+    "LINK_10_11": {
+      "cidr": "10.0.0.0/30",
+      "gateway_device": "10",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "10",
+        "endpoint_b": "11"
+      }
+    },
+    "LINK_10_15": {
+      "cidr": "10.0.1.0/30",
+      "gateway_device": "10",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "10",
+        "endpoint_b": "15"
+      }
+    },
+    "LINK_11_15": {
+      "cidr": "10.0.2.0/30",
+      "gateway_device": "11",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "11",
+        "endpoint_b": "15"
+      }
+    },
+    "LAN_10_1": {
+      "cidr": "172.16.0.0/24",
+      "gateway_device": "10",
+      "gateway_ip": "172.16.0.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_10_1"
+      }
+    },
+    "LAN_11_1": {
+      "cidr": "172.16.1.0/24",
+      "gateway_device": "11",
+      "gateway_ip": "172.16.1.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_11_1"
+      }
+    },
+    "LAN_15_1": {
+      "cidr": "172.16.2.0/24",
+      "gateway_device": "15",
+      "gateway_ip": "172.16.2.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_15_1"
+      }
+    }
+  },
+  "meta": {
+    "source": "topohub",
+    "topology_id": "topozoo/Pacificwave",
+    "num_source_nodes": 3,
+    "num_source_edges": 3
+  }
+}

@@ -1,42 +1,402 @@
 {
-  "static_route_add": {
-    "context": "router linux",
-    "templates": [
-      "ip route add {target_network} via {exit_gateway_ip}"
-    ]
-  },
   "static_route_del": {
     "context": "router linux",
+    "required_step_args": [
+      "dst_cidr"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
     "templates": [
       "ip route del {dst_cidr}"
     ]
   },
   "ip_forward_enable": {
-    "context": "router/host linux",
-    "templates": ["sysctl -w net.ipv4.ip_forward=1"]
+    "context": "router linux",
+    "required_step_args": [
+      "address_family"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "variants": [
+      {
+        "variant": "ipv4",
+        "match": {
+          "address_family": "ipv4"
+        },
+        "templates": [
+          "sysctl -w net.ipv4.ip_forward=1"
+        ]
+      },
+      {
+        "variant": "ipv6",
+        "match": {
+          "address_family": "ipv6"
+        },
+        "templates": [
+          "sysctl -w net.ipv6.conf.all.forwarding=1"
+        ]
+      }
+    ]
   },
   "icmp_ping": {
     "context": "router/host linux",
+    "required_step_args": [
+      "dst_ip"
+    ],
+    "derivable_step_args": [],
+    "default_args": {
+      "count": 3
+    },
     "templates": [
       "ping -c {count} {dst_ip}"
     ]
   },
   "firewall_drop_icmp_src": {
     "context": "router linux",
-    "templates": ["iptables -A FORWARD -p icmp -s {src_cidr} -j DROP"]
+    "required_step_args": [
+      "src_cidr"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "templates": [
+      "iptables -A FORWARD -p icmp -s {src_cidr} -j DROP"
+    ]
   },
   "interface_up": {
     "context": "any linux",
-    "templates": ["ip link set {interface} up"]
+    "required_step_args": [
+      "interface"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "templates": [
+      "ip link set {interface} up"
+    ]
   },
   "ovs_set_controller": {
     "context": "switch ovs",
-    "templates": ["ovs-vsctl set-controller {bridge} tcp:{controller_ip}:{controller_port}"]
+    "required_step_args": [
+      "bridge",
+      "controller_ip",
+      "controller_port"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "templates": [
+      "ovs-vsctl set-controller {bridge} tcp:{controller_ip}:{controller_port}"
+    ]
   },
   "connectivity_verify": {
     "context": "router/host linux",
+    "required_step_args": [
+      "dst_ip"
+    ],
+    "derivable_step_args": [],
+    "default_args": {
+      "count": 3
+    },
     "templates": [
       "ping -c {count} {dst_ip}"
+    ]
+  },
+  "firewall_allow_pair": {
+    "context": "router linux",
+    "required_step_args": [
+      "src_ip",
+      "dst_ip"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "templates": [
+      "iptables -C FORWARD -s {src_ip} -d {dst_ip} -j ACCEPT 2>/dev/null || iptables -I FORWARD -s {src_ip} -d {dst_ip} -j ACCEPT",
+      "iptables -C FORWARD -s {dst_ip} -d {src_ip} -j ACCEPT 2>/dev/null || iptables -I FORWARD -s {dst_ip} -d {src_ip} -j ACCEPT"
+    ]
+  },
+  "qos_prioritize_pair": {
+    "context": "host linux",
+    "required_step_args": [
+      "src_host",
+      "dst_host"
+    ],
+    "derivable_step_args": [
+      "dst_ip"
+    ],
+    "default_args": {
+      "mark": 10
+    },
+    "templates": [
+      "echo '[qos_prioritize_pair] src={src_host} dst={dst_ip} mark={mark}'",
+      "iptables -t mangle -C OUTPUT -d {dst_ip} -j MARK --set-mark {mark} 2>/dev/null || iptables -t mangle -A OUTPUT -d {dst_ip} -j MARK --set-mark {mark}",
+      "tc qdisc replace dev {src_host}-eth0 root handle 1: prio",
+      "tc filter replace dev {src_host}-eth0 parent 1: protocol ip prio 1 handle {mark} fw flowid 1:1"
+    ]
+  },
+  "firewall_drop_subnet_pair": {
+    "context": "router linux",
+    "required_step_args": [
+      "src_cidr",
+      "dst_cidr"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "templates": [
+      "iptables -C FORWARD -s {src_cidr} -d {dst_cidr} -j DROP 2>/dev/null || iptables -A FORWARD -s {src_cidr} -d {dst_cidr} -j DROP"
+    ]
+  },
+  "interface_l3_address_config": {
+    "context": "router frr/linux",
+    "required_step_args": [
+      "interface",
+      "address_family"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "variants": [
+      {
+        "variant": "ipv4_primary",
+        "match": {
+          "address_family": "ipv4"
+        },
+        "templates": [
+          "vtysh -c 'configure terminal' -c 'interface {interface}' -c 'ip address {ipv4}/{prefix_len}'"
+        ]
+      },
+      {
+        "variant": "ipv4_secondary",
+        "match": {
+          "address_family": "ipv4",
+          "secondary": true
+        },
+        "templates": [
+          "vtysh -c 'configure terminal' -c 'interface {interface}' -c 'ip address {ipv4}/{prefix_len} secondary'"
+        ]
+      },
+      {
+        "variant": "ipv6",
+        "match": {
+          "address_family": "ipv6"
+        },
+        "templates": [
+          "vtysh -c 'configure terminal' -c 'interface {interface}' -c 'ipv6 address {ipv6_address}/{prefix_length}'"
+        ]
+      }
+    ]
+  },
+  "iface_mac_config": {
+    "context": "router/host linux",
+    "required_step_args": [
+      "interface",
+      "mac_address"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "templates": [
+      "ip link set dev {interface} address {mac_address}"
+    ]
+  },
+  "logging_config": {
+    "context": "router frr",
+    "required_step_args": [
+      "log_target"
+    ],
+    "derivable_step_args": [
+      "log_level"
+    ],
+    "default_args": {
+      "log_level": "informational"
+    },
+    "templates": [
+      "vtysh -c 'configure terminal' -c 'log file {log_target} {log_level}'"
+    ]
+  },
+  "static_route_blackhole_add": {
+    "context": "router frr",
+    "required_step_args": [
+      "dst_cidr"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "templates": [
+      "vtysh -c 'configure terminal' -c 'ip route {dst_cidr} Null0'"
+    ]
+  },
+  "static_route_add_frr": {
+    "context": "router frr",
+    "required_step_args": [
+      "dst_cidr",
+      "next_hop_ip"
+    ],
+    "derivable_step_args": [
+      "administrative_distance"
+    ],
+    "default_args": {},
+    "templates": [
+      "vtysh -c 'configure terminal' -c 'ip route {dst_cidr} {next_hop_ip}'",
+      "vtysh -c 'configure terminal' -c 'ip route {dst_cidr} {next_hop_ip} {administrative_distance}'"
+    ]
+  },
+  "arp_static_entry_config": {
+    "context": "host linux",
+    "required_step_args": [
+      "interface",
+      "target_ip",
+      "mac_address"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "templates": [
+      "arp -i {interface} -s {target_ip} {mac_address}"
+    ]
+  },
+  "ipv6_forward_enable": {
+    "context": "router/host linux",
+    "required_step_args": [],
+    "derivable_step_args": [],
+    "default_args": {},
+    "templates": [
+      "sysctl -w net.ipv6.conf.all.forwarding=1"
+    ]
+  },
+  "static_route_add_ipv6_frr": {
+    "context": "router frr",
+    "required_step_args": [
+      "dst_cidr"
+    ],
+    "derivable_step_args": [
+      "next_hop_ip",
+      "exit_interface",
+      "administrative_distance"
+    ],
+    "default_args": {},
+    "templates": [
+      "vtysh -c 'configure terminal' -c 'ipv6 route {dst_cidr} {next_hop_ip}'",
+      "vtysh -c 'configure terminal' -c 'ipv6 route {dst_cidr} {next_hop_ip} {administrative_distance}'",
+      "vtysh -c 'configure terminal' -c 'ipv6 route {dst_cidr} {exit_interface}'",
+      "vtysh -c 'configure terminal' -c 'ipv6 route {dst_cidr} {exit_interface} {administrative_distance}'"
+    ]
+  },
+  "bgp_peer_group_config": {
+    "context": "router frr",
+    "required_step_args": [
+      "local_as",
+      "peer_group_name",
+      "remote_as"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "templates": [
+      "vtysh -c 'configure terminal' -c 'router bgp {local_as}' -c 'neighbor {peer_group_name} peer-group' -c 'neighbor {peer_group_name} remote-as {remote_as}'"
+    ]
+  },
+  "bgp_neighbor_peer_group_bind": {
+    "context": "router frr",
+    "required_step_args": [
+      "local_as",
+      "neighbor_ip",
+      "peer_group_name"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "templates": [
+      "vtysh -c 'configure terminal' -c 'router bgp {local_as}' -c 'neighbor {neighbor_ip} peer-group {peer_group_name}'"
+    ]
+  },
+  "bgp_neighbor_med_set": {
+    "context": "router frr",
+    "required_step_args": [
+      "local_as",
+      "neighbor_ip",
+      "med"
+    ],
+    "derivable_step_args": [
+      "route_map_name"
+    ],
+    "default_args": {
+      "route_map_name": "SET_MED_OUT"
+    },
+    "templates": [
+      "vtysh -c 'configure terminal' -c 'route-map {route_map_name} permit 10' -c 'set metric {med}' -c 'router bgp {local_as}' -c 'neighbor {neighbor_ip} route-map {route_map_name} out'"
+    ]
+  },
+  "bgp_as_path_multipath_enable": {
+    "context": "router frr",
+    "required_step_args": [
+      "local_as"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "templates": [
+      "vtysh -c 'configure terminal' -c 'router bgp {local_as}' -c 'bgp bestpath as-path multipath-relax'"
+    ]
+  },
+  "arp_encapsulation_set": {
+    "context": "router/host linux",
+    "required_step_args": [
+      "interface",
+      "arp_enabled"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "templates": [
+      "ip link set dev {interface} arp {arp_enabled}"
+    ]
+  },
+  "interface_admin_config": {
+    "context": "router/host/switch linux",
+    "required_step_args": [
+      "interface",
+      "enabled"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "variants": [
+      {
+        "variant": "enable",
+        "match": {
+          "enabled": true
+        },
+        "templates": [
+          "ip link set {interface} up"
+        ]
+      },
+      {
+        "variant": "disable",
+        "match": {
+          "enabled": false
+        },
+        "templates": [
+          "ip link set {interface} down"
+        ]
+      }
+    ]
+  },
+  "interface_attribute_config": {
+    "context": "router frr/linux",
+    "required_step_args": [
+      "interface",
+      "attribute_type"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "variants": [
+      {
+        "variant": "description",
+        "match": {
+          "attribute_type": "description"
+        },
+        "templates": [
+          "vtysh -c 'configure terminal' -c 'interface {interface}' -c 'description {description}'"
+        ]
+      },
+      {
+        "variant": "mtu",
+        "match": {
+          "attribute_type": "mtu"
+        },
+        "templates": [
+          "vtysh -c 'configure terminal' -c 'interface {interface}' -c 'mtu {mtu}'"
+        ]
+      }
     ]
   }
 }

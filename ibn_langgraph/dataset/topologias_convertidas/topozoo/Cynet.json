@@ -1,0 +1,221 @@
+{
+  "devices": {
+    "1": {
+      "type": "router",
+      "interfaces": {
+        "1-eth0": {
+          "ip": "10.0.0.1",
+          "cidr": "10.0.0.0/30",
+          "peer": "20-eth0"
+        },
+        "1-eth1": {
+          "ip": "172.16.0.1",
+          "cidr": "172.16.0.0/24",
+          "peer": "h_1_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "1",
+        "source_id": "1",
+        "topology_id": "topozoo/Cynet"
+      }
+    },
+    "20": {
+      "type": "router",
+      "interfaces": {
+        "20-eth0": {
+          "ip": "10.0.0.2",
+          "cidr": "10.0.0.0/30",
+          "peer": "1-eth0"
+        },
+        "20-eth1": {
+          "ip": "10.0.1.1",
+          "cidr": "10.0.1.0/30",
+          "peer": "22-eth0"
+        },
+        "20-eth2": {
+          "ip": "172.16.1.1",
+          "cidr": "172.16.1.0/24",
+          "peer": "h_20_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "20",
+        "source_id": "20",
+        "topology_id": "topozoo/Cynet"
+      }
+    },
+    "22": {
+      "type": "router",
+      "interfaces": {
+        "22-eth0": {
+          "ip": "10.0.1.2",
+          "cidr": "10.0.1.0/30",
+          "peer": "20-eth1"
+        },
+        "22-eth1": {
+          "ip": "10.0.2.1",
+          "cidr": "10.0.2.0/30",
+          "peer": "29-eth0"
+        },
+        "22-eth2": {
+          "ip": "172.16.2.1",
+          "cidr": "172.16.2.0/24",
+          "peer": "h_22_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "22",
+        "source_id": "22",
+        "topology_id": "topozoo/Cynet"
+      }
+    },
+    "29": {
+      "type": "router",
+      "interfaces": {
+        "29-eth0": {
+          "ip": "10.0.2.2",
+          "cidr": "10.0.2.0/30",
+          "peer": "22-eth1"
+        },
+        "29-eth1": {
+          "ip": "172.16.3.1",
+          "cidr": "172.16.3.0/24",
+          "peer": "h_29_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "29",
+        "source_id": "29",
+        "topology_id": "topozoo/Cynet"
+      }
+    },
+    "h_1_1": {
+      "type": "host",
+      "interfaces": {
+        "h_1_1-eth0": {
+          "ip": "172.16.0.10",
+          "cidr": "172.16.0.0/24",
+          "peer": "1-eth1"
+        }
+      },
+      "meta": {
+        "attached_to": "1",
+        "topology_id": "topozoo/Cynet"
+      }
+    },
+    "h_20_1": {
+      "type": "host",
+      "interfaces": {
+        "h_20_1-eth0": {
+          "ip": "172.16.1.10",
+          "cidr": "172.16.1.0/24",
+          "peer": "20-eth2"
+        }
+      },
+      "meta": {
+        "attached_to": "20",
+        "topology_id": "topozoo/Cynet"
+      }
+    },
+    "h_22_1": {
+      "type": "host",
+      "interfaces": {
+        "h_22_1-eth0": {
+          "ip": "172.16.2.10",
+          "cidr": "172.16.2.0/24",
+          "peer": "22-eth2"
+        }
+      },
+      "meta": {
+        "attached_to": "22",
+        "topology_id": "topozoo/Cynet"
+      }
+    },
+    "h_29_1": {
+      "type": "host",
+      "interfaces": {
+        "h_29_1-eth0": {
+          "ip": "172.16.3.10",
+          "cidr": "172.16.3.0/24",
+          "peer": "29-eth1"
+        }
+      },
+      "meta": {
+        "attached_to": "29",
+        "topology_id": "topozoo/Cynet"
+      }
+    }
+  },
+  "networks": {
+    "LINK_1_20": {
+      "cidr": "10.0.0.0/30",
+      "gateway_device": "1",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "1",
+        "endpoint_b": "20"
+      }
+    },
+    "LINK_20_22": {
+      "cidr": "10.0.1.0/30",
+      "gateway_device": "20",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "20",
+        "endpoint_b": "22"
+      }
+    },
+    "LINK_22_29": {
+      "cidr": "10.0.2.0/30",
+      "gateway_device": "22",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "22",
+        "endpoint_b": "29"
+      }
+    },
+    "LAN_1_1": {
+      "cidr": "172.16.0.0/24",
+      "gateway_device": "1",
+      "gateway_ip": "172.16.0.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_1_1"
+      }
+    },
+    "LAN_20_1": {
+      "cidr": "172.16.1.0/24",
+      "gateway_device": "20",
+      "gateway_ip": "172.16.1.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_20_1"
+      }
+    },
+    "LAN_22_1": {
+      "cidr": "172.16.2.0/24",
+      "gateway_device": "22",
+      "gateway_ip": "172.16.2.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_22_1"
+      }
+    },
+    "LAN_29_1": {
+      "cidr": "172.16.3.0/24",
+      "gateway_device": "29",
+      "gateway_ip": "172.16.3.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_29_1"
+      }
+    }
+  },
+  "meta": {
+    "source": "topohub",
+    "topology_id": "topozoo/Cynet",
+    "num_source_nodes": 4,
+    "num_source_edges": 3
+  }
+}

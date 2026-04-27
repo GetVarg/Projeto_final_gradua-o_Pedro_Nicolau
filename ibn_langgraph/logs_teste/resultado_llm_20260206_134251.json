@@ -1,0 +1,142 @@
+[
+    {
+        "id": 1,
+        "intent_original": "On r1, add a static routing entry so that traffic for subnet 10.3.0.0/24 is forwarded through r0",
+        "classificacao": {
+            "name": "static_route_add",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "The intent specifies adding a static routing entry to forward traffic for subnet 10.3.0.0/24 through interface r0."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "interface",
+                "value": "r2-eth0",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "context_slice": {
+            "devices": {
+                "r0": {
+                    "interfaces": {
+                        "r0-eth1": {
+                            "peer": "r1-eth0",
+                            "ip": "10.255.1.1",
+                            "cidr": "10.255.1.0/31",
+                            "role": "transit"
+                        },
+                        "r0-eth2": {
+                            "peer": "r2-eth0",
+                            "ip": "10.255.2.1",
+                            "cidr": "10.255.2.0/31",
+                            "role": "transit"
+                        },
+                        "r0-eth3": {
+                            "peer": "r3-eth0",
+                            "ip": "10.255.3.1",
+                            "cidr": "10.255.3.0/31",
+                            "role": "transit"
+                        },
+                        "r0-eth4": {
+                            "peer": "r4-eth0",
+                            "ip": "10.255.4.1",
+                            "cidr": "10.255.4.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "r1": {
+                    "interfaces": {
+                        "r1-eth1": {
+                            "peer": "s1-eth3",
+                            "ip": "10.1.0.1",
+                            "cidr": "10.1.0.0/24",
+                            "role": "lan_uplink"
+                        },
+                        "r1-eth0": {
+                            "peer": "r0-eth1",
+                            "ip": "10.255.1.0",
+                            "cidr": "10.255.1.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "r2": {
+                    "interfaces": {
+                        "r2-eth1": {
+                            "peer": "s2-eth3",
+                            "ip": "10.2.0.1",
+                            "cidr": "10.2.0.0/24",
+                            "role": "lan_uplink"
+                        },
+                        "r2-eth0": {
+                            "peer": "r0-eth2",
+                            "ip": "10.255.2.0",
+                            "cidr": "10.255.2.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "s1": {
+                    "interfaces": {
+                        "s1-eth1": {
+                            "peer": "h11-eth0",
+                            "cidr": "10.1.0.0/24",
+                            "role": "l2_segment"
+                        },
+                        "s1-eth2": {
+                            "peer": "h12-eth0",
+                            "cidr": "10.1.0.0/24",
+                            "role": "l2_segment"
+                        },
+                        "s1-eth3": {
+                            "peer": "r1-eth1",
+                            "cidr": "10.1.0.0/24",
+                            "role": "l2_segment"
+                        }
+                    },
+                    "type": "switch"
+                },
+                "s2": {
+                    "interfaces": {
+                        "s2-eth1": {
+                            "peer": "h21-eth0",
+                            "cidr": "10.2.0.0/24",
+                            "role": "l2_segment"
+                        },
+                        "s2-eth2": {
+                            "peer": "h22-eth0",
+                            "cidr": "10.2.0.0/24",
+                            "role": "l2_segment"
+                        },
+                        "s2-eth3": {
+                            "peer": "r2-eth1",
+                            "cidr": "10.2.0.0/24",
+                            "role": "l2_segment"
+                        }
+                    },
+                    "type": "switch"
+                }
+            },
+            "networks": {}
+        },
+        "plan": {
+            "steps": [],
+            "warnings": [],
+            "needs_human": "True",
+            "dry_run": "True"
+        }
+    }
+]

@@ -1,0 +1,582 @@
+{
+  "devices": {
+    "21": {
+      "type": "router",
+      "interfaces": {
+        "21-eth0": {
+          "ip": "10.0.0.1",
+          "cidr": "10.0.0.0/30",
+          "peer": "28-eth0"
+        },
+        "21-eth1": {
+          "ip": "172.16.0.1",
+          "cidr": "172.16.0.0/24",
+          "peer": "h_21_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "21",
+        "source_id": "21",
+        "topology_id": "topozoo/Iinet"
+      }
+    },
+    "23": {
+      "type": "router",
+      "interfaces": {
+        "23-eth0": {
+          "ip": "10.0.1.1",
+          "cidr": "10.0.1.0/30",
+          "peer": "24-eth0"
+        },
+        "23-eth1": {
+          "ip": "172.16.1.1",
+          "cidr": "172.16.1.0/24",
+          "peer": "h_23_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "23",
+        "source_id": "23",
+        "topology_id": "topozoo/Iinet"
+      }
+    },
+    "24": {
+      "type": "router",
+      "interfaces": {
+        "24-eth0": {
+          "ip": "10.0.1.2",
+          "cidr": "10.0.1.0/30",
+          "peer": "23-eth0"
+        },
+        "24-eth1": {
+          "ip": "10.0.2.1",
+          "cidr": "10.0.2.0/30",
+          "peer": "25-eth0"
+        },
+        "24-eth2": {
+          "ip": "10.0.3.1",
+          "cidr": "10.0.3.0/30",
+          "peer": "27-eth0"
+        },
+        "24-eth3": {
+          "ip": "10.0.4.1",
+          "cidr": "10.0.4.0/30",
+          "peer": "29-eth0"
+        },
+        "24-eth4": {
+          "ip": "172.16.2.1",
+          "cidr": "172.16.2.0/24",
+          "peer": "h_24_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "24",
+        "source_id": "24",
+        "topology_id": "topozoo/Iinet"
+      }
+    },
+    "25": {
+      "type": "router",
+      "interfaces": {
+        "25-eth0": {
+          "ip": "10.0.2.2",
+          "cidr": "10.0.2.0/30",
+          "peer": "24-eth1"
+        },
+        "25-eth1": {
+          "ip": "10.0.5.1",
+          "cidr": "10.0.5.0/30",
+          "peer": "27-eth1"
+        },
+        "25-eth2": {
+          "ip": "10.0.6.1",
+          "cidr": "10.0.6.0/30",
+          "peer": "28-eth1"
+        },
+        "25-eth3": {
+          "ip": "172.16.3.1",
+          "cidr": "172.16.3.0/24",
+          "peer": "h_25_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "25",
+        "source_id": "25",
+        "topology_id": "topozoo/Iinet"
+      }
+    },
+    "26": {
+      "type": "router",
+      "interfaces": {
+        "26-eth0": {
+          "ip": "10.0.7.1",
+          "cidr": "10.0.7.0/30",
+          "peer": "27-eth2"
+        },
+        "26-eth1": {
+          "ip": "10.0.8.1",
+          "cidr": "10.0.8.0/30",
+          "peer": "28-eth2"
+        },
+        "26-eth2": {
+          "ip": "172.16.4.1",
+          "cidr": "172.16.4.0/24",
+          "peer": "h_26_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "26",
+        "source_id": "26",
+        "topology_id": "topozoo/Iinet"
+      }
+    },
+    "27": {
+      "type": "router",
+      "interfaces": {
+        "27-eth0": {
+          "ip": "10.0.3.2",
+          "cidr": "10.0.3.0/30",
+          "peer": "24-eth2"
+        },
+        "27-eth1": {
+          "ip": "10.0.5.2",
+          "cidr": "10.0.5.0/30",
+          "peer": "25-eth1"
+        },
+        "27-eth2": {
+          "ip": "10.0.7.2",
+          "cidr": "10.0.7.0/30",
+          "peer": "26-eth0"
+        },
+        "27-eth3": {
+          "ip": "10.0.9.1",
+          "cidr": "10.0.9.0/30",
+          "peer": "30-eth0"
+        },
+        "27-eth4": {
+          "ip": "172.16.5.1",
+          "cidr": "172.16.5.0/24",
+          "peer": "h_27_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "27",
+        "source_id": "27",
+        "topology_id": "topozoo/Iinet"
+      }
+    },
+    "28": {
+      "type": "router",
+      "interfaces": {
+        "28-eth0": {
+          "ip": "10.0.0.2",
+          "cidr": "10.0.0.0/30",
+          "peer": "21-eth0"
+        },
+        "28-eth1": {
+          "ip": "10.0.6.2",
+          "cidr": "10.0.6.0/30",
+          "peer": "25-eth2"
+        },
+        "28-eth2": {
+          "ip": "10.0.8.2",
+          "cidr": "10.0.8.0/30",
+          "peer": "26-eth1"
+        },
+        "28-eth3": {
+          "ip": "10.0.10.1",
+          "cidr": "10.0.10.0/30",
+          "peer": "29-eth1"
+        },
+        "28-eth4": {
+          "ip": "10.0.11.1",
+          "cidr": "10.0.11.0/30",
+          "peer": "30-eth1"
+        },
+        "28-eth5": {
+          "ip": "172.16.6.1",
+          "cidr": "172.16.6.0/24",
+          "peer": "h_28_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "28",
+        "source_id": "28",
+        "topology_id": "topozoo/Iinet"
+      }
+    },
+    "29": {
+      "type": "router",
+      "interfaces": {
+        "29-eth0": {
+          "ip": "10.0.4.2",
+          "cidr": "10.0.4.0/30",
+          "peer": "24-eth3"
+        },
+        "29-eth1": {
+          "ip": "10.0.10.2",
+          "cidr": "10.0.10.0/30",
+          "peer": "28-eth3"
+        },
+        "29-eth2": {
+          "ip": "172.16.7.1",
+          "cidr": "172.16.7.0/24",
+          "peer": "h_29_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "29",
+        "source_id": "29",
+        "topology_id": "topozoo/Iinet"
+      }
+    },
+    "30": {
+      "type": "router",
+      "interfaces": {
+        "30-eth0": {
+          "ip": "10.0.9.2",
+          "cidr": "10.0.9.0/30",
+          "peer": "27-eth3"
+        },
+        "30-eth1": {
+          "ip": "10.0.11.2",
+          "cidr": "10.0.11.0/30",
+          "peer": "28-eth4"
+        },
+        "30-eth2": {
+          "ip": "172.16.8.1",
+          "cidr": "172.16.8.0/24",
+          "peer": "h_30_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "30",
+        "source_id": "30",
+        "topology_id": "topozoo/Iinet"
+      }
+    },
+    "h_21_1": {
+      "type": "host",
+      "interfaces": {
+        "h_21_1-eth0": {
+          "ip": "172.16.0.10",
+          "cidr": "172.16.0.0/24",
+          "peer": "21-eth1"
+        }
+      },
+      "meta": {
+        "attached_to": "21",
+        "topology_id": "topozoo/Iinet"
+      }
+    },
+    "h_23_1": {
+      "type": "host",
+      "interfaces": {
+        "h_23_1-eth0": {
+          "ip": "172.16.1.10",
+          "cidr": "172.16.1.0/24",
+          "peer": "23-eth1"
+        }
+      },
+      "meta": {
+        "attached_to": "23",
+        "topology_id": "topozoo/Iinet"
+      }
+    },
+    "h_24_1": {
+      "type": "host",
+      "interfaces": {
+        "h_24_1-eth0": {
+          "ip": "172.16.2.10",
+          "cidr": "172.16.2.0/24",
+          "peer": "24-eth4"
+        }
+      },
+      "meta": {
+        "attached_to": "24",
+        "topology_id": "topozoo/Iinet"
+      }
+    },
+    "h_25_1": {
+      "type": "host",
+      "interfaces": {
+        "h_25_1-eth0": {
+          "ip": "172.16.3.10",
+          "cidr": "172.16.3.0/24",
+          "peer": "25-eth3"
+        }
+      },
+      "meta": {
+        "attached_to": "25",
+        "topology_id": "topozoo/Iinet"
+      }
+    },
+    "h_26_1": {
+      "type": "host",
+      "interfaces": {
+        "h_26_1-eth0": {
+          "ip": "172.16.4.10",
+          "cidr": "172.16.4.0/24",
+          "peer": "26-eth2"
+        }
+      },
+      "meta": {
+        "attached_to": "26",
+        "topology_id": "topozoo/Iinet"
+      }
+    },
+    "h_27_1": {
+      "type": "host",
+      "interfaces": {
+        "h_27_1-eth0": {
+          "ip": "172.16.5.10",
+          "cidr": "172.16.5.0/24",
+          "peer": "27-eth4"
+        }
+      },
+      "meta": {
+        "attached_to": "27",
+        "topology_id": "topozoo/Iinet"
+      }
+    },
+    "h_28_1": {
+      "type": "host",
+      "interfaces": {
+        "h_28_1-eth0": {
+          "ip": "172.16.6.10",
+          "cidr": "172.16.6.0/24",
+          "peer": "28-eth5"
+        }
+      },
+      "meta": {
+        "attached_to": "28",
+        "topology_id": "topozoo/Iinet"
+      }
+    },
+    "h_29_1": {
+      "type": "host",
+      "interfaces": {
+        "h_29_1-eth0": {
+          "ip": "172.16.7.10",
+          "cidr": "172.16.7.0/24",
+          "peer": "29-eth2"
+        }
+      },
+      "meta": {
+        "attached_to": "29",
+        "topology_id": "topozoo/Iinet"
+      }
+    },
+    "h_30_1": {
+      "type": "host",
+      "interfaces": {
+        "h_30_1-eth0": {
+          "ip": "172.16.8.10",
+          "cidr": "172.16.8.0/24",
+          "peer": "30-eth2"
+        }
+      },
+      "meta": {
+        "attached_to": "30",
+        "topology_id": "topozoo/Iinet"
+      }
+    }
+  },
+  "networks": {
+    "LINK_21_28": {
+      "cidr": "10.0.0.0/30",
+      "gateway_device": "21",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "21",
+        "endpoint_b": "28"
+      }
+    },
+    "LINK_23_24": {
+      "cidr": "10.0.1.0/30",
+      "gateway_device": "23",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "23",
+        "endpoint_b": "24"
+      }
+    },
+    "LINK_24_25": {
+      "cidr": "10.0.2.0/30",
+      "gateway_device": "24",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "24",
+        "endpoint_b": "25"
+      }
+    },
+    "LINK_24_27": {
+      "cidr": "10.0.3.0/30",
+      "gateway_device": "24",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "24",
+        "endpoint_b": "27"
+      }
+    },
+    "LINK_24_29": {
+      "cidr": "10.0.4.0/30",
+      "gateway_device": "24",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "24",
+        "endpoint_b": "29"
+      }
+    },
+    "LINK_25_27": {
+      "cidr": "10.0.5.0/30",
+      "gateway_device": "25",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "25",
+        "endpoint_b": "27"
+      }
+    },
+    "LINK_25_28": {
+      "cidr": "10.0.6.0/30",
+      "gateway_device": "25",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "25",
+        "endpoint_b": "28"
+      }
+    },
+    "LINK_26_27": {
+      "cidr": "10.0.7.0/30",
+      "gateway_device": "26",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "26",
+        "endpoint_b": "27"
+      }
+    },
+    "LINK_26_28": {
+      "cidr": "10.0.8.0/30",
+      "gateway_device": "26",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "26",
+        "endpoint_b": "28"
+      }
+    },
+    "LINK_27_30": {
+      "cidr": "10.0.9.0/30",
+      "gateway_device": "27",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "27",
+        "endpoint_b": "30"
+      }
+    },
+    "LINK_28_29": {
+      "cidr": "10.0.10.0/30",
+      "gateway_device": "28",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "28",
+        "endpoint_b": "29"
+      }
+    },
+    "LINK_28_30": {
+      "cidr": "10.0.11.0/30",
+      "gateway_device": "28",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "28",
+        "endpoint_b": "30"
+      }
+    },
+    "LAN_21_1": {
+      "cidr": "172.16.0.0/24",
+      "gateway_device": "21",
+      "gateway_ip": "172.16.0.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_21_1"
+      }
+    },
+    "LAN_23_1": {
+      "cidr": "172.16.1.0/24",
+      "gateway_device": "23",
+      "gateway_ip": "172.16.1.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_23_1"
+      }
+    },
+    "LAN_24_1": {
+      "cidr": "172.16.2.0/24",
+      "gateway_device": "24",
+      "gateway_ip": "172.16.2.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_24_1"
+      }
+    },
+    "LAN_25_1": {
+      "cidr": "172.16.3.0/24",
+      "gateway_device": "25",
+      "gateway_ip": "172.16.3.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_25_1"
+      }
+    },
+    "LAN_26_1": {
+      "cidr": "172.16.4.0/24",
+      "gateway_device": "26",
+      "gateway_ip": "172.16.4.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_26_1"
+      }
+    },
+    "LAN_27_1": {
+      "cidr": "172.16.5.0/24",
+      "gateway_device": "27",
+      "gateway_ip": "172.16.5.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_27_1"
+      }
+    },
+    "LAN_28_1": {
+      "cidr": "172.16.6.0/24",
+      "gateway_device": "28",
+      "gateway_ip": "172.16.6.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_28_1"
+      }
+    },
+    "LAN_29_1": {
+      "cidr": "172.16.7.0/24",
+      "gateway_device": "29",
+      "gateway_ip": "172.16.7.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_29_1"
+      }
+    },
+    "LAN_30_1": {
+      "cidr": "172.16.8.0/24",
+      "gateway_device": "30",
+      "gateway_ip": "172.16.8.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_30_1"
+      }
+    }
+  },
+  "meta": {
+    "source": "topohub",
+    "topology_id": "topozoo/Iinet",
+    "num_source_nodes": 9,
+    "num_source_edges": 12
+  }
+}

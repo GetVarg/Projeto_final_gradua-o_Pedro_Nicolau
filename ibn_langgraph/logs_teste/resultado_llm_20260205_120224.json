@@ -1,0 +1,1420 @@
+[
+    {
+        "id": 1,
+        "intent_original": "Set up a static route on router r1 for the 10.3.0.0/24 prefix using r0 as the next hop.",
+        "classificacao": {
+            "name": "static_route_add",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "The intent is to configure a static route on router r1 for the 10.3.0.0/24 prefix using r0 as the next hop."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "subnet",
+                "value": "10.3.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "context_slice": {
+            "devices": {
+                "r1": {
+                    "interfaces": {
+                        "r1-eth1": {
+                            "peer": "s1-eth3",
+                            "ip": "10.1.0.1",
+                            "cidr": "10.1.0.0/24",
+                            "role": "lan_uplink"
+                        },
+                        "r1-eth0": {
+                            "peer": "r0-eth1",
+                            "ip": "10.255.1.0",
+                            "cidr": "10.255.1.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "r0": {
+                    "interfaces": {
+                        "r0-eth1": {
+                            "peer": "r1-eth0",
+                            "ip": "10.255.1.1",
+                            "cidr": "10.255.1.0/31",
+                            "role": "transit"
+                        },
+                        "r0-eth2": {
+                            "peer": "r2-eth0",
+                            "ip": "10.255.2.1",
+                            "cidr": "10.255.2.0/31",
+                            "role": "transit"
+                        },
+                        "r0-eth3": {
+                            "peer": "r3-eth0",
+                            "ip": "10.255.3.1",
+                            "cidr": "10.255.3.0/31",
+                            "role": "transit"
+                        },
+                        "r0-eth4": {
+                            "peer": "r4-eth0",
+                            "ip": "10.255.4.1",
+                            "cidr": "10.255.4.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "s1": {
+                    "interfaces": {
+                        "s1-eth1": {
+                            "peer": "h11-eth0",
+                            "cidr": "10.1.0.0/24",
+                            "role": "l2_segment"
+                        },
+                        "s1-eth2": {
+                            "peer": "h12-eth0",
+                            "cidr": "10.1.0.0/24",
+                            "role": "l2_segment"
+                        },
+                        "s1-eth3": {
+                            "peer": "r1-eth1",
+                            "cidr": "10.1.0.0/24",
+                            "role": "l2_segment"
+                        }
+                    },
+                    "type": "switch"
+                },
+                "r2": {
+                    "interfaces": {
+                        "r2-eth1": {
+                            "peer": "s2-eth3",
+                            "ip": "10.2.0.1",
+                            "cidr": "10.2.0.0/24",
+                            "role": "lan_uplink"
+                        },
+                        "r2-eth0": {
+                            "peer": "r0-eth2",
+                            "ip": "10.255.2.0",
+                            "cidr": "10.255.2.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "r3": {
+                    "interfaces": {
+                        "r3-eth1": {
+                            "peer": "s3-eth3",
+                            "ip": "10.3.0.1",
+                            "cidr": "10.3.0.0/24",
+                            "role": "lan_uplink"
+                        },
+                        "r3-eth0": {
+                            "peer": "r0-eth3",
+                            "ip": "10.255.3.0",
+                            "cidr": "10.255.3.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "r4": {
+                    "interfaces": {
+                        "r4-eth1": {
+                            "peer": "s4-eth3",
+                            "ip": "10.4.0.1",
+                            "cidr": "10.4.0.0/24",
+                            "role": "lan_uplink"
+                        },
+                        "r4-eth0": {
+                            "peer": "r0-eth4",
+                            "ip": "10.255.4.0",
+                            "cidr": "10.255.4.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                }
+            }
+        },
+        "plan": {
+            "steps": [
+                {
+                    "device": "r1",
+                    "op": "static_route_add",
+                    "args": {
+                        "target_network": "10.3.0.0/24",
+                        "exit_gateway": "r0"
+                    }
+                },
+                {
+                    "device": "r2",
+                    "op": "connectivity_verify",
+                    "args": {}
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        }
+    },
+    {
+        "id": 2,
+        "intent_original": "On r1, add a static routing entry so that traffic for subnet 10.3.0.0/24 is forwarded through r0.",
+        "erro": "'list' object has no attribute 'get'"
+    },
+    {
+        "id": 3,
+        "intent_original": "Configure router r2 with a static route to reach the 10.4.0.0/24 network via r0.",
+        "erro": "'list' object has no attribute 'get'"
+    },
+    {
+        "id": 4,
+        "intent_original": "Create a static route in r2 pointing the 10.4.0.0/24 subnet to gateway r0.",
+        "erro": "'list' object has no attribute 'get'"
+    },
+    {
+        "id": 5,
+        "intent_original": "Provision a static route on r3 so packets destined to 10.2.0.0/24 go through router r0.",
+        "erro": "'list' object has no attribute 'get'"
+    },
+    {
+        "id": 6,
+        "intent_original": "Define a static routing rule on router r3 for prefix 10.2.0.0/24 using r0.",
+        "classificacao": {
+            "name": "static_route_add",
+            "confidence": 1.0,
+            "category": "configuration",
+            "rationale": "This intent is to add a static routing rule on router r3 for prefix 10.2.0.0/24 using interface r0."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r3",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "subnet",
+                "value": "10.2.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "context_slice": {
+            "devices": {
+                "r3": {
+                    "interfaces": {
+                        "r3-eth1": {
+                            "peer": "s3-eth3",
+                            "ip": "10.3.0.1",
+                            "cidr": "10.3.0.0/24",
+                            "role": "lan_uplink"
+                        },
+                        "r3-eth0": {
+                            "peer": "r0-eth3",
+                            "ip": "10.255.3.0",
+                            "cidr": "10.255.3.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "r0": {
+                    "interfaces": {
+                        "r0-eth1": {
+                            "peer": "r1-eth0",
+                            "ip": "10.255.1.1",
+                            "cidr": "10.255.1.0/31",
+                            "role": "transit"
+                        },
+                        "r0-eth2": {
+                            "peer": "r2-eth0",
+                            "ip": "10.255.2.1",
+                            "cidr": "10.255.2.0/31",
+                            "role": "transit"
+                        },
+                        "r0-eth3": {
+                            "peer": "r3-eth0",
+                            "ip": "10.255.3.1",
+                            "cidr": "10.255.3.0/31",
+                            "role": "transit"
+                        },
+                        "r0-eth4": {
+                            "peer": "r4-eth0",
+                            "ip": "10.255.4.1",
+                            "cidr": "10.255.4.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "s3": {
+                    "interfaces": {
+                        "s3-eth1": {
+                            "peer": "h31-eth0",
+                            "cidr": "10.3.0.0/24",
+                            "role": "l2_segment"
+                        },
+                        "s3-eth2": {
+                            "peer": "h32-eth0",
+                            "cidr": "10.3.0.0/24",
+                            "role": "l2_segment"
+                        },
+                        "s3-eth3": {
+                            "peer": "r3-eth1",
+                            "cidr": "10.3.0.0/24",
+                            "role": "l2_segment"
+                        }
+                    },
+                    "type": "switch"
+                },
+                "r1": {
+                    "interfaces": {
+                        "r1-eth1": {
+                            "peer": "s1-eth3",
+                            "ip": "10.1.0.1",
+                            "cidr": "10.1.0.0/24",
+                            "role": "lan_uplink"
+                        },
+                        "r1-eth0": {
+                            "peer": "r0-eth1",
+                            "ip": "10.255.1.0",
+                            "cidr": "10.255.1.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "r2": {
+                    "interfaces": {
+                        "r2-eth1": {
+                            "peer": "s2-eth3",
+                            "ip": "10.2.0.1",
+                            "cidr": "10.2.0.0/24",
+                            "role": "lan_uplink"
+                        },
+                        "r2-eth0": {
+                            "peer": "r0-eth2",
+                            "ip": "10.255.2.0",
+                            "cidr": "10.255.2.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "r4": {
+                    "interfaces": {
+                        "r4-eth1": {
+                            "peer": "s4-eth3",
+                            "ip": "10.4.0.1",
+                            "cidr": "10.4.0.0/24",
+                            "role": "lan_uplink"
+                        },
+                        "r4-eth0": {
+                            "peer": "r0-eth4",
+                            "ip": "10.255.4.0",
+                            "cidr": "10.255.4.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                }
+            }
+        },
+        "plan": {
+            "steps": [
+                {
+                    "device": "r3",
+                    "op": "static_route_add",
+                    "args": {
+                        "target_network": "10.2.0.0/24",
+                        "exit_gateway": "r0"
+                    }
+                },
+                {
+                    "device": "r1",
+                    "op": "interface_down",
+                    "args": {
+                        "interface": "r0"
+                    }
+                },
+                {
+                    "device": "r3",
+                    "op": "static_route_add",
+                    "args": {
+                        "target_network": "10.2.0.0/24",
+                        "exit_gateway": "r1"
+                    }
+                },
+                {
+                    "device": "r1",
+                    "op": "interface_up",
+                    "args": {
+                        "interface": "r0"
+                    }
+                },
+                {
+                    "device": "r3",
+                    "op": "route_verify",
+                    "args": {
+                        "dst_cidr": "10.2.0.0/24"
+                    }
+                },
+                {
+                    "device": "r1",
+                    "op": "static_route_del",
+                    "args": {
+                        "dst_cidr": "10.2.0.0/24"
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        }
+    },
+    {
+        "id": 7,
+        "intent_original": "Remove the static route to the 10.3.0.0/24 network from router r1.",
+        "classificacao": {
+            "name": "static_route_del",
+            "confidence": 0.9,
+            "category": "removal_cleanup",
+            "rationale": "The intent is to remove a static route that directs traffic to the 10.3.0.0/24 network from router r1."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "subnet",
+                "value": "10.3.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "context_slice": {
+            "devices": {
+                "r1": {
+                    "interfaces": {
+                        "r1-eth1": {
+                            "peer": "s1-eth3",
+                            "ip": "10.1.0.1",
+                            "cidr": "10.1.0.0/24",
+                            "role": "lan_uplink"
+                        },
+                        "r1-eth0": {
+                            "peer": "r0-eth1",
+                            "ip": "10.255.1.0",
+                            "cidr": "10.255.1.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "r0": {
+                    "interfaces": {
+                        "r0-eth1": {
+                            "peer": "r1-eth0",
+                            "ip": "10.255.1.1",
+                            "cidr": "10.255.1.0/31",
+                            "role": "transit"
+                        },
+                        "r0-eth2": {
+                            "peer": "r2-eth0",
+                            "ip": "10.255.2.1",
+                            "cidr": "10.255.2.0/31",
+                            "role": "transit"
+                        },
+                        "r0-eth3": {
+                            "peer": "r3-eth0",
+                            "ip": "10.255.3.1",
+                            "cidr": "10.255.3.0/31",
+                            "role": "transit"
+                        },
+                        "r0-eth4": {
+                            "peer": "r4-eth0",
+                            "ip": "10.255.4.1",
+                            "cidr": "10.255.4.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "s1": {
+                    "interfaces": {
+                        "s1-eth1": {
+                            "peer": "h11-eth0",
+                            "cidr": "10.1.0.0/24",
+                            "role": "l2_segment"
+                        },
+                        "s1-eth2": {
+                            "peer": "h12-eth0",
+                            "cidr": "10.1.0.0/24",
+                            "role": "l2_segment"
+                        },
+                        "s1-eth3": {
+                            "peer": "r1-eth1",
+                            "cidr": "10.1.0.0/24",
+                            "role": "l2_segment"
+                        }
+                    },
+                    "type": "switch"
+                },
+                "r2": {
+                    "interfaces": {
+                        "r2-eth1": {
+                            "peer": "s2-eth3",
+                            "ip": "10.2.0.1",
+                            "cidr": "10.2.0.0/24",
+                            "role": "lan_uplink"
+                        },
+                        "r2-eth0": {
+                            "peer": "r0-eth2",
+                            "ip": "10.255.2.0",
+                            "cidr": "10.255.2.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "r3": {
+                    "interfaces": {
+                        "r3-eth1": {
+                            "peer": "s3-eth3",
+                            "ip": "10.3.0.1",
+                            "cidr": "10.3.0.0/24",
+                            "role": "lan_uplink"
+                        },
+                        "r3-eth0": {
+                            "peer": "r0-eth3",
+                            "ip": "10.255.3.0",
+                            "cidr": "10.255.3.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "r4": {
+                    "interfaces": {
+                        "r4-eth1": {
+                            "peer": "s4-eth3",
+                            "ip": "10.4.0.1",
+                            "cidr": "10.4.0.0/24",
+                            "role": "lan_uplink"
+                        },
+                        "r4-eth0": {
+                            "peer": "r0-eth4",
+                            "ip": "10.255.4.0",
+                            "cidr": "10.255.4.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                }
+            }
+        },
+        "plan": {
+            "steps": [
+                {
+                    "device": "r1",
+                    "op": "static_route_del",
+                    "args": {
+                        "dst_cidr": "10.3.0.0/24"
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        }
+    },
+    {
+        "id": 8,
+        "intent_original": "On r1, delete any static routing entry associated with subnet 10.3.0.0/24.",
+        "erro": "'list' object has no attribute 'get'"
+    },
+    {
+        "id": 9,
+        "intent_original": "Ensure router r2 no longer has a route configured for the 10.4.0.0/24 prefix.",
+        "classificacao": {
+            "name": "static_route_del",
+            "confidence": 1.0,
+            "category": "configuration",
+            "rationale": "The intent is to remove a static route from router r2 that corresponds to the 10.4.0.0/24 prefix."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r2",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "subnet",
+                "value": "10.4.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "context_slice": {
+            "devices": {
+                "r0": {
+                    "interfaces": {
+                        "r0-eth1": {
+                            "peer": "r1-eth0",
+                            "ip": "10.255.1.1",
+                            "cidr": "10.255.1.0/31",
+                            "role": "transit"
+                        },
+                        "r0-eth2": {
+                            "peer": "r2-eth0",
+                            "ip": "10.255.2.1",
+                            "cidr": "10.255.2.0/31",
+                            "role": "transit"
+                        },
+                        "r0-eth3": {
+                            "peer": "r3-eth0",
+                            "ip": "10.255.3.1",
+                            "cidr": "10.255.3.0/31",
+                            "role": "transit"
+                        },
+                        "r0-eth4": {
+                            "peer": "r4-eth0",
+                            "ip": "10.255.4.1",
+                            "cidr": "10.255.4.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "r2": {
+                    "interfaces": {
+                        "r2-eth1": {
+                            "peer": "s2-eth3",
+                            "ip": "10.2.0.1",
+                            "cidr": "10.2.0.0/24",
+                            "role": "lan_uplink"
+                        },
+                        "r2-eth0": {
+                            "peer": "r0-eth2",
+                            "ip": "10.255.2.0",
+                            "cidr": "10.255.2.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "r1": {
+                    "interfaces": {
+                        "r1-eth1": {
+                            "peer": "s1-eth3",
+                            "ip": "10.1.0.1",
+                            "cidr": "10.1.0.0/24",
+                            "role": "lan_uplink"
+                        },
+                        "r1-eth0": {
+                            "peer": "r0-eth1",
+                            "ip": "10.255.1.0",
+                            "cidr": "10.255.1.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "r3": {
+                    "interfaces": {
+                        "r3-eth1": {
+                            "peer": "s3-eth3",
+                            "ip": "10.3.0.1",
+                            "cidr": "10.3.0.0/24",
+                            "role": "lan_uplink"
+                        },
+                        "r3-eth0": {
+                            "peer": "r0-eth3",
+                            "ip": "10.255.3.0",
+                            "cidr": "10.255.3.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "r4": {
+                    "interfaces": {
+                        "r4-eth1": {
+                            "peer": "s4-eth3",
+                            "ip": "10.4.0.1",
+                            "cidr": "10.4.0.0/24",
+                            "role": "lan_uplink"
+                        },
+                        "r4-eth0": {
+                            "peer": "r0-eth4",
+                            "ip": "10.255.4.0",
+                            "cidr": "10.255.4.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "s2": {
+                    "interfaces": {
+                        "s2-eth1": {
+                            "peer": "h21-eth0",
+                            "cidr": "10.2.0.0/24",
+                            "role": "l2_segment"
+                        },
+                        "s2-eth2": {
+                            "peer": "h22-eth0",
+                            "cidr": "10.2.0.0/24",
+                            "role": "l2_segment"
+                        },
+                        "s2-eth3": {
+                            "peer": "r2-eth1",
+                            "cidr": "10.2.0.0/24",
+                            "role": "l2_segment"
+                        }
+                    },
+                    "type": "switch"
+                }
+            }
+        },
+        "plan": {
+            "steps": [
+                {
+                    "device": "r2",
+                    "op": "static_route_del",
+                    "args": {
+                        "dst_cidr": "10.4.0.0/24"
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        }
+    },
+    {
+        "id": 10,
+        "intent_original": "Clear the static routing rule on r2 that forwards traffic to 10.4.0.0/24.",
+        "classificacao": {
+            "name": "static_route_del",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "The user wants to remove a static route that forwards traffic to the specified network (10.4.0.0/24)."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r2",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "subnet",
+                "value": "10.4.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "context_slice": {
+            "devices": {
+                "r0": {
+                    "interfaces": {
+                        "r0-eth1": {
+                            "peer": "r1-eth0",
+                            "ip": "10.255.1.1",
+                            "cidr": "10.255.1.0/31",
+                            "role": "transit"
+                        },
+                        "r0-eth2": {
+                            "peer": "r2-eth0",
+                            "ip": "10.255.2.1",
+                            "cidr": "10.255.2.0/31",
+                            "role": "transit"
+                        },
+                        "r0-eth3": {
+                            "peer": "r3-eth0",
+                            "ip": "10.255.3.1",
+                            "cidr": "10.255.3.0/31",
+                            "role": "transit"
+                        },
+                        "r0-eth4": {
+                            "peer": "r4-eth0",
+                            "ip": "10.255.4.1",
+                            "cidr": "10.255.4.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "r2": {
+                    "interfaces": {
+                        "r2-eth1": {
+                            "peer": "s2-eth3",
+                            "ip": "10.2.0.1",
+                            "cidr": "10.2.0.0/24",
+                            "role": "lan_uplink"
+                        },
+                        "r2-eth0": {
+                            "peer": "r0-eth2",
+                            "ip": "10.255.2.0",
+                            "cidr": "10.255.2.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "r1": {
+                    "interfaces": {
+                        "r1-eth1": {
+                            "peer": "s1-eth3",
+                            "ip": "10.1.0.1",
+                            "cidr": "10.1.0.0/24",
+                            "role": "lan_uplink"
+                        },
+                        "r1-eth0": {
+                            "peer": "r0-eth1",
+                            "ip": "10.255.1.0",
+                            "cidr": "10.255.1.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "r3": {
+                    "interfaces": {
+                        "r3-eth1": {
+                            "peer": "s3-eth3",
+                            "ip": "10.3.0.1",
+                            "cidr": "10.3.0.0/24",
+                            "role": "lan_uplink"
+                        },
+                        "r3-eth0": {
+                            "peer": "r0-eth3",
+                            "ip": "10.255.3.0",
+                            "cidr": "10.255.3.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "r4": {
+                    "interfaces": {
+                        "r4-eth1": {
+                            "peer": "s4-eth3",
+                            "ip": "10.4.0.1",
+                            "cidr": "10.4.0.0/24",
+                            "role": "lan_uplink"
+                        },
+                        "r4-eth0": {
+                            "peer": "r0-eth4",
+                            "ip": "10.255.4.0",
+                            "cidr": "10.255.4.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "s2": {
+                    "interfaces": {
+                        "s2-eth1": {
+                            "peer": "h21-eth0",
+                            "cidr": "10.2.0.0/24",
+                            "role": "l2_segment"
+                        },
+                        "s2-eth2": {
+                            "peer": "h22-eth0",
+                            "cidr": "10.2.0.0/24",
+                            "role": "l2_segment"
+                        },
+                        "s2-eth3": {
+                            "peer": "r2-eth1",
+                            "cidr": "10.2.0.0/24",
+                            "role": "l2_segment"
+                        }
+                    },
+                    "type": "switch"
+                }
+            }
+        },
+        "plan": {
+            "steps": [
+                {
+                    "device": "r2",
+                    "op": "static_route_del",
+                    "args": {
+                        "dst_cidr": "10.4.0.0/24"
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        }
+    },
+    {
+        "id": 11,
+        "intent_original": "Delete the static route entry on router r3 for the 10.2.0.0/24 subnet.",
+        "classificacao": {
+            "name": "static_route_del",
+            "confidence": 1.0,
+            "category": "removal_cleanup",
+            "rationale": "The intent is to delete a static route entry on router r3 for the 10.2.0.0/24 subnet."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r3",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "subnet",
+                "value": "10.2.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "context_slice": {
+            "devices": {
+                "r3": {
+                    "interfaces": {
+                        "r3-eth1": {
+                            "peer": "s3-eth3",
+                            "ip": "10.3.0.1",
+                            "cidr": "10.3.0.0/24",
+                            "role": "lan_uplink"
+                        },
+                        "r3-eth0": {
+                            "peer": "r0-eth3",
+                            "ip": "10.255.3.0",
+                            "cidr": "10.255.3.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "r0": {
+                    "interfaces": {
+                        "r0-eth1": {
+                            "peer": "r1-eth0",
+                            "ip": "10.255.1.1",
+                            "cidr": "10.255.1.0/31",
+                            "role": "transit"
+                        },
+                        "r0-eth2": {
+                            "peer": "r2-eth0",
+                            "ip": "10.255.2.1",
+                            "cidr": "10.255.2.0/31",
+                            "role": "transit"
+                        },
+                        "r0-eth3": {
+                            "peer": "r3-eth0",
+                            "ip": "10.255.3.1",
+                            "cidr": "10.255.3.0/31",
+                            "role": "transit"
+                        },
+                        "r0-eth4": {
+                            "peer": "r4-eth0",
+                            "ip": "10.255.4.1",
+                            "cidr": "10.255.4.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "s3": {
+                    "interfaces": {
+                        "s3-eth1": {
+                            "peer": "h31-eth0",
+                            "cidr": "10.3.0.0/24",
+                            "role": "l2_segment"
+                        },
+                        "s3-eth2": {
+                            "peer": "h32-eth0",
+                            "cidr": "10.3.0.0/24",
+                            "role": "l2_segment"
+                        },
+                        "s3-eth3": {
+                            "peer": "r3-eth1",
+                            "cidr": "10.3.0.0/24",
+                            "role": "l2_segment"
+                        }
+                    },
+                    "type": "switch"
+                },
+                "r1": {
+                    "interfaces": {
+                        "r1-eth1": {
+                            "peer": "s1-eth3",
+                            "ip": "10.1.0.1",
+                            "cidr": "10.1.0.0/24",
+                            "role": "lan_uplink"
+                        },
+                        "r1-eth0": {
+                            "peer": "r0-eth1",
+                            "ip": "10.255.1.0",
+                            "cidr": "10.255.1.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "r2": {
+                    "interfaces": {
+                        "r2-eth1": {
+                            "peer": "s2-eth3",
+                            "ip": "10.2.0.1",
+                            "cidr": "10.2.0.0/24",
+                            "role": "lan_uplink"
+                        },
+                        "r2-eth0": {
+                            "peer": "r0-eth2",
+                            "ip": "10.255.2.0",
+                            "cidr": "10.255.2.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "r4": {
+                    "interfaces": {
+                        "r4-eth1": {
+                            "peer": "s4-eth3",
+                            "ip": "10.4.0.1",
+                            "cidr": "10.4.0.0/24",
+                            "role": "lan_uplink"
+                        },
+                        "r4-eth0": {
+                            "peer": "r0-eth4",
+                            "ip": "10.255.4.0",
+                            "cidr": "10.255.4.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                }
+            }
+        },
+        "plan": {
+            "steps": [
+                {
+                    "device": "r3",
+                    "op": "static_route_del",
+                    "args": {
+                        "dst_cidr": "10.2.0.0/24"
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        }
+    },
+    {
+        "id": 12,
+        "intent_original": "Make sure r3 no longer routes traffic towards the 10.2.0.0/24 network.",
+        "classificacao": {
+            "name": "static_route_del",
+            "confidence": 1.0,
+            "category": "configuration",
+            "rationale": "This intent is to remove a static route that directs traffic towards the 10.2.0.0/24 network."
+        },
+        "entidades_extraidas": [],
+        "context_slice": {
+            "devices": {}
+        },
+        "plan": {
+            "steps": [],
+            "warnings": [],
+            "needs_human": "True",
+            "dry_run": "True"
+        }
+    },
+    {
+        "id": 13,
+        "intent_original": "Enable IPv4 packet forwarding on router r1.",
+        "erro": "'list' object has no attribute 'get'"
+    },
+    {
+        "id": 14,
+        "intent_original": "Turn on IP forwarding functionality on r1.",
+        "erro": "'list' object has no attribute 'get'"
+    },
+    {
+        "id": 15,
+        "intent_original": "Activate packet forwarding between interfaces on router r2.",
+        "erro": "'list' object has no attribute 'get'"
+    },
+    {
+        "id": 16,
+        "intent_original": "Ensure that router r2 is configured to forward IP packets.",
+        "erro": "'list' object has no attribute 'get'"
+    },
+    {
+        "id": 17,
+        "intent_original": "Set the net.ipv4.ip_forward parameter to 1 on router r3.",
+        "classificacao": {
+            "name": "ip_forward_enable",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "This intent sets a system-wide configuration option, enabling packet forwarding at the OS/kernel level."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r3",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "ip",
+                "value": "10.0.0.1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "context_slice": {
+            "devices": {
+                "r3": {
+                    "interfaces": {
+                        "r3-eth1": {
+                            "peer": "s3-eth3",
+                            "ip": "10.3.0.1",
+                            "cidr": "10.3.0.0/24",
+                            "role": "lan_uplink"
+                        },
+                        "r3-eth0": {
+                            "peer": "r0-eth3",
+                            "ip": "10.255.3.0",
+                            "cidr": "10.255.3.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "s3": {
+                    "interfaces": {
+                        "s3-eth1": {
+                            "peer": "h31-eth0",
+                            "cidr": "10.3.0.0/24",
+                            "role": "l2_segment"
+                        },
+                        "s3-eth2": {
+                            "peer": "h32-eth0",
+                            "cidr": "10.3.0.0/24",
+                            "role": "l2_segment"
+                        },
+                        "s3-eth3": {
+                            "peer": "r3-eth1",
+                            "cidr": "10.3.0.0/24",
+                            "role": "l2_segment"
+                        }
+                    },
+                    "type": "switch"
+                },
+                "r0": {
+                    "interfaces": {
+                        "r0-eth1": {
+                            "peer": "r1-eth0",
+                            "ip": "10.255.1.1",
+                            "cidr": "10.255.1.0/31",
+                            "role": "transit"
+                        },
+                        "r0-eth2": {
+                            "peer": "r2-eth0",
+                            "ip": "10.255.2.1",
+                            "cidr": "10.255.2.0/31",
+                            "role": "transit"
+                        },
+                        "r0-eth3": {
+                            "peer": "r3-eth0",
+                            "ip": "10.255.3.1",
+                            "cidr": "10.255.3.0/31",
+                            "role": "transit"
+                        },
+                        "r0-eth4": {
+                            "peer": "r4-eth0",
+                            "ip": "10.255.4.1",
+                            "cidr": "10.255.4.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                }
+            }
+        },
+        "plan": {
+            "steps": [
+                {
+                    "device": "r3",
+                    "op": "ip_forward_enable",
+                    "args": {}
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        }
+    },
+    {
+        "id": 18,
+        "intent_original": "Switch on IP forwarding support at the kernel level on r3.",
+        "erro": "'list' object has no attribute 'get'"
+    },
+    {
+        "id": 19,
+        "intent_original": "From router r1, send ICMP echo requests to the address 10.3.0.1.",
+        "erro": "'list' object has no attribute 'get'"
+    },
+    {
+        "id": 20,
+        "intent_original": "Test connectivity from r1 by pinging host 10.3.0.1.",
+        "erro": "'list' object has no attribute 'get'"
+    },
+    {
+        "id": 21,
+        "intent_original": "Verify reachability from router r2 to IP 10.4.0.1 using ICMP.",
+        "erro": "'list' object has no attribute 'get'"
+    },
+    {
+        "id": 22,
+        "intent_original": "On r2, run a ping test towards the host located at 10.4.0.1.",
+        "erro": "'list' object has no attribute 'get'"
+    },
+    {
+        "id": 23,
+        "intent_original": "Initiate an ICMP echo test from router r3 to 10.2.0.1.",
+        "erro": "'list' object has no attribute 'get'"
+    },
+    {
+        "id": 24,
+        "intent_original": "Check network connectivity by pinging 10.2.0.1 from r3.",
+        "erro": "'list' object has no attribute 'get'"
+    },
+    {
+        "id": 25,
+        "intent_original": "Block ICMP packets originating from the 10.1.0.0/24 subnet on router r1.",
+        "erro": "'list' object has no attribute 'get'"
+    },
+    {
+        "id": 26,
+        "intent_original": "On r1, install a rule to drop ICMP traffic sourced from 10.1.0.0/24.",
+        "erro": "'list' object has no attribute 'get'"
+    },
+    {
+        "id": 27,
+        "intent_original": "Prevent ICMP echo requests from the 10.2.0.0/24 network from passing through router r2.",
+        "classificacao": {
+            "name": "firewall_drop_icmp_src",
+            "confidence": 0.9,
+            "category": "control_security",
+            "rationale": "This intent prevents ICMP echo requests from the 10.2.0.0/24 network from passing through router r2, which is a security measure to block malicious traffic."
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r2",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "subnet",
+                "value": "10.2.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "context_slice": {
+            "devices": {
+                "r0": {
+                    "interfaces": {
+                        "r0-eth1": {
+                            "peer": "r1-eth0",
+                            "ip": "10.255.1.1",
+                            "cidr": "10.255.1.0/31",
+                            "role": "transit"
+                        },
+                        "r0-eth2": {
+                            "peer": "r2-eth0",
+                            "ip": "10.255.2.1",
+                            "cidr": "10.255.2.0/31",
+                            "role": "transit"
+                        },
+                        "r0-eth3": {
+                            "peer": "r3-eth0",
+                            "ip": "10.255.3.1",
+                            "cidr": "10.255.3.0/31",
+                            "role": "transit"
+                        },
+                        "r0-eth4": {
+                            "peer": "r4-eth0",
+                            "ip": "10.255.4.1",
+                            "cidr": "10.255.4.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "r2": {
+                    "interfaces": {
+                        "r2-eth1": {
+                            "peer": "s2-eth3",
+                            "ip": "10.2.0.1",
+                            "cidr": "10.2.0.0/24",
+                            "role": "lan_uplink"
+                        },
+                        "r2-eth0": {
+                            "peer": "r0-eth2",
+                            "ip": "10.255.2.0",
+                            "cidr": "10.255.2.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "r1": {
+                    "interfaces": {
+                        "r1-eth1": {
+                            "peer": "s1-eth3",
+                            "ip": "10.1.0.1",
+                            "cidr": "10.1.0.0/24",
+                            "role": "lan_uplink"
+                        },
+                        "r1-eth0": {
+                            "peer": "r0-eth1",
+                            "ip": "10.255.1.0",
+                            "cidr": "10.255.1.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "r3": {
+                    "interfaces": {
+                        "r3-eth1": {
+                            "peer": "s3-eth3",
+                            "ip": "10.3.0.1",
+                            "cidr": "10.3.0.0/24",
+                            "role": "lan_uplink"
+                        },
+                        "r3-eth0": {
+                            "peer": "r0-eth3",
+                            "ip": "10.255.3.0",
+                            "cidr": "10.255.3.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "r4": {
+                    "interfaces": {
+                        "r4-eth1": {
+                            "peer": "s4-eth3",
+                            "ip": "10.4.0.1",
+                            "cidr": "10.4.0.0/24",
+                            "role": "lan_uplink"
+                        },
+                        "r4-eth0": {
+                            "peer": "r0-eth4",
+                            "ip": "10.255.4.0",
+                            "cidr": "10.255.4.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "s2": {
+                    "interfaces": {
+                        "s2-eth1": {
+                            "peer": "h21-eth0",
+                            "cidr": "10.2.0.0/24",
+                            "role": "l2_segment"
+                        },
+                        "s2-eth2": {
+                            "peer": "h22-eth0",
+                            "cidr": "10.2.0.0/24",
+                            "role": "l2_segment"
+                        },
+                        "s2-eth3": {
+                            "peer": "r2-eth1",
+                            "cidr": "10.2.0.0/24",
+                            "role": "l2_segment"
+                        }
+                    },
+                    "type": "switch"
+                }
+            }
+        },
+        "plan": {
+            "steps": [
+                {
+                    "device": "ROUTER_SRC",
+                    "op": "firewall_drop_icmp_src",
+                    "args": {
+                        "src_cidr": "10.2.0.0/24"
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        }
+    },
+    {
+        "id": 28,
+        "intent_original": "Configure r2 to deny ICMP traffic coming from subnet 10.2.0.0/24.",
+        "erro": "'list' object has no attribute 'get'"
+    },
+    {
+        "id": 29,
+        "intent_original": "Drop ICMP packets originating in the 10.3.0.0/24 subnet on router r3.",
+        "erro": "'list' object has no attribute 'get'"
+    },
+    {
+        "id": 30,
+        "intent_original": "Set up a firewall rule on r3 to filter out ICMP traffic from 10.3.0.0/24.",
+        "classificacao": {
+            "name": "firewall_drop_icmp_src",
+            "confidence": 0.9,
+            "category": "control_security",
+            "rationale": "This intent is about blocking ICMP traffic from a specific source IP address (10.3.0.0/24) on interface r3, which is likely the router's default gateway."
+        },
+        "entidades_extraidas": [],
+        "context_slice": {
+            "devices": {}
+        },
+        "plan": {
+            "steps": [],
+            "warnings": [],
+            "needs_human": "True",
+            "dry_run": "True"
+        }
+    }
+]

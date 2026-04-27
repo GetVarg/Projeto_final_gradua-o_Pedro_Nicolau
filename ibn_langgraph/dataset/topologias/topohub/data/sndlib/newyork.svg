@@ -1,0 +1,84 @@
+<svg id="topo" viewBox="70.15 -685.30 546.70 644.60" xmlns="http://www.w3.org/2000/svg">
+<style>#topo path {fill: none; stroke: grey; stroke-width: 2.3440px;} #topo circle {fill: lightblue; stroke: none; stroke-width: 0.3px; vector-effect: non-scaling-stroke; r: 4.6880px;} #topo text {fill: black; stroke: none; font-size: 7.0320px; font-family: sans-serif; text-anchor:middle; transform: translateY(0.3em);} #topo path.country {fill: lightgrey; stroke: black; stroke-width: 1px; vector-effect: non-scaling-stroke; visibility: visible;} #topo path.selection {fill: none; stroke: red; stroke-width: 1px; vector-effect: non-scaling-stroke; visibility: visible;} #topo path.utilization {visibility: hidden;}</style>
+<path data-id="0-1" d="M237.00,-338.00,130.00,-207.00"/>
+<path data-id="0-4" d="M237.00,-338.00,345.00,-232.00"/>
+<path data-id="0-5" d="M237.00,-338.00,95.00,-350.00"/>
+<path data-id="0-6" d="M237.00,-338.00,302.00,-404.00"/>
+<path data-id="0-7" d="M237.00,-338.00,161.00,-454.00"/>
+<path data-id="0-11" d="M237.00,-338.00,277.00,-70.00"/>
+<path data-id="0-12" d="M237.00,-338.00,540.00,-147.00"/>
+<path data-id="0-14" d="M237.00,-338.00,490.00,-349.00"/>
+<path data-id="1-4" d="M130.00,-207.00,345.00,-232.00"/>
+<path data-id="1-5" d="M130.00,-207.00,95.00,-350.00"/>
+<path data-id="1-11" d="M130.00,-207.00,277.00,-70.00"/>
+<path data-id="1-12" d="M130.00,-207.00,540.00,-147.00"/>
+<path data-id="1-14" d="M130.00,-207.00,490.00,-349.00"/>
+<path data-id="2-3" d="M126.00,-531.00,209.00,-523.00"/>
+<path data-id="2-5" d="M126.00,-531.00,95.00,-350.00"/>
+<path data-id="2-6" d="M126.00,-531.00,302.00,-404.00"/>
+<path data-id="2-7" d="M126.00,-531.00,161.00,-454.00"/>
+<path data-id="2-10" d="M126.00,-531.00,237.00,-645.00"/>
+<path data-id="3-6" d="M209.00,-523.00,302.00,-404.00"/>
+<path data-id="3-7" d="M209.00,-523.00,161.00,-454.00"/>
+<path data-id="3-8" d="M209.00,-523.00,394.00,-499.00"/>
+<path data-id="3-9" d="M209.00,-523.00,389.00,-656.00"/>
+<path data-id="3-10" d="M209.00,-523.00,237.00,-645.00"/>
+<path data-id="4-11" d="M345.00,-232.00,277.00,-70.00"/>
+<path data-id="4-12" d="M345.00,-232.00,540.00,-147.00"/>
+<path data-id="4-14" d="M345.00,-232.00,490.00,-349.00"/>
+<path data-id="5-6" d="M95.00,-350.00,302.00,-404.00"/>
+<path data-id="5-7" d="M95.00,-350.00,161.00,-454.00"/>
+<path data-id="6-7" d="M302.00,-404.00,161.00,-454.00"/>
+<path data-id="6-8" d="M302.00,-404.00,394.00,-499.00"/>
+<path data-id="6-9" d="M302.00,-404.00,389.00,-656.00"/>
+<path data-id="6-11" d="M302.00,-404.00,277.00,-70.00"/>
+<path data-id="6-12" d="M302.00,-404.00,540.00,-147.00"/>
+<path data-id="6-13" d="M302.00,-404.00,592.00,-503.00"/>
+<path data-id="6-14" d="M302.00,-404.00,490.00,-349.00"/>
+<path data-id="8-9" d="M394.00,-499.00,389.00,-656.00"/>
+<path data-id="8-10" d="M394.00,-499.00,237.00,-645.00"/>
+<path data-id="8-13" d="M394.00,-499.00,592.00,-503.00"/>
+<path data-id="8-14" d="M394.00,-499.00,490.00,-349.00"/>
+<path data-id="8-15" d="M394.00,-499.00,463.00,-543.00"/>
+<path data-id="9-10" d="M389.00,-656.00,237.00,-645.00"/>
+<path data-id="9-13" d="M389.00,-656.00,592.00,-503.00"/>
+<path data-id="9-14" d="M389.00,-656.00,490.00,-349.00"/>
+<path data-id="11-12" d="M277.00,-70.00,540.00,-147.00"/>
+<path data-id="11-14" d="M277.00,-70.00,490.00,-349.00"/>
+<path data-id="12-13" d="M540.00,-147.00,592.00,-503.00"/>
+<path data-id="12-14" d="M540.00,-147.00,490.00,-349.00"/>
+<path data-id="13-14" d="M592.00,-503.00,490.00,-349.00"/>
+<path data-id="13-15" d="M592.00,-503.00,463.00,-543.00"/>
+<circle data-id="0" cx="237.00" cy="-338.00" r="4.69px"/>
+<text data-id="0" x="237.00" y="-338.00">N1</text>
+<circle data-id="1" cx="130.00" cy="-207.00" r="4.69px"/>
+<text data-id="1" x="130.00" y="-207.00">N2</text>
+<circle data-id="2" cx="126.00" cy="-531.00" r="4.69px"/>
+<text data-id="2" x="126.00" y="-531.00">N3</text>
+<circle data-id="3" cx="209.00" cy="-523.00" r="4.69px"/>
+<text data-id="3" x="209.00" y="-523.00">N4</text>
+<circle data-id="4" cx="345.00" cy="-232.00" r="4.69px"/>
+<text data-id="4" x="345.00" y="-232.00">N5</text>
+<circle data-id="5" cx="95.00" cy="-350.00" r="4.69px"/>
+<text data-id="5" x="95.00" y="-350.00">N6</text>
+<circle data-id="6" cx="302.00" cy="-404.00" r="4.69px"/>
+<text data-id="6" x="302.00" y="-404.00">N7</text>
+<circle data-id="7" cx="161.00" cy="-454.00" r="4.69px"/>
+<text data-id="7" x="161.00" y="-454.00">N8</text>
+<circle data-id="8" cx="394.00" cy="-499.00" r="4.69px"/>
+<text data-id="8" x="394.00" y="-499.00">N9</text>
+<circle data-id="9" cx="389.00" cy="-656.00" r="4.69px"/>
+<text data-id="9" x="389.00" y="-656.00">N10</text>
+<circle data-id="10" cx="237.00" cy="-645.00" r="4.69px"/>
+<text data-id="10" x="237.00" y="-645.00">N11</text>
+<circle data-id="11" cx="277.00" cy="-70.00" r="4.69px"/>
+<text data-id="11" x="277.00" y="-70.00">N12</text>
+<circle data-id="12" cx="540.00" cy="-147.00" r="4.69px"/>
+<text data-id="12" x="540.00" y="-147.00">N13</text>
+<circle data-id="13" cx="592.00" cy="-503.00" r="4.69px"/>
+<text data-id="13" x="592.00" y="-503.00">N14</text>
+<circle data-id="14" cx="490.00" cy="-349.00" r="4.69px"/>
+<text data-id="14" x="490.00" y="-349.00">N15</text>
+<circle data-id="15" cx="463.00" cy="-543.00" r="4.69px"/>
+<text data-id="15" x="463.00" y="-543.00">N16</text>
+</svg>

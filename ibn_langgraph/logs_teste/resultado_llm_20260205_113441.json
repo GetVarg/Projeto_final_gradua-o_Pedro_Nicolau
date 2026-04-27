@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "intent_original": "Set up a firewall rule on r3 to filter out ICMP traffic from 10.3.0.0/24.",
+        "classificacao": {
+            "name": "firewall_drop_icmp_src",
+            "confidence": 0.9,
+            "category": "control_security",
+            "rationale": "This intent is about blocking ICMP traffic from a specific source IP address (10.3.0.0/24) on interface r3, which is likely the router's default gateway."
+        },
+        "entidades_extraidas": [],
+        "context_slice": {
+            "devices": {}
+        },
+        "plan": {
+            "steps": [],
+            "warnings": [],
+            "needs_human": "True",
+            "dry_run": "True"
+        }
+    }
+]

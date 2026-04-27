@@ -1,0 +1,7 @@
+[
+    {
+        "id": 1,
+        "intent_original": "On r1, add a static routing entry so that traffic for subnet 10.3.0.0/24 is forwarded through r0",
+        "erro": "cannot access local variable 'ents' where it is not associated with a value"
+    }
+]

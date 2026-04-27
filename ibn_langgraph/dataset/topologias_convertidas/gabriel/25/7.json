@@ -1,0 +1,1779 @@
+{
+  "devices": {
+    "0": {
+      "type": "router",
+      "interfaces": {
+        "0-eth0": {
+          "ip": "10.0.0.1",
+          "cidr": "10.0.0.0/30",
+          "peer": "5-eth0"
+        },
+        "0-eth1": {
+          "ip": "10.0.1.1",
+          "cidr": "10.0.1.0/30",
+          "peer": "6-eth0"
+        },
+        "0-eth2": {
+          "ip": "10.0.2.1",
+          "cidr": "10.0.2.0/30",
+          "peer": "8-eth0"
+        },
+        "0-eth3": {
+          "ip": "172.16.0.1",
+          "cidr": "172.16.0.0/24",
+          "peer": "h_0_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "0",
+        "source_id": 0,
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "1": {
+      "type": "router",
+      "interfaces": {
+        "1-eth0": {
+          "ip": "10.0.3.1",
+          "cidr": "10.0.3.0/30",
+          "peer": "5-eth1"
+        },
+        "1-eth1": {
+          "ip": "10.0.4.1",
+          "cidr": "10.0.4.0/30",
+          "peer": "6-eth1"
+        },
+        "1-eth2": {
+          "ip": "10.0.5.1",
+          "cidr": "10.0.5.0/30",
+          "peer": "9-eth0"
+        },
+        "1-eth3": {
+          "ip": "10.0.6.1",
+          "cidr": "10.0.6.0/30",
+          "peer": "18-eth0"
+        },
+        "1-eth4": {
+          "ip": "10.0.7.1",
+          "cidr": "10.0.7.0/30",
+          "peer": "22-eth0"
+        },
+        "1-eth5": {
+          "ip": "172.16.1.1",
+          "cidr": "172.16.1.0/24",
+          "peer": "h_1_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "1",
+        "source_id": 1,
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "2": {
+      "type": "router",
+      "interfaces": {
+        "2-eth0": {
+          "ip": "10.0.8.1",
+          "cidr": "10.0.8.0/30",
+          "peer": "3-eth0"
+        },
+        "2-eth1": {
+          "ip": "10.0.9.1",
+          "cidr": "10.0.9.0/30",
+          "peer": "13-eth0"
+        },
+        "2-eth2": {
+          "ip": "10.0.10.1",
+          "cidr": "10.0.10.0/30",
+          "peer": "18-eth1"
+        },
+        "2-eth3": {
+          "ip": "10.0.11.1",
+          "cidr": "10.0.11.0/30",
+          "peer": "20-eth0"
+        },
+        "2-eth4": {
+          "ip": "172.16.2.1",
+          "cidr": "172.16.2.0/24",
+          "peer": "h_2_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "2",
+        "source_id": 2,
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "3": {
+      "type": "router",
+      "interfaces": {
+        "3-eth0": {
+          "ip": "10.0.8.2",
+          "cidr": "10.0.8.0/30",
+          "peer": "2-eth0"
+        },
+        "3-eth1": {
+          "ip": "10.0.12.1",
+          "cidr": "10.0.12.0/30",
+          "peer": "11-eth0"
+        },
+        "3-eth2": {
+          "ip": "10.0.13.1",
+          "cidr": "10.0.13.0/30",
+          "peer": "14-eth0"
+        },
+        "3-eth3": {
+          "ip": "10.0.14.1",
+          "cidr": "10.0.14.0/30",
+          "peer": "20-eth1"
+        },
+        "3-eth4": {
+          "ip": "10.0.15.1",
+          "cidr": "10.0.15.0/30",
+          "peer": "21-eth0"
+        },
+        "3-eth5": {
+          "ip": "10.0.16.1",
+          "cidr": "10.0.16.0/30",
+          "peer": "23-eth0"
+        },
+        "3-eth6": {
+          "ip": "172.16.3.1",
+          "cidr": "172.16.3.0/24",
+          "peer": "h_3_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "3",
+        "source_id": 3,
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "4": {
+      "type": "router",
+      "interfaces": {
+        "4-eth0": {
+          "ip": "10.0.17.1",
+          "cidr": "10.0.17.0/30",
+          "peer": "9-eth1"
+        },
+        "4-eth1": {
+          "ip": "10.0.18.1",
+          "cidr": "10.0.18.0/30",
+          "peer": "24-eth0"
+        },
+        "4-eth2": {
+          "ip": "172.16.4.1",
+          "cidr": "172.16.4.0/24",
+          "peer": "h_4_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "4",
+        "source_id": 4,
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "5": {
+      "type": "router",
+      "interfaces": {
+        "5-eth0": {
+          "ip": "10.0.0.2",
+          "cidr": "10.0.0.0/30",
+          "peer": "0-eth0"
+        },
+        "5-eth1": {
+          "ip": "10.0.3.2",
+          "cidr": "10.0.3.0/30",
+          "peer": "1-eth0"
+        },
+        "5-eth2": {
+          "ip": "10.0.19.1",
+          "cidr": "10.0.19.0/30",
+          "peer": "6-eth2"
+        },
+        "5-eth3": {
+          "ip": "10.0.20.1",
+          "cidr": "10.0.20.0/30",
+          "peer": "13-eth1"
+        },
+        "5-eth4": {
+          "ip": "10.0.21.1",
+          "cidr": "10.0.21.0/30",
+          "peer": "18-eth2"
+        },
+        "5-eth5": {
+          "ip": "172.16.5.1",
+          "cidr": "172.16.5.0/24",
+          "peer": "h_5_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "5",
+        "source_id": 5,
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "6": {
+      "type": "router",
+      "interfaces": {
+        "6-eth0": {
+          "ip": "10.0.1.2",
+          "cidr": "10.0.1.0/30",
+          "peer": "0-eth1"
+        },
+        "6-eth1": {
+          "ip": "10.0.4.2",
+          "cidr": "10.0.4.0/30",
+          "peer": "1-eth1"
+        },
+        "6-eth2": {
+          "ip": "10.0.19.2",
+          "cidr": "10.0.19.0/30",
+          "peer": "5-eth2"
+        },
+        "6-eth3": {
+          "ip": "10.0.22.1",
+          "cidr": "10.0.22.0/30",
+          "peer": "9-eth2"
+        },
+        "6-eth4": {
+          "ip": "172.16.6.1",
+          "cidr": "172.16.6.0/24",
+          "peer": "h_6_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "6",
+        "source_id": 6,
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "7": {
+      "type": "router",
+      "interfaces": {
+        "7-eth0": {
+          "ip": "10.0.23.1",
+          "cidr": "10.0.23.0/30",
+          "peer": "10-eth0"
+        },
+        "7-eth1": {
+          "ip": "10.0.24.1",
+          "cidr": "10.0.24.0/30",
+          "peer": "22-eth1"
+        },
+        "7-eth2": {
+          "ip": "10.0.25.1",
+          "cidr": "10.0.25.0/30",
+          "peer": "24-eth1"
+        },
+        "7-eth3": {
+          "ip": "172.16.7.1",
+          "cidr": "172.16.7.0/24",
+          "peer": "h_7_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "7",
+        "source_id": 7,
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "8": {
+      "type": "router",
+      "interfaces": {
+        "8-eth0": {
+          "ip": "10.0.2.2",
+          "cidr": "10.0.2.0/30",
+          "peer": "0-eth2"
+        },
+        "8-eth1": {
+          "ip": "10.0.26.1",
+          "cidr": "10.0.26.0/30",
+          "peer": "11-eth1"
+        },
+        "8-eth2": {
+          "ip": "10.0.27.1",
+          "cidr": "10.0.27.0/30",
+          "peer": "15-eth0"
+        },
+        "8-eth3": {
+          "ip": "172.16.8.1",
+          "cidr": "172.16.8.0/24",
+          "peer": "h_8_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "8",
+        "source_id": 8,
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "9": {
+      "type": "router",
+      "interfaces": {
+        "9-eth0": {
+          "ip": "10.0.5.2",
+          "cidr": "10.0.5.0/30",
+          "peer": "1-eth2"
+        },
+        "9-eth1": {
+          "ip": "10.0.17.2",
+          "cidr": "10.0.17.0/30",
+          "peer": "4-eth0"
+        },
+        "9-eth2": {
+          "ip": "10.0.22.2",
+          "cidr": "10.0.22.0/30",
+          "peer": "6-eth3"
+        },
+        "9-eth3": {
+          "ip": "172.16.9.1",
+          "cidr": "172.16.9.0/24",
+          "peer": "h_9_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "9",
+        "source_id": 9,
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "10": {
+      "type": "router",
+      "interfaces": {
+        "10-eth0": {
+          "ip": "10.0.23.2",
+          "cidr": "10.0.23.0/30",
+          "peer": "7-eth0"
+        },
+        "10-eth1": {
+          "ip": "10.0.28.1",
+          "cidr": "10.0.28.0/30",
+          "peer": "19-eth0"
+        },
+        "10-eth2": {
+          "ip": "172.16.10.1",
+          "cidr": "172.16.10.0/24",
+          "peer": "h_10_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "10",
+        "source_id": 10,
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "11": {
+      "type": "router",
+      "interfaces": {
+        "11-eth0": {
+          "ip": "10.0.12.2",
+          "cidr": "10.0.12.0/30",
+          "peer": "3-eth1"
+        },
+        "11-eth1": {
+          "ip": "10.0.26.2",
+          "cidr": "10.0.26.0/30",
+          "peer": "8-eth1"
+        },
+        "11-eth2": {
+          "ip": "10.0.29.1",
+          "cidr": "10.0.29.0/30",
+          "peer": "13-eth2"
+        },
+        "11-eth3": {
+          "ip": "10.0.30.1",
+          "cidr": "10.0.30.0/30",
+          "peer": "15-eth1"
+        },
+        "11-eth4": {
+          "ip": "172.16.11.1",
+          "cidr": "172.16.11.0/24",
+          "peer": "h_11_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "11",
+        "source_id": 11,
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "12": {
+      "type": "router",
+      "interfaces": {
+        "12-eth0": {
+          "ip": "10.0.31.1",
+          "cidr": "10.0.31.0/30",
+          "peer": "16-eth0"
+        },
+        "12-eth1": {
+          "ip": "10.0.32.1",
+          "cidr": "10.0.32.0/30",
+          "peer": "20-eth2"
+        },
+        "12-eth2": {
+          "ip": "10.0.33.1",
+          "cidr": "10.0.33.0/30",
+          "peer": "21-eth1"
+        },
+        "12-eth3": {
+          "ip": "172.16.12.1",
+          "cidr": "172.16.12.0/24",
+          "peer": "h_12_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "12",
+        "source_id": 12,
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "13": {
+      "type": "router",
+      "interfaces": {
+        "13-eth0": {
+          "ip": "10.0.9.2",
+          "cidr": "10.0.9.0/30",
+          "peer": "2-eth1"
+        },
+        "13-eth1": {
+          "ip": "10.0.20.2",
+          "cidr": "10.0.20.0/30",
+          "peer": "5-eth3"
+        },
+        "13-eth2": {
+          "ip": "10.0.29.2",
+          "cidr": "10.0.29.0/30",
+          "peer": "11-eth2"
+        },
+        "13-eth3": {
+          "ip": "172.16.13.1",
+          "cidr": "172.16.13.0/24",
+          "peer": "h_13_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "13",
+        "source_id": 13,
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "14": {
+      "type": "router",
+      "interfaces": {
+        "14-eth0": {
+          "ip": "10.0.13.2",
+          "cidr": "10.0.13.0/30",
+          "peer": "3-eth2"
+        },
+        "14-eth1": {
+          "ip": "10.0.34.1",
+          "cidr": "10.0.34.0/30",
+          "peer": "15-eth2"
+        },
+        "14-eth2": {
+          "ip": "10.0.35.1",
+          "cidr": "10.0.35.0/30",
+          "peer": "23-eth1"
+        },
+        "14-eth3": {
+          "ip": "172.16.14.1",
+          "cidr": "172.16.14.0/24",
+          "peer": "h_14_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "14",
+        "source_id": 14,
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "15": {
+      "type": "router",
+      "interfaces": {
+        "15-eth0": {
+          "ip": "10.0.27.2",
+          "cidr": "10.0.27.0/30",
+          "peer": "8-eth2"
+        },
+        "15-eth1": {
+          "ip": "10.0.30.2",
+          "cidr": "10.0.30.0/30",
+          "peer": "11-eth3"
+        },
+        "15-eth2": {
+          "ip": "10.0.34.2",
+          "cidr": "10.0.34.0/30",
+          "peer": "14-eth1"
+        },
+        "15-eth3": {
+          "ip": "172.16.15.1",
+          "cidr": "172.16.15.0/24",
+          "peer": "h_15_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "15",
+        "source_id": 15,
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "16": {
+      "type": "router",
+      "interfaces": {
+        "16-eth0": {
+          "ip": "10.0.31.2",
+          "cidr": "10.0.31.0/30",
+          "peer": "12-eth0"
+        },
+        "16-eth1": {
+          "ip": "10.0.36.1",
+          "cidr": "10.0.36.0/30",
+          "peer": "17-eth0"
+        },
+        "16-eth2": {
+          "ip": "10.0.37.1",
+          "cidr": "10.0.37.0/30",
+          "peer": "19-eth1"
+        },
+        "16-eth3": {
+          "ip": "172.16.16.1",
+          "cidr": "172.16.16.0/24",
+          "peer": "h_16_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "16",
+        "source_id": 16,
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "17": {
+      "type": "router",
+      "interfaces": {
+        "17-eth0": {
+          "ip": "10.0.36.2",
+          "cidr": "10.0.36.0/30",
+          "peer": "16-eth1"
+        },
+        "17-eth1": {
+          "ip": "10.0.38.1",
+          "cidr": "10.0.38.0/30",
+          "peer": "18-eth3"
+        },
+        "17-eth2": {
+          "ip": "10.0.39.1",
+          "cidr": "10.0.39.0/30",
+          "peer": "20-eth3"
+        },
+        "17-eth3": {
+          "ip": "10.0.40.1",
+          "cidr": "10.0.40.0/30",
+          "peer": "22-eth2"
+        },
+        "17-eth4": {
+          "ip": "172.16.17.1",
+          "cidr": "172.16.17.0/24",
+          "peer": "h_17_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "17",
+        "source_id": 17,
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "18": {
+      "type": "router",
+      "interfaces": {
+        "18-eth0": {
+          "ip": "10.0.6.2",
+          "cidr": "10.0.6.0/30",
+          "peer": "1-eth3"
+        },
+        "18-eth1": {
+          "ip": "10.0.10.2",
+          "cidr": "10.0.10.0/30",
+          "peer": "2-eth2"
+        },
+        "18-eth2": {
+          "ip": "10.0.21.2",
+          "cidr": "10.0.21.0/30",
+          "peer": "5-eth4"
+        },
+        "18-eth3": {
+          "ip": "10.0.38.2",
+          "cidr": "10.0.38.0/30",
+          "peer": "17-eth1"
+        },
+        "18-eth4": {
+          "ip": "10.0.41.1",
+          "cidr": "10.0.41.0/30",
+          "peer": "22-eth3"
+        },
+        "18-eth5": {
+          "ip": "172.16.18.1",
+          "cidr": "172.16.18.0/24",
+          "peer": "h_18_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "18",
+        "source_id": 18,
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "19": {
+      "type": "router",
+      "interfaces": {
+        "19-eth0": {
+          "ip": "10.0.28.2",
+          "cidr": "10.0.28.0/30",
+          "peer": "10-eth1"
+        },
+        "19-eth1": {
+          "ip": "10.0.37.2",
+          "cidr": "10.0.37.0/30",
+          "peer": "16-eth2"
+        },
+        "19-eth2": {
+          "ip": "172.16.19.1",
+          "cidr": "172.16.19.0/24",
+          "peer": "h_19_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "19",
+        "source_id": 19,
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "20": {
+      "type": "router",
+      "interfaces": {
+        "20-eth0": {
+          "ip": "10.0.11.2",
+          "cidr": "10.0.11.0/30",
+          "peer": "2-eth3"
+        },
+        "20-eth1": {
+          "ip": "10.0.14.2",
+          "cidr": "10.0.14.0/30",
+          "peer": "3-eth3"
+        },
+        "20-eth2": {
+          "ip": "10.0.32.2",
+          "cidr": "10.0.32.0/30",
+          "peer": "12-eth1"
+        },
+        "20-eth3": {
+          "ip": "10.0.39.2",
+          "cidr": "10.0.39.0/30",
+          "peer": "17-eth2"
+        },
+        "20-eth4": {
+          "ip": "10.0.42.1",
+          "cidr": "10.0.42.0/30",
+          "peer": "21-eth2"
+        },
+        "20-eth5": {
+          "ip": "172.16.20.1",
+          "cidr": "172.16.20.0/24",
+          "peer": "h_20_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "20",
+        "source_id": 20,
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "21": {
+      "type": "router",
+      "interfaces": {
+        "21-eth0": {
+          "ip": "10.0.15.2",
+          "cidr": "10.0.15.0/30",
+          "peer": "3-eth4"
+        },
+        "21-eth1": {
+          "ip": "10.0.33.2",
+          "cidr": "10.0.33.0/30",
+          "peer": "12-eth2"
+        },
+        "21-eth2": {
+          "ip": "10.0.42.2",
+          "cidr": "10.0.42.0/30",
+          "peer": "20-eth4"
+        },
+        "21-eth3": {
+          "ip": "172.16.21.1",
+          "cidr": "172.16.21.0/24",
+          "peer": "h_21_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "21",
+        "source_id": 21,
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "22": {
+      "type": "router",
+      "interfaces": {
+        "22-eth0": {
+          "ip": "10.0.7.2",
+          "cidr": "10.0.7.0/30",
+          "peer": "1-eth4"
+        },
+        "22-eth1": {
+          "ip": "10.0.24.2",
+          "cidr": "10.0.24.0/30",
+          "peer": "7-eth1"
+        },
+        "22-eth2": {
+          "ip": "10.0.40.2",
+          "cidr": "10.0.40.0/30",
+          "peer": "17-eth3"
+        },
+        "22-eth3": {
+          "ip": "10.0.41.2",
+          "cidr": "10.0.41.0/30",
+          "peer": "18-eth4"
+        },
+        "22-eth4": {
+          "ip": "172.16.22.1",
+          "cidr": "172.16.22.0/24",
+          "peer": "h_22_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "22",
+        "source_id": 22,
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "23": {
+      "type": "router",
+      "interfaces": {
+        "23-eth0": {
+          "ip": "10.0.16.2",
+          "cidr": "10.0.16.0/30",
+          "peer": "3-eth5"
+        },
+        "23-eth1": {
+          "ip": "10.0.35.2",
+          "cidr": "10.0.35.0/30",
+          "peer": "14-eth2"
+        },
+        "23-eth2": {
+          "ip": "172.16.23.1",
+          "cidr": "172.16.23.0/24",
+          "peer": "h_23_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "23",
+        "source_id": 23,
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "24": {
+      "type": "router",
+      "interfaces": {
+        "24-eth0": {
+          "ip": "10.0.18.2",
+          "cidr": "10.0.18.0/30",
+          "peer": "4-eth1"
+        },
+        "24-eth1": {
+          "ip": "10.0.25.2",
+          "cidr": "10.0.25.0/30",
+          "peer": "7-eth2"
+        },
+        "24-eth2": {
+          "ip": "172.16.24.1",
+          "cidr": "172.16.24.0/24",
+          "peer": "h_24_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "24",
+        "source_id": 24,
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "h_0_1": {
+      "type": "host",
+      "interfaces": {
+        "h_0_1-eth0": {
+          "ip": "172.16.0.10",
+          "cidr": "172.16.0.0/24",
+          "peer": "0-eth3"
+        }
+      },
+      "meta": {
+        "attached_to": "0",
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "h_1_1": {
+      "type": "host",
+      "interfaces": {
+        "h_1_1-eth0": {
+          "ip": "172.16.1.10",
+          "cidr": "172.16.1.0/24",
+          "peer": "1-eth5"
+        }
+      },
+      "meta": {
+        "attached_to": "1",
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "h_2_1": {
+      "type": "host",
+      "interfaces": {
+        "h_2_1-eth0": {
+          "ip": "172.16.2.10",
+          "cidr": "172.16.2.0/24",
+          "peer": "2-eth4"
+        }
+      },
+      "meta": {
+        "attached_to": "2",
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "h_3_1": {
+      "type": "host",
+      "interfaces": {
+        "h_3_1-eth0": {
+          "ip": "172.16.3.10",
+          "cidr": "172.16.3.0/24",
+          "peer": "3-eth6"
+        }
+      },
+      "meta": {
+        "attached_to": "3",
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "h_4_1": {
+      "type": "host",
+      "interfaces": {
+        "h_4_1-eth0": {
+          "ip": "172.16.4.10",
+          "cidr": "172.16.4.0/24",
+          "peer": "4-eth2"
+        }
+      },
+      "meta": {
+        "attached_to": "4",
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "h_5_1": {
+      "type": "host",
+      "interfaces": {
+        "h_5_1-eth0": {
+          "ip": "172.16.5.10",
+          "cidr": "172.16.5.0/24",
+          "peer": "5-eth5"
+        }
+      },
+      "meta": {
+        "attached_to": "5",
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "h_6_1": {
+      "type": "host",
+      "interfaces": {
+        "h_6_1-eth0": {
+          "ip": "172.16.6.10",
+          "cidr": "172.16.6.0/24",
+          "peer": "6-eth4"
+        }
+      },
+      "meta": {
+        "attached_to": "6",
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "h_7_1": {
+      "type": "host",
+      "interfaces": {
+        "h_7_1-eth0": {
+          "ip": "172.16.7.10",
+          "cidr": "172.16.7.0/24",
+          "peer": "7-eth3"
+        }
+      },
+      "meta": {
+        "attached_to": "7",
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "h_8_1": {
+      "type": "host",
+      "interfaces": {
+        "h_8_1-eth0": {
+          "ip": "172.16.8.10",
+          "cidr": "172.16.8.0/24",
+          "peer": "8-eth3"
+        }
+      },
+      "meta": {
+        "attached_to": "8",
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "h_9_1": {
+      "type": "host",
+      "interfaces": {
+        "h_9_1-eth0": {
+          "ip": "172.16.9.10",
+          "cidr": "172.16.9.0/24",
+          "peer": "9-eth3"
+        }
+      },
+      "meta": {
+        "attached_to": "9",
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "h_10_1": {
+      "type": "host",
+      "interfaces": {
+        "h_10_1-eth0": {
+          "ip": "172.16.10.10",
+          "cidr": "172.16.10.0/24",
+          "peer": "10-eth2"
+        }
+      },
+      "meta": {
+        "attached_to": "10",
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "h_11_1": {
+      "type": "host",
+      "interfaces": {
+        "h_11_1-eth0": {
+          "ip": "172.16.11.10",
+          "cidr": "172.16.11.0/24",
+          "peer": "11-eth4"
+        }
+      },
+      "meta": {
+        "attached_to": "11",
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "h_12_1": {
+      "type": "host",
+      "interfaces": {
+        "h_12_1-eth0": {
+          "ip": "172.16.12.10",
+          "cidr": "172.16.12.0/24",
+          "peer": "12-eth3"
+        }
+      },
+      "meta": {
+        "attached_to": "12",
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "h_13_1": {
+      "type": "host",
+      "interfaces": {
+        "h_13_1-eth0": {
+          "ip": "172.16.13.10",
+          "cidr": "172.16.13.0/24",
+          "peer": "13-eth3"
+        }
+      },
+      "meta": {
+        "attached_to": "13",
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "h_14_1": {
+      "type": "host",
+      "interfaces": {
+        "h_14_1-eth0": {
+          "ip": "172.16.14.10",
+          "cidr": "172.16.14.0/24",
+          "peer": "14-eth3"
+        }
+      },
+      "meta": {
+        "attached_to": "14",
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "h_15_1": {
+      "type": "host",
+      "interfaces": {
+        "h_15_1-eth0": {
+          "ip": "172.16.15.10",
+          "cidr": "172.16.15.0/24",
+          "peer": "15-eth3"
+        }
+      },
+      "meta": {
+        "attached_to": "15",
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "h_16_1": {
+      "type": "host",
+      "interfaces": {
+        "h_16_1-eth0": {
+          "ip": "172.16.16.10",
+          "cidr": "172.16.16.0/24",
+          "peer": "16-eth3"
+        }
+      },
+      "meta": {
+        "attached_to": "16",
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "h_17_1": {
+      "type": "host",
+      "interfaces": {
+        "h_17_1-eth0": {
+          "ip": "172.16.17.10",
+          "cidr": "172.16.17.0/24",
+          "peer": "17-eth4"
+        }
+      },
+      "meta": {
+        "attached_to": "17",
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "h_18_1": {
+      "type": "host",
+      "interfaces": {
+        "h_18_1-eth0": {
+          "ip": "172.16.18.10",
+          "cidr": "172.16.18.0/24",
+          "peer": "18-eth5"
+        }
+      },
+      "meta": {
+        "attached_to": "18",
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "h_19_1": {
+      "type": "host",
+      "interfaces": {
+        "h_19_1-eth0": {
+          "ip": "172.16.19.10",
+          "cidr": "172.16.19.0/24",
+          "peer": "19-eth2"
+        }
+      },
+      "meta": {
+        "attached_to": "19",
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "h_20_1": {
+      "type": "host",
+      "interfaces": {
+        "h_20_1-eth0": {
+          "ip": "172.16.20.10",
+          "cidr": "172.16.20.0/24",
+          "peer": "20-eth5"
+        }
+      },
+      "meta": {
+        "attached_to": "20",
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "h_21_1": {
+      "type": "host",
+      "interfaces": {
+        "h_21_1-eth0": {
+          "ip": "172.16.21.10",
+          "cidr": "172.16.21.0/24",
+          "peer": "21-eth3"
+        }
+      },
+      "meta": {
+        "attached_to": "21",
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "h_22_1": {
+      "type": "host",
+      "interfaces": {
+        "h_22_1-eth0": {
+          "ip": "172.16.22.10",
+          "cidr": "172.16.22.0/24",
+          "peer": "22-eth4"
+        }
+      },
+      "meta": {
+        "attached_to": "22",
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "h_23_1": {
+      "type": "host",
+      "interfaces": {
+        "h_23_1-eth0": {
+          "ip": "172.16.23.10",
+          "cidr": "172.16.23.0/24",
+          "peer": "23-eth2"
+        }
+      },
+      "meta": {
+        "attached_to": "23",
+        "topology_id": "gabriel/25/7"
+      }
+    },
+    "h_24_1": {
+      "type": "host",
+      "interfaces": {
+        "h_24_1-eth0": {
+          "ip": "172.16.24.10",
+          "cidr": "172.16.24.0/24",
+          "peer": "24-eth2"
+        }
+      },
+      "meta": {
+        "attached_to": "24",
+        "topology_id": "gabriel/25/7"
+      }
+    }
+  },
+  "networks": {
+    "LINK_0_5": {
+      "cidr": "10.0.0.0/30",
+      "gateway_device": "0",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "0",
+        "endpoint_b": "5"
+      }
+    },
+    "LINK_0_6": {
+      "cidr": "10.0.1.0/30",
+      "gateway_device": "0",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "0",
+        "endpoint_b": "6"
+      }
+    },
+    "LINK_0_8": {
+      "cidr": "10.0.2.0/30",
+      "gateway_device": "0",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "0",
+        "endpoint_b": "8"
+      }
+    },
+    "LINK_1_5": {
+      "cidr": "10.0.3.0/30",
+      "gateway_device": "1",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "1",
+        "endpoint_b": "5"
+      }
+    },
+    "LINK_1_6": {
+      "cidr": "10.0.4.0/30",
+      "gateway_device": "1",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "1",
+        "endpoint_b": "6"
+      }
+    },
+    "LINK_1_9": {
+      "cidr": "10.0.5.0/30",
+      "gateway_device": "1",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "1",
+        "endpoint_b": "9"
+      }
+    },
+    "LINK_1_18": {
+      "cidr": "10.0.6.0/30",
+      "gateway_device": "1",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "1",
+        "endpoint_b": "18"
+      }
+    },
+    "LINK_1_22": {
+      "cidr": "10.0.7.0/30",
+      "gateway_device": "1",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "1",
+        "endpoint_b": "22"
+      }
+    },
+    "LINK_2_3": {
+      "cidr": "10.0.8.0/30",
+      "gateway_device": "2",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "2",
+        "endpoint_b": "3"
+      }
+    },
+    "LINK_2_13": {
+      "cidr": "10.0.9.0/30",
+      "gateway_device": "2",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "2",
+        "endpoint_b": "13"
+      }
+    },
+    "LINK_2_18": {
+      "cidr": "10.0.10.0/30",
+      "gateway_device": "2",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "2",
+        "endpoint_b": "18"
+      }
+    },
+    "LINK_2_20": {
+      "cidr": "10.0.11.0/30",
+      "gateway_device": "2",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "2",
+        "endpoint_b": "20"
+      }
+    },
+    "LINK_3_11": {
+      "cidr": "10.0.12.0/30",
+      "gateway_device": "3",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "3",
+        "endpoint_b": "11"
+      }
+    },
+    "LINK_3_14": {
+      "cidr": "10.0.13.0/30",
+      "gateway_device": "3",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "3",
+        "endpoint_b": "14"
+      }
+    },
+    "LINK_3_20": {
+      "cidr": "10.0.14.0/30",
+      "gateway_device": "3",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "3",
+        "endpoint_b": "20"
+      }
+    },
+    "LINK_3_21": {
+      "cidr": "10.0.15.0/30",
+      "gateway_device": "3",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "3",
+        "endpoint_b": "21"
+      }
+    },
+    "LINK_3_23": {
+      "cidr": "10.0.16.0/30",
+      "gateway_device": "3",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "3",
+        "endpoint_b": "23"
+      }
+    },
+    "LINK_4_9": {
+      "cidr": "10.0.17.0/30",
+      "gateway_device": "4",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "4",
+        "endpoint_b": "9"
+      }
+    },
+    "LINK_4_24": {
+      "cidr": "10.0.18.0/30",
+      "gateway_device": "4",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "4",
+        "endpoint_b": "24"
+      }
+    },
+    "LINK_5_6": {
+      "cidr": "10.0.19.0/30",
+      "gateway_device": "5",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "5",
+        "endpoint_b": "6"
+      }
+    },
+    "LINK_5_13": {
+      "cidr": "10.0.20.0/30",
+      "gateway_device": "5",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "5",
+        "endpoint_b": "13"
+      }
+    },
+    "LINK_5_18": {
+      "cidr": "10.0.21.0/30",
+      "gateway_device": "5",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "5",
+        "endpoint_b": "18"
+      }
+    },
+    "LINK_6_9": {
+      "cidr": "10.0.22.0/30",
+      "gateway_device": "6",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "6",
+        "endpoint_b": "9"
+      }
+    },
+    "LINK_7_10": {
+      "cidr": "10.0.23.0/30",
+      "gateway_device": "7",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "7",
+        "endpoint_b": "10"
+      }
+    },
+    "LINK_7_22": {
+      "cidr": "10.0.24.0/30",
+      "gateway_device": "7",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "7",
+        "endpoint_b": "22"
+      }
+    },
+    "LINK_7_24": {
+      "cidr": "10.0.25.0/30",
+      "gateway_device": "7",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "7",
+        "endpoint_b": "24"
+      }
+    },
+    "LINK_8_11": {
+      "cidr": "10.0.26.0/30",
+      "gateway_device": "8",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "8",
+        "endpoint_b": "11"
+      }
+    },
+    "LINK_8_15": {
+      "cidr": "10.0.27.0/30",
+      "gateway_device": "8",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "8",
+        "endpoint_b": "15"
+      }
+    },
+    "LINK_10_19": {
+      "cidr": "10.0.28.0/30",
+      "gateway_device": "10",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "10",
+        "endpoint_b": "19"
+      }
+    },
+    "LINK_11_13": {
+      "cidr": "10.0.29.0/30",
+      "gateway_device": "11",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "11",
+        "endpoint_b": "13"
+      }
+    },
+    "LINK_11_15": {
+      "cidr": "10.0.30.0/30",
+      "gateway_device": "11",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "11",
+        "endpoint_b": "15"
+      }
+    },
+    "LINK_12_16": {
+      "cidr": "10.0.31.0/30",
+      "gateway_device": "12",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "12",
+        "endpoint_b": "16"
+      }
+    },
+    "LINK_12_20": {
+      "cidr": "10.0.32.0/30",
+      "gateway_device": "12",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "12",
+        "endpoint_b": "20"
+      }
+    },
+    "LINK_12_21": {
+      "cidr": "10.0.33.0/30",
+      "gateway_device": "12",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "12",
+        "endpoint_b": "21"
+      }
+    },
+    "LINK_14_15": {
+      "cidr": "10.0.34.0/30",
+      "gateway_device": "14",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "14",
+        "endpoint_b": "15"
+      }
+    },
+    "LINK_14_23": {
+      "cidr": "10.0.35.0/30",
+      "gateway_device": "14",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "14",
+        "endpoint_b": "23"
+      }
+    },
+    "LINK_16_17": {
+      "cidr": "10.0.36.0/30",
+      "gateway_device": "16",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "16",
+        "endpoint_b": "17"
+      }
+    },
+    "LINK_16_19": {
+      "cidr": "10.0.37.0/30",
+      "gateway_device": "16",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "16",
+        "endpoint_b": "19"
+      }
+    },
+    "LINK_17_18": {
+      "cidr": "10.0.38.0/30",
+      "gateway_device": "17",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "17",
+        "endpoint_b": "18"
+      }
+    },
+    "LINK_17_20": {
+      "cidr": "10.0.39.0/30",
+      "gateway_device": "17",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "17",
+        "endpoint_b": "20"
+      }
+    },
+    "LINK_17_22": {
+      "cidr": "10.0.40.0/30",
+      "gateway_device": "17",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "17",
+        "endpoint_b": "22"
+      }
+    },
+    "LINK_18_22": {
+      "cidr": "10.0.41.0/30",
+      "gateway_device": "18",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "18",
+        "endpoint_b": "22"
+      }
+    },
+    "LINK_20_21": {
+      "cidr": "10.0.42.0/30",
+      "gateway_device": "20",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "20",
+        "endpoint_b": "21"
+      }
+    },
+    "LAN_0_1": {
+      "cidr": "172.16.0.0/24",
+      "gateway_device": "0",
+      "gateway_ip": "172.16.0.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_0_1"
+      }
+    },
+    "LAN_1_1": {
+      "cidr": "172.16.1.0/24",
+      "gateway_device": "1",
+      "gateway_ip": "172.16.1.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_1_1"
+      }
+    },
+    "LAN_2_1": {
+      "cidr": "172.16.2.0/24",
+      "gateway_device": "2",
+      "gateway_ip": "172.16.2.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_2_1"
+      }
+    },
+    "LAN_3_1": {
+      "cidr": "172.16.3.0/24",
+      "gateway_device": "3",
+      "gateway_ip": "172.16.3.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_3_1"
+      }
+    },
+    "LAN_4_1": {
+      "cidr": "172.16.4.0/24",
+      "gateway_device": "4",
+      "gateway_ip": "172.16.4.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_4_1"
+      }
+    },
+    "LAN_5_1": {
+      "cidr": "172.16.5.0/24",
+      "gateway_device": "5",
+      "gateway_ip": "172.16.5.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_5_1"
+      }
+    },
+    "LAN_6_1": {
+      "cidr": "172.16.6.0/24",
+      "gateway_device": "6",
+      "gateway_ip": "172.16.6.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_6_1"
+      }
+    },
+    "LAN_7_1": {
+      "cidr": "172.16.7.0/24",
+      "gateway_device": "7",
+      "gateway_ip": "172.16.7.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_7_1"
+      }
+    },
+    "LAN_8_1": {
+      "cidr": "172.16.8.0/24",
+      "gateway_device": "8",
+      "gateway_ip": "172.16.8.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_8_1"
+      }
+    },
+    "LAN_9_1": {
+      "cidr": "172.16.9.0/24",
+      "gateway_device": "9",
+      "gateway_ip": "172.16.9.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_9_1"
+      }
+    },
+    "LAN_10_1": {
+      "cidr": "172.16.10.0/24",
+      "gateway_device": "10",
+      "gateway_ip": "172.16.10.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_10_1"
+      }
+    },
+    "LAN_11_1": {
+      "cidr": "172.16.11.0/24",
+      "gateway_device": "11",
+      "gateway_ip": "172.16.11.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_11_1"
+      }
+    },
+    "LAN_12_1": {
+      "cidr": "172.16.12.0/24",
+      "gateway_device": "12",
+      "gateway_ip": "172.16.12.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_12_1"
+      }
+    },
+    "LAN_13_1": {
+      "cidr": "172.16.13.0/24",
+      "gateway_device": "13",
+      "gateway_ip": "172.16.13.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_13_1"
+      }
+    },
+    "LAN_14_1": {
+      "cidr": "172.16.14.0/24",
+      "gateway_device": "14",
+      "gateway_ip": "172.16.14.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_14_1"
+      }
+    },
+    "LAN_15_1": {
+      "cidr": "172.16.15.0/24",
+      "gateway_device": "15",
+      "gateway_ip": "172.16.15.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_15_1"
+      }
+    },
+    "LAN_16_1": {
+      "cidr": "172.16.16.0/24",
+      "gateway_device": "16",
+      "gateway_ip": "172.16.16.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_16_1"
+      }
+    },
+    "LAN_17_1": {
+      "cidr": "172.16.17.0/24",
+      "gateway_device": "17",
+      "gateway_ip": "172.16.17.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_17_1"
+      }
+    },
+    "LAN_18_1": {
+      "cidr": "172.16.18.0/24",
+      "gateway_device": "18",
+      "gateway_ip": "172.16.18.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_18_1"
+      }
+    },
+    "LAN_19_1": {
+      "cidr": "172.16.19.0/24",
+      "gateway_device": "19",
+      "gateway_ip": "172.16.19.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_19_1"
+      }
+    },
+    "LAN_20_1": {
+      "cidr": "172.16.20.0/24",
+      "gateway_device": "20",
+      "gateway_ip": "172.16.20.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_20_1"
+      }
+    },
+    "LAN_21_1": {
+      "cidr": "172.16.21.0/24",
+      "gateway_device": "21",
+      "gateway_ip": "172.16.21.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_21_1"
+      }
+    },
+    "LAN_22_1": {
+      "cidr": "172.16.22.0/24",
+      "gateway_device": "22",
+      "gateway_ip": "172.16.22.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_22_1"
+      }
+    },
+    "LAN_23_1": {
+      "cidr": "172.16.23.0/24",
+      "gateway_device": "23",
+      "gateway_ip": "172.16.23.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_23_1"
+      }
+    },
+    "LAN_24_1": {
+      "cidr": "172.16.24.0/24",
+      "gateway_device": "24",
+      "gateway_ip": "172.16.24.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_24_1"
+      }
+    }
+  },
+  "meta": {
+    "source": "topohub",
+    "topology_id": "gabriel/25/7",
+    "num_source_nodes": 25,
+    "num_source_edges": 43
+  }
+}

@@ -1,0 +1,123 @@
+[
+    {
+        "id": 1,
+        "intent_original": "On r1, add a static routing entry so that traffic for subnet 10.3.0.0/24 is forwarded through r0",
+        "classificacao": {
+            "name": "static_route_add",
+            "confidence": 0.9,
+            "category": "configuration",
+            "rationale": "intent mentions adding a static route with a destination network and next-hop"
+        },
+        "entidades_extraidas": [
+            {
+                "type": "router",
+                "value": "r0",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "router",
+                "value": "r1",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            },
+            {
+                "type": "subnet",
+                "value": "10.3.0.0/24",
+                "meta": {
+                    "source": "LLM_ENTITIES"
+                }
+            }
+        ],
+        "context_slice": {
+            "devices": {
+                "r0": {
+                    "interfaces": {
+                        "r0-eth1": {
+                            "peer": "r1-eth0",
+                            "ip": "10.255.1.1",
+                            "cidr": "10.255.1.0/31",
+                            "role": "transit"
+                        },
+                        "r0-eth2": {
+                            "peer": "r2-eth0",
+                            "ip": "10.255.2.1",
+                            "cidr": "10.255.2.0/31",
+                            "role": "transit"
+                        },
+                        "r0-eth3": {
+                            "peer": "r3-eth0",
+                            "ip": "10.255.3.1",
+                            "cidr": "10.255.3.0/31",
+                            "role": "transit"
+                        },
+                        "r0-eth4": {
+                            "peer": "r4-eth0",
+                            "ip": "10.255.4.1",
+                            "cidr": "10.255.4.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                },
+                "r1": {
+                    "interfaces": {
+                        "r1-eth1": {
+                            "peer": "s1-eth3",
+                            "ip": "10.1.0.1",
+                            "cidr": "10.1.0.0/24",
+                            "role": "lan_uplink"
+                        },
+                        "r1-eth0": {
+                            "peer": "r0-eth1",
+                            "ip": "10.255.1.0",
+                            "cidr": "10.255.1.0/31",
+                            "role": "transit"
+                        }
+                    },
+                    "type": "router"
+                }
+            },
+            "networks": {
+                "transit_r0_r1": {
+                    "cidr": "10.255.1.0/31",
+                    "endpoints": [
+                        {
+                            "device": "r0",
+                            "ip": "10.255.1.1"
+                        },
+                        {
+                            "device": "r1",
+                            "ip": "10.255.1.0"
+                        }
+                    ]
+                }
+            }
+        },
+        "plan": {
+            "steps": [
+                {
+                    "device": "r1",
+                    "op": "static_route_add",
+                    "args": {
+                        "target_network": "10.3.0.0/24",
+                        "exit_gateway": "r0"
+                    }
+                },
+                {
+                    "device": "r0",
+                    "op": "static_route_add",
+                    "args": {
+                        "target_network": "10.3.0.0/24",
+                        "exit_gateway": "r3"
+                    }
+                }
+            ],
+            "warnings": [],
+            "needs_human": false,
+            "dry_run": true
+        }
+    }
+]

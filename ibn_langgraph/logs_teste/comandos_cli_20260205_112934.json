@@ -1,0 +1,13 @@
+[
+    {
+        "id_teste": 1,
+        "intent": "Configure router r2 with a static route to reach the 10.4.0.0/24 network via r0.",
+        "status": "CLI_GENERATED",
+        "commands": {
+            "r2": [
+                "ip route add 10.4.0.0/24 via 10.255.2.1",
+                "sysctl -w net.ipv4.ip_forward=1"
+            ]
+        }
+    }
+]

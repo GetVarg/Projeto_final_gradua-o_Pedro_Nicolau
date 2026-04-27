@@ -30,6 +30,7 @@ class IBNState(TypedDict, total=False):
     # cache/topologia
     topology: Dict
     topology_full: Dict
+    slice_topology: Dict
 
     # processamento
     intent: Intent
@@ -42,8 +43,14 @@ class IBNState(TypedDict, total=False):
     verification: Dict
 
     # perfil de comandos / ambiente
-    command_profile: Dict
     cli_commands: Optional[Dict[str, Any]]
+
+    work: Dict[str, Any]              # root_intent, subintents, cursor, results, etc.
+    active_subintent_id: Optional[str]
+    active_subintent_text: Optional[str]
+    plan_items: List[Dict[str, Any]]
+    plan_steps: List[Dict[str, Any]]
+    warnings: List[str] 
 
     # controle
     needs_human: bool

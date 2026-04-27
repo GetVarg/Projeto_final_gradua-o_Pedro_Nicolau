@@ -1,0 +1,391 @@
+{
+  "dataset_name": "plan_items_inputs",
+  "source_dataset": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\primeiro_dataset.json",
+  "topologies_source": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\topologias_convertidas\\africa.json",
+  "num_records": 3,
+  "num_topologies_used": 1,
+  "num_items": 1,
+  "items": [
+    {
+      "id": "119__africa",
+      "input": {
+        "dataset_name": "plan_items_inputs",
+        "source_dataset": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\primeiro_dataset.json",
+        "topologies_source": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\topologias_convertidas\\africa.json",
+        "num_records": 3,
+        "num_topologies_used": 1,
+        "topology_id": "africa",
+        "topology_path": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\topologias_convertidas\\africa.json",
+        "topology_slice": {
+          "devices": {
+            "6272": {
+              "type": "router",
+              "interfaces": {
+                "6272-eth0": {
+                  "ip": "10.0.0.1",
+                  "cidr": "10.0.0.0/30",
+                  "peer": "1433-eth0"
+                },
+                "6272-eth1": {
+                  "ip": "10.0.1.1",
+                  "cidr": "10.0.1.0/30",
+                  "peer": "6261-eth0"
+                }
+              },
+              "meta": {
+                "source_name": "6272",
+                "source_id": 6272,
+                "topology_id": "africa"
+              }
+            },
+            "6261": {
+              "type": "router",
+              "interfaces": {
+                "6261-eth0": {
+                  "ip": "10.0.1.2",
+                  "cidr": "10.0.1.0/30",
+                  "peer": "6272-eth1"
+                },
+                "6261-eth1": {
+                  "ip": "10.0.6.1",
+                  "cidr": "10.0.6.0/30",
+                  "peer": "6260-eth1"
+                },
+                "6261-eth2": {
+                  "ip": "10.0.7.1",
+                  "cidr": "10.0.7.0/30",
+                  "peer": "1367-eth0"
+                }
+              },
+              "meta": {
+                "source_name": "6261",
+                "source_id": 6261,
+                "topology_id": "africa"
+              }
+            },
+            "6260": {
+              "type": "router",
+              "interfaces": {
+                "6260-eth0": {
+                  "ip": "10.0.2.2",
+                  "cidr": "10.0.2.0/30",
+                  "peer": "6266-eth0"
+                },
+                "6260-eth1": {
+                  "ip": "10.0.6.2",
+                  "cidr": "10.0.6.0/30",
+                  "peer": "6261-eth1"
+                },
+                "6260-eth2": {
+                  "ip": "10.0.8.1",
+                  "cidr": "10.0.8.0/30",
+                  "peer": "936-eth0"
+                }
+              },
+              "meta": {
+                "source_name": "6260",
+                "source_id": 6260,
+                "topology_id": "africa"
+              }
+            },
+            "1367": {
+              "type": "router",
+              "interfaces": {
+                "1367-eth0": {
+                  "ip": "10.0.7.2",
+                  "cidr": "10.0.7.0/30",
+                  "peer": "6261-eth2"
+                },
+                "1367-eth1": {
+                  "ip": "10.0.16.2",
+                  "cidr": "10.0.16.0/30",
+                  "peer": "6241-eth2"
+                },
+                "1367-eth2": {
+                  "ip": "10.0.37.2",
+                  "cidr": "10.0.37.0/30",
+                  "peer": "5881-eth2"
+                },
+                "1367-eth3": {
+                  "ip": "10.1.189.1",
+                  "cidr": "10.1.189.0/30",
+                  "peer": "930-eth0"
+                }
+              },
+              "meta": {
+                "source_name": "1367",
+                "source_id": 1367,
+                "topology_id": "africa"
+              }
+            }
+          },
+          "networks": {
+            "LINK_6272_6261": {
+              "cidr": "10.0.1.0/30",
+              "gateway_device": "6272",
+              "meta": {
+                "kind": "p2p_link",
+                "endpoint_a": "6272",
+                "endpoint_b": "6261"
+              }
+            },
+            "LINK_6261_6260": {
+              "cidr": "10.0.6.0/30",
+              "gateway_device": "6261",
+              "meta": {
+                "kind": "p2p_link",
+                "endpoint_a": "6261",
+                "endpoint_b": "6260"
+              }
+            },
+            "LINK_6261_1367": {
+              "cidr": "10.0.7.0/30",
+              "gateway_device": "6261",
+              "meta": {
+                "kind": "p2p_link",
+                "endpoint_a": "6261",
+                "endpoint_b": "1367"
+              }
+            }
+          }
+        },
+        "records": [
+          {
+            "input": {
+              "root_intent": "On router 6261, establish BGP peer-group IBGP, set remote-as 65000, and associate neighbor 10.0.1.1 with it",
+              "intent_text": "Create peer-group IBGP in the BGP process on router 6261",
+              "op_spec": {
+                "op": "protocols_config",
+                "description": "",
+                "targets": [],
+                "requires": [],
+                "optional": [],
+                "args_schema": {},
+                "examples": []
+              },
+              "entities": [
+                {
+                  "type": "router",
+                  "value": "6261",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "ip",
+                  "value": "10.0.1.1",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "service",
+                  "value": "BGP",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "service",
+                  "value": "IBGP",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                }
+              ],
+              "notes": {
+                "protocol": "bgp"
+              }
+            },
+            "meta": {
+              "source_dataset_id": 119,
+              "task_view": "discretize_intent",
+              "subintent_id": "S1",
+              "anchors": [
+                "6261",
+                "IBGP"
+              ],
+              "classification_raw": {
+                "op": "protocols_config"
+              },
+              "entity_selectors": [],
+              "warnings": [
+                "selector_hits=0 | RAG base_hits=1 thr=0.35 | expanded_hits=7 thr=0.35"
+              ],
+              "needs_human": false,
+              "topology_id": "africa",
+              "topology_path": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\topologias_convertidas\\africa.json",
+              "rag": {
+                "q_base": "6261 10.0.1.1 BGP IBGP",
+                "q_exp": "6261",
+                "base_hits": 1,
+                "expanded_hits": 7,
+                "base_threshold": 0.35,
+                "expanded_threshold": 0.35,
+                "selector_devices": [],
+                "selector_hits": 0
+              }
+            }
+          },
+          {
+            "input": {
+              "root_intent": "On router 6261, establish BGP peer-group IBGP, set remote-as 65000, and associate neighbor 10.0.1.1 with it",
+              "intent_text": "Set remote AS 65000 for peer-group IBGP in the BGP process on router 6261",
+              "op_spec": {
+                "op": "protocols_config",
+                "description": "",
+                "targets": [],
+                "requires": [],
+                "optional": [],
+                "args_schema": {},
+                "examples": []
+              },
+              "entities": [
+                {
+                  "type": "router",
+                  "value": "6261",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "ip",
+                  "value": "10.0.1.1",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "service",
+                  "value": "BGP",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "service",
+                  "value": "IBGP",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                }
+              ],
+              "notes": {
+                "protocol": "bgp"
+              }
+            },
+            "meta": {
+              "source_dataset_id": 119,
+              "task_view": "discretize_intent",
+              "subintent_id": "S2",
+              "anchors": [
+                "6261",
+                "IBGP",
+                "65000"
+              ],
+              "classification_raw": {
+                "op": "protocols_config"
+              },
+              "entity_selectors": [],
+              "warnings": [
+                "selector_hits=0 | RAG base_hits=1 thr=0.35 | expanded_hits=7 thr=0.35"
+              ],
+              "needs_human": false,
+              "topology_id": "africa",
+              "topology_path": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\topologias_convertidas\\africa.json",
+              "rag": {
+                "q_base": "6261 10.0.1.1 BGP IBGP",
+                "q_exp": "6261",
+                "base_hits": 1,
+                "expanded_hits": 7,
+                "base_threshold": 0.35,
+                "expanded_threshold": 0.35,
+                "selector_devices": [],
+                "selector_hits": 0
+              }
+            }
+          },
+          {
+            "input": {
+              "root_intent": "On router 6261, establish BGP peer-group IBGP, set remote-as 65000, and associate neighbor 10.0.1.1 with it",
+              "intent_text": "Associate neighbor 10.0.1.1 with peer-group IBGP in the BGP process on router 6261",
+              "op_spec": {
+                "op": "protocols_config",
+                "description": "",
+                "targets": [],
+                "requires": [],
+                "optional": [],
+                "args_schema": {},
+                "examples": []
+              },
+              "entities": [
+                {
+                  "type": "router",
+                  "value": "6261",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "ip",
+                  "value": "10.0.1.1",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "service",
+                  "value": "BGP",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "service",
+                  "value": "IBGP",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                }
+              ],
+              "notes": {
+                "protocol": "bgp"
+              }
+            },
+            "meta": {
+              "source_dataset_id": 119,
+              "task_view": "discretize_intent",
+              "subintent_id": "S3",
+              "anchors": [
+                "6261",
+                "IBGP",
+                "10.0.1.1"
+              ],
+              "classification_raw": {
+                "op": "protocols_config"
+              },
+              "entity_selectors": [],
+              "warnings": [
+                "selector_hits=0 | RAG base_hits=1 thr=0.35 | expanded_hits=7 thr=0.35"
+              ],
+              "needs_human": false,
+              "topology_id": "africa",
+              "topology_path": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\topologias_convertidas\\africa.json",
+              "rag": {
+                "q_base": "6261 10.0.1.1 BGP IBGP",
+                "q_exp": "6261",
+                "base_hits": 1,
+                "expanded_hits": 7,
+                "base_threshold": 0.35,
+                "expanded_threshold": 0.35,
+                "selector_devices": [],
+                "selector_hits": 0
+              }
+            }
+          }
+        ]
+      },
+      "output": {}
+    }
+  ]
+}

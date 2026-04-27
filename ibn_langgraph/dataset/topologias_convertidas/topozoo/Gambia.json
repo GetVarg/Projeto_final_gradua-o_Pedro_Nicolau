@@ -1,0 +1,696 @@
+{
+  "devices": {
+    "2": {
+      "type": "router",
+      "interfaces": {
+        "2-eth0": {
+          "ip": "10.0.0.1",
+          "cidr": "10.0.0.0/30",
+          "peer": "3-eth0"
+        },
+        "2-eth1": {
+          "ip": "10.0.1.1",
+          "cidr": "10.0.1.0/30",
+          "peer": "27-eth0"
+        },
+        "2-eth2": {
+          "ip": "172.16.0.1",
+          "cidr": "172.16.0.0/24",
+          "peer": "h_2_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "2",
+        "source_id": "2",
+        "topology_id": "topozoo/Gambia"
+      }
+    },
+    "3": {
+      "type": "router",
+      "interfaces": {
+        "3-eth0": {
+          "ip": "10.0.0.2",
+          "cidr": "10.0.0.0/30",
+          "peer": "2-eth0"
+        },
+        "3-eth1": {
+          "ip": "10.0.2.1",
+          "cidr": "10.0.2.0/30",
+          "peer": "21-eth0"
+        },
+        "3-eth2": {
+          "ip": "172.16.1.1",
+          "cidr": "172.16.1.0/24",
+          "peer": "h_3_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "3",
+        "source_id": "3",
+        "topology_id": "topozoo/Gambia"
+      }
+    },
+    "18": {
+      "type": "router",
+      "interfaces": {
+        "18-eth0": {
+          "ip": "10.0.3.1",
+          "cidr": "10.0.3.0/30",
+          "peer": "26-eth0"
+        },
+        "18-eth1": {
+          "ip": "10.0.4.1",
+          "cidr": "10.0.4.0/30",
+          "peer": "19-eth0"
+        },
+        "18-eth2": {
+          "ip": "172.16.2.1",
+          "cidr": "172.16.2.0/24",
+          "peer": "h_18_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "18",
+        "source_id": "18",
+        "topology_id": "topozoo/Gambia"
+      }
+    },
+    "19": {
+      "type": "router",
+      "interfaces": {
+        "19-eth0": {
+          "ip": "10.0.4.2",
+          "cidr": "10.0.4.0/30",
+          "peer": "18-eth1"
+        },
+        "19-eth1": {
+          "ip": "172.16.3.1",
+          "cidr": "172.16.3.0/24",
+          "peer": "h_19_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "19",
+        "source_id": "19",
+        "topology_id": "topozoo/Gambia"
+      }
+    },
+    "20": {
+      "type": "router",
+      "interfaces": {
+        "20-eth0": {
+          "ip": "10.0.5.1",
+          "cidr": "10.0.5.0/30",
+          "peer": "21-eth1"
+        },
+        "20-eth1": {
+          "ip": "172.16.4.1",
+          "cidr": "172.16.4.0/24",
+          "peer": "h_20_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "20",
+        "source_id": "20",
+        "topology_id": "topozoo/Gambia"
+      }
+    },
+    "21": {
+      "type": "router",
+      "interfaces": {
+        "21-eth0": {
+          "ip": "10.0.2.2",
+          "cidr": "10.0.2.0/30",
+          "peer": "3-eth1"
+        },
+        "21-eth1": {
+          "ip": "10.0.5.2",
+          "cidr": "10.0.5.0/30",
+          "peer": "20-eth0"
+        },
+        "21-eth2": {
+          "ip": "10.0.6.1",
+          "cidr": "10.0.6.0/30",
+          "peer": "22-eth0"
+        },
+        "21-eth3": {
+          "ip": "10.0.7.1",
+          "cidr": "10.0.7.0/30",
+          "peer": "23-eth0"
+        },
+        "21-eth4": {
+          "ip": "10.0.8.1",
+          "cidr": "10.0.8.0/30",
+          "peer": "24-eth0"
+        },
+        "21-eth5": {
+          "ip": "10.0.9.1",
+          "cidr": "10.0.9.0/30",
+          "peer": "25-eth0"
+        },
+        "21-eth6": {
+          "ip": "172.16.5.1",
+          "cidr": "172.16.5.0/24",
+          "peer": "h_21_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "21",
+        "source_id": "21",
+        "topology_id": "topozoo/Gambia"
+      }
+    },
+    "22": {
+      "type": "router",
+      "interfaces": {
+        "22-eth0": {
+          "ip": "10.0.6.2",
+          "cidr": "10.0.6.0/30",
+          "peer": "21-eth2"
+        },
+        "22-eth1": {
+          "ip": "172.16.6.1",
+          "cidr": "172.16.6.0/24",
+          "peer": "h_22_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "22",
+        "source_id": "22",
+        "topology_id": "topozoo/Gambia"
+      }
+    },
+    "23": {
+      "type": "router",
+      "interfaces": {
+        "23-eth0": {
+          "ip": "10.0.7.2",
+          "cidr": "10.0.7.0/30",
+          "peer": "21-eth3"
+        },
+        "23-eth1": {
+          "ip": "172.16.7.1",
+          "cidr": "172.16.7.0/24",
+          "peer": "h_23_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "23",
+        "source_id": "23",
+        "topology_id": "topozoo/Gambia"
+      }
+    },
+    "24": {
+      "type": "router",
+      "interfaces": {
+        "24-eth0": {
+          "ip": "10.0.8.2",
+          "cidr": "10.0.8.0/30",
+          "peer": "21-eth4"
+        },
+        "24-eth1": {
+          "ip": "172.16.8.1",
+          "cidr": "172.16.8.0/24",
+          "peer": "h_24_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "24",
+        "source_id": "24",
+        "topology_id": "topozoo/Gambia"
+      }
+    },
+    "25": {
+      "type": "router",
+      "interfaces": {
+        "25-eth0": {
+          "ip": "10.0.9.2",
+          "cidr": "10.0.9.0/30",
+          "peer": "21-eth5"
+        },
+        "25-eth1": {
+          "ip": "10.0.10.1",
+          "cidr": "10.0.10.0/30",
+          "peer": "26-eth1"
+        },
+        "25-eth2": {
+          "ip": "172.16.9.1",
+          "cidr": "172.16.9.0/24",
+          "peer": "h_25_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "25",
+        "source_id": "25",
+        "topology_id": "topozoo/Gambia"
+      }
+    },
+    "26": {
+      "type": "router",
+      "interfaces": {
+        "26-eth0": {
+          "ip": "10.0.3.2",
+          "cidr": "10.0.3.0/30",
+          "peer": "18-eth0"
+        },
+        "26-eth1": {
+          "ip": "10.0.10.2",
+          "cidr": "10.0.10.0/30",
+          "peer": "25-eth1"
+        },
+        "26-eth2": {
+          "ip": "10.0.11.1",
+          "cidr": "10.0.11.0/30",
+          "peer": "27-eth1"
+        },
+        "26-eth3": {
+          "ip": "172.16.10.1",
+          "cidr": "172.16.10.0/24",
+          "peer": "h_26_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "26",
+        "source_id": "26",
+        "topology_id": "topozoo/Gambia"
+      }
+    },
+    "27": {
+      "type": "router",
+      "interfaces": {
+        "27-eth0": {
+          "ip": "10.0.1.2",
+          "cidr": "10.0.1.0/30",
+          "peer": "2-eth1"
+        },
+        "27-eth1": {
+          "ip": "10.0.11.2",
+          "cidr": "10.0.11.0/30",
+          "peer": "26-eth2"
+        },
+        "27-eth2": {
+          "ip": "172.16.11.1",
+          "cidr": "172.16.11.0/24",
+          "peer": "h_27_1-eth0"
+        }
+      },
+      "meta": {
+        "source_name": "27",
+        "source_id": "27",
+        "topology_id": "topozoo/Gambia"
+      }
+    },
+    "h_2_1": {
+      "type": "host",
+      "interfaces": {
+        "h_2_1-eth0": {
+          "ip": "172.16.0.10",
+          "cidr": "172.16.0.0/24",
+          "peer": "2-eth2"
+        }
+      },
+      "meta": {
+        "attached_to": "2",
+        "topology_id": "topozoo/Gambia"
+      }
+    },
+    "h_3_1": {
+      "type": "host",
+      "interfaces": {
+        "h_3_1-eth0": {
+          "ip": "172.16.1.10",
+          "cidr": "172.16.1.0/24",
+          "peer": "3-eth2"
+        }
+      },
+      "meta": {
+        "attached_to": "3",
+        "topology_id": "topozoo/Gambia"
+      }
+    },
+    "h_18_1": {
+      "type": "host",
+      "interfaces": {
+        "h_18_1-eth0": {
+          "ip": "172.16.2.10",
+          "cidr": "172.16.2.0/24",
+          "peer": "18-eth2"
+        }
+      },
+      "meta": {
+        "attached_to": "18",
+        "topology_id": "topozoo/Gambia"
+      }
+    },
+    "h_19_1": {
+      "type": "host",
+      "interfaces": {
+        "h_19_1-eth0": {
+          "ip": "172.16.3.10",
+          "cidr": "172.16.3.0/24",
+          "peer": "19-eth1"
+        }
+      },
+      "meta": {
+        "attached_to": "19",
+        "topology_id": "topozoo/Gambia"
+      }
+    },
+    "h_20_1": {
+      "type": "host",
+      "interfaces": {
+        "h_20_1-eth0": {
+          "ip": "172.16.4.10",
+          "cidr": "172.16.4.0/24",
+          "peer": "20-eth1"
+        }
+      },
+      "meta": {
+        "attached_to": "20",
+        "topology_id": "topozoo/Gambia"
+      }
+    },
+    "h_21_1": {
+      "type": "host",
+      "interfaces": {
+        "h_21_1-eth0": {
+          "ip": "172.16.5.10",
+          "cidr": "172.16.5.0/24",
+          "peer": "21-eth6"
+        }
+      },
+      "meta": {
+        "attached_to": "21",
+        "topology_id": "topozoo/Gambia"
+      }
+    },
+    "h_22_1": {
+      "type": "host",
+      "interfaces": {
+        "h_22_1-eth0": {
+          "ip": "172.16.6.10",
+          "cidr": "172.16.6.0/24",
+          "peer": "22-eth1"
+        }
+      },
+      "meta": {
+        "attached_to": "22",
+        "topology_id": "topozoo/Gambia"
+      }
+    },
+    "h_23_1": {
+      "type": "host",
+      "interfaces": {
+        "h_23_1-eth0": {
+          "ip": "172.16.7.10",
+          "cidr": "172.16.7.0/24",
+          "peer": "23-eth1"
+        }
+      },
+      "meta": {
+        "attached_to": "23",
+        "topology_id": "topozoo/Gambia"
+      }
+    },
+    "h_24_1": {
+      "type": "host",
+      "interfaces": {
+        "h_24_1-eth0": {
+          "ip": "172.16.8.10",
+          "cidr": "172.16.8.0/24",
+          "peer": "24-eth1"
+        }
+      },
+      "meta": {
+        "attached_to": "24",
+        "topology_id": "topozoo/Gambia"
+      }
+    },
+    "h_25_1": {
+      "type": "host",
+      "interfaces": {
+        "h_25_1-eth0": {
+          "ip": "172.16.9.10",
+          "cidr": "172.16.9.0/24",
+          "peer": "25-eth2"
+        }
+      },
+      "meta": {
+        "attached_to": "25",
+        "topology_id": "topozoo/Gambia"
+      }
+    },
+    "h_26_1": {
+      "type": "host",
+      "interfaces": {
+        "h_26_1-eth0": {
+          "ip": "172.16.10.10",
+          "cidr": "172.16.10.0/24",
+          "peer": "26-eth3"
+        }
+      },
+      "meta": {
+        "attached_to": "26",
+        "topology_id": "topozoo/Gambia"
+      }
+    },
+    "h_27_1": {
+      "type": "host",
+      "interfaces": {
+        "h_27_1-eth0": {
+          "ip": "172.16.11.10",
+          "cidr": "172.16.11.0/24",
+          "peer": "27-eth2"
+        }
+      },
+      "meta": {
+        "attached_to": "27",
+        "topology_id": "topozoo/Gambia"
+      }
+    }
+  },
+  "networks": {
+    "LINK_2_3": {
+      "cidr": "10.0.0.0/30",
+      "gateway_device": "2",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "2",
+        "endpoint_b": "3"
+      }
+    },
+    "LINK_2_27": {
+      "cidr": "10.0.1.0/30",
+      "gateway_device": "2",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "2",
+        "endpoint_b": "27"
+      }
+    },
+    "LINK_3_21": {
+      "cidr": "10.0.2.0/30",
+      "gateway_device": "3",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "3",
+        "endpoint_b": "21"
+      }
+    },
+    "LINK_18_26": {
+      "cidr": "10.0.3.0/30",
+      "gateway_device": "18",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "18",
+        "endpoint_b": "26"
+      }
+    },
+    "LINK_18_19": {
+      "cidr": "10.0.4.0/30",
+      "gateway_device": "18",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "18",
+        "endpoint_b": "19"
+      }
+    },
+    "LINK_20_21": {
+      "cidr": "10.0.5.0/30",
+      "gateway_device": "20",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "20",
+        "endpoint_b": "21"
+      }
+    },
+    "LINK_21_22": {
+      "cidr": "10.0.6.0/30",
+      "gateway_device": "21",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "21",
+        "endpoint_b": "22"
+      }
+    },
+    "LINK_21_23": {
+      "cidr": "10.0.7.0/30",
+      "gateway_device": "21",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "21",
+        "endpoint_b": "23"
+      }
+    },
+    "LINK_21_24": {
+      "cidr": "10.0.8.0/30",
+      "gateway_device": "21",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "21",
+        "endpoint_b": "24"
+      }
+    },
+    "LINK_21_25": {
+      "cidr": "10.0.9.0/30",
+      "gateway_device": "21",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "21",
+        "endpoint_b": "25"
+      }
+    },
+    "LINK_25_26": {
+      "cidr": "10.0.10.0/30",
+      "gateway_device": "25",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "25",
+        "endpoint_b": "26"
+      }
+    },
+    "LINK_26_27": {
+      "cidr": "10.0.11.0/30",
+      "gateway_device": "26",
+      "meta": {
+        "kind": "p2p_link",
+        "endpoint_a": "26",
+        "endpoint_b": "27"
+      }
+    },
+    "LAN_2_1": {
+      "cidr": "172.16.0.0/24",
+      "gateway_device": "2",
+      "gateway_ip": "172.16.0.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_2_1"
+      }
+    },
+    "LAN_3_1": {
+      "cidr": "172.16.1.0/24",
+      "gateway_device": "3",
+      "gateway_ip": "172.16.1.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_3_1"
+      }
+    },
+    "LAN_18_1": {
+      "cidr": "172.16.2.0/24",
+      "gateway_device": "18",
+      "gateway_ip": "172.16.2.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_18_1"
+      }
+    },
+    "LAN_19_1": {
+      "cidr": "172.16.3.0/24",
+      "gateway_device": "19",
+      "gateway_ip": "172.16.3.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_19_1"
+      }
+    },
+    "LAN_20_1": {
+      "cidr": "172.16.4.0/24",
+      "gateway_device": "20",
+      "gateway_ip": "172.16.4.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_20_1"
+      }
+    },
+    "LAN_21_1": {
+      "cidr": "172.16.5.0/24",
+      "gateway_device": "21",
+      "gateway_ip": "172.16.5.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_21_1"
+      }
+    },
+    "LAN_22_1": {
+      "cidr": "172.16.6.0/24",
+      "gateway_device": "22",
+      "gateway_ip": "172.16.6.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_22_1"
+      }
+    },
+    "LAN_23_1": {
+      "cidr": "172.16.7.0/24",
+      "gateway_device": "23",
+      "gateway_ip": "172.16.7.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_23_1"
+      }
+    },
+    "LAN_24_1": {
+      "cidr": "172.16.8.0/24",
+      "gateway_device": "24",
+      "gateway_ip": "172.16.8.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_24_1"
+      }
+    },
+    "LAN_25_1": {
+      "cidr": "172.16.9.0/24",
+      "gateway_device": "25",
+      "gateway_ip": "172.16.9.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_25_1"
+      }
+    },
+    "LAN_26_1": {
+      "cidr": "172.16.10.0/24",
+      "gateway_device": "26",
+      "gateway_ip": "172.16.10.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_26_1"
+      }
+    },
+    "LAN_27_1": {
+      "cidr": "172.16.11.0/24",
+      "gateway_device": "27",
+      "gateway_ip": "172.16.11.1",
+      "meta": {
+        "kind": "access_lan",
+        "host": "h_27_1"
+      }
+    }
+  },
+  "meta": {
+    "source": "topohub",
+    "topology_id": "topozoo/Gambia",
+    "num_source_nodes": 12,
+    "num_source_edges": 12
+  }
+}

@@ -1,0 +1,450 @@
+{
+  "dataset_name": "plan_items_inputs",
+  "source_dataset": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\primeiro_dataset.json",
+  "topologies_source": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\topologias_convertidas\\africa.json",
+  "num_records": 3,
+  "num_topologies_used": 1,
+  "num_items": 1,
+  "items": [
+    {
+      "id": "116__africa",
+      "input": {
+        "dataset_name": "plan_items_inputs",
+        "source_dataset": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\primeiro_dataset.json",
+        "topologies_source": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\topologias_convertidas\\africa.json",
+        "num_records": 3,
+        "num_topologies_used": 1,
+        "topology_id": "africa",
+        "topology_path": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\topologias_convertidas\\africa.json",
+        "topology_slice": {
+          "devices": {
+            "6272": {
+              "type": "router",
+              "interfaces": {
+                "6272-eth0": {
+                  "ip": "10.0.0.1",
+                  "cidr": "10.0.0.0/30",
+                  "peer": "1433-eth0"
+                },
+                "6272-eth1": {
+                  "ip": "10.0.1.1",
+                  "cidr": "10.0.1.0/30",
+                  "peer": "6261-eth0"
+                }
+              },
+              "meta": {
+                "source_name": "6272",
+                "source_id": 6272,
+                "topology_id": "africa"
+              }
+            },
+            "5443": {
+              "type": "router",
+              "interfaces": {
+                "5443-eth0": {
+                  "ip": "10.0.39.1",
+                  "cidr": "10.0.39.0/30",
+                  "peer": "5435-eth0"
+                },
+                "5443-eth1": {
+                  "ip": "10.0.40.1",
+                  "cidr": "10.0.40.0/30",
+                  "peer": "5441-eth0"
+                }
+              },
+              "meta": {
+                "source_name": "5443",
+                "source_id": 5443,
+                "topology_id": "africa"
+              }
+            },
+            "5441": {
+              "type": "router",
+              "interfaces": {
+                "5441-eth0": {
+                  "ip": "10.0.40.2",
+                  "cidr": "10.0.40.0/30",
+                  "peer": "5443-eth1"
+                },
+                "5441-eth1": {
+                  "ip": "10.0.41.1",
+                  "cidr": "10.0.41.0/30",
+                  "peer": "5439-eth0"
+                }
+              },
+              "meta": {
+                "source_name": "5441",
+                "source_id": 5441,
+                "topology_id": "africa"
+              }
+            },
+            "5435": {
+              "type": "router",
+              "interfaces": {
+                "5435-eth0": {
+                  "ip": "10.0.39.2",
+                  "cidr": "10.0.39.0/30",
+                  "peer": "5443-eth0"
+                },
+                "5435-eth1": {
+                  "ip": "10.0.44.2",
+                  "cidr": "10.0.44.0/30",
+                  "peer": "5436-eth0"
+                },
+                "5435-eth2": {
+                  "ip": "10.0.46.1",
+                  "cidr": "10.0.46.0/30",
+                  "peer": "1406-eth0"
+                }
+              },
+              "meta": {
+                "source_name": "5435",
+                "source_id": 5435,
+                "topology_id": "africa"
+              }
+            },
+            "1433": {
+              "type": "router",
+              "interfaces": {
+                "1433-eth0": {
+                  "ip": "10.0.0.2",
+                  "cidr": "10.0.0.0/30",
+                  "peer": "6272-eth0"
+                },
+                "1433-eth1": {
+                  "ip": "10.0.9.2",
+                  "cidr": "10.0.9.0/30",
+                  "peer": "6252-eth0"
+                },
+                "1433-eth2": {
+                  "ip": "10.0.30.2",
+                  "cidr": "10.0.30.0/30",
+                  "peer": "5893-eth0"
+                },
+                "1433-eth3": {
+                  "ip": "10.0.92.2",
+                  "cidr": "10.0.92.0/30",
+                  "peer": "5014-eth0"
+                },
+                "1433-eth4": {
+                  "ip": "10.0.171.2",
+                  "cidr": "10.0.171.0/30",
+                  "peer": "4377-eth2"
+                },
+                "1433-eth5": {
+                  "ip": "10.1.10.2",
+                  "cidr": "10.1.10.0/30",
+                  "peer": "3009-eth1"
+                },
+                "1433-eth6": {
+                  "ip": "10.1.183.1",
+                  "cidr": "10.1.183.0/30",
+                  "peer": "937-eth1"
+                },
+                "1433-eth7": {
+                  "ip": "10.1.184.1",
+                  "cidr": "10.1.184.0/30",
+                  "peer": "935-eth1"
+                }
+              },
+              "meta": {
+                "source_name": "1433",
+                "source_id": 1433,
+                "topology_id": "africa"
+              }
+            }
+          },
+          "networks": {
+            "LINK_5443_5435": {
+              "cidr": "10.0.39.0/30",
+              "gateway_device": "5443",
+              "meta": {
+                "kind": "p2p_link",
+                "endpoint_a": "5443",
+                "endpoint_b": "5435"
+              }
+            },
+            "LINK_5443_5441": {
+              "cidr": "10.0.40.0/30",
+              "gateway_device": "5443",
+              "meta": {
+                "kind": "p2p_link",
+                "endpoint_a": "5443",
+                "endpoint_b": "5441"
+              }
+            }
+          }
+        },
+        "records": [
+          {
+            "input": {
+              "root_intent": "Start BGP 65001 on router 5443, set router-id 1.1.1.1, and add neighbor 10.0.0.2 with remote-as 65002",
+              "intent_text": "Enable the BGP routing process with local AS 65001 on router 5443",
+              "op_spec": {
+                "op": "protocols_config",
+                "description": "",
+                "targets": [],
+                "requires": [],
+                "optional": [],
+                "args_schema": {},
+                "examples": []
+              },
+              "entities": [
+                {
+                  "type": "router",
+                  "value": "5443",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "ip",
+                  "value": "10.0.0.2",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "service",
+                  "value": "65001",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "service",
+                  "value": "BGP",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                }
+              ],
+              "notes": {
+                "protocol": "bgp",
+                "enabled": true
+              }
+            },
+            "meta": {
+              "source_dataset_id": 116,
+              "task_view": "discretize_intent",
+              "subintent_id": "S1",
+              "anchors": [
+                "5443",
+                "65001"
+              ],
+              "classification_raw": {
+                "op": "protocols_config"
+              },
+              "entity_selectors": [
+                {
+                  "kind": "device_set",
+                  "device_type": "router",
+                  "quantifier": "any",
+                  "constraints": [],
+                  "role": "sources"
+                }
+              ],
+              "warnings": [
+                "Unknown interfaces referenced by intent: none",
+                "selector_hits=1 | RAG base_hits=4 thr=0.35 | expanded_hits=5 thr=0.35"
+              ],
+              "needs_human": true,
+              "topology_id": "africa",
+              "topology_path": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\topologias_convertidas\\africa.json",
+              "rag": {
+                "q_base": "5443 10.0.0.2 65001 BGP router",
+                "q_exp": "5443",
+                "base_hits": 4,
+                "expanded_hits": 5,
+                "base_threshold": 0.35,
+                "expanded_threshold": 0.35,
+                "selector_devices": [
+                  "6272"
+                ],
+                "selector_hits": 1
+              }
+            }
+          },
+          {
+            "input": {
+              "root_intent": "Start BGP 65001 on router 5443, set router-id 1.1.1.1, and add neighbor 10.0.0.2 with remote-as 65002",
+              "intent_text": "Set the BGP router-id to 1.1.1.1 on router 5443",
+              "op_spec": {
+                "op": "UNMAPPED_IN_COMMAND_CATALOG",
+                "description": "",
+                "targets": [],
+                "requires": [],
+                "optional": [],
+                "args_schema": {},
+                "examples": []
+              },
+              "entities": [
+                {
+                  "type": "router",
+                  "value": "5443",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "ip",
+                  "value": "10.0.0.2",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "service",
+                  "value": "65001",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "service",
+                  "value": "BGP",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                }
+              ],
+              "notes": {
+                "protocol": "bgp"
+              }
+            },
+            "meta": {
+              "source_dataset_id": 116,
+              "task_view": "discretize_intent",
+              "subintent_id": "S2",
+              "anchors": [
+                "5443",
+                "1.1.1.1"
+              ],
+              "classification_raw": {
+                "op": "UNMAPPED_IN_COMMAND_CATALOG"
+              },
+              "entity_selectors": [
+                {
+                  "kind": "device_set",
+                  "device_type": "router",
+                  "quantifier": "any",
+                  "constraints": [],
+                  "role": "sources"
+                }
+              ],
+              "warnings": [
+                "Unknown interfaces referenced by intent: none",
+                "selector_hits=1 | RAG base_hits=4 thr=0.35 | expanded_hits=5 thr=0.35"
+              ],
+              "needs_human": true,
+              "topology_id": "africa",
+              "topology_path": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\topologias_convertidas\\africa.json",
+              "rag": {
+                "q_base": "5443 10.0.0.2 65001 BGP router",
+                "q_exp": "5443",
+                "base_hits": 4,
+                "expanded_hits": 5,
+                "base_threshold": 0.35,
+                "expanded_threshold": 0.35,
+                "selector_devices": [
+                  "6272"
+                ],
+                "selector_hits": 1
+              }
+            }
+          },
+          {
+            "input": {
+              "root_intent": "Start BGP 65001 on router 5443, set router-id 1.1.1.1, and add neighbor 10.0.0.2 with remote-as 65002",
+              "intent_text": "Configure neighbor 10.0.0.2 with remote AS 65002 in the BGP process on router 5443",
+              "op_spec": {
+                "op": "protocols_config",
+                "description": "",
+                "targets": [],
+                "requires": [],
+                "optional": [],
+                "args_schema": {},
+                "examples": []
+              },
+              "entities": [
+                {
+                  "type": "router",
+                  "value": "5443",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "ip",
+                  "value": "10.0.0.2",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "service",
+                  "value": "65001",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                },
+                {
+                  "type": "service",
+                  "value": "BGP",
+                  "meta": {
+                    "source": "LLM_ENTITIES"
+                  }
+                }
+              ],
+              "notes": {
+                "protocol": "bgp"
+              }
+            },
+            "meta": {
+              "source_dataset_id": 116,
+              "task_view": "discretize_intent",
+              "subintent_id": "S3",
+              "anchors": [
+                "5443",
+                "10.0.0.2",
+                "65002"
+              ],
+              "classification_raw": {
+                "op": "protocols_config"
+              },
+              "entity_selectors": [
+                {
+                  "kind": "device_set",
+                  "device_type": "router",
+                  "quantifier": "any",
+                  "constraints": [],
+                  "role": "sources"
+                }
+              ],
+              "warnings": [
+                "Unknown interfaces referenced by intent: none",
+                "selector_hits=1 | RAG base_hits=4 thr=0.35 | expanded_hits=5 thr=0.35"
+              ],
+              "needs_human": true,
+              "topology_id": "africa",
+              "topology_path": "C:\\Users\\pedro\\OneDrive\\Área de Trabalho\\llmToNetworkConfig\\Ic-llmToNetworkConfig\\ibn_langgraph\\dataset\\topologias_convertidas\\africa.json",
+              "rag": {
+                "q_base": "5443 10.0.0.2 65001 BGP router",
+                "q_exp": "5443",
+                "base_hits": 4,
+                "expanded_hits": 5,
+                "base_threshold": 0.35,
+                "expanded_threshold": 0.35,
+                "selector_devices": [
+                  "6272"
+                ],
+                "selector_hits": 1
+              }
+            }
+          }
+        ]
+      },
+      "output": {}
+    }
+  ]
+}
