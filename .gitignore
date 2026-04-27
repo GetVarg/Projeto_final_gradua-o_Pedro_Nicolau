@@ -1,0 +1,28 @@
+# Banco de dados
+*.sqlite
+*.db
+
+# Checkpoints
+ibn_langgraph/*.sqlite
+
+# Python
+__pycache__/
+*.pyc
+
+# Ambiente virtual
+venv/
+.venv/
+
+# VSCode
+.vscode/
+
+# Logs
+*.log
+
+# Modelos
+models/
+checkpoints/
+outputs/
+*.pt
+*.bin
+*.safetensors
