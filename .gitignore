@@ -8,10 +8,23 @@ ibn_langgraph/*.sqlite
 # Python
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
 
 # Ambiente virtual
-venv/
-.venv/
+.env
+*.env
+.env.*
+secrets.*
+credentials.*
+*.key
+*.pem
+
+# Jupyter
+.ipynb_checkpoints/
 
 # VSCode
 .vscode/
@@ -19,10 +32,27 @@ venv/
 # Logs
 *.log
 
-# Modelos
+# Logs e resultados pesados
+*.log
+*.jsonl
+outputs/
+results/
+runs/
+wandb/
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Modelos e datasets grandes
 models/
 checkpoints/
-outputs/
+datasets/
 *.pt
+*.pth
 *.bin
 *.safetensors

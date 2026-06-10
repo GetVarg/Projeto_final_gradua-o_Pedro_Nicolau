@@ -1,0 +1,8 @@
+*
+!mininet_frr_lab/
+!mininet_frr_lab/**
+!dataset/
+!dataset/topologias_convertidas/
+!dataset/topologias_convertidas/gabriel/
+!dataset/topologias_convertidas/gabriel/10/
+!dataset/topologias_convertidas/gabriel/10/0.json

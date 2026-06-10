@@ -1,17 +1,7 @@
 {
-  "static_route_del": {
-    "context": "router linux",
-    "required_step_args": [
-      "dst_cidr"
-    ],
-    "derivable_step_args": [],
-    "default_args": {},
-    "templates": [
-      "ip route del {dst_cidr}"
-    ]
-  },
   "ip_forward_enable": {
     "context": "router linux",
+    "description": "Enable IPv4 or IPv6 packet forwarding; use for forwarding/routing enablement, not interface up/down.",
     "required_step_args": [
       "address_family"
     ],
@@ -38,43 +28,9 @@
       }
     ]
   },
-  "icmp_ping": {
-    "context": "router/host linux",
-    "required_step_args": [
-      "dst_ip"
-    ],
-    "derivable_step_args": [],
-    "default_args": {
-      "count": 3
-    },
-    "templates": [
-      "ping -c {count} {dst_ip}"
-    ]
-  },
-  "firewall_drop_icmp_src": {
-    "context": "router linux",
-    "required_step_args": [
-      "src_cidr"
-    ],
-    "derivable_step_args": [],
-    "default_args": {},
-    "templates": [
-      "iptables -A FORWARD -p icmp -s {src_cidr} -j DROP"
-    ]
-  },
-  "interface_up": {
-    "context": "any linux",
-    "required_step_args": [
-      "interface"
-    ],
-    "derivable_step_args": [],
-    "default_args": {},
-    "templates": [
-      "ip link set {interface} up"
-    ]
-  },
   "ovs_set_controller": {
     "context": "switch ovs",
+    "description": "Set an Open vSwitch bridge controller endpoint.",
     "required_step_args": [
       "bridge",
       "controller_ip",
@@ -88,6 +44,7 @@
   },
   "connectivity_verify": {
     "context": "router/host linux",
+    "description": "Run ping as a verification step or explicit connectivity test.",
     "required_step_args": [
       "dst_ip"
     ],
@@ -101,6 +58,7 @@
   },
   "firewall_allow_pair": {
     "context": "router linux",
+    "description": "Allow bidirectional forwarded traffic between two explicit IP endpoints using the FORWARD chain. Use only when the intent describes traffic between a source endpoint and a destination endpoint, and both src_ip and dst_ip are available. Do not use for allowing traffic on a router interface, traffic destined to the router itself, service-specific INPUT rules, ICMP echo requests on an interface, or generic ACL permit rules on a router; use firewall_input_accept or firewall_output_accept instead.",
     "required_step_args": [
       "src_ip",
       "dst_ip"
@@ -114,6 +72,7 @@
   },
   "qos_prioritize_pair": {
     "context": "host linux",
+    "description": "Prioritize traffic from one host to another using iptables mark and tc.",
     "required_step_args": [
       "src_host",
       "dst_host"
@@ -133,6 +92,7 @@
   },
   "firewall_drop_subnet_pair": {
     "context": "router linux",
+    "description": "Drop forwarded traffic between explicit source and destination CIDR blocks. Use only when both a source CIDR and a destination CIDR/subnet are explicitly available or intentionally derived as CIDR filters. Do not use for host-to-router-LAN intents that should filter by ingress or egress interface; use firewall_forward_drop instead.",
     "required_step_args": [
       "src_cidr",
       "dst_cidr"
@@ -145,11 +105,20 @@
   },
   "interface_l3_address_config": {
     "context": "router frr/linux",
+    "description": "Configure IPv4 or IPv6 address on an interface; do not use for MTU, description, or up/down.",
     "required_step_args": [
       "interface",
       "address_family"
     ],
-    "derivable_step_args": [],
+    "derivable_step_args": [
+      "ipv4",
+      "prefix_len",
+      "ipv6_address",
+      "prefix_length"
+    ],
+    "optional_step_args": [
+      "secondary"
+    ],
     "default_args": {},
     "variants": [
       {
@@ -184,6 +153,7 @@
   },
   "iface_mac_config": {
     "context": "router/host linux",
+    "description": "Set the MAC address of an interface.",
     "required_step_args": [
       "interface",
       "mac_address"
@@ -196,6 +166,7 @@
   },
   "logging_config": {
     "context": "router frr",
+    "description": "Configure FRR logging target and optional log level.",
     "required_step_args": [
       "log_target"
     ],
@@ -211,6 +182,7 @@
   },
   "static_route_blackhole_add": {
     "context": "router frr",
+    "description": "Add an IPv4 blackhole route to Null0; use when intent says blackhole, discard, or Null0. Only use this when the intent explicitly says blackhole, discard, drop route, or Null0; do not use for ordinary static routes with a next-hop.",
     "required_step_args": [
       "dst_cidr"
     ],
@@ -222,21 +194,38 @@
   },
   "static_route_add_frr": {
     "context": "router frr",
+    "description": "Add/install/create/configure an IPv4 static route in FRR using a next-hop IP. Administrative distance is optional and must only be used when explicitly requested by the intent, such as distance, administrative distance, backup route, floating route, or preference.",
     "required_step_args": [
       "dst_cidr",
       "next_hop_ip"
     ],
-    "derivable_step_args": [
+    "optional_step_args": [
       "administrative_distance"
     ],
+    "derivable_step_args": [],
     "default_args": {},
-    "templates": [
-      "vtysh -c 'configure terminal' -c 'ip route {dst_cidr} {next_hop_ip}'",
-      "vtysh -c 'configure terminal' -c 'ip route {dst_cidr} {next_hop_ip} {administrative_distance}'"
+    "variants": [
+      {
+        "variant": "standard",
+        "match": {},
+        "templates": [
+          "vtysh -c 'configure terminal' -c 'ip route {dst_cidr} {next_hop_ip}'"
+        ]
+      },
+      {
+        "variant": "with_administrative_distance",
+        "match": {
+          "administrative_distance": "*"
+        },
+        "templates": [
+          "vtysh -c 'configure terminal' -c 'ip route {dst_cidr} {next_hop_ip} {administrative_distance}'"
+        ]
+      }
     ]
   },
   "arp_static_entry_config": {
     "context": "host linux",
+    "description": "Create a static ARP entry mapping target IP to MAC on an interface.",
     "required_step_args": [
       "interface",
       "target_ip",
@@ -245,11 +234,12 @@
     "derivable_step_args": [],
     "default_args": {},
     "templates": [
-      "arp -i {interface} -s {target_ip} {mac_address}"
+      "ip neigh add {target_ip} lladdr {mac_address} dev {interface} nud permanent"
     ]
   },
   "ipv6_forward_enable": {
     "context": "router/host linux",
+    "description": "Enable IPv6 forwarding only; prefer ip_forward_enable when choosing by address_family.",
     "required_step_args": [],
     "derivable_step_args": [],
     "default_args": {},
@@ -259,24 +249,64 @@
   },
   "static_route_add_ipv6_frr": {
     "context": "router frr",
+    "description": "Add/install/create/configure an IPv6 static route in FRR using either a next-hop IP or an exit interface. Use next_hop_ip when the intent provides or derives a next-hop address. Use exit_interface when the intent explicitly routes through an interface. Administrative distance is optional and must only be used when explicitly requested by the intent, such as distance, administrative distance, backup route, floating route, or preference.",
     "required_step_args": [
       "dst_cidr"
     ],
-    "derivable_step_args": [
+    "optional_step_args": [
       "next_hop_ip",
       "exit_interface",
       "administrative_distance"
     ],
+    "derivable_step_args": [],
     "default_args": {},
-    "templates": [
-      "vtysh -c 'configure terminal' -c 'ipv6 route {dst_cidr} {next_hop_ip}'",
-      "vtysh -c 'configure terminal' -c 'ipv6 route {dst_cidr} {next_hop_ip} {administrative_distance}'",
-      "vtysh -c 'configure terminal' -c 'ipv6 route {dst_cidr} {exit_interface}'",
-      "vtysh -c 'configure terminal' -c 'ipv6 route {dst_cidr} {exit_interface} {administrative_distance}'"
+    "variants": [
+      {
+        "variant": "via_next_hop",
+        "match": {
+          "next_hop_ip": "*"
+        },
+        "templates": [
+          "vtysh -c 'configure terminal' -c 'ipv6 route {dst_cidr} {next_hop_ip}'"
+        ]
+      },
+      {
+        "variant": "via_exit_interface",
+        "match": {
+          "exit_interface": "*"
+        },
+        "templates": [
+          "vtysh -c 'configure terminal' -c 'ipv6 route {dst_cidr} {exit_interface}'"
+        ]
+      },
+      {
+        "variant": "via_next_hop_distance",
+        "match": {
+          "next_hop_ip": "*",
+          "administrative_distance": "*"
+        },
+        "templates": [
+          "vtysh -c 'configure terminal' -c 'ipv6 route {dst_cidr} {next_hop_ip} {administrative_distance}'"
+        ]
+      },
+      {
+        "variant": "via_exit_interface_distance",
+        "match": {
+          "exit_interface": "*",
+          "administrative_distance": "*"
+        },
+        "templates": [
+          "vtysh -c 'configure terminal' -c 'ipv6 route {dst_cidr} {exit_interface} {administrative_distance}'"
+        ]
+      }
     ]
   },
   "bgp_peer_group_config": {
     "context": "router frr",
+    "description": "Create/configure an explicitly named BGP peer-group and set its remote AS. Use only when the intent explicitly mentions a peer-group/group name. Do not use for a normal BGP neighbor relationship.",
+    "applicability": {
+      "requires_concepts": ["explicit_peer_group_name"]
+    },
     "required_step_args": [
       "local_as",
       "peer_group_name",
@@ -290,6 +320,10 @@
   },
   "bgp_neighbor_peer_group_bind": {
     "context": "router frr",
+    "description": "Bind a BGP neighbor IP to an explicitly existing or configured peer-group. Use only when the intent explicitly asks to bind/attach/associate a neighbor to a peer-group. Do not use for direct BGP peering.",
+    "applicability": {
+      "requires_concepts": ["explicit_peer_group_name", "neighbor_ip"]
+    },
     "required_step_args": [
       "local_as",
       "neighbor_ip",
@@ -303,6 +337,7 @@
   },
   "bgp_neighbor_med_set": {
     "context": "router frr",
+    "description": "Set outbound MED for a BGP neighbor using a route-map.",
     "required_step_args": [
       "local_as",
       "neighbor_ip",
@@ -320,6 +355,7 @@
   },
   "bgp_as_path_multipath_enable": {
     "context": "router frr",
+    "description": "Enable BGP AS-path multipath relax under a local BGP process.",
     "required_step_args": [
       "local_as"
     ],
@@ -331,6 +367,7 @@
   },
   "arp_encapsulation_set": {
     "context": "router/host linux",
+    "description": "Enable or disable ARP encapsulation/state on an interface; not for static ARP entries.",
     "required_step_args": [
       "interface",
       "arp_enabled"
@@ -343,6 +380,7 @@
   },
   "interface_admin_config": {
     "context": "router/host/switch linux",
+    "description": "DEPRECATED: do not select this operation. Use interface_admin_config with enabled=true for interface up/no shutdown intents.",
     "required_step_args": [
       "interface",
       "enabled"
@@ -356,7 +394,7 @@
           "enabled": true
         },
         "templates": [
-          "ip link set {interface} up"
+          "ip link set dev {interface} up"
         ]
       },
       {
@@ -365,13 +403,134 @@
           "enabled": false
         },
         "templates": [
-          "ip link set {interface} down"
+          "ip link set dev {interface} down"
         ]
       }
     ]
   },
   "interface_attribute_config": {
     "context": "router frr/linux",
+    "description": "Configure FRR-level interface attributes such as description. Do not use for Linux interface MTU, administrative state, MAC address, or IP address. For MTU in Mininet/Linux, use interface_mtu_kernel.",
+    "required_step_args": [
+      "interface",
+      "attribute_type"
+    ],
+    "derivable_step_args": [
+      "mtu",
+      "description"
+    ],
+    "default_args": {},
+    "variants": [
+      {
+        "variant": "description",
+        "match": {
+          "attribute_type": "description"
+        },
+        "templates": [
+          "vtysh -c 'configure terminal' -c 'interface {interface}' -c 'description {description}'"
+        ]
+      }
+    ]
+  },
+  "arp_static_entry_del": {
+    "context": "router/host linux",
+    "description": "Delete a static ARP entry for a target IP on a specific interface.",
+    "required_step_args": [
+      "interface",
+      "target_ip"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "templates": [
+      "ip neigh del {target_ip} dev {interface}"
+    ]
+  },
+  "interface_mtu_kernel": {
+    "context": "router/host linux",
+    "description": "Set the MTU of an interface at the kernel level using iproute2. Use this for actual MTU enforcement in Mininet/Linux; interface_attribute_config sets MTU only in FRR's view.",
+    "required_step_args": [
+      "interface",
+      "mtu"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "templates": [
+      "ip link set dev {interface} mtu {mtu}"
+    ]
+  },
+  "static_route_del_frr": {
+    "context": "router frr",
+    "description": "Remove an IPv4 static route from FRR by destination prefix, with optional next-hop and distance for precision. Use for delete/remove route intents targeting FRR routing table. Only use this when the intent explicitly says delete, remove, withdraw, or no route; do not use for ordinary add/configure static route intents.",
+    "required_step_args": ["dst_cidr"],
+    "optional_step_args": ["next_hop_ip", "administrative_distance"],
+    "derivable_step_args": [],
+    "variants": [
+      {
+        "variant": "prefix_only",
+        "match": {},
+        "templates": [
+          "vtysh -c 'configure terminal' -c 'no ip route {dst_cidr}'"
+        ]
+      },
+      {
+        "variant": "with_next_hop",
+        "match": {
+          "next_hop_ip": "*"
+        },
+        "templates": [
+          "vtysh -c 'configure terminal' -c 'no ip route {dst_cidr} {next_hop_ip}'"
+        ]
+      },
+      {
+        "variant": "with_next_hop_and_distance",
+        "match": {
+          "next_hop_ip": "*",
+          "administrative_distance": "*"
+        },
+        "templates": [
+          "vtysh -c 'configure terminal' -c 'no ip route {dst_cidr} {next_hop_ip} {administrative_distance}'"
+        ]
+      }
+    ]
+  },
+  "interface_l3_address_remove": {
+    "context": "router frr",
+    "description": "Remove an IPv4 or IPv6 address from an interface in FRR.",
+    "required_step_args": [
+      "interface",
+      "address_family"
+    ],
+    "derivable_step_args": [
+      "ipv4",
+      "prefix_len",
+      "ipv6_address",
+      "prefix_len"
+    ],
+    "default_args": {},
+    "variants": [
+      {
+        "variant": "ipv4",
+        "match": {
+          "address_family": "ipv4"
+        },
+        "templates": [
+          "vtysh -c 'configure terminal' -c 'interface {interface}' -c 'no ip address {ipv4}/{prefix_len}'"
+        ]
+      },
+      {
+        "variant": "ipv6",
+        "match": {
+          "address_family": "ipv6"
+        },
+        "templates": [
+          "vtysh -c 'configure terminal' -c 'interface {interface}' -c 'no ipv6 address {ipv6_address}/{prefix_length}'"
+        ]
+      }
+    ]
+  },
+  "interface_attribute_remove": {
+    "context": "router frr",
+    "description": "Remove an interface attribute such as description in FRR. Use attribute_type='description' to clear a description.",
     "required_step_args": [
       "interface",
       "attribute_type"
@@ -385,18 +544,474 @@
           "attribute_type": "description"
         },
         "templates": [
-          "vtysh -c 'configure terminal' -c 'interface {interface}' -c 'description {description}'"
+          "vtysh -c 'configure terminal' -c 'interface {interface}' -c 'no description'"
+        ]
+      }
+    ]
+  },
+  "firewall_input_drop": {
+    "context": "router linux",
+    "description": "Drop traffic on the INPUT chain. Use when blocking traffic on a router itself, traffic destined to the router, or intents phrased as 'block ... on router X' without mentioning forwarding, passing through, another LAN, ingress/egress path, or routed traffic. Supports protocol, destination port, source IP/CIDR, and ingress interface.",
+    "required_step_args": [],
+    "default_args": {},
+    "derivable_step_args": [
+      "in_interface",
+      "protocol",
+      "dst_port",
+      "src_cidr"
+    ],
+    "variants": [
+      {
+        "variant": "src_cidr_proto",
+        "match": {
+          "src_cidr": "*",
+          "protocol": "*"
+        },
+        "templates": [
+          "iptables -I INPUT -s {src_cidr} -p {protocol} -j DROP"
         ]
       },
       {
-        "variant": "mtu",
+        "variant": "proto_port_iface",
         "match": {
-          "attribute_type": "mtu"
+          "protocol": "tcp",
+          "dst_port": "*",
+          "in_interface": "*"
         },
         "templates": [
-          "vtysh -c 'configure terminal' -c 'interface {interface}' -c 'mtu {mtu}'"
+          "iptables -I INPUT -i {in_interface} -p {protocol} --dport {dst_port} -j DROP"
+        ]
+      },
+      {
+        "variant": "proto_port",
+        "match": {
+          "protocol": "*",
+          "dst_port": "*"
+        },
+        "templates": [
+          "iptables -I INPUT -p {protocol} --dport {dst_port} -j DROP"
+        ]
+      },
+      {
+        "variant": "iface_catchall",
+        "match": {
+          "in_interface": "*"
+        },
+        "templates": [
+          "iptables -A INPUT -i {in_interface} -j DROP"
         ]
       }
+    ]
+  },
+  "firewall_forward_drop": {
+    "context": "router linux",
+    "description": "Drop forwarded traffic using the FORWARD chain. Use only when the intent explicitly describes traffic passing through the router, being forwarded/routed between networks, reaching/leaving another router LAN, or using an ingress/egress interface. Do not use for traffic destined to the router itself, INPUT-chain permits, ICMP echo requests on a router interface, or generic ACL permit rules.",
+    "required_step_args": [],
+    "derivable_step_args": [
+      "src_ip",
+      "src_cidr",
+      "in_interface",
+      "out_interface"
+    ],
+    "default_args": {},
+    "variants": [
+      {
+        "variant": "src_cidr_out_interface",
+        "match": {
+          "src_cidr": "*",
+          "out_interface": "*"
+        },
+        "templates": [
+          "iptables -I FORWARD -s {src_cidr} -o {out_interface} -j DROP"
+        ]
+      },
+      {
+        "variant": "src_ip_out_interface",
+        "match": {
+          "src_ip": "*",
+          "out_interface": "*"
+        },
+        "templates": [
+          "iptables -I FORWARD -s {src_ip} -o {out_interface} -j DROP"
+        ]
+      }
+    ]
+  },
+  "firewall_input_accept": {
+    "context": "router linux",
+    "description": "Accept traffic on the router INPUT chain. Use when the intent permits/allows traffic destined to the router itself or arriving on a router interface, including LAN-facing interfaces. Supports protocol, destination port, source IP/CIDR, ICMP type, and ingress interface. For ICMP echo requests on a router interface, use protocol='icmp', icmp_type='echo-request', and in_interface. Do not use for bidirectional host-to-host or endpoint-pair forwarding; use firewall_allow_pair only when both source and destination endpoints are part of the intended forwarded traffic relation.",
+    "required_step_args": [],
+    "derivable_step_args": [
+      "in_interface",
+      "protocol",
+      "dst_port",
+      "src_cidr",
+      "src_ip",
+      "icmp_type"
+    ],
+    "default_args": {},
+    "variants": [
+      {
+        "variant": "src_ip_proto_port",
+        "match": {
+          "src_ip": "*",
+          "protocol": "*",
+          "dst_port": "*"
+        },
+        "templates": [
+          "iptables -I INPUT -s {src_ip} -p {protocol} --dport {dst_port} -j ACCEPT"
+        ]
+      },
+      {
+        "variant": "proto_port_iface",
+        "match": {
+          "protocol": "*",
+          "dst_port": "*",
+          "in_interface": "*"
+        },
+        "templates": [
+          "iptables -I INPUT -i {in_interface} -p {protocol} --dport {dst_port} -j ACCEPT"
+        ]
+      },
+      {
+        "variant": "proto_port",
+        "match": {
+          "protocol": "*",
+          "dst_port": "*"
+        },
+        "templates": [
+          "iptables -I INPUT -p {protocol} --dport {dst_port} -j ACCEPT"
+        ]
+      },
+      {
+        "variant": "icmp_type_iface",
+        "match": {
+          "protocol": "icmp",
+          "icmp_type": "*",
+          "in_interface": "*"
+        },
+        "templates": [
+          "iptables -I INPUT -i {in_interface} -p icmp --icmp-type {icmp_type} -j ACCEPT"
+        ]
+      }
+    ]
+  },
+  "firewall_output_drop": {
+    "context": "router linux",
+    "description": "Drop traffic on the OUTPUT chain. Use for outbound ACLs on a router, especially when blocking locally originated service traffic such as telnet, SSH, HTTP, or HTTPS. Supports protocol and destination port.",
+    "required_step_args": [],
+    "derivable_step_args": [
+      "out_interface",
+      "protocol",
+      "dst_port"
+    ],
+    "default_args": {},
+    "variants": [
+      {
+        "variant": "proto_port_iface",
+        "match": {
+          "protocol": "*",
+          "dst_port": "*",
+          "out_interface": "*"
+        },
+        "templates": [
+          "iptables -I OUTPUT -o {out_interface} -p {protocol} --dport {dst_port} -j DROP"
+        ]
+      },
+      {
+        "variant": "proto_iface",
+        "match": {
+          "protocol": "*",
+          "out_interface": "*"
+        },
+        "templates": [
+          "iptables -I OUTPUT -o {out_interface} -p {protocol} -j DROP"
+        ]
+      },
+      {
+        "variant": "proto_port",
+        "match": {
+          "protocol": "*",
+          "dst_port": "*"
+        },
+        "templates": [
+          "iptables -I OUTPUT -p {protocol} --dport {dst_port} -j DROP"
+        ]
+      },
+      {
+        "variant": "iface_catchall",
+        "match": {
+          "out_interface": "*"
+        },
+        "templates": [
+          "iptables -A OUTPUT -o {out_interface} -j DROP"
+        ]
+      }
+    ]
+  },
+  "firewall_output_accept": {
+    "context": "router linux",
+    "description": "Accept traffic on the OUTPUT chain by protocol and optional destination port or egress interface.",
+    "required_step_args": [
+      "protocol"
+    ],
+    "derivable_step_args": [
+      "out_interface",
+      "dst_port"
+    ],
+    "default_args": {},
+    "variants": [
+      {
+        "variant": "proto_port_iface",
+        "match": {
+          "protocol": "*",
+          "dst_port": "*",
+          "out_interface": "*"
+        },
+        "templates": [
+          "iptables -I OUTPUT -o {out_interface} -p {protocol} --dport {dst_port} -j ACCEPT"
+        ]
+      },
+      {
+        "variant": "proto_port",
+        "match": {
+          "protocol": "*",
+          "dst_port": "*"
+        },
+        "templates": [
+          "iptables -I OUTPUT -p {protocol} --dport {dst_port} -j ACCEPT"
+        ]
+      }
+    ]
+  },
+  "tc_egress_rate_limit": {
+    "context": "router/host linux",
+    "description": "Apply an HTB egress rate limit on an interface for all traffic or filtered by protocol/port. Generates qdisc + class + filter commands.",
+    "required_step_args": [
+      "interface",
+      "rate_mbit"
+    ],
+    "derivable_step_args": [
+      "protocol",
+      "ip_proto_num",
+      "dst_port"
+    ],
+    "default_args": {
+      "handle": "1:",
+      "classid": "1:1",
+      "default_class": "10"
+    },
+    "variants": [
+      {
+        "variant": "by_protocol",
+        "match": {
+          "protocol": "*",
+          "ip_proto_num": "*"
+        },
+        "templates": [
+          "tc qdisc add dev {interface} root handle {handle} htb default {default_class}",
+          "tc class add dev {interface} parent {handle} classid {classid} htb rate {rate_mbit}mbit",
+          "tc filter add dev {interface} parent {handle} protocol ip u32 match ip protocol {ip_proto_num} 0xff flowid {classid}"
+        ]
+      },
+      {
+        "variant": "by_dst_port",
+        "match": {
+          "dst_port": "*"
+        },
+        "templates": [
+          "tc qdisc add dev {interface} root handle {handle} htb default {default_class}",
+          "tc class add dev {interface} parent {handle} classid {classid} htb rate {rate_mbit}mbit",
+          "tc filter add dev {interface} parent {handle} protocol ip u32 match ip dport {dst_port} 0xffff flowid {classid}"
+        ]
+      },
+      {
+        "variant": "all_traffic",
+        "match": {},
+        "templates": [
+          "tc qdisc add dev {interface} root handle {handle} htb default {default_class}",
+          "tc class add dev {interface} parent {handle} classid {classid} htb rate {rate_mbit}mbit",
+          "tc filter add dev {interface} parent {handle} protocol ip u32 match ip dst 0.0.0.0/0 flowid {classid}"
+        ]
+      }
+    ]
+  },
+  "tc_ingress_police": {
+    "context": "router/host linux",
+    "description": "Police inbound traffic on an interface using tc ingress + filter. Supports filtering by protocol number. Use for inbound rate limiting.",
+    "required_step_args": [
+      "interface",
+      "rate_mbit"
+    ],
+    "derivable_step_args": [
+      "ip_proto_num",
+      "burst"
+    ],
+    "default_args": {
+      "burst": "10k"
+    },
+    "variants": [
+      {
+        "variant": "by_protocol",
+        "match": {
+          "ip_proto_num": "*"
+        },
+        "templates": [
+          "tc qdisc add dev {interface} ingress",
+          "tc filter add dev {interface} parent ffff: protocol ip u32 match ip protocol {ip_proto_num} 0xff police rate {rate_mbit}mbit burst {burst} drop flowid :1"
+        ]
+      },
+      {
+        "variant": "all_traffic",
+        "match": {},
+        "templates": [
+          "tc qdisc add dev {interface} ingress",
+          "tc filter add dev {interface} parent ffff: protocol ip u32 match ip src 0.0.0.0/0 police rate {rate_mbit}mbit burst {burst} drop flowid :1"
+        ]
+      }
+    ]
+  },
+  "tc_priority_by_port": {
+    "context": "router/host linux",
+    "description": "Apply prio qdisc and direct traffic matching a destination port to the highest-priority band. Use for SSH/service prioritization on an interface.",
+    "required_step_args": [
+      "interface",
+      "dst_port"
+    ],
+    "derivable_step_args": [],
+    "default_args": {
+      "bands": 3,
+      "handle": "1:",
+      "flowid": "1:1"
+    },
+    "templates": [
+      "tc qdisc add dev {interface} root handle {handle} prio bands {bands}",
+      "tc filter add dev {interface} parent {handle} protocol ip u32 match ip dport {dst_port} 0xffff flowid {flowid}"
+    ]
+  },
+  "bgp_neighbor_config": {
+    "context": "router frr",
+    "description": "Configure a direct BGP neighbor with remote-as, without using a peer-group. Use when the intent asks to peer with a router/device or neighbor directly, whether the neighbor IP is explicit or must be derived from topology.",
+    "applicability": {
+      "requires_concepts": ["neighbor_or_peer_relation"]
+    },
+    "required_step_args": [
+      "local_as",
+      "neighbor_ip",
+      "remote_as"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "templates": [
+      "vtysh -c 'configure terminal' -c 'router bgp {local_as}' -c 'neighbor {neighbor_ip} remote-as {remote_as}'"
+    ]
+  },
+  "bgp_network_advertise": {
+    "context": "router frr",
+    "description": "Advertise a network prefix into BGP. The prefix must exist in the routing table or be redistributed.",
+    "applicability": {
+      "requires_concepts": ["advertised_prefix"]
+    },
+    "required_step_args": [
+      "local_as",
+      "prefix"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "templates": [
+      "vtysh -c 'configure terminal' -c 'router bgp {local_as}' -c 'network {prefix}'"
+    ]
+  },
+  "bgp_neighbor_remove": {
+    "context": "router frr",
+    "description": "Remove a BGP neighbor by IP address from a BGP process.",
+    "required_step_args": [
+      "local_as",
+      "neighbor_ip"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "templates": [
+      "vtysh -c 'configure terminal' -c 'router bgp {local_as}' -c 'no neighbor {neighbor_ip}'"
+    ]
+  },
+  "bgp_peer_group_remove": {
+    "context": "router frr",
+    "description": "Remove a BGP peer-group from a BGP process. All neighbors bound to the group must be unbound first or will be removed implicitly.",
+    "required_step_args": [
+      "local_as",
+      "peer_group_name"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "templates": [
+      "vtysh -c 'configure terminal' -c 'router bgp {local_as}' -c 'no neighbor {peer_group_name} peer-group'"
+    ]
+  },
+  "bgp_local_preference_set": {
+    "context": "router frr",
+    "description": "Set BGP local-preference for a neighbor or peer-group using a route-map applied inbound. Route-map is defined and applied in a single vtysh call.",
+    "required_step_args": [
+      "local_as",
+      "local_preference"
+    ],
+    "derivable_step_args": [
+      "neighbor_ip",
+      "peer_group_name",
+      "route_map_name"
+    ],
+    "default_args": {
+      "route_map_name": "SET_LOCALPREF"
+    },
+    "variants": [
+      {
+        "variant": "peer_group",
+        "match": {
+          "peer_group_name": "*"
+        },
+        "templates": [
+          "vtysh -c 'configure terminal' -c 'route-map {route_map_name} permit 10' -c 'set local-preference {local_preference}'",
+          "vtysh -c 'configure terminal' -c 'router bgp {local_as}' -c 'neighbor {peer_group_name} route-map {route_map_name} in'"
+        ]
+      },
+      {
+        "variant": "neighbor",
+        "match": {
+          "neighbor_ip": "*"
+        },
+        "templates": [
+          "vtysh -c 'configure terminal' -c 'route-map {route_map_name} permit 10' -c 'set local-preference {local_preference}'",
+          "vtysh -c 'configure terminal' -c 'router bgp {local_as}' -c 'neighbor {neighbor_ip} route-map {route_map_name} in'"
+        ]
+      }
+    ]
+  },
+  "bgp_route_map_apply": {
+    "context": "router frr",
+    "description": "Apply an existing named route-map to a BGP neighbor in a given direction (in/out). Use when the route-map already exists and only the binding needs to be set.",
+    "required_step_args": [
+      "local_as",
+      "neighbor_ip",
+      "route_map_name",
+      "direction"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "templates": [
+      "vtysh -c 'configure terminal' -c 'router bgp {local_as}' -c 'neighbor {neighbor_ip} route-map {route_map_name} {direction}'"
+    ]
+  },
+  "ospf_interface_cost": {
+    "context": "router frr",
+    "description": "Set the OSPF cost (metric) of an interface under FRR.",
+    "required_step_args": [
+      "interface",
+      "cost"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "templates": [
+      "vtysh -c 'configure terminal' -c 'interface {interface}' -c 'ip ospf cost {cost}'"
     ]
   }
 }

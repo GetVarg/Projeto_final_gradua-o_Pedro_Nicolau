@@ -1,225 +1,269 @@
 import json
 import os
-from datetime import datetime
-from grafo_final import build_graph  # Importa sua função que compila o grafo
+import re
+import time
+import unittest
+
+from openai import OpenAI
 
 
-intents_para_testar = [
-    # =========================
-    # static_route_add
-    # =========================
-    "Configure a static route on router r1 to reach the 10.3.0.0/24 network via router r0.",
-    "Make router r2 able to reach the 10.4.0.0/24 subnet using r0 as the next hop.",
-    "Add a static routing entry on r3 so that traffic destined to 10.2.0.0/24 is forwarded through router r0.",
+MODEL_ID = os.environ.get("HF_MODEL_ID", "meta-llama/Llama-3.1-8B-Instruct:novita")
+HF_TOKEN = os.environ.get("HF_TOKEN") or os.environ.get("HUGGING_FACE_HUB_TOKEN") or ""
+MAX_NEW_TOKENS = int(os.environ.get("MAX_NEW_TOKENS", "128"))
+HF_ROUTER_BASE_URL = os.environ.get("HF_ROUTER_BASE_URL", "https://router.huggingface.co/v1")
 
-    # =========================
-    # static_route_del
-    # =========================
-    "Remove the static route to 10.3.0.0/24 from router r1.",
-    "Router r2 should no longer route traffic to the 10.4.0.0/24 network.",
-    "Delete the static routing entry for subnet 10.2.0.0/24 configured on router r3.",
+SYSTEM_PROMPT = """
+ROLE
+You analyze a high-level network intent and identify the distinct network-management objectives that the operator wants to achieve.
 
-    # =========================
-    # ip_forward_enable
-    # =========================
-    "Enable IP forwarding on router r1.",
-    "Make router r2 forward packets between its interfaces.",
-    "Enable net.ipv4.ip_forward on router r3.",
+Your output is a list of atomic subintents, where each subintent represents one complete objective of the original intent.
 
-    # =========================
-    # icmp_ping
-    # =========================
-    "Ping 10.3.0.1 from router r1.",
-    "Check connectivity from r2 to the host at 10.4.0.1.",
-    "Send ICMP echo requests from router r3 to IP address 10.2.0.1.",
+A subintent is not a grammatical fragment.
+A subintent is not an isolated parameter.
+A subintent is not a topology entity.
+A subintent is one desired network outcome that can later be validated, planned, and executed by the IBN pipeline.
 
-    # =========================
-    # firewall_drop_icmp_src
-    # =========================
-    "Block ICMP traffic from the 10.1.0.0/24 subnet on router r1.",
-    "Prevent hosts in network 10.2.0.0/24 from sending ping requests through router r2.",
-    "Install a firewall rule on router r3 to drop ICMP packets originating from 10.3.0.0/24."
+REASONING PROCEDURE
+
+Step 1: Identify network-effect verbs.
+Find only actions that create, remove, modify, enable, disable, apply, bind, restart, or configure network state.
+
+Step 2: Build one complete operation around each network-effect verb.
+Attach all required complements to the operation, including device, interface, prefix, next-hop, gateway, IP, MAC, rate, protocol, direction, AS number, peer-group name, neighbor, or topology reference.
+
+Step 3: Reject grammatical fragments.
+Do not create a subintent from a phrase that only starts with or expresses:
+"on ...", "to ...", "via ...", "using ...", "with ...", "as ...", "connected to ...", "mapping ...", or "pointing to ...".
+
+Step 4: Split only independent network effects.
+Create multiple subintents only when there are multiple independent effects.
+
+Step 5: Preserve completeness.
+Each subintent must be a complete network task. If a candidate subintent is incomplete alone, merge it with the operation it supports.
+
+EXAMPLE OF THE DESIRED REASONING
+
+Input intent:
+"Configure a static route on router 3 to 172.16.4.0/24 via 10.0.4.2."
+
+Step 1: Identify network-effect verbs.
+- "Configure a static route" is the only network-effect action.
+
+Step 2: Attach required complements.
+- "on router 3" tells where the route is configured.
+- "to 172.16.4.0/24" tells the destination prefix.
+- "via 10.0.4.2" tells the next-hop.
+These are required arguments of the static route operation.
+
+Step 3: Reject grammatical fragments.
+The following are not independent subintents:
+- "on router 3"
+- "to 172.16.4.0/24"
+- "via 10.0.4.2"
+
+Step 4: Decide split.
+There is only one independent network effect: configuring a static route.
+
+Correct final output:
+{
+  "subintents": [
+    {
+      "id": "S1",
+      "text": "Configure a static route on router 3 to 172.16.4.0/24 via 10.0.4.2"
+    }
+  ]
+}
+
+Incorrect output:
+{
+  "subintents": [
+    {
+      "id": "S1",
+      "text": "Configure a static route"
+    },
+    {
+      "id": "S2",
+      "text": "on router 3"
+    },
+    {
+      "id": "S3",
+      "text": "to 172.16.4.0/24"
+    },
+    {
+      "id": "S4",
+      "text": "via 10.0.4.2"
+    }
+  ]
+}
+
+Why incorrect:
+This splits arguments of the same route operation into grammatical fragments. Only the first item contains a network effect; the others are incomplete parameters.
+
+OUTPUT CONTRACT
+
+Return exactly one JSON object:
+{
+  "subintents": [
+    {
+      "id": "S1",
+      "text": "..."
+    }
+  ]
+}
+
+OUTPUT RULES
+- Return JSON only.
+- Do not include reasoning in the final output.
+- Use sequential IDs: S1, S2, S3, ...
+- Preserve explicit values from the original intent.
+- If uncertain, prefer fewer subintents.
+""".strip()
+
+INTENTS = [
+    "Configure a static route on router 3 to 172.16.4.0/24 via 10.0.4.2.",
+    "Enable IPv4 forwarding globally on router 7.",
+    "Administratively shut down interface 8-eth0 on router 8.",
+    "Configure a static ARP entry on router 0 mapping IP 10.0.0.2 to MAC address 02:00:00:00:00:02.",
+    "Configure a static route on router 0 to 172.16.9.0/24 using the IP address of the neighbor connected to interface 0-eth2 as next-hop.",
+    "Configure a static route on router 2 to 172.16.7.0/24 using the IP of the device connected to 2-eth1 as next-hop.",
+    "Configure a static route on router 1 to reach the LAN subnet of router 5, using the IP of the neighbor connected to 1-eth1 as the gateway.",
+    "Apply a 50Mbps rate limit for inbound UDP traffic on the specific interface of router 4 that connects to router 0.",
+    "Find the IPv4 network CIDR assigned to interface 3-eth1 and configure a static route on router 0 pointing to that network via 10.0.1.2.",
+    "Create a BGP peer-group named IBGP on router 0 and bind neighbor 10.0.1.2 to it.",
+    "Configure a BGP peer-group named IBGP on router 0, set its remote-as to 65000, and bind neighbor 10.0.1.2 to it.",
+    "Set MED to 100 for BGP neighbor 10.0.2.2 and enable AS-path multipath on router 0.",
+    "Enable Jumbo frames by setting the MTU to 9216 on interface 8-eth0 of router 8, and restart the interface by bringing it down then up.",
+    "Find the router connected to interface 0-eth1, and configure a static route on that remote router back to 172.16.0.0/24 via 10.0.1.1.",
+    "Disable ARP, shut down interface 7-eth0, and remove its IPv4 address on router 7.",
 ]
 
-intents_para_testar = [
-    # =========================
-    # static_route_add (6)
-    # =========================
-    "Set up a static route on router r1 for the 10.3.0.0/24 prefix using r0 as the next hop.",
-    "On r1, add a static routing entry so that traffic for subnet 10.3.0.0/24 is forwarded through r0.",
-    "Configure router r2 with a static route to reach the 10.4.0.0/24 network via r0.",
-    "Create a static route in r2 pointing the 10.4.0.0/24 subnet to gateway r0.",
-    "Provision a static route on r3 so packets destined to 10.2.0.0/24 go through router r0.",
-    "Define a static routing rule on router r3 for prefix 10.2.0.0/24 using r0.",
 
-    # =========================
-    # static_route_del (6)
-    # =========================
-    "Remove the static route to the 10.3.0.0/24 network from router r1.",
-    "On r1, delete any static routing entry associated with subnet 10.3.0.0/24.",
-    "Ensure router r2 no longer has a route configured for the 10.4.0.0/24 prefix.",
-    "Clear the static routing rule on r2 that forwards traffic to 10.4.0.0/24.",
-    "Delete the static route entry on router r3 for the 10.2.0.0/24 subnet.",
-    "Make sure r3 no longer routes traffic towards the 10.2.0.0/24 network.",
-
-    # =========================
-    # ip_forward_enable (6)
-    # =========================
-    "Enable IPv4 packet forwarding on router r1.",
-    "Turn on IP forwarding functionality on r1.",
-    "Activate packet forwarding between interfaces on router r2.",
-    "Ensure that router r2 is configured to forward IP packets.",
-    "Set the net.ipv4.ip_forward parameter to 1 on router r3.",
-    "Switch on IP forwarding support at the kernel level on r3.",
-
-    # =========================
-    # icmp_ping (6)
-    # =========================
-    "From router r1, send ICMP echo requests to the address 10.3.0.1.",
-    "Test connectivity from r1 by pinging host 10.3.0.1.",
-    "Verify reachability from router r2 to IP 10.4.0.1 using ICMP.",
-    "On r2, run a ping test towards the host located at 10.4.0.1.",
-    "Initiate an ICMP echo test from router r3 to 10.2.0.1.",
-    "Check network connectivity by pinging 10.2.0.1 from r3.",
-
-    # =========================
-    # firewall_drop_icmp_src (6)
-    # =========================
-    "Block ICMP packets originating from the 10.1.0.0/24 subnet on router r1.",
-    "On r1, install a rule to drop ICMP traffic sourced from 10.1.0.0/24.",
-    "Prevent ICMP echo requests from the 10.2.0.0/24 network from passing through router r2.",
-    "Configure r2 to deny ICMP traffic coming from subnet 10.2.0.0/24.",
-    "Drop ICMP packets originating in the 10.3.0.0/24 subnet on router r3.",
-    "Set up a firewall rule on r3 to filter out ICMP traffic from 10.3.0.0/24."
-]
-
-intents_para_testar = [
-    "Configure IP addresses, subnet masks, gateways, and unique locally administered MAC addresses for each interface of each device in the network, assigning MAC addresses sequentially starting from 02:00:00:00:00:01."
-]
-
-def to_jsonable(obj):
-    """
-    Converte objetos comuns do pipeline (Pydantic, dataclass, list/dict, etc.)
-    para algo serializável em JSON, sem depender de regex.
-    """
-    if obj is None:
-        return None
-
-    # Pydantic v2
-    if hasattr(obj, "model_dump"):
-        return obj.model_dump()
-
-    # Pydantic v1
-    if hasattr(obj, "dict"):
-        try:
-            return obj.dict()
-        except Exception:
-            pass
-
-    # dataclasses
-    if hasattr(obj, "__dataclass_fields__"):
-        from dataclasses import asdict
-        return asdict(obj)
-
-    # dict / list
-    if isinstance(obj, dict):
-        return {k: to_jsonable(v) for k, v in obj.items()}
-    if isinstance(obj, list):
-        return [to_jsonable(v) for v in obj]
-
-    # fallback: tenta serializar como string
-    return str(obj)
+def _first_balanced_json_object(text: str) -> str:
+    start = text.find("{")
+    if start < 0:
+        raise ValueError("response does not contain a JSON object")
+    depth = 0
+    in_string = False
+    escape = False
+    for idx in range(start, len(text)):
+        char = text[idx]
+        if in_string:
+            if escape:
+                escape = False
+            elif char == "\\":
+                escape = True
+            elif char == '"':
+                in_string = False
+            continue
+        if char == '"':
+            in_string = True
+        elif char == "{":
+            depth += 1
+        elif char == "}":
+            depth -= 1
+            if depth == 0:
+                return text[start : idx + 1]
+    return text[start:].strip()
 
 
-def rodar_bateria_de_testes():
-    import time
-    app = build_graph()
-    resultados = []
-    comandos_execucao = []
+def call_hf_router(intent: str) -> tuple[dict, str, float]:
+    if not HF_TOKEN:
+        raise RuntimeError("Set HF_TOKEN before running this test.")
 
-    print(f"Iniciando bateria de {len(intents_para_testar)} testes...")
+    client = OpenAI(base_url=HF_ROUTER_BASE_URL, api_key=HF_TOKEN)
+    user_payload = json.dumps({"intent": intent}, ensure_ascii=False)
+    messages = [
+        {"role": "system", "content": SYSTEM_PROMPT},
+        {
+            "role": "user",
+            "content": (
+                f"{user_payload}\n\n"
+                "Return only the JSON object. Start the answer with `{` and end it with `}`. "
+                "Do not include reasoning, markdown, prose, or any text after the JSON."
+            ),
+        },
+    ]
 
-    for i, texto_intencao in enumerate(intents_para_testar):
-        print(f"[{i+1}/{len(intents_para_testar)}] Testando: {texto_intencao[:50]}...")
+    start = time.perf_counter()
+    response = client.chat.completions.create(
+        model=MODEL_ID,
+        messages=messages,
+        temperature=0,
+        max_tokens=MAX_NEW_TOKENS,
+    )
+    elapsed = time.perf_counter() - start
+    raw = (response.choices[0].message.content or "").strip()
+    parsed = json.loads(_first_balanced_json_object(raw))
+    return parsed, raw, elapsed
 
-        config = {"configurable": {"thread_id": f"teste_{i+1}"}}
-        estado_inicial = {
-            "user_intent_text": texto_intencao,
-            "needs_human": False,
-            "topology": {},        # aqui você guarda o "context slice" em algum momento
-            "entities": [],        # aqui você guarda entidades extraídas
-            "plan": {"steps": [], "warnings": [], "needs_human": True, "dry_run": True},
-            "requirements": [],
-            "cli_commands": None,
-        }
 
-        try:
-            inicio = time.time()
-            final_state = app.invoke(estado_inicial, config)
-            fim = time.time()
+def validate_result(parsed: dict) -> list[str]:
+    errors = []
+    subintents = parsed.get("subintents")
+    if not isinstance(subintents, list) or not subintents:
+        return ["subintents must be a non-empty list"]
 
-            # --- Captura: Intent / Entidades / Contexto / Plano ---
-            intent_obj = final_state.get("intent")
-            entities_obj = final_state.get("entities")  # <- entidades extraídas/validadas
+    for index, subintent in enumerate(subintents, start=1):
+        if not isinstance(subintent, dict):
+            errors.append(f"S{index} is not an object")
+            continue
+        expected_id = f"S{index}"
+        if subintent.get("id") != expected_id:
+            errors.append(f"expected id {expected_id}, got {subintent.get('id')!r}")
+        text = subintent.get("text")
+        if not isinstance(text, str) or not text.strip():
+            errors.append(f"{expected_id}.text must be a non-empty string")
 
-            # context slice pode estar em chaves diferentes dependendo do seu grafo
-            # (mantive fallback pra não quebrar o log caso o nome mude)
-            context_slice_obj = (
-                final_state.get("context_slice")
-                or final_state.get("topology")      # muitas vezes você usa "topology" pra carregar o slice final
-                or final_state.get("topo_context")  # se você separou isso em outro campo
-            )
+    dependent_only = re.compile(
+        r"^(find|identify|determine|specify|using|via|as next-hop|as the gateway|connected to)\b",
+        re.IGNORECASE,
+    )
+    for subintent in subintents:
+        text = str(subintent.get("text") or "").strip()
+        if dependent_only.search(text):
+            errors.append(f"dependent clause became standalone subintent: {text!r}")
 
-            plan_obj = final_state.get("plan")
+    return errors
 
-            resultado_teste = {
-                "id": i + 1,
-                "intent_original": texto_intencao,
-                "classificacao": to_jsonable(intent_obj),
-                "entidades_extraidas": to_jsonable(entities_obj),
-                "context_slice": to_jsonable(context_slice_obj),
-                "plan": to_jsonable(plan_obj),
+
+class DiscretizeEndpointTest(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.results = []
+        for index, intent in enumerate(INTENTS, start=1):
+            start = time.perf_counter()
+            raw = ""
+            try:
+                parsed, raw, elapsed = call_hf_router(intent)
+                parse_errors = validate_result(parsed)
+                subtexts = [item.get("text") for item in parsed.get("subintents", []) if isinstance(item, dict)]
+            except Exception as exc:
+                elapsed = time.perf_counter() - start
+                parse_errors = [f"{type(exc).__name__}: {exc}"]
+                subtexts = []
+            result = {
+                "id": index,
+                "intent": intent,
+                "elapsed_sec": round(elapsed, 3),
+                "subintent_count": len(subtexts),
+                "subintents": subtexts,
+                "raw": raw,
+                "errors": parse_errors,
             }
-            resultados.append(resultado_teste)
+            cls.results.append(result)
+            print("\n" + "=" * 100)
+            print(f"[DISCRETIZE ENDPOINT][INTENT {index}] {intent}")
+            print("=" * 100)
+            print(json.dumps(result, ensure_ascii=False, indent=2))
 
-            # --- Captura: Comandos CLI ---
-            exec_result = final_state.get("cli_commands")
-            if exec_result is not None:
-                exec_result = to_jsonable(exec_result)
-                comandos_execucao.append({
-                    "id_teste": i + 1,
-                    "intent": texto_intencao,
-                    "status": exec_result.get("status"),
-                    "commands": exec_result.get("commands")
-                })
-            else:
-                comandos_execucao.append({
-                    "id_teste": i + 1,
-                    "intent": texto_intencao,
-                    "cli": None
-                })
-
-            print(f"[OK] Teste {i+1} finalizado. Tempo: {fim - inicio:.2f}s")
-
-        except Exception as e:
-            print(f"Erro no teste {i+1}: {e}")
-            resultados.append({"id": i + 1, "intent_original": texto_intencao, "erro": str(e)})
-
-    # --- SALVAMENTO DOS ARQUIVOS ---
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    os.makedirs("logs_teste", exist_ok=True)
-
-    arquivo_log = f"logs_teste/resultado_llm_{timestamp}.json"
-    with open(arquivo_log, "w", encoding="utf-8") as f:
-        json.dump(resultados, f, indent=4, ensure_ascii=False)
-
-    arquivo_comandos = f"logs_teste/comandos_cli_{timestamp}.json"
-    with open(arquivo_comandos, "w", encoding="utf-8") as f:
-        json.dump(comandos_execucao, f, indent=4, ensure_ascii=False)
-
-    print(f"\n[SUCESSO] Log de processamento salvo em: {arquivo_log}")
-    print(f"[SUCESSO] Comandos CLI gerados salvos em: {arquivo_comandos}")
+    def test_all_outputs_are_valid_subintent_json(self):
+        failures = {
+            result["id"]: result["errors"]
+            for result in self.results
+            if result["errors"]
+        }
+        self.assertEqual({}, failures)
 
 
 if __name__ == "__main__":
-    rodar_bateria_de_testes()
+    unittest.main(verbosity=2)

@@ -1,0 +1,292 @@
+{
+  "metadata": {
+    "name": "golden_intents_topology_gabriel_10_0",
+    "topology_path": "dataset/topologias_convertidas/gabriel/10/0.json",
+    "comparison": "exact_ordered_targeted_command_list",
+    "notes": "Gold-standard expected targeted CLI commands for the diagnostic intents on topology gabriel/10/0."
+  },
+  "cases": [
+    {
+      "id": "D01",
+      "intent": "Configure a static route on router 0 to 172.16.9.0/24 via the IP of the peer connected to 0-eth2.",
+      "expected_commands": [
+        {
+          "target_device": "0",
+          "command": "vtysh -c 'configure terminal' -c 'ip route 172.16.9.0/24 10.0.2.2'"
+        }
+      ],
+      "expected_needs_human": false
+    },
+    {
+      "id": "D02",
+      "intent": "Enable IPv4 forwarding on router 3, set MTU 9000 on interface 3-eth1, and shut down interface 3-eth2.",
+      "expected_commands": [
+        {
+          "target_device": "3",
+          "command": "sysctl -w net.ipv4.ip_forward=1"
+        },
+        {
+          "target_device": "3",
+          "command": "vtysh -c 'configure terminal' -c 'interface 3-eth1' -c 'mtu 9000'"
+        },
+        {
+          "target_device": "3",
+          "command": "ip link set 3-eth2 down"
+        }
+      ],
+      "expected_needs_human": false
+    },
+    {
+      "id": "D03",
+      "intent": "Find the IP of the neighbor connected to 1-eth0 and use it as the next-hop for a static route to 172.16.6.0/24 on router 1.",
+      "expected_commands": [
+        {
+          "target_device": "1",
+          "command": "vtysh -c 'configure terminal' -c 'ip route 172.16.6.0/24 10.0.3.2'"
+        }
+      ],
+      "expected_needs_human": false
+    },
+    {
+      "id": "D04",
+      "intent": "Configure a static route on router 7 to 172.16.0.0/24 via 10.0.6.1 with administrative distance 50.",
+      "expected_commands": [
+        {
+          "target_device": "7",
+          "command": "vtysh -c 'configure terminal' -c 'ip route 172.16.0.0/24 10.0.6.1 50'"
+        }
+      ],
+      "expected_needs_human": false
+    },
+    {
+      "id": "D05",
+      "intent": "Set the MTU to 9216 on the interface of router 4 that connects to router 0.",
+      "expected_commands": [
+        {
+          "target_device": "4",
+          "command": "vtysh -c 'configure terminal' -c 'interface 4-eth0' -c 'mtu 9216'"
+        }
+      ],
+      "expected_needs_human": false
+    },
+    {
+      "id": "D06",
+      "intent": "Assign IPv4 address 10.0.10.1/30 to interface 1-eth0 on router 1.",
+      "expected_commands": [
+        {
+          "target_device": "1",
+          "command": "vtysh -c 'configure terminal' -c 'interface 1-eth0' -c 'ip address 10.0.10.1/30'"
+        }
+      ],
+      "expected_needs_human": false
+    },
+    {
+      "id": "D07",
+      "intent": "Set MTU 9000 on interface 4-eth999 of router 4.",
+      "expected_commands": [],
+      "expected_needs_human": true
+    },
+    {
+      "id": "D08",
+      "intent": "Configure a static route on router 1 to 172.16.5.0/24 using the IP of the neighbor connected to 1-eth1.",
+      "expected_commands": [
+        {
+          "target_device": "1",
+          "command": "vtysh -c 'configure terminal' -c 'ip route 172.16.5.0/24 10.0.4.2'"
+        }
+      ],
+      "expected_needs_human": false
+    },
+    {
+      "id": "D09",
+      "intent": "Create a BGP peer-group named IBGP on router 0 and bind neighbor 10.0.1.2 to it.",
+      "expected_commands": [],
+      "expected_needs_human": true
+    },
+    {
+      "id": "D10",
+      "intent": "Configure a blackhole route on router 9 for prefix 10.100.0.0/16 by pointing it to Null0.",
+      "expected_commands": [
+        {
+          "target_device": "9",
+          "command": "vtysh -c 'configure terminal' -c 'ip route 10.100.0.0/16 Null0'"
+        }
+      ],
+      "expected_needs_human": false
+    },
+    {
+      "id": "D11",
+      "intent": "Configure BGP authentication password SeCrEt for peer-group TRANSIT on router 2.",
+      "expected_commands": [],
+      "expected_needs_human": true
+    },
+    {
+      "id": "D12",
+      "intent": "Configure a static route on router 1 to reach the LAN subnet of router 5 using the IP of the neighbor connected to 1-eth1 as gateway.",
+      "expected_commands": [
+        {
+          "target_device": "1",
+          "command": "vtysh -c 'configure terminal' -c 'ip route 172.16.5.0/24 10.0.4.2'"
+        }
+      ],
+      "expected_needs_human": false
+    },
+    {
+      "id": "D13",
+      "intent": "Configure a static route on router 2 to 172.16.7.0/24.",
+      "expected_commands": [],
+      "expected_needs_human": true
+    },
+    {
+      "id": "D14",
+      "intent": "Enable Jumbo frames by setting MTU 9216 on interface 8-eth0 of router 8 and restart the interface by bringing it down then up.",
+      "expected_commands": [
+        {
+          "target_device": "8",
+          "command": "vtysh -c 'configure terminal' -c 'interface 8-eth0' -c 'mtu 9216'"
+        },
+        {
+          "target_device": "8",
+          "command": "ip link set 8-eth0 down"
+        },
+        {
+          "target_device": "8",
+          "command": "ip link set 8-eth0 up"
+        }
+      ],
+      "expected_needs_human": false
+    },
+    {
+      "id": "D15",
+      "intent": "Improve routing performance between router 1 and router 5.",
+      "expected_commands": [],
+      "expected_needs_human": true
+    },
+    {
+      "id": "B15",
+      "source_range": "BENCHMARK_INTENTS_50[15]",
+      "intent": "Enable IPv6 forwarding on router 2.",
+      "expected_commands": [
+        {
+          "target_device": "2",
+          "command": "sysctl -w net.ipv6.conf.all.forwarding=1"
+        }
+      ],
+      "expected_needs_human": false
+    },
+    {
+      "id": "B16",
+      "source_range": "BENCHMARK_INTENTS_50[16]",
+      "intent": "Assign IPv6 address 2001:db8:2::1/64 to interface 2-eth1.",
+      "expected_commands": [
+        {
+          "target_device": "2",
+          "command": "vtysh -c 'configure terminal' -c 'interface 2-eth1' -c 'ipv6 address 2001:db8:2::1/64'"
+        }
+      ],
+      "expected_needs_human": false
+    },
+    {
+      "id": "B17",
+      "source_range": "BENCHMARK_INTENTS_50[17]",
+      "intent": "Configure interface 0-eth3 description as LAN_USERS.",
+      "expected_commands": [
+        {
+          "target_device": "0",
+          "command": "vtysh -c 'configure terminal' -c 'interface 0-eth3' -c 'description LAN_USERS'"
+        }
+      ],
+      "expected_needs_human": false
+    },
+    {
+      "id": "B18",
+      "source_range": "BENCHMARK_INTENTS_50[18]",
+      "intent": "Bring down interface 8-eth0.",
+      "expected_commands": [
+        {
+          "target_device": "8",
+          "command": "ip link set 8-eth0 down"
+        }
+      ],
+      "expected_needs_human": false
+    },
+    {
+      "id": "B19",
+      "source_range": "BENCHMARK_INTENTS_50[19]",
+      "intent": "Bring up interface 8-eth0.",
+      "expected_commands": [
+        {
+          "target_device": "8",
+          "command": "ip link set 8-eth0 up"
+        }
+      ],
+      "expected_needs_human": false
+    },
+    {
+      "id": "B20",
+      "source_range": "BENCHMARK_INTENTS_50[20]",
+      "intent": "Set MTU 9216 on interface 5-eth1 and enable IP forwarding on router 5.",
+      "expected_commands": [
+        {
+          "target_device": "5",
+          "command": "vtysh -c 'configure terminal' -c 'interface 5-eth1' -c 'mtu 9216'"
+        },
+        {
+          "target_device": "5",
+          "command": "sysctl -w net.ipv4.ip_forward=1"
+        }
+      ],
+      "expected_needs_human": false
+    },
+    {
+      "id": "B21",
+      "source_range": "BENCHMARK_INTENTS_50[21]",
+      "intent": "Configure a static ARP entry on router 0 mapping 10.0.0.2 to MAC address 02:00:00:00:00:02.",
+      "expected_commands": [
+        {
+          "target_device": "0",
+          "command": "arp -i 0-eth0 -s 10.0.0.2 02:00:00:00:00:02"
+        }
+      ],
+      "expected_needs_human": false
+    },
+    {
+      "id": "B22",
+      "source_range": "BENCHMARK_INTENTS_50[22]",
+      "intent": "On router 7, create a static ARP entry for 10.0.9.2 with MAC 02:00:00:00:09:02.",
+      "expected_commands": [
+        {
+          "target_device": "7",
+          "command": "arp -i 7-eth1 -s 10.0.9.2 02:00:00:00:09:02"
+        }
+      ],
+      "expected_needs_human": false
+    },
+    {
+      "id": "B23",
+      "source_range": "BENCHMARK_INTENTS_50[23]",
+      "intent": "Delete all static ARP entries on router 0.",
+      "expected_commands": [],
+      "expected_needs_human": true
+    },
+    {
+      "id": "B28",
+      "source_range": "BENCHMARK_INTENTS_50[28]",
+      "intent": "Block ICMP traffic from 172.16.7.0/24 on router 2.",
+      "expected_commands": [
+        {
+          "target_device": "2",
+          "command": "iptables -A FORWARD -p icmp -s 172.16.7.0/24 -j DROP"
+        }
+      ],
+      "expected_needs_human": false
+    },
+    {
+      "id": "B26",
+      "source_range": "BENCHMARK_INTENTS_50[26]",
+      "intent": "Block inbound SSH traffic on interface 0-eth3.",
+      "expected_commands": [],
+      "expected_needs_human": true
+    }
+  ]
+}

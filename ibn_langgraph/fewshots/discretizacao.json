@@ -1,0 +1,59 @@
+User:
+{"intent": "With a distance of 250, add a static route for the prefix 0.0.0.0/0 via 10.255.255.1."}
+
+Assistant:
+{"subintents":[{"id":"S1","text":"Add a static route to 0.0.0.0/0 via 10.255.255.1 with distance 250","notes":{"administrative_distance":250}}]}
+
+User:
+{"intent": "To prevent ARP spoofing, on Access-Switch-5, map the MAC address 00:aa:bb:cc:dd:ee statically to the Server-IP-01."}
+
+Assistant:
+{"subintents":[{"id":"S1","text":"Create a static ARP entry on Access-Switch-5 mapping Server-IP-01 to MAC address 00:aa:bb:cc:dd:ee","notes":{"network_goal":"arp_spoofing_prevention","mac_address":"00:aa:bb:cc:dd:ee"}}]}
+
+User:
+{"intent": "Define static ARP entries for gateway and server addresses, and enable Proxy ARP on routers connecting different subnets."}
+
+Assistant:
+{"subintents":[{"id":"S1","text":"Configure static ARP entries for gateway and server addresses","notes":{"intent_context":"security"}},{"id":"S2","text":"Enable Proxy ARP on routers connecting different subnets","notes":{}}]}
+
+User:
+{"intent": "I want eth0 to act as a gateway with IP 10.0.0.1/24 and OSPF enabled in area 0."}
+
+Assistant:
+{"subintents":[{"id":"S1","text":"Assign IPv4 address 10.0.0.1/24 to interface eth0","notes":{"address_family":"ipv4"}},{"id":"S2","text":"Enable IP forwarding on the device","notes":{}},{"id":"S3","text":"Enable OSPF area 0 on interface eth0","notes":{"protocol":"ospf","scope":"interface","area":"0","enabled":true}}]}
+
+User:
+{"intent": "Make eth1 a jumbo-frame capable link with 10Gbps bandwidth and IP 192.168.0.1/30."}
+
+Assistant:
+{"subintents":[{"id":"S1","text":"Configure interface eth1 for jumbo frames","notes":{"attribute_type":"mtu","feature":"jumbo_frames"}},{"id":"S2","text":"Set interface eth1 bandwidth to 10Gbps","notes":{"attribute_type":"bandwidth","rate_limit_value":10,"rate_limit_unit":"Gbps"}},{"id":"S3","text":"Assign IPv4 address 192.168.0.1/30 to interface eth1","notes":{"address_family":"ipv4"}}]}
+
+User:
+{"intent": "Within the BGP 65100 process, advertise the Customer-Network-A and Customer-Network-B prefixes while ensuring the 'no-export' community is attached."}
+
+Assistant:
+{"subintents":[{"id":"S1","text":"Advertise the Customer-Network-A prefix in BGP 65100 with the no-export community attached","notes":{"protocol":"bgp","scope":"process","state":"present","attribute":"community_no_export"}},{"id":"S2","text":"Advertise the Customer-Network-B prefix in BGP 65100 with the no-export community attached","notes":{"protocol":"bgp","scope":"process","state":"present","attribute":"community_no_export"}}]}
+
+User:
+{"intent": "Analyze delay, jitter, packet loss, and connectivity using UDP probes."}
+
+Assistant:
+{"subintents":[{"id":"S1","text":"Measure latency using UDP probe traffic","notes":{"metric":"latency","protocol":"udp"}},{"id":"S2","text":"Measure jitter using UDP probe traffic","notes":{"metric":"jitter","protocol":"udp"}},{"id":"S3","text":"Measure packet loss using UDP probe traffic","notes":{"metric":"loss","protocol":"udp"}}]}
+
+User:
+{"intent": "To troubleshoot the intermittent drops reported by Sales-Dept, apply a 2% packet loss and 20ms jitter to the link between Switch-Core and Host-Sales."}
+
+Assistant:
+{"subintents":[{"id":"S1","text":"Set packet loss to 2% on the link between Switch-Core and Host-Sales","notes":{"metric":"loss","network_goal":"troubleshooting"}},{"id":"S2","text":"Set jitter to 20ms on the link between Switch-Core and Host-Sales","notes":{"metric":"jitter","network_goal":"troubleshooting"}}]}
+
+User:
+{"intent": "Isolate Infra-Switch-2 from the rest of the topology by disabling the virtual port connected to Core-Switch-1 during the emergency window."}
+
+Assistant:
+{"subintents":[{"id":"S1","text":"Disable the virtual port on Infra-Switch-2 connected to Core-Switch-1","notes":{"enabled":false,"network_goal":"isolation","run_condition":"run during the emergency window"}}]}
+
+User:
+{"intent": "Configure a static route on router 0 to 172.16.9.0/24 using the IP address of the neighbor connected to interface 0-eth2 as next-hop."}
+
+Assistant:
+{"subintents":[{"id":"S1","text":"Configure a static route on router 0 to 172.16.9.0/24 using the IP address of the neighbor connected to interface 0-eth2 as next-hop","notes":{"grounding_hint":"resolve next-hop from neighbor connected to interface 0-eth2"}}]}

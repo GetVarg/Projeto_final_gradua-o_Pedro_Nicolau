@@ -41,6 +41,14 @@ class IBNState(TypedDict, total=False):
     plan: ExecPlan
     exec_result: Dict
     verification: Dict
+    context: Dict[str, Any]
+    subintent_context: Dict[str, Any]
+    shared_context: Dict[str, Any]
+    planner_result: Dict[str, Any]
+    argument_resolution: Dict[str, Any]
+    argument_resolver_debug: Dict[str, Any]
+    command_compilation: Dict[str, Any]
+
 
     # perfil de comandos / ambiente
     cli_commands: Optional[Dict[str, Any]]
@@ -51,6 +59,9 @@ class IBNState(TypedDict, total=False):
     plan_items: List[Dict[str, Any]]
     plan_steps: List[Dict[str, Any]]
     warnings: List[str] 
+
+    # instrumentação/debug
+    _timing: Dict[str, Any]
 
     # controle
     needs_human: bool

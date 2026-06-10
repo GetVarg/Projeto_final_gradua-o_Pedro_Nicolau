@@ -588,7 +588,6 @@ You decompose a network management intent into sub-intents only when needed.
 
 You are given:
 - intent: the full user intent
-- topology_slice: available device, interface, network, or system names
 
 GOAL
 - Cover all meaningful requirements in the intent.
@@ -670,7 +669,7 @@ NOTES
 - If there is no useful metadata, use {}.
 
 CLOSED WORLD
-- Prefer names that appear in topology_slice or in the intent itself.
+- Prefer names that appear in the intent itself.
 - Do not invent missing names.
 
 OUTPUT
@@ -703,8 +702,6 @@ Stop immediately after }
 
     user_payload = {
         "intent": root_text,
-        "topology_slice": topology_for_discretize,
-        "catalog": compact_command_catalog_for_discretize(),
     }
 
     llm_i = llm.bind(options={"temperature": 0})
@@ -854,6 +851,7 @@ def node_pick_subintent(state: IBNState) -> IBNState:
         "id": sid,
         "text": text,
         "notes": si.get("notes", {}) or {},
+        "intent_frame": si.get("intent_frame") or {},
         "classification": si.get("classification"),
         "status": si.get("status"),
         "depth": si.get("depth"),
@@ -907,6 +905,7 @@ def node_store_subintent_result(state: IBNState) -> IBNState:
         "plan_items": state.get("plan_items") or [],
         "plan_steps": state.get("plan_steps") or [],
         "plan": plan_dump,
+        "planner_result": state.get("planner_result"),
         "cli_commands": state.get("cli_commands"),
         "verification": state.get("verification"),
 

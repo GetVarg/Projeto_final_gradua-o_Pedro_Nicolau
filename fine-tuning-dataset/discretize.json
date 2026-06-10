@@ -1,0 +1,7640 @@
+[
+  {
+    "id": 1,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Configure IP addresses, subnet masks, gateways, and unique locally administered MAC addresses for each interface of each device in the network, assigning MAC addresses sequentially starting from 02:00:00:00:00:01."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure IPv4 addresses and subnet masks for each interface of each device in the network",
+          "anchors": [],
+          "notes": {
+            "address_family": "ipv4"
+          },
+          "classification": {
+            "op": "interface_l3_address_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Configure default gateways for each device in the network",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "device_default_gateway_config"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Configure a unique locally administered MAC address for each interface of each device in the network, using sequential assignment starting from 02:00:00:00:00:01",
+          "anchors": [],
+          "notes": {
+            "mac_address_type": "locally_administered",
+            "assignment_strategy": "sequential",
+            "start_mac": "02:00:00:00:00:01"
+          },
+          "classification": {
+            "op": "iface_mac_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 2,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Minimize broadcasts and limit wasteful use of network resources by storing network addresses and associated data-link addresses (MAC addresses) in memory for a period of time."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Reduce address-resolution overhead by retaining IP-to-MAC mappings in memory for a period of time",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "arp_cache_timeout_set"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 3,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Enable Inverse ARP or configure ATM map entries for sending unicast packets to servers on the other end of a connection"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure address resolution for virtual circuit connections to allow unicast communication to remote servers",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "virtual_circuit_address_mapping_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 4,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Implement Proxy ARP (Address Resolution Protocol) for devices separated into physical network segments connected by a router in the same IP network or subnetwork."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure Proxy ARP behavior to allow communication between devices on different physical segments within the same IP network",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "proxy_arp_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 5,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Implement Public wireless LANs (WLANs) and DHCP."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure a wireless LAN to provide public network access to clients",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "wlan_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Configure DHCP service to automatically assign IP addresses to network clients",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "dhcp_server_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 6,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Implement ARP global limit and ARP interface limit."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure a global limit for ARP cache entries",
+          "anchors": [],
+          "notes": {
+            "intent_context": "security"
+          },
+          "classification": {
+            "op": "arp_entry_limit_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Configure per-interface limits for ARP cache entries",
+          "anchors": [],
+          "notes": {
+            "intent_context": "security"
+          },
+          "classification": {
+            "op": "arp_entry_limit_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 7,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Define static ARP cache entries for dynamic address resolution."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure static ARP entries",
+          "anchors": [],
+          "notes": {
+            "intent_context": "security"
+          },
+          "classification": {
+            "op": "arp_static_entry_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 8,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Globally associates an IP address with a MAC address in the ARP cache."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure static ARP entries",
+          "anchors": [],
+          "notes": {
+            "intent_context": "security"
+          },
+          "classification": {
+            "op": "arp_static_entry_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 9,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Define static ARP entries for gateway and server addresses, and enable Proxy ARP on routers connecting different subnets."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure static ARP entries for gateway and server addresses",
+          "anchors": [
+            "gateway",
+            "server"
+          ],
+          "notes": {
+            "intent_context": "security"
+          },
+          "classification": {
+            "op": "arp_static_entry_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Enable Proxy ARP on routers connecting different subnets",
+          "anchors": [
+            "routers",
+            "subnets"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "proxy_arp_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 10,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Set the ARP cache timeout to a value greater than 60 seconds on routers and hosts to reduce excessive address resolution traffic."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure ARP cache timeout to a value greater than 60 seconds on routers and hosts",
+          "anchors": [
+            "routers",
+            "hosts"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "arp_cache_timeout_set"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 11,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Globally disable Proxy ARP on all interfaces."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Disable Proxy ARP behavior on all interfaces",
+          "anchors": [
+            "interfaces"
+          ],
+          "notes": {
+            "intent_context": "security"
+          },
+          "classification": {
+            "op": "proxy_arp_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 12,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Clear the ARP cache on an interface and all dynamic entries from the ARP, fast-switching, and IP route caches."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Clear ARP cache entries on the interface",
+          "anchors": [
+            "interface"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "cache_clear"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Clear dynamic forwarding and routing cache entries",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "cache_clear"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 13,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Configure ARP entry limit globally."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure a global limit for ARP cache entries",
+          "anchors": [],
+          "notes": {
+            "intent_context": "security"
+          },
+          "classification": {
+            "op": "arp_entry_limit_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 14,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Configure and manage ARP settings, including static ARP entries, encapsulation types, and proxy ARP."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure static ARP entries",
+          "anchors": [],
+          "notes": {
+            "intent_context": "security"
+          },
+          "classification": {
+            "op": "arp_static_entry_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Configure ARP encapsulation type on interfaces",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "arp_encapsulation_set"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Configure proxy ARP behavior",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "proxy_arp_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 15,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Clear all entries in the ARP cache associated with an interface."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Clear ARP cache entries for an interface",
+          "anchors": [],
+          "notes": {
+            "cache_type": "arp"
+          },
+          "classification": {
+            "op": "cache_clear"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 16,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Measure network performance between multiple network locations."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Measure latency between network locations",
+          "anchors": [],
+          "notes": {
+            "metric": "latency"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Measure packet loss between network locations",
+          "anchors": [],
+          "notes": {
+            "metric": "loss"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Measure jitter between network locations",
+          "anchors": [],
+          "notes": {
+            "metric": "jitter"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        },
+        {
+          "id": "S4",
+          "text": "Check reachability between network locations",
+          "anchors": [],
+          "notes": {
+            "metric": "reachability"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 17,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Implement network performance measurement using probes."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure probe operation",
+          "anchors": [],
+          "notes": {
+            "execution_aspect": "operation"
+          },
+          "classification": {
+            "op": "probe_execution_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Schedule probe execution",
+          "anchors": [],
+          "notes": {
+            "execution_aspect": "schedule"
+          },
+          "classification": {
+            "op": "probe_execution_config"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Collect performance statistics",
+          "anchors": [],
+          "notes": {
+            "monitoring_scope": "probe_statistics"
+          },
+          "classification": {
+            "op": "system_monitoring_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 18,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Configure a latency threshold of 100 ms for network performance monitoring between hosts."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure latency threshold for probe measurements",
+          "anchors": [
+            "hosts"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "probe_threshold_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 19,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Maintain aggregated statistics for network performance operations."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Store historical statistics of probe results",
+          "anchors": [],
+          "notes": {
+            "monitoring_scope": "probe_history"
+          },
+          "classification": {
+            "op": "system_monitoring_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 20,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Analyze delay, jitter, packet loss, and connectivity using UDP probes."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Measure latency using UDP probe traffic",
+          "anchors": [],
+          "notes": {
+            "metric": "latency"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Measure jitter using UDP probe traffic",
+          "anchors": [],
+          "notes": {
+            "metric": "jitter"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Measure packet loss using UDP probe traffic",
+          "anchors": [],
+          "notes": {
+            "metric": "loss"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 21,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Measure jitter and delay for delay-sensitive traffic."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Measure jitter for network traffic",
+          "anchors": [],
+          "notes": {
+            "metric": "jitter"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Measure latency for network traffic",
+          "anchors": [],
+          "notes": {
+            "metric": "latency"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 22,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Configuring a Basic UDP Jitter Operation on a Source Device"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Measure UDP jitter from a source device to a destination device.",
+          "anchors": [
+            "source device",
+            "destination device",
+            "UDP jitter"
+          ],
+          "notes": {
+            "metric": "jitter"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 23,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Configure the frequency of an IP SLA operation to 60 seconds."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Perform a reachability probe every 60 seconds.",
+          "anchors": [
+            "IP SLA operation",
+            "frequency",
+            "60 seconds"
+          ],
+          "notes": {
+            "metric": "reachability"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 24,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Enable and configure IP SLAs Responder on the target device for UDP jitter operation"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Ensure the target device can participate in a UDP jitter measurement operation.",
+          "anchors": [
+            "target device",
+            "IP SLAs Responder",
+            "UDP jitter operation"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "connectivity_ensure_pair"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 25,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Measure one-way delay using a UDP jitter probe between the source and destination devices."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Measure one-way delay using a UDP jitter probe between the source and destination devices.",
+          "anchors": [
+            "source device",
+            "destination device",
+            "UDP jitter probe",
+            "one-way delay"
+          ],
+          "notes": {
+            "metric": "jitter"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 26,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Devices must be able to communicate with each other when not part of the same network. The requirement is to map a 48-bit MAC address to an IP address."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure the default gateway on devices so they can communicate with devices outside their local network.",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "device_default_gateway_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Configure a static mapping between a 48-bit MAC address and an IP address on the device.",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "arp_static_entry_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 27,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Configure static ARP entries on hosts and routers in the network."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure static ARP entries on hosts and routers in the network.",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "arp_static_entry_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 28,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Configure a static ARP entry on host h_1_1 to map the IP address of host h_2_1 to its MAC address."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure a static ARP entry on host h_1_1 to map the IP address of host h_2_1 to its MAC address.",
+          "anchors": [
+            "h_1_1",
+            "h_2_1"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "arp_static_entry_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 29,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Set the ARP encapsulation type to Ethernet on interface h_1_1-eth0."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set the ARP encapsulation type to Ethernet on interface h_1_1-eth0.",
+          "anchors": [
+            "h_1_1-eth0"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "arp_encapsulation_set"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 30,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Define static mapping between an IP address (32-bit address) and a Media Access Control (MAC) address (48-bit address) for hosts that do not support dynamic Address Resolution Protocol (ARP)."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Define static mapping between an IP address (32-bit address) and a Media Access Control (MAC) address (48-bit address) for hosts that do not support dynamic Address Resolution Protocol (ARP).",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "arp_static_entry_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 31,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Disable proxy ARP on all interfaces."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Disable proxy ARP on all interfaces.",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "proxy_arp_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 32,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Measure UDP path performance between router 2 and router 4, including latency, jitter, packet loss, and reachability."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Measure latency between router 2 and router 4 for UDP traffic.",
+          "anchors": [
+            "2",
+            "4"
+          ],
+          "notes": {
+            "metric": "latency"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Measure jitter between router 2 and router 4 for UDP traffic.",
+          "anchors": [
+            "2",
+            "4"
+          ],
+          "notes": {
+            "metric": "jitter"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Measure packet loss between router 2 and router 4 for UDP traffic.",
+          "anchors": [
+            "2",
+            "4"
+          ],
+          "notes": {
+            "metric": "loss"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        },
+        {
+          "id": "S4",
+          "text": "Check reachability between router 2 and router 4.",
+          "anchors": [
+            "2",
+            "4"
+          ],
+          "notes": {
+            "metric": "reachability"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 33,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Measure latency, jitter, packet loss, and reachability in IPv4 or IPv6 networks that carry UDP traffic."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Measure latency in IPv4 or IPv6 networks that carry UDP traffic.",
+          "anchors": [],
+          "notes": {
+            "metric": "latency",
+            "address_family": "dual_stack"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Measure jitter in IPv4 or IPv6 networks that carry UDP traffic.",
+          "anchors": [],
+          "notes": {
+            "metric": "jitter",
+            "address_family": "dual_stack"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Measure packet loss in IPv4 or IPv6 networks that carry UDP traffic.",
+          "anchors": [],
+          "notes": {
+            "metric": "loss",
+            "address_family": "dual_stack"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        },
+        {
+          "id": "S4",
+          "text": "Check reachability in IPv4 or IPv6 networks that carry UDP traffic.",
+          "anchors": [],
+          "notes": {
+            "metric": "reachability",
+            "address_family": "dual_stack"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 34,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Measure UDP jitter with configured parameters for number of packets, request data size, response data size, probe interval, and frequency."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Measure UDP jitter with configured parameters for number of packets, request data size, response data size, probe interval, and frequency.",
+          "anchors": [],
+          "notes": {
+            "metric": "jitter"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 35,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Configure the scheduling parameters for an individual network probe operation."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure the scheduling parameters for an individual network probe operation.",
+          "anchors": [],
+          "notes": {
+            "execution_aspect": "schedule"
+          },
+          "classification": {
+            "op": "probe_execution_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 36,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Measure UDP path performance for round-trip time, one-way delay, jitter, and packet loss."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Measure UDP path latency for round-trip time and one-way delay.",
+          "anchors": [],
+          "notes": {
+            "metric": "latency"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Measure UDP path jitter.",
+          "anchors": [],
+          "notes": {
+            "metric": "jitter"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Measure UDP path packet loss.",
+          "anchors": [],
+          "notes": {
+            "metric": "loss"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 37,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Set the timeout for a network probe operation in milliseconds."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set the timeout for a network probe operation in milliseconds.",
+          "anchors": [],
+          "notes": {
+            "execution_aspect": "timeout"
+          },
+          "classification": {
+            "op": "probe_execution_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 38,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Set the timeout for an Ethernet network probe operation to 10 seconds."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set the timeout for an Ethernet network probe operation to 10 seconds.",
+          "anchors": [],
+          "notes": {
+            "execution_aspect": "timeout"
+          },
+          "classification": {
+            "op": "probe_execution_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 39,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Measure end-to-end response time over UDP between router r3 and host h21 using IPv4 or IPv6."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Measure end-to-end response time over UDP between router r3 and host h21 using IPv4 or IPv6.",
+          "anchors": [
+            "r3",
+            "h21"
+          ],
+          "notes": {
+            "metric": "latency",
+            "address_family": "dual_stack"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 40,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Monitor end-to-end response time over UDP between devices using IPv4 or IPv6."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Monitor end-to-end response time over UDP between devices using IPv4 or IPv6.",
+          "anchors": [],
+          "notes": {
+            "metric": "latency",
+            "address_family": "dual_stack"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 41,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Measure end-to-end response time between devices using IP with a UDP echo probe."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Measure end-to-end response time between devices using IP with a UDP echo probe.",
+          "anchors": [],
+          "notes": {
+            "metric": "latency"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 42,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Perform an ICMP echo check from a specific source IP to a destination IP with a specified repeat rate."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Perform an ICMP echo check from a specific source IP to a destination IP with a specified repeat rate.",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "icmp_ping"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 43,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Configure a basic ICMP echo operation on the source device."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure a basic ICMP echo operation on the source device.",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "icmp_ping"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 44,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Configure firewall policy to permit only ICMP, TCP, and UDP protocols."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure firewall policy to permit only ICMP, TCP, and UDP protocols.",
+          "anchors": [],
+          "notes": {
+            "intent_context": "security",
+            "policy_scope": "protocols"
+          },
+          "classification": {
+            "op": "firewall_policy_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 45,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Configure threshold values for network performance monitoring."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure threshold values for network performance monitoring.",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "probe_threshold_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 46,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Configure UDP performance measurement between router r2 and router r4, including jitter, packet loss, and reachability verification."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Measure jitter between router r2 and router r4 for UDP traffic.",
+          "anchors": [
+            "r2",
+            "r4"
+          ],
+          "notes": {
+            "metric": "jitter"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Measure packet loss between router r2 and router r4 for UDP traffic.",
+          "anchors": [
+            "r2",
+            "r4"
+          ],
+          "notes": {
+            "metric": "loss"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Check reachability between router r2 and router r4.",
+          "anchors": [
+            "r2",
+            "r4"
+          ],
+          "notes": {
+            "metric": "reachability"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 47,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Configure the retry count and timeout in seconds for a network probe operation."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure the retry count for a network probe operation.",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "probe_execution_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Configure the timeout in seconds for a network probe operation.",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "probe_execution_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 48,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Configure a UDP jitter measurement operation to proactively monitor VoIP quality levels in the network."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Measure UDP jitter to proactively monitor VoIP quality levels in the network.",
+          "anchors": [],
+          "notes": {
+            "metric": "jitter"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 49,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Implement UDP jitter monitoring to measure VoIP call quality."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Measure UDP jitter to monitor VoIP call quality.",
+          "anchors": [],
+          "notes": {
+            "metric": "jitter"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 50,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Measure end-to-end response time between a router and any IP device."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Measure end-to-end response time between a router and any IP device.",
+          "anchors": [],
+          "notes": {
+            "metric": "latency"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 51,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Set the system hostname to ROTEADOR-BORDA-01"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set the system hostname to ROTEADOR-BORDA-01.",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "system_identity_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 52,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Configure the domain name to net.lab.local"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure the system domain name to net.lab.local.",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "system_identity_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 53,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Remove password requirement for vty access"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Disable password authentication requirement for VTY access.",
+          "anchors": [],
+          "notes": {
+            "intent_context": "security"
+          },
+          "classification": {
+            "op": "admin_access_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 54,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Set the vty access password to 'Cisco123!'"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set the VTY access password to 'Cisco123!'.",
+          "anchors": [],
+          "notes": {
+            "intent_context": "security"
+          },
+          "classification": {
+            "op": "admin_access_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 55,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Set enable password to 'AdminFRR'"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set the enable password to 'AdminFRR'.",
+          "anchors": [],
+          "notes": {
+            "intent_context": "security"
+          },
+          "classification": {
+            "op": "admin_access_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 56,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Enable FRR CPU usage statistics"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Enable CPU usage statistics collection in FRR.",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "system_monitoring_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 57,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Set CPU warning threshold to 200 milliseconds"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set the CPU warning threshold to 200 milliseconds.",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "system_monitoring_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 58,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Enable real-time logging to stdout"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Enable real-time logging to stdout.",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "logging_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 59,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Log all events to /var/log/frr/events.log at informational level"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure event logging to /var/log/frr/events.log at informational level.",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "logging_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 60,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Disable syslog logging"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Disable syslog logging.",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "logging_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 61,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Configure bgpd daemon to log to /var/log/frr/bgpd.log"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure bgpd daemon logging to /var/log/frr/bgpd.log.",
+          "anchors": [
+            "bgpd"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "logging_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 62,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Set log timestamp precision to 6 decimal places"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set log timestamp precision to 6 decimal places.",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "logging_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 63,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Enable logging for all executed commands"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Enable logging for all executed commands.",
+          "anchors": [],
+          "notes": {
+            "intent_context": "security"
+          },
+          "classification": {
+            "op": "logging_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 64,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Clear all active log filters"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Clear all active log filters.",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "logging_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 65,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Enable unbuffered logging mode"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Enable unbuffered logging mode.",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "logging_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 66,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Troubleshoot setup: enable debugging logs, high precision timestamps, and command logging"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Enable debugging logs",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "logging_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Configure high precision timestamps for logs",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "logging_config"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Enable command logging",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "logging_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 67,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Basic hardening: configure vty password and enable command logging"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure the VTY password for administrative access",
+          "anchors": [],
+          "notes": {
+            "intent_context": "security"
+          },
+          "classification": {
+            "op": "admin_access_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Enable command logging",
+          "anchors": [],
+          "notes": {
+            "intent_context": "security"
+          },
+          "classification": {
+            "op": "logging_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 68,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Reset logging environment: remove filters and set log level back to default"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Remove logging filters",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "logging_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set the log level back to the default value",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "logging_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 69,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Configure performance monitoring: enable stats and set warning limit to 100ms"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Enable local performance statistics monitoring",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "system_monitoring_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set the performance monitoring warning threshold to 100 ms",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "probe_threshold_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 70,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Setup BGP logging: define file, set level, and enable CPU stats"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure a log file destination for BGP logging",
+          "anchors": [
+            "BGP"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "logging_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set the log level for BGP logging",
+          "anchors": [
+            "BGP"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "logging_config"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Enable CPU statistics monitoring on the device",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "system_monitoring_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 71,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Setup BGP logging: define file, set level, and enable CPU stats"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure a log file destination for BGP logging",
+          "anchors": [
+            "BGP"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "logging_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set the log level for BGP logging",
+          "anchors": [
+            "BGP"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "logging_config"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Enable CPU statistics monitoring on the device",
+          "anchors": [],
+          "notes": {},
+          "classification": {
+            "op": "system_monitoring_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 72,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Filter logs to display only 'error' messages"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure log filtering to display only error messages",
+          "anchors": [
+            "error"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "logging_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 73,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Restrict logging to file only: remove console and monitor outputs"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Disable console logging output",
+          "anchors": [
+            "console"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "logging_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Disable monitor logging output",
+          "anchors": [
+            "monitor"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "logging_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 74,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Configure router identity: set hostname and domain name"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set the router hostname",
+          "anchors": [
+            "router"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "system_identity_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set the router domain name",
+          "anchors": [
+            "router"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "system_identity_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 75,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Emergency cleanup: disable all file and syslog logging"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Disable file logging",
+          "anchors": [
+            "file"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "logging_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Disable syslog logging",
+          "anchors": [
+            "syslog"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "logging_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 76,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Bring up eth0, assign 10.0.0.1/24 and set the description to WAN-Link"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Bring up interface eth0",
+          "anchors": [
+            "eth0"
+          ],
+          "notes": {
+            "enabled": true
+          },
+          "classification": {
+            "op": "interface_admin_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Configure IPv4 address 10.0.0.1/24 on interface eth0",
+          "anchors": [
+            "eth0",
+            "10.0.0.1/24"
+          ],
+          "notes": {
+            "address_family": "ipv4"
+          },
+          "classification": {
+            "op": "interface_l3_address_config"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Set the description of interface eth0 to WAN-Link",
+          "anchors": [
+            "eth0",
+            "WAN-Link"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "UNMAPPED_IN_COMMAND_CATALOG"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 77,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Configure eth1 with 192.168.1.5/24, enable multicast and set MTU to 9000"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure IPv4 address 192.168.1.5/24 on interface eth1",
+          "anchors": [
+            "eth1",
+            "192.168.1.5/24"
+          ],
+          "notes": {
+            "address_family": "ipv4"
+          },
+          "classification": {
+            "op": "interface_l3_address_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Enable multicast on interface eth1",
+          "anchors": [
+            "eth1",
+            "multicast"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "UNMAPPED_IN_COMMAND_CATALOG"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Set the MTU of interface eth1 to 9000",
+          "anchors": [
+            "eth1",
+            "9000"
+          ],
+          "notes": {
+            "attribute_type": "mtu"
+          },
+          "classification": {
+            "op": "interface_attribute_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 78,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Shut down eth2, remove its current IP and clear the description"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Shut down interface eth2",
+          "anchors": [
+            "eth2"
+          ],
+          "notes": {
+            "enabled": false
+          },
+          "classification": {
+            "op": "interface_admin_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Remove the current IPv4 address from interface eth2",
+          "anchors": [
+            "eth2"
+          ],
+          "notes": {
+            "address_family": "ipv4"
+          },
+          "classification": {
+            "op": "interface_l3_address_config"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Clear the description of interface eth2",
+          "anchors": [
+            "eth2"
+          ],
+          "notes": {
+            "attribute_type": "description"
+          },
+          "classification": {
+            "op": "interface_attribute_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 79,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Set loopback0 to 1.1.1.1/32 and ensure it is active"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure IPv4 address 1.1.1.1/32 on interface loopback0",
+          "anchors": [
+            "loopback0",
+            "1.1.1.1/32"
+          ],
+          "notes": {
+            "address_family": "ipv4"
+          },
+          "classification": {
+            "op": "interface_l3_address_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Bring up interface loopback0",
+          "anchors": [
+            "loopback0"
+          ],
+          "notes": {
+            "enabled": true
+          },
+          "classification": {
+            "op": "interface_admin_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 80,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Move eth3 to VRF BLUE, assign 10.1.1.1/24 and bring the link up"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Assign interface eth3 to VRF BLUE",
+          "anchors": [
+            "eth3",
+            "VRF BLUE"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "interface_vrf_bind"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Configure IPv4 address 10.1.1.1/24 on interface eth3",
+          "anchors": [
+            "eth3",
+            "10.1.1.1/24"
+          ],
+          "notes": {
+            "address_family": "ipv4"
+          },
+          "classification": {
+            "op": "interface_l3_address_config"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Bring up interface eth3",
+          "anchors": [
+            "eth3"
+          ],
+          "notes": {
+            "enabled": true
+          },
+          "classification": {
+            "op": "interface_admin_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 81,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "On eth0, set the bandwidth to 1000, enable link-detect and add alias 10.0.0.2/24"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set the bandwidth limit of interface eth0 to 1000",
+          "anchors": [
+            "eth0",
+            "1000"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "qos_limit_iface"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Enable link detection on interface eth0",
+          "anchors": [
+            "eth0",
+            "link-detect"
+          ],
+          "notes": {
+            "attribute_type": "link_detect"
+          },
+          "classification": {
+            "op": "interface_attribute_config"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Configure IPv4 address 10.0.0.2/24 as an additional address on interface eth0",
+          "anchors": [
+            "eth0",
+            "10.0.0.2/24"
+          ],
+          "notes": {
+            "address_family": "ipv4"
+          },
+          "classification": {
+            "op": "interface_l3_address_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 82,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Configure IPv6 address 2001:db8::1/64 on eth1 and enable router advertisements"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure IPv6 address 2001:db8::1/64 on interface eth1",
+          "anchors": [
+            "eth1",
+            "2001:db8::1/64"
+          ],
+          "notes": {
+            "address_family": "ipv6"
+          },
+          "classification": {
+            "op": "interface_l3_address_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Enable router advertisements on interface eth1",
+          "anchors": [
+            "eth1",
+            "router advertisements"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "ipv6_router_advertisement_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 83,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Wipe eth4 configuration: remove IP, shutdown the port and reset MTU to default"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Remove the current IPv4 address from interface eth4",
+          "anchors": [
+            "eth4"
+          ],
+          "notes": {
+            "address_family": "ipv4"
+          },
+          "classification": {
+            "op": "interface_l3_address_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Shut down interface eth4",
+          "anchors": [
+            "eth4"
+          ],
+          "notes": {
+            "enabled": false
+          },
+          "classification": {
+            "op": "interface_admin_config"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Reset the MTU of interface eth4 to the default value",
+          "anchors": [
+            "eth4",
+            "default MTU"
+          ],
+          "notes": {
+            "attribute_type": "mtu"
+          },
+          "classification": {
+            "op": "interface_attribute_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 84,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Set eth2 as a management port with 192.168.100.1/24 and disable IPv6"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Assign the management role to interface eth2",
+          "anchors": [
+            "eth2",
+            "management port"
+          ],
+          "notes": {
+            "attribute_type": "role"
+          },
+          "classification": {
+            "op": "interface_attribute_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Configure IPv4 address 192.168.100.1/24 on interface eth2",
+          "anchors": [
+            "eth2",
+            "192.168.100.1/24"
+          ],
+          "notes": {
+            "address_family": "ipv4"
+          },
+          "classification": {
+            "op": "interface_l3_address_config"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Disable IPv6 on interface eth2",
+          "anchors": [
+            "eth2",
+            "IPv6"
+          ],
+          "notes": {
+            "address_family": "ipv6"
+          },
+          "classification": {
+            "op": "interface_l3_address_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 85,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Enable eth0, set cost to 100 for OSPF and assign 172.16.0.1/30"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Bring up interface eth0",
+          "anchors": [
+            "eth0"
+          ],
+          "notes": {
+            "enabled": true
+          },
+          "classification": {
+            "op": "interface_admin_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set the OSPF cost of interface eth0 to 100",
+          "anchors": [
+            "eth0",
+            "OSPF",
+            "100"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "ospf_iface_cost_config"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Configure IPv4 address 172.16.0.1/30 on interface eth0",
+          "anchors": [
+            "eth0",
+            "172.16.0.1/30"
+          ],
+          "notes": {
+            "address_family": "ipv4"
+          },
+          "classification": {
+            "op": "interface_l3_address_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 86,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Set hostname to EDGE-01 and configure domain-name to lab.local"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set the system hostname to EDGE-01",
+          "anchors": [
+            "EDGE-01"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "system_identity_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set the system domain name to lab.local",
+          "anchors": [
+            "lab.local"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "system_identity_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 87,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Protect the router: set vty password to 'NetPass' and enable password to 'Secret'"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set the VTY password to NetPass",
+          "anchors": [
+            "VTY",
+            "NetPass"
+          ],
+          "notes": {
+            "intent_context": "security"
+          },
+          "classification": {
+            "op": "admin_access_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set the enable password to Secret",
+          "anchors": [
+            "enable password",
+            "Secret"
+          ],
+          "notes": {
+            "intent_context": "security"
+          },
+          "classification": {
+            "op": "admin_access_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 88,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Configure logging: send informational messages to stdout and errors to syslog"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure stdout logging to send informational messages",
+          "anchors": [
+            "stdout",
+            "informational"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "logging_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Configure syslog logging to send error messages",
+          "anchors": [
+            "syslog",
+            "errors"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "logging_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 89,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Set router-id to 10.255.255.1 and enable CPU statistics collection"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set the router ID to 10.255.255.1",
+          "anchors": [
+            "router-id",
+            "10.255.255.1"
+          ],
+          "notes": {
+            "parameter": "router_id"
+          },
+          "classification": {
+            "op": "UNMAPPED_IN_COMMAND_CATALOG"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Enable CPU statistics collection",
+          "anchors": [
+            "CPU statistics"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "system_monitoring_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 90,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Enable command logging and set timestamp precision to microseconds"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Enable command logging",
+          "anchors": [
+            "command logging"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "logging_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set log timestamp precision to microseconds",
+          "anchors": [
+            "timestamp precision",
+            "microseconds"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "logging_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 91,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Setup eth1 for a high-MTU link: set MTU 9216, bring up and add description JUMBO"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set the MTU of interface eth1 to 9216",
+          "anchors": [
+            "eth1",
+            "9216"
+          ],
+          "notes": {
+            "attribute_type": "mtu"
+          },
+          "classification": {
+            "op": "interface_attribute_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Bring up interface eth1",
+          "anchors": [
+            "eth1"
+          ],
+          "notes": {
+            "enabled": true
+          },
+          "classification": {
+            "op": "interface_admin_config"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Set the description of interface eth1 to JUMBO",
+          "anchors": [
+            "eth1",
+            "JUMBO"
+          ],
+          "notes": {
+            "attribute_type": "description"
+          },
+          "classification": {
+            "op": "interface_attribute_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 92,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "On router 3236625, configure interface eth1 with IPv4 address 10.0.5.1/24 and set the description to BACKBONE."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure IPv4 address 10.0.5.1/24 on interface eth1 of router 3236625",
+          "anchors": [
+            "router 3236625",
+            "interface eth1",
+            "10.0.5.1/24"
+          ],
+          "notes": {
+            "address_family": "ipv4"
+          },
+          "classification": {
+            "op": "interface_l3_address_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set the interface description of eth1 on router 3236625 to BACKBONE",
+          "anchors": [
+            "router 3236625",
+            "interface eth1",
+            "BACKBONE"
+          ],
+          "notes": {
+            "attribute_type": "description"
+          },
+          "classification": {
+            "op": "interface_attribute_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 93,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Disable eth0, clear its description and remove it from VRF RED"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Shut down interface eth0",
+          "anchors": [
+            "eth0"
+          ],
+          "notes": {
+            "enabled": false
+          },
+          "classification": {
+            "op": "interface_admin_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Clear the description of interface eth0",
+          "anchors": [
+            "eth0"
+          ],
+          "notes": {
+            "attribute_type": "description"
+          },
+          "classification": {
+            "op": "interface_attribute_config"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Remove interface eth0 from VRF RED",
+          "anchors": [
+            "eth0",
+            "VRF RED"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "interface_vrf_bind"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 94,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Configure dual-stack on router 6272 interface 6272-eth0: add 10.0.0.1/30 and 2000::1/64 then bring up"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure IPv4 address 10.0.0.1/30 on interface 6272-eth0 of router 6272",
+          "anchors": [
+            "6272",
+            "6272-eth0",
+            "10.0.0.1/30"
+          ],
+          "notes": {
+            "address_family": "ipv4"
+          },
+          "classification": {
+            "op": "interface_l3_address_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Configure IPv6 address 2000::1/64 on interface 6272-eth0 of router 6272",
+          "anchors": [
+            "6272",
+            "6272-eth0",
+            "2000::1/64"
+          ],
+          "notes": {
+            "address_family": "ipv6"
+          },
+          "classification": {
+            "op": "interface_l3_address_config"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Bring up interface 6272-eth0 on router 6272",
+          "anchors": [
+            "6272",
+            "6272-eth0"
+          ],
+          "notes": {
+            "enabled": true
+          },
+          "classification": {
+            "op": "interface_admin_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 95,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "On router 6272, configure interface 6272-eth0 with IPv4 address 10.0.0.1/30, enable link-detect and set bandwidth to 10000"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure IPv4 address 10.0.0.1/30 on interface 6272-eth0 of router 6272",
+          "anchors": [
+            "6272",
+            "6272-eth0",
+            "10.0.0.1/30"
+          ],
+          "notes": {
+            "address_family": "ipv4"
+          },
+          "classification": {
+            "op": "interface_l3_address_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Enable link detection on interface 6272-eth0 of router 6272",
+          "anchors": [
+            "6272",
+            "6272-eth0",
+            "link-detect"
+          ],
+          "notes": {
+            "attribute_type": "link_detect"
+          },
+          "classification": {
+            "op": "interface_attribute_config"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Set the bandwidth limit of interface 6272-eth0 of router 6272 to 10000",
+          "anchors": [
+            "6272",
+            "6272-eth0",
+            "10000"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "qos_limit_iface"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 96,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Configure router 3035 with a static route to 10.1.2.0/30 via 10.1.0.2 with administrative distance 50"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure router 3035 with a static route to 10.1.2.0/30 via 10.1.0.2 with administrative distance 50",
+          "anchors": [
+            "3035",
+            "10.1.2.0/30",
+            "10.1.0.2",
+            "50"
+          ],
+          "notes": {
+            "administrative_distance": 50
+          },
+          "classification": {
+            "op": "static_route_add"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 97,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Set the default gateway to 172.16.0.1 and create a backup route via 172.16.0.2 distance 200"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set the default gateway to 172.16.0.1",
+          "anchors": [
+            "172.16.0.1"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "device_default_gateway_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Add a backup default route via 172.16.0.2 with administrative distance 200",
+          "anchors": [
+            "172.16.0.2",
+            "200"
+          ],
+          "notes": {
+            "network_goal": "backup"
+          },
+          "classification": {
+            "op": "static_route_add"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 98,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Route 8.8.8.8/32 through eth0 and tag the route with ID 888"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Add a static route to 8.8.8.8/32 through interface eth0",
+          "anchors": [
+            "8.8.8.8/32",
+            "eth0"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "static_route_add"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set the route tag ID of the static route to 888",
+          "anchors": [
+            "8.8.8.8/32",
+            "888"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "static_route_add"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 99,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Remove the static route to 192.168.2.0/24 and add a new one via 10.0.0.5"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Remove the static route to 192.168.2.0/24",
+          "anchors": [
+            "192.168.2.0/24"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "static_route_del"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Add a static route to 192.168.2.0/24 via 10.0.0.5",
+          "anchors": [
+            "192.168.2.0/24",
+            "10.0.0.5"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "static_route_add"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 100,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Configure a blackhole for 10.0.2.0/30 and log all routing changes"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Add a blackhole static route for 10.0.2.0/30",
+          "anchors": [
+            "10.0.2.0/30",
+            "blackhole"
+          ],
+          "notes": {
+            "route_kind": "blackhole"
+          },
+          "classification": {
+            "op": "static_route_add"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Enable logging for routing changes",
+          "anchors": [
+            "routing changes"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "logging_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 101,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Enable IPv4 forwarding and set a static route for 172.20.0.0/24 via eth1"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Enable IPv4 forwarding on the device",
+          "anchors": [
+            "IPv4 forwarding"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "ip_forward_enable"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Add a static route for 172.20.0.0/24 through interface eth1",
+          "anchors": [
+            "172.20.0.0/24",
+            "eth1"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "static_route_add"
+          }
+        }
+      ]
+    }
+  },
+    {
+    "id": 102,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Create an IPv6 default route via 2001:db8::fe and set router-id to 1.1.1.1"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Add an IPv6 default route via next-hop 2001:db8::fe",
+          "anchors": [
+            "IPv6 default route",
+            "2001:db8::fe"
+          ],
+          "notes": {
+            "address_family": "ipv6"
+          },
+          "classification": {
+            "op": "static_route_add"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set router-id to 1.1.1.1",
+          "anchors": [
+            "router-id",
+            "1.1.1.1"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "UNMAPPED_IN_COMMAND_CATALOG"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 103,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Leak routes: static route 10.0.0.0/8 from VRF RED to BLUE via next-hop 10.1.1.1"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Add a static route for 10.0.0.0/8 in VRF BLUE via next-hop 10.1.1.1",
+          "anchors": [
+            "10.0.0.0/8",
+            "VRF RED",
+            "VRF BLUE",
+            "10.1.1.1"
+          ],
+          "notes": {
+            "route_source_vrf": "RED",
+            "route_target_vrf": "BLUE"
+          },
+          "classification": {
+            "op": "static_route_add"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 104,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Configure recursive lookup for static routes and add route 1.1.1.0/24 via 2.2.2.2"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure recursive lookup for static routes",
+          "anchors": [
+            "recursive lookup",
+            "static routes"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "UNMAPPED_IN_COMMAND_CATALOG"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Add a static route for 1.1.1.0/24 via next-hop 2.2.2.2",
+          "anchors": [
+            "1.1.1.0/24",
+            "2.2.2.2"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "static_route_add"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 105,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Set a summary route for 10.1.0.0/16 to Null0 on router 3035 and remove the specific 10.1.2.0/30 route"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Add a summary static route for 10.1.0.0/16 to Null0 on router 3035",
+          "anchors": [
+            "3035",
+            "10.1.0.0/16",
+            "Null0"
+          ],
+          "notes": {
+            "route_kind": "summary",
+            "discard_route": true
+          },
+          "classification": {
+            "op": "static_route_add"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Remove the specific 10.1.2.0/30 route on router 3035",
+          "anchors": [
+            "3035",
+            "10.1.2.0/30"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "static_route_del"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 106,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Add static route to 192.168.10.0/24 via eth0 and enable cputime-stats"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Add a static route for 192.168.10.0/24 through interface eth0",
+          "anchors": [
+            "192.168.10.0/24",
+            "eth0"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "static_route_add"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Enable CPU time statistics collection on the device",
+          "anchors": [
+            "cputime-stats"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "system_monitoring_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 107,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Set default route to 10.0.0.1 and enable command logging for audits"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Add a default route via next-hop 10.0.0.1",
+          "anchors": [
+            "10.0.0.1"
+          ],
+          "notes": {
+            "network_goal": "default route"
+          },
+          "classification": {
+            "op": "static_route_add"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Enable command logging for audit purposes",
+          "anchors": [
+            "command logging",
+            "audits"
+          ],
+          "notes": {
+            "logging_scope": "command_audit"
+          },
+          "classification": {
+            "op": "logging_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 108,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Remove all static routes to 10.0.0.0/24 and 10.0.1.0/24"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Remove the static route for 10.0.0.0/24",
+          "anchors": [
+            "10.0.0.0/24"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "static_route_del"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Remove the static route for 10.0.1.0/24",
+          "anchors": [
+            "10.0.1.0/24"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "static_route_del"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 109,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Create a floating static route 0.0.0.0/0 via 10.1.0.2 distance 250 on router 3035"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Add a floating default static route via next-hop 10.1.0.2 with administrative distance 250 on router 3035",
+          "anchors": [
+            "3035",
+            "0.0.0.0/0",
+            "10.1.0.2",
+            "distance 250"
+          ],
+          "notes": {
+            "route_kind": "floating",
+            "administrative_distance": 250
+          },
+          "classification": {
+            "op": "static_route_add"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 110,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Route 10.40.40.0/24 via 10.0.0.2 and add description 'Backup-Link'"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Add a static route for 10.40.40.0/24 via next-hop 10.0.0.2",
+          "anchors": [
+            "10.40.40.0/24",
+            "10.0.0.2"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "static_route_add"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set the interface description to Backup-Link",
+          "anchors": [
+            "description",
+            "Backup-Link"
+          ],
+          "notes": {
+            "attribute_type": "description"
+          },
+          "classification": {
+            "op": "interface_attribute_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 111,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Enable OSPF and redistribute all static routes into the process"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Enable the routing protocol on the device",
+          "anchors": [],
+          "notes": {
+            "protocol": "ospf",
+            "enabled": true
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Redistribute static routes into the routing protocol process",
+          "anchors": [
+            "static routes"
+          ],
+          "notes": {
+            "protocol": "ospf",
+            "redistribution_source": "static"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 112,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Configure router-id 4.4.4.4 and route 4.4.4.0/24 to loopback0"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set router-id to 4.4.4.4",
+          "anchors": [
+            "router-id",
+            "4.4.4.4"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "UNMAPPED_IN_COMMAND_CATALOG"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Add a static route for 4.4.4.0/24 through interface loopback0",
+          "anchors": [
+            "4.4.4.0/24",
+            "loopback0"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "static_route_add"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 113,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Delete the route to 172.16.5.0/24 and disable eth3"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Remove the static route for 172.16.5.0/24",
+          "anchors": [
+            "172.16.5.0/24"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "static_route_del"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Disable interface eth3",
+          "anchors": [
+            "eth3"
+          ],
+          "notes": {
+            "enabled": false
+          },
+          "classification": {
+            "op": "interface_admin_config"
+          }
+        }
+      ]
+    }
+  },
+    {
+    "id": 114,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Set a static route to 10.5.5.0/24 via 192.168.1.1 and enable log immediate-mode"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Add a static route for 10.5.5.0/24 via next-hop 192.168.1.1",
+          "anchors": [
+            "10.5.5.0/24",
+            "192.168.1.1"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "static_route_add"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Enable immediate-mode logging",
+          "anchors": [
+            "immediate-mode"
+          ],
+          "notes": {
+            "logging_mode": "immediate"
+          },
+          "classification": {
+            "op": "logging_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 115,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Add IPv6 route 3000::/64 via 5978-eth0 and enable IPv6 forwarding"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Add a static route for 3000::/64 through interface eth0",
+          "anchors": [
+            "3000::/64",
+            "5978-eth0"
+          ],
+          "notes": {
+            "address_family": "ipv6"
+          },
+          "classification": {
+            "op": "static_route_add"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Enable IPv6 forwarding on the device",
+          "anchors": [
+            "IPv6 forwarding"
+          ],
+          "notes": {
+            "address_family": "ipv6"
+          },
+          "classification": {
+            "op": "ip_forward_enable"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 116,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Start BGP 65001 on router 5443, set router-id 1.1.1.1, and add neighbor 10.0.0.2 with remote-as 65002"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Enable the BGP routing process with local AS 65001 on router 5443",
+          "anchors": [
+            "5443",
+            "65001"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "enabled": true
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set the BGP router-id to 1.1.1.1 on router 5443",
+          "anchors": [
+            "5443",
+            "1.1.1.1"
+          ],
+          "notes": {
+            "protocol": "bgp"
+          },
+          "classification": {
+            "op": "UNMAPPED_IN_COMMAND_CATALOG"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Configure neighbor 10.0.0.2 with remote AS 65002 in the BGP process on router 5443",
+          "anchors": [
+            "5443",
+            "10.0.0.2",
+            "65002"
+          ],
+          "notes": {
+            "protocol": "bgp"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 117,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "On BGP 65001, activate neighbor 10.0.0.2 and announce network 192.168.10.0/24"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Enable neighbor 10.0.0.2 in the routing protocol process",
+          "anchors": [
+            "65001",
+            "10.0.0.2"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "enabled": true
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Announce network 192.168.10.0/24 in the routing protocol process",
+          "anchors": [
+            "65001",
+            "192.168.10.0/24"
+          ],
+          "notes": {
+            "protocol": "bgp"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 118,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "On router 6272, configure BGP neighbor 10.0.0.2, set next-hop-self, and enable graceful-restart"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure neighbor 172.16.1.1 in the routing protocol process",
+          "anchors": [
+            "172.16.1.1"
+          ],
+          "notes": {
+            "protocol": "bgp"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Enable next-hop-self for neighbor 172.16.1.1 in the routing protocol process",
+          "anchors": [
+            "172.16.1.1"
+          ],
+          "notes": {
+            "protocol": "bgp"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Enable graceful restart for the routing protocol process",
+          "anchors": [],
+          "notes": {
+            "protocol": "bgp"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 119,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "On router 6261, establish BGP peer-group IBGP, set remote-as 65000, and associate neighbor 10.0.1.1 with it"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Create peer-group IBGP in the BGP process on router 6261",
+          "anchors": [
+            "6261",
+            "IBGP"
+          ],
+          "notes": {
+            "protocol": "bgp"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set remote AS 65000 for peer-group IBGP in the BGP process on router 6261",
+          "anchors": [
+            "6261",
+            "IBGP",
+            "65000"
+          ],
+          "notes": {
+            "protocol": "bgp"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Associate neighbor 10.0.1.1 with peer-group IBGP in the BGP process on router 6261",
+          "anchors": [
+            "6261",
+            "IBGP",
+            "10.0.1.1"
+          ],
+          "notes": {
+            "protocol": "bgp"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 120,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Enable BGP neighbor 10.1.1.1, set timers to 3 9 and log neighbor changes"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Enable neighbor 10.1.1.1 in the routing protocol process",
+          "anchors": [
+            "10.1.1.1"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "enabled": true
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set routing protocol neighbor timers to 3 and 9",
+          "anchors": [
+            "10.1.1.1",
+            "3",
+            "9"
+          ],
+          "notes": {
+            "protocol": "bgp"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Enable logging of routing protocol neighbor state changes",
+          "anchors": [],
+          "notes": {
+            "protocol": "bgp"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 121,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "On router 1433, in BGP 64512, advertise 10.1.10.0/30, set local-preference to 200, enable graceful-restart, and configure neighbor 10.0.0.1 with remote-as 64512"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Advertise network 10.1.10.0/30 in the BGP process with local AS 64512 on router 1433",
+          "anchors": [
+            "1433",
+            "64512",
+            "10.1.10.0/30"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "process"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set local-preference to 200 in the BGP process with local AS 64512 on router 1433",
+          "anchors": [
+            "1433",
+            "64512",
+            "200"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "attribute": "local_preference",
+            "scope": "process"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Enable graceful restart in the BGP process with local AS 64512 on router 1433",
+          "anchors": [
+            "1433",
+            "64512",
+            "graceful-restart"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "process"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S4",
+          "text": "Configure neighbor 10.0.0.1 with remote AS 64512 in the BGP process on router 1433",
+          "anchors": [
+            "1433",
+            "10.0.0.1",
+            "64512"
+          ],
+          "notes": {
+            "protocol": "bgp"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 122,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "On router 1367, set BGP MED to 100 for neighbor 10.0.7.1 and allow AS-path multipath"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set BGP MED to 100 for neighbor 10.0.7.1 on router 1367",
+          "anchors": [
+            "1367",
+            "10.0.7.1",
+            "100"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "attribute": "med",
+            "scope": "neighbor"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Allow BGP AS-path multipath on router 1367",
+          "anchors": [
+            "1367",
+            "AS-path multipath"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "feature": "as_path_multipath"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 123,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Shutdown BGP neighbor 192.168.1.1 and remove network 172.16.0.0/16 from BGP"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Shutdown BGP neighbor 192.168.1.1",
+          "anchors": [
+            "neighbor 192.168.1.1"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "neighbor",
+            "enabled": false
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Remove network 172.16.0.0/16 from BGP advertisement",
+          "anchors": [
+            "172.16.0.0/16"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "process",
+            "state": "absent"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 124,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Configure BGP to redistribute OSPF routes and set deterministic-med"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure BGP to redistribute OSPF routes",
+          "anchors": [
+            "BGP",
+            "OSPF"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "source_protocol": "ospf",
+            "feature": "redistribution"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Enable deterministic MED in BGP",
+          "anchors": [
+            "deterministic-med"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "feature": "deterministic_med",
+            "enabled": true
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 125,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Enable BGP for IPv6, add neighbor 2001:db8::2 and activate unicast"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Enable BGP for IPv6",
+          "anchors": [
+            "IPv6"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "address_family": "ipv6",
+            "enabled": true
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Add BGP neighbor 2001:db8::2",
+          "anchors": [
+            "neighbor 2001:db8::2"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "neighbor",
+            "address_family": "ipv6",
+            "state": "present"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Activate BGP IPv6 unicast",
+          "anchors": [
+            "unicast"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "address_family": "ipv6",
+            "afi_safi": "unicast",
+            "enabled": true
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 126,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Set up BGP with neighbor 10.0.0.3, set weight 500 and description PEERING-B"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure BGP neighbor 10.0.0.3",
+          "anchors": [
+            "BGP",
+            "neighbor 10.0.0.3"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "neighbor",
+            "state": "present"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set BGP weight to 500 for neighbor 10.0.0.3",
+          "anchors": [
+            "neighbor 10.0.0.3",
+            "weight 500"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "neighbor",
+            "attribute": "weight"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Set BGP neighbor 10.0.0.3 description to PEERING-B",
+          "anchors": [
+            "neighbor 10.0.0.3",
+            "description PEERING-B"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "neighbor",
+            "attribute": "description"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 127,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "BGP setup: enable log-neighbor-changes and redistribute connected routes"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Enable BGP log-neighbor-changes",
+          "anchors": [
+            "BGP",
+            "log-neighbor-changes"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "feature": "log_neighbor_changes",
+            "enabled": true
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Configure BGP to redistribute connected routes",
+          "anchors": [
+            "BGP",
+            "connected routes"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "feature": "redistribution",
+            "source_protocol": "connected"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 128,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Remove BGP neighbor 10.0.0.1 and stop BGP process 65100"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Remove BGP neighbor 10.0.0.1",
+          "anchors": [
+            "neighbor 10.0.0.1"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "neighbor",
+            "state": "absent"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Disable BGP process 65100",
+          "anchors": [
+            "BGP process 65100",
+            "65100"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "process",
+            "enabled": false
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 129,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "In BGP, create peer-group UPSTREAM, set remote-as 100 and activate for IPv4"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Create BGP peer-group UPSTREAM",
+          "anchors": [
+            "peer-group UPSTREAM"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "peer_group",
+            "state": "present"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set remote-as 100 for BGP peer-group UPSTREAM",
+          "anchors": [
+            "peer-group UPSTREAM",
+            "remote-as 100"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "peer_group",
+            "attribute": "remote_as"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Activate BGP peer-group UPSTREAM for IPv4",
+          "anchors": [
+            "peer-group UPSTREAM",
+            "IPv4"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "peer_group",
+            "address_family": "ipv4",
+            "enabled": true
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 130,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Set BGP bestpath as-path ignore and announce network 0.0.0.0/0"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Enable BGP bestpath as-path ignore",
+          "anchors": [
+            "bestpath as-path ignore"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "feature": "bestpath_as_path_ignore",
+            "enabled": true
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Advertise network 0.0.0.0/0 in BGP",
+          "anchors": [
+            "0.0.0.0/0"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "process",
+            "state": "present"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 131,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Configure BGP neighbor 10.20.20.1 with password 'BGP-Key' and update-source eth0"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure BGP neighbor 10.20.20.1 password",
+          "anchors": [
+            "neighbor 10.20.20.1",
+            "password 'BGP-Key'"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "neighbor",
+            "attribute": "password"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set BGP neighbor 10.20.20.1 update-source to eth0",
+          "anchors": [
+            "neighbor 10.20.20.1",
+            "update-source eth0"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "neighbor",
+            "attribute": "update_source"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 132,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Enable BGP, set router-id 10.0.0.1 and advertise 10.100.0.0/24 with no-export"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Enable BGP process",
+          "anchors": [
+            "Enable BGP"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "process",
+            "enabled": true
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set BGP router-id to 10.0.0.1",
+          "anchors": [
+            "router-id 10.0.0.1"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "attribute": "router_id",
+            "scope": "process"
+          },
+          "classification": {
+            "op": "UNMAPPED_IN_COMMAND_CATALOG"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Advertise network 10.100.0.0/24 in BGP with no-export policy",
+          "anchors": [
+            "10.100.0.0/24",
+            "no-export"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "process",
+            "state": "present",
+            "attribute": "community_no_export"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 133,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Setup BGP: neighbor 10.0.0.2 remote-as 500 and set keepalive to 10"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set BGP neighbor 10.0.0.2 remote-as to 500",
+          "anchors": [
+            "neighbor 10.0.0.2",
+            "remote-as 500"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "neighbor",
+            "attribute": "remote_as"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set BGP keepalive timer to 10",
+          "anchors": [
+            "keepalive 10"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "process",
+            "attribute": "keepalive"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 134,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Change BGP AS to 65500 and redistribute static routes"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set BGP local AS to 65500",
+          "anchors": [
+            "BGP AS 65500",
+            "65500"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "process",
+            "attribute": "local_as"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Configure BGP to redistribute static routes",
+          "anchors": [
+            "static routes"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "feature": "redistribution",
+            "source_protocol": "static"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 135,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Disable BGP neighbor 10.0.0.4 and clear the BGP session"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Disable BGP neighbor 10.0.0.4",
+          "anchors": [
+            "neighbor 10.0.0.4"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "neighbor",
+            "enabled": false
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Reset BGP session for neighbor 10.0.0.4",
+          "anchors": [
+            "clear the BGP session",
+            "neighbor 10.0.0.4"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "neighbor",
+            "feature": "session_reset"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 136,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Enable OSPF, set router-id 2.2.2.2 and network 10.0.0.0/24 for area 0"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Enable OSPF process",
+          "anchors": [
+            "Enable OSPF"
+          ],
+          "notes": {
+            "protocol": "ospf",
+            "scope": "process",
+            "enabled": true
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set OSPF router-id to 2.2.2.2",
+          "anchors": [
+            "router-id 2.2.2.2"
+          ],
+          "notes": {
+            "protocol": "ospf",
+            "scope": "process",
+            "attribute": "router_id"
+          },
+          "classification": {
+            "op": "UNMAPPED_IN_COMMAND_CATALOG"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Advertise network 10.0.0.0/24 in OSPF area 0",
+          "anchors": [
+            "10.0.0.0/24",
+            "area 0"
+          ],
+          "notes": {
+            "protocol": "ospf",
+            "scope": "network",
+            "area": "0",
+            "state": "present"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 137,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Configure OSPF on eth0, set cost to 50 and hello-interval to 2"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set OSPF cost to 50 on interface eth0",
+          "anchors": [
+            "eth0",
+            "cost 50"
+          ],
+          "notes": {
+            "protocol": "ospf",
+            "scope": "interface"
+          },
+          "classification": {
+            "op": "ospf_iface_cost_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set OSPF hello interval to 2 on interface eth0",
+          "anchors": [
+            "eth0",
+            "hello-interval 2"
+          ],
+          "notes": {
+            "protocol": "ospf",
+            "scope": "interface",
+            "attribute": "hello_interval"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 138,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Start OSPF, redistribute BGP routes and set area 1 as stub"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Enable OSPF process",
+          "anchors": [
+            "Start OSPF"
+          ],
+          "notes": {
+            "protocol": "ospf",
+            "scope": "process",
+            "enabled": true
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Configure OSPF to redistribute BGP routes",
+          "anchors": [
+            "redistribute BGP routes"
+          ],
+          "notes": {
+            "protocol": "ospf",
+            "feature": "redistribution",
+            "source_protocol": "bgp"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Set OSPF area 1 as stub",
+          "anchors": [
+            "area 1",
+            "stub"
+          ],
+          "notes": {
+            "protocol": "ospf",
+            "scope": "area",
+            "area": "1",
+            "area_type": "stub"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 139,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Make eth1 passive for OSPF and set area 0 authentication message-digest"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set interface eth1 as passive in OSPF",
+          "anchors": [
+            "eth1",
+            "passive"
+          ],
+          "notes": {
+            "protocol": "ospf",
+            "scope": "interface",
+            "feature": "passive_interface",
+            "enabled": true
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Enable message-digest authentication for OSPF area 0",
+          "anchors": [
+            "area 0",
+            "authentication message-digest"
+          ],
+          "notes": {
+            "protocol": "ospf",
+            "scope": "area",
+            "area": "0",
+            "feature": "authentication",
+            "authentication_type": "message_digest",
+            "enabled": true
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 140,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "In OSPF, set reference-bandwidth to 100000 and redistribute connected"
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set OSPF reference bandwidth to 100000",
+          "anchors": [
+            "reference-bandwidth 100000"
+          ],
+          "notes": {
+            "protocol": "ospf",
+            "scope": "process",
+            "attribute": "reference_bandwidth"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Configure OSPF to redistribute connected routes",
+          "anchors": [
+            "redistribute connected"
+          ],
+          "notes": {
+            "protocol": "ospf",
+            "feature": "redistribution",
+            "source_protocol": "connected"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 141,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Set eth0 to 10.0.0.1/24 then apply the same subnet to eth1 using .2 as the host address."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Assign IPv4 address 10.0.0.1/24 to interface eth0",
+          "anchors": [
+            "eth0",
+            "10.0.0.1/24"
+          ],
+          "notes": {
+            "address_family": "ipv4"
+          },
+          "classification": {
+            "op": "interface_l3_address_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Assign interface eth1 an IPv4 address in the same /24 subnet as eth0 using .2 as the host address",
+          "anchors": [
+            "eth1",
+            "same subnet",
+            ".2 as the host address"
+          ],
+          "notes": {
+            "address_family": "ipv4"
+          },
+          "classification": {
+            "op": "interface_l3_address_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 142,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Assign 192.168.1.1/24 to eth0 while ensuring its MTU matches the 9000 bytes used on the core link."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Assign IPv4 address 192.168.1.1/24 to interface eth0",
+          "anchors": [
+            "eth0",
+            "192.168.1.1/24"
+          ],
+          "notes": {
+            "address_family": "ipv4"
+          },
+          "classification": {
+            "op": "interface_l3_address_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set MTU 9000 on interface eth0",
+          "anchors": [
+            "eth0",
+            "MTU",
+            "9000 bytes"
+          ],
+          "notes": {
+            "attribute_type": "mtu"
+          },
+          "classification": {
+            "op": "interface_attribute_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 143,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Create a static route for 10.1.1.0/24 via 172.16.0.1 and do the same for the 10.2.2.0/24 network."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Add static route to 10.1.1.0/24 via 172.16.0.1",
+          "anchors": [
+            "10.1.1.0/24",
+            "172.16.0.1"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "static_route_add"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Add static route to 10.2.2.0/24 via 172.16.0.1",
+          "anchors": [
+            "10.2.2.0/24",
+            "172.16.0.1"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "static_route_add"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 144,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Configure OSPF area 0 on eth0, subsequently mirroring this configuration on eth1."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure interface eth0 in OSPF area 0",
+          "anchors": [
+            "OSPF",
+            "area 0",
+            "eth0"
+          ],
+          "notes": {
+            "protocol": "ospf",
+            "scope": "interface",
+            "area": "0"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Configure interface eth1 in OSPF area 0",
+          "anchors": [
+            "OSPF",
+            "area 0",
+            "eth1",
+            "mirroring this configuration"
+          ],
+          "notes": {
+            "protocol": "ospf",
+            "scope": "interface",
+            "area": "0"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 145,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Enable BGP 65001 with router-id 1.1.1.1, also establishing a neighbor at 10.0.0.2 within that same AS."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Enable BGP process with local AS 65001",
+          "anchors": [
+            "BGP 65001",
+            "65001"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "process",
+            "enabled": true,
+            "attribute": "local_as"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set BGP router-id to 1.1.1.1",
+          "anchors": [
+            "router-id 1.1.1.1"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "process",
+            "attribute": "router_id"
+          },
+          "classification": {
+            "op": "UNMAPPED_IN_COMMAND_CATALOG"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Configure BGP neighbor 10.0.0.2 in AS 65001",
+          "anchors": [
+            "neighbor 10.0.0.2",
+            "same AS"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "neighbor",
+            "attribute": "remote_as",
+            "relationship": "ibgp"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 146,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Shut down eth5 after removing every IP address currently assigned to it."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Remove all IP addresses currently assigned to interface eth5",
+          "anchors": [
+            "eth5"
+          ],
+          "notes": {
+            "address_family": "any",
+            "state": "absent",
+            "scope": "all_assigned_addresses"
+          },
+          "classification": {
+            "op": "interface_l3_address_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Shut down interface eth5",
+          "anchors": [
+            "Shut down eth5"
+          ],
+          "notes": {
+            "enabled": false
+          },
+          "classification": {
+            "op": "interface_admin_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 147,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Set the description of eth0 to 'Primary' and use 'Secondary' for the next interface."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set interface eth0 description to Primary",
+          "anchors": [
+            "eth0",
+            "Primary"
+          ],
+          "notes": {
+            "attribute_type": "description"
+          },
+          "classification": {
+            "op": "interface_attribute_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set the description of the next interface after eth0 to Secondary",
+          "anchors": [
+            "next interface",
+            "Secondary"
+          ],
+          "notes": {
+            "attribute_type": "description",
+            "selector_relation": "next_interface_after_anchor"
+          },
+          "classification": {
+            "op": "interface_attribute_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 148,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Activate logging to /var/log/frr.log, ensuring the timestamp precision is set to its maximum value."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Enable logging to file /var/log/frr.log",
+          "anchors": [
+            "/var/log/frr.log"
+          ],
+          "notes": {
+            "logging_target": "file",
+            "enabled": true
+          },
+          "classification": {
+            "op": "logging_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set logging timestamp precision to the maximum supported value",
+          "anchors": [
+            "timestamp precision",
+            "maximum value"
+          ],
+          "notes": {
+            "logging_attribute": "timestamp_precision",
+            "value_mode": "maximum"
+          },
+          "classification": {
+            "op": "logging_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 149,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Configure eth1 for VRF RED, then move eth2 into that same virtual routing instance."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Bind interface eth1 to VRF RED",
+          "anchors": [
+            "eth1",
+            "VRF RED"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "interface_vrf_bind"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Bind interface eth2 to the same VRF as interface eth1",
+          "anchors": [
+            "eth2",
+            "eth1"
+          ],
+          "notes": {
+            "selector_relation": "same_vrf_as_eth1"
+          },
+          "classification": {
+            "op": "interface_vrf_bind"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 150,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Define a static route to 8.8.8.8/32 via eth0, giving it a lower priority than the default gateway."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Add a static route to 8.8.8.8/32 via interface eth0 with lower priority than the default gateway",
+          "anchors": [
+            "8.8.8.8/32",
+            "eth0",
+            "lower priority than the default gateway"
+          ],
+          "notes": {
+            "next_hop_type": "interface",
+            "route_preference_relation": "less_preferred_than_default_gateway"
+          },
+          "classification": {
+            "op": "static_route_add"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 151,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Apply 10.0.1.1/24 to eth0, 10.0.2.1/24 to eth1, and 10.0.3.1/24 to eth2."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Assign IPv4 address 10.0.1.1/24 to interface eth0",
+          "anchors": [
+            "eth0",
+            "10.0.1.1/24"
+          ],
+          "notes": {
+            "address_family": "ipv4"
+          },
+          "classification": {
+            "op": "interface_l3_address_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Assign IPv4 address 10.0.2.1/24 to interface eth1",
+          "anchors": [
+            "eth1",
+            "10.0.2.1/24"
+          ],
+          "notes": {
+            "address_family": "ipv4"
+          },
+          "classification": {
+            "op": "interface_l3_address_config"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Assign IPv4 address 10.0.3.1/24 to interface eth2",
+          "anchors": [
+            "eth2",
+            "10.0.3.1/24"
+          ],
+          "notes": {
+            "address_family": "ipv4"
+          },
+          "classification": {
+            "op": "interface_l3_address_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 152,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "On BGP 65000, network 10.0.0.0/24, 10.1.0.0/24, and 10.2.0.0/24 advertisements are required."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Advertise network 10.0.0.0/24 in BGP 65000",
+          "anchors": [
+            "BGP 65000",
+            "10.0.0.0/24"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "process",
+            "state": "present"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Advertise network 10.1.0.0/24 in BGP 65000",
+          "anchors": [
+            "BGP 65000",
+            "10.1.0.0/24"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "process",
+            "state": "present"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Advertise network 10.2.0.0/24 in BGP 65000",
+          "anchors": [
+            "BGP 65000",
+            "10.2.0.0/24"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "process",
+            "state": "present"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 153,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Set OSPF hello-interval to 5 on eth0, but 10 on eth1."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set OSPF hello interval to 5 on interface eth0",
+          "anchors": [
+            "eth0",
+            "hello-interval 5"
+          ],
+          "notes": {
+            "protocol": "ospf",
+            "scope": "interface",
+            "attribute": "hello_interval"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set OSPF hello interval to 10 on interface eth1",
+          "anchors": [
+            "eth1",
+            "hello-interval 10"
+          ],
+          "notes": {
+            "protocol": "ospf",
+            "scope": "interface",
+            "attribute": "hello_interval"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 154,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "For neighbor 10.0.0.2, set remote-as 600, next-hop-self, and timers to 3 9."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set BGP neighbor 10.0.0.2 remote-as to 600",
+          "anchors": [
+            "neighbor 10.0.0.2",
+            "remote-as 600"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "neighbor",
+            "attribute": "remote_as"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Enable next-hop-self for BGP neighbor 10.0.0.2",
+          "anchors": [
+            "neighbor 10.0.0.2",
+            "next-hop-self"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "neighbor",
+            "feature": "next_hop_self",
+            "enabled": true
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Set BGP neighbor 10.0.0.2 timers to keepalive 3 and hold 9",
+          "anchors": [
+            "neighbor 10.0.0.2",
+            "timers 3 9"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "neighbor",
+            "attribute": "timers"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 155,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Interface eth0 needs IP 172.16.1.1/30, eth1 needs 172.16.1.5/30, both enabled."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Assign IPv4 address 172.16.1.1/30 to interface eth0",
+          "anchors": [
+            "eth0",
+            "172.16.1.1/30"
+          ],
+          "notes": {
+            "address_family": "ipv4"
+          },
+          "classification": {
+            "op": "interface_l3_address_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Assign IPv4 address 172.16.1.5/30 to interface eth1",
+          "anchors": [
+            "eth1",
+            "172.16.1.5/30"
+          ],
+          "notes": {
+            "address_family": "ipv4"
+          },
+          "classification": {
+            "op": "interface_l3_address_config"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Enable interface eth0",
+          "anchors": [
+            "eth0",
+            "both enabled"
+          ],
+          "notes": {
+            "enabled": true
+          },
+          "classification": {
+            "op": "interface_admin_config"
+          }
+        },
+        {
+          "id": "S4",
+          "text": "Enable interface eth1",
+          "anchors": [
+            "eth1",
+            "both enabled"
+          ],
+          "notes": {
+            "enabled": true
+          },
+          "classification": {
+            "op": "interface_admin_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 156,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Enable CPU stats, walltime warnings at 500ms, and command logging for all daemons."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Enable CPU statistics collection for all daemons",
+          "anchors": [
+            "CPU stats",
+            "all daemons"
+          ],
+          "notes": {
+            "scope": "all_daemons",
+            "monitoring_feature": "cpu_stats",
+            "enabled": true
+          },
+          "classification": {
+            "op": "system_monitoring_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set walltime warning threshold to 500ms for all daemons",
+          "anchors": [
+            "walltime warnings",
+            "500ms",
+            "all daemons"
+          ],
+          "notes": {
+            "scope": "all_daemons",
+            "monitoring_feature": "walltime_warning",
+            "threshold_unit": "ms"
+          },
+          "classification": {
+            "op": "system_monitoring_config"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Enable command logging for all daemons",
+          "anchors": [
+            "command logging",
+            "all daemons"
+          ],
+          "notes": {
+            "scope": "all_daemons",
+            "logging_feature": "command_logging",
+            "enabled": true
+          },
+          "classification": {
+            "op": "logging_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 157,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Configure OSPF cost 10 for eth0, 20 for eth1, 30 for eth2."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set OSPF cost to 10 on interface eth0",
+          "anchors": [
+            "eth0",
+            "cost 10"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "ospf_iface_cost_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set OSPF cost to 20 on interface eth1",
+          "anchors": [
+            "eth1",
+            "cost 20"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "ospf_iface_cost_config"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Set OSPF cost to 30 on interface eth2",
+          "anchors": [
+            "eth2",
+            "cost 30"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "ospf_iface_cost_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 158,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Default route via 10.0.0.1, backup via 10.0.0.2 with distance 200."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Add default static route via 10.0.0.1",
+          "anchors": [
+            "default route",
+            "10.0.0.1"
+          ],
+          "notes": {
+            "route_role": "primary"
+          },
+          "classification": {
+            "op": "static_route_add"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Add backup default static route via 10.0.0.2 with distance 200",
+          "anchors": [
+            "backup",
+            "10.0.0.2",
+            "distance 200"
+          ],
+          "notes": {
+            "route_role": "backup",
+            "administrative_distance": 200
+          },
+          "classification": {
+            "op": "static_route_add"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 159,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Log informational to stdout, errors to file /var/log/frr/err.log."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set logging level informational to stdout",
+          "anchors": [
+            "informational",
+            "stdout"
+          ],
+          "notes": {
+            "logging_target": "stdout",
+            "severity": "informational"
+          },
+          "classification": {
+            "op": "logging_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set logging level errors to file /var/log/frr/err.log",
+          "anchors": [
+            "errors",
+            "/var/log/frr/err.log"
+          ],
+          "notes": {
+            "logging_target": "file",
+            "severity": "errors"
+          },
+          "classification": {
+            "op": "logging_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 160,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Set hostname to CORE, domain to lab.local, and router-id to 1.1.1.1."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set system hostname to CORE",
+          "anchors": [
+            "hostname",
+            "CORE"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "system_identity_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set system domain to lab.local",
+          "anchors": [
+            "domain",
+            "lab.local"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "system_identity_config"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Set router-id to 1.1.1.1",
+          "anchors": [
+            "router-id",
+            "1.1.1.1"
+          ],
+          "notes": {
+            "attribute": "router_id"
+          },
+          "classification": {
+            "op": "UNMAPPED_IN_COMMAND_CATALOG"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 161,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Unless eth0 is already up, enable it and assign 192.168.1.1/24."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Enable interface eth0",
+          "anchors": [
+            "eth0"
+          ],
+          "notes": {
+            "enabled": true,
+            "run_condition": "run only if the interface is not already up"
+          },
+          "classification": {
+            "op": "interface_admin_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Assign IPv4 address 192.168.1.1/24 to interface eth0",
+          "anchors": [
+            "eth0",
+            "192.168.1.1/24"
+          ],
+          "notes": {
+            "address_family": "ipv4"
+          },
+          "classification": {
+            "op": "interface_l3_address_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 162,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Before starting OSPF, ensure the router-id is set to 10.10.10.10."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set OSPF router-id to 10.10.10.10",
+          "anchors": [
+            "OSPF",
+            "router-id 10.10.10.10"
+          ],
+          "notes": {
+            "protocol": "ospf",
+            "scope": "process",
+            "attribute": "router_id"
+          },
+          "classification": {
+            "op": "UNMAPPED_IN_COMMAND_CATALOG"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Enable OSPF process",
+          "anchors": [
+            "starting OSPF"
+          ],
+          "notes": {
+            "protocol": "ospf",
+            "scope": "process",
+            "enabled": true,
+            "run_condition": "run only after the OSPF router-id is set to 10.10.10.10"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 163,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Configure eth1 with 10.0.0.1/24 but only if it's currently part of VRF BLUE."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Assign IPv4 address 10.0.0.1/24 to interface eth1",
+          "anchors": [
+            "eth1",
+            "10.0.0.1/24",
+            "VRF BLUE"
+          ],
+          "notes": {
+            "address_family": "ipv4",
+            "run_condition": "run only if interface eth1 is currently part of VRF BLUE"
+          },
+          "classification": {
+            "op": "interface_l3_address_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 164,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Remove all BGP neighbors except for the one at 10.0.0.5."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Remove all BGP neighbors except neighbor 10.0.0.5",
+          "anchors": [
+            "BGP neighbors",
+            "10.0.0.5"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "neighbor",
+            "state": "absent",
+            "run_condition": "run for each BGP neighbor only if the neighbor is not 10.0.0.5"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 165,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Set MTU 9000 on all interfaces except for the management port eth0."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set MTU 9000 on all interfaces except interface eth0",
+          "anchors": [
+            "MTU 9000",
+            "all interfaces",
+            "eth0"
+          ],
+          "notes": {
+            "attribute_type": "mtu",
+            "scope": "all_interfaces",
+            "exclusion": "exclude interface eth0",
+            "interface_role": "management"
+          },
+          "classification": {
+            "op": "interface_attribute_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 166,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Update the static route to 10.0.0.0/8 to point to 192.168.1.1 instead of 192.168.1.254."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Remove the static route to 10.0.0.0/8 via 192.168.1.254",
+          "anchors": [
+            "10.0.0.0/8",
+            "192.168.1.254"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "static_route_del"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Add a static route to 10.0.0.0/8 via 192.168.1.1",
+          "anchors": [
+            "10.0.0.0/8",
+            "192.168.1.1"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "static_route_add"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 167,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "If BGP 65001 is active, redistribute all OSPF routes into it."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Redistribute OSPF routes into BGP 65001",
+          "anchors": [
+            "BGP 65001",
+            "OSPF routes"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "source_protocol": "ospf",
+            "feature": "redistribution",
+            "run_condition": "run only if BGP 65001 is active"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 168,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Switch the BGP neighbor 10.0.0.2 from AS 65001 to AS 65002."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set BGP neighbor 10.0.0.2 remote-as to 65002",
+          "anchors": [
+            "neighbor 10.0.0.2",
+            "AS 65001",
+            "AS 65002"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "neighbor",
+            "attribute": "remote_as",
+            "previous_value": "65001"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 169,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Replace the current IP of eth0 with 172.16.5.1/24 while keeping the interface active."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Replace the current IPv4 address on interface eth0 with 172.16.5.1/24",
+          "anchors": [
+            "eth0",
+            "172.16.5.1/24"
+          ],
+          "notes": {
+            "address_family": "ipv4",
+            "run_condition": "keep the interface active while applying the new address"
+          },
+          "classification": {
+            "op": "interface_l3_address_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 170,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Clear all log filters then specifically block messages containing 'debug'."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Clear all log filters",
+          "anchors": [
+            "all log filters"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "logging_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Block log messages containing \"debug\"",
+          "anchors": [
+            "debug"
+          ],
+          "notes": {
+            "filter_action": "block",
+            "filter_scope": "message_content",
+            "run_condition": "run only after all existing log filters have been cleared"
+          },
+          "classification": {
+            "op": "logging_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 171,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "I want eth0 to act as a gateway with IP 10.0.0.1/24 and OSPF enabled in area 0."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Assign IPv4 address 10.0.0.1/24 to interface eth0",
+          "anchors": [
+            "eth0",
+            "10.0.0.1/24"
+          ],
+          "notes": {
+            "address_family": "ipv4"
+          },
+          "classification": {
+            "op": "interface_l3_address_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Enable IP forwarding on the device",
+          "anchors": [
+            "act as a gateway"
+          ],
+          "notes": {},
+          "classification": {
+            "op": "ip_forward_enable"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Enable OSPF area 0 on interface eth0",
+          "anchors": [
+            "OSPF",
+            "area 0",
+            "eth0"
+          ],
+          "notes": {
+            "protocol": "ospf",
+            "scope": "interface",
+            "area": "0",
+            "enabled": true
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 172,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Prepare this router for BGP peering with AS 500 at 1.1.1.1, using our eth0 as the source."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set BGP neighbor 1.1.1.1 remote-as to 500",
+          "anchors": [
+            "1.1.1.1",
+            "AS 500"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "neighbor",
+            "attribute": "remote_as"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set BGP neighbor 1.1.1.1 update-source to interface eth0",
+          "anchors": [
+            "1.1.1.1",
+            "eth0",
+            "source"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "neighbor",
+            "attribute": "update_source"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 173,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Turn this device into an OSPF ABR by joining area 0 on eth0 and area 1 on eth1."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Enable OSPF area 0 on interface eth0",
+          "anchors": [
+            "area 0",
+            "eth0"
+          ],
+          "notes": {
+            "protocol": "ospf",
+            "scope": "interface",
+            "area": "0",
+            "network_goal": "abr_role"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Enable OSPF area 1 on interface eth1",
+          "anchors": [
+            "area 1",
+            "eth1"
+          ],
+          "notes": {
+            "protocol": "ospf",
+            "scope": "interface",
+            "area": "1",
+            "network_goal": "abr_role"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 174,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Secure all VTY lines by requiring a password 'FRR2024' and logging every command."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Require password FRR2024 on all VTY lines",
+          "anchors": [
+            "all VTY lines",
+            "FRR2024"
+          ],
+          "notes": {
+            "scope": "all_vty_lines"
+          },
+          "classification": {
+            "op": "admin_access_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Enable command logging for all VTY lines",
+          "anchors": [
+            "all VTY lines",
+            "logging every command"
+          ],
+          "notes": {
+            "scope": "all_vty_lines",
+            "logging_feature": "command_logging",
+            "enabled": true
+          },
+          "classification": {
+            "op": "logging_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 175,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Make eth1 a jumbo-frame capable link with 10Gbps bandwidth and IP 192.168.0.1/30."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure interface eth1 for jumbo frames",
+          "anchors": [
+            "eth1",
+            "jumbo-frame capable"
+          ],
+          "notes": {
+            "attribute_type": "mtu",
+            "feature": "jumbo_frames"
+          },
+          "classification": {
+            "op": "interface_attribute_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set interface eth1 bandwidth to 10Gbps",
+          "anchors": [
+            "eth1",
+            "10Gbps bandwidth"
+          ],
+          "notes": {
+            "attribute_type": "bandwidth"
+          },
+          "classification": {
+            "op": "interface_attribute_config"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Assign IPv4 address 192.168.0.1/30 to interface eth1",
+          "anchors": [
+            "eth1",
+            "192.168.0.1/30"
+          ],
+          "notes": {
+            "address_family": "ipv4"
+          },
+          "classification": {
+            "op": "interface_l3_address_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 176,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Ensure the zebra daemon is tracking CPU spikes over 300ms and saving them to disk."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Enable CPU spike monitoring above 300ms for the zebra daemon",
+          "anchors": [
+            "zebra daemon",
+            "CPU spikes",
+            "300ms"
+          ],
+          "notes": {
+            "scope": "zebra_daemon",
+            "monitoring_feature": "cpu_spike_tracking",
+            "threshold_unit": "ms"
+          },
+          "classification": {
+            "op": "system_monitoring_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Save zebra daemon CPU spike records to disk",
+          "anchors": [
+            "zebra daemon",
+            "saving them to disk"
+          ],
+          "notes": {
+            "scope": "zebra_daemon",
+            "logging_target": "file"
+          },
+          "classification": {
+            "op": "logging_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 177,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Set up a redundant static path for 10.0.0.0/24 through 10.0.0.2 in case 10.0.0.1 fails."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Add a backup static route to 10.0.0.0/24 via 10.0.0.2 in case the primary path via 10.0.0.1 fails",
+          "anchors": [
+            "10.0.0.0/24",
+            "10.0.0.2",
+            "10.0.0.1"
+          ],
+          "notes": {
+            "network_goal": "redundancy",
+            "route_role": "backup",
+            "reference_path": "10.0.0.1"
+          },
+          "classification": {
+            "op": "static_route_add"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 178,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Implement a logging policy that prioritizes errors to syslog and ignores microsecond timestamps."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set logging level errors to syslog",
+          "anchors": [
+            "errors",
+            "syslog"
+          ],
+          "notes": {
+            "logging_target": "syslog",
+            "severity": "errors"
+          },
+          "classification": {
+            "op": "logging_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Disable microsecond timestamp precision in logging",
+          "anchors": [
+            "microsecond timestamps"
+          ],
+          "notes": {
+            "logging_attribute": "timestamp_precision",
+            "enabled": false,
+            "precision": "microseconds"
+          },
+          "classification": {
+            "op": "logging_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 179,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Clean up the configuration by removing all loopback addresses and disabling BGP."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Remove all IP addresses assigned to loopback interfaces",
+          "anchors": [
+            "loopback addresses"
+          ],
+          "notes": {
+            "address_family": "any",
+            "state": "absent",
+            "scope": "all_loopback_addresses"
+          },
+          "classification": {
+            "op": "interface_l3_address_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Disable BGP process",
+          "anchors": [
+            "BGP"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "process",
+            "enabled": false
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 180,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Bridge the gap between OSPF and BGP by mutual redistribution of their prefixes."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure OSPF to redistribute BGP prefixes",
+          "anchors": [
+            "OSPF",
+            "BGP",
+            "mutual redistribution"
+          ],
+          "notes": {
+            "protocol": "ospf",
+            "feature": "redistribution",
+            "source_protocol": "bgp"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Configure BGP to redistribute OSPF prefixes",
+          "anchors": [
+            "OSPF",
+            "BGP",
+            "mutual redistribution"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "feature": "redistribution",
+            "source_protocol": "ospf"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 181,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "To the interface eth0, assign the address 10.1.1.1/24 and the description 'Backbone'."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Assign IPv4 address 10.1.1.1/24 to interface eth0",
+          "anchors": [
+            "eth0",
+            "10.1.1.1/24"
+          ],
+          "notes": {
+            "address_family": "ipv4"
+          },
+          "classification": {
+            "op": "interface_l3_address_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set interface eth0 description to Backbone",
+          "anchors": [
+            "eth0",
+            "Backbone"
+          ],
+          "notes": {
+            "attribute_type": "description"
+          },
+          "classification": {
+            "op": "interface_attribute_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 182,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "With a distance of 250, add a static route for the prefix 0.0.0.0/0 via 10.255.255.1."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Add a static route to 0.0.0.0/0 via 10.255.255.1 with distance 250",
+          "anchors": [
+            "0.0.0.0/0",
+            "10.255.255.1",
+            "distance 250"
+          ],
+          "notes": {
+            "administrative_distance": 250
+          },
+          "classification": {
+            "op": "static_route_add"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 183,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Into the OSPF process, please redistribute every connected and static route found."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Configure OSPF to redistribute connected routes",
+          "anchors": [
+            "OSPF",
+            "connected"
+          ],
+          "notes": {
+            "protocol": "ospf",
+            "feature": "redistribution",
+            "source_protocol": "connected"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Configure OSPF to redistribute static routes",
+          "anchors": [
+            "OSPF",
+            "static"
+          ],
+          "notes": {
+            "protocol": "ospf",
+            "feature": "redistribution",
+            "source_protocol": "static"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 184,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "For all incoming BGP routes, the local preference should be adjusted to 200."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set BGP local preference to 200 for all incoming routes",
+          "anchors": [
+            "BGP",
+            "incoming routes",
+            "200"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "attribute": "local_preference",
+            "direction": "inbound",
+            "scope": "all_routes"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 185,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Against all vty connections, apply a timeout of 10 minutes and a password check."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set VTY connection timeout to 10 minutes for all VTY lines",
+          "anchors": [
+            "all vty connections",
+            "10 minutes"
+          ],
+          "notes": {
+            "scope": "all_vty_lines",
+            "attribute": "timeout"
+          },
+          "classification": {
+            "op": "admin_access_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Require password authentication for all VTY lines",
+          "anchors": [
+            "all vty connections",
+            "password check"
+          ],
+          "notes": {
+            "scope": "all_vty_lines",
+            "authentication_method": "password"
+          },
+          "classification": {
+            "op": "admin_access_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 186,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "By using eth1 as the source, establish a BGP session with 172.16.0.1 in AS 65500."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set BGP neighbor 172.16.0.1 remote-as to 65500",
+          "anchors": [
+            "172.16.0.1",
+            "AS 65500"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "neighbor",
+            "attribute": "remote_as"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set BGP neighbor 172.16.0.1 update-source to interface eth1",
+          "anchors": [
+            "172.16.0.1",
+            "eth1",
+            "source"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "neighbor",
+            "attribute": "update_source"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 187,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Maximum precision timestamps are required for all log messages sent to /var/log/frr.log."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Enable logging to file /var/log/frr.log",
+          "anchors": [
+            "/var/log/frr.log"
+          ],
+          "notes": {
+            "logging_target": "file",
+            "enabled": true
+          },
+          "classification": {
+            "op": "logging_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set logging timestamp precision to the maximum supported value for file /var/log/frr.log",
+          "anchors": [
+            "/var/log/frr.log",
+            "maximum precision timestamps"
+          ],
+          "notes": {
+            "logging_attribute": "timestamp_precision",
+            "value_mode": "maximum"
+          },
+          "classification": {
+            "op": "logging_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 188,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Through eth0, all traffic destined for 10.0.0.0/8 must be routed."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Add a static route to 10.0.0.0/8 via interface eth0",
+          "anchors": [
+            "10.0.0.0/8",
+            "eth0"
+          ],
+          "notes": {
+            "next_hop_type": "interface"
+          },
+          "classification": {
+            "op": "static_route_add"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 189,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Only for the bgpd daemon, file logging should be enabled at the debugging level."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Enable file logging at debugging level for the bgpd daemon",
+          "anchors": [
+            "bgpd daemon",
+            "file logging",
+            "debugging level"
+          ],
+          "notes": {
+            "scope": "bgpd_daemon",
+            "logging_target": "file",
+            "severity": "debugging",
+            "enabled": true
+          },
+          "classification": {
+            "op": "logging_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 190,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Area 0 is where the network 10.0.0.0/24 should be advertised within OSPF."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Advertise network 10.0.0.0/24 in OSPF area 0",
+          "anchors": [
+            "10.0.0.0/24",
+            "OSPF",
+            "area 0"
+          ],
+          "notes": {
+            "protocol": "ospf",
+            "scope": "network",
+            "area": "0",
+            "state": "present"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 191,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "To satisfy the new compliance policy, on Edge-Router-01, passwords for all VTY lines must be updated to 'StrongPass2025' and command logging initiated."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Update the password for all VTY lines on Edge-Router-01 to StrongPass2025",
+          "anchors": [
+            "Edge-Router-01",
+            "all VTY lines",
+            "StrongPass2025"
+          ],
+          "notes": {
+            "scope": "all_vty_lines"
+          },
+          "classification": {
+            "op": "admin_access_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Enable command logging on Edge-Router-01",
+          "anchors": [
+            "Edge-Router-01",
+            "command logging"
+          ],
+          "notes": {
+            "logging_feature": "command_logging",
+            "enabled": true
+          },
+          "classification": {
+            "op": "logging_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 192,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Against the External-Subnet, a drop-all firewall policy should be enforced on Firewall-A, specifically for traffic originating from the Blacklisted-Range."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Apply a drop-all firewall policy on Firewall-A for traffic from Blacklisted-Range to External-Subnet",
+          "anchors": [
+            "Firewall-A",
+            "Blacklisted-Range",
+            "External-Subnet"
+          ],
+          "notes": {
+            "action": "drop",
+            "scope": "all_traffic"
+          },
+          "classification": {
+            "op": "firewall_policy_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 193,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "For the Finance-App to maintain 99.9% availability, configure a backup static route via Gateway-Beta should the primary link through Gateway-Alpha fail."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Add a backup static route for Finance-App via Gateway-Beta in case the primary path through Gateway-Alpha fails",
+          "anchors": [
+            "Finance-App",
+            "Gateway-Beta",
+            "Gateway-Alpha"
+          ],
+          "notes": {
+            "network_goal": "redundancy",
+            "route_role": "backup",
+            "reference_path": "Gateway-Alpha",
+            "availability_target": "99.9%"
+          },
+          "classification": {
+            "op": "static_route_add"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 194,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Into the OSPF area 0, redistribute every connected route found on Core-Switch-3, but only after setting its router-id to 172.16.255.1."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set the OSPF router-id on Core-Switch-3 to 172.16.255.1",
+          "anchors": [
+            "Core-Switch-3",
+            "OSPF",
+            "172.16.255.1"
+          ],
+          "notes": {
+            "protocol": "ospf",
+            "scope": "process",
+            "attribute": "router_id"
+          },
+          "classification": {
+            "op": "UNMAPPED_IN_COMMAND_CATALOG"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Configure OSPF area 0 on Core-Switch-3 to redistribute connected routes",
+          "anchors": [
+            "Core-Switch-3",
+            "OSPF area 0",
+            "connected routes"
+          ],
+          "notes": {
+            "protocol": "ospf",
+            "feature": "redistribution",
+            "source_protocol": "connected",
+            "area": "0",
+            "run_condition": "run only after the OSPF router-id is set to 172.16.255.1"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 195,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Unless the Admin-User provides an override, restrict all SSH access to Management-Router-X from any source outside the NOC-Prefix."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Restrict SSH access to Management-Router-X from any source outside NOC-Prefix",
+          "anchors": [
+            "Management-Router-X",
+            "SSH",
+            "NOC-Prefix",
+            "Admin-User"
+          ],
+          "notes": {
+            "action": "restrict",
+            "protocol_scope": "ssh",
+            "run_condition": "run unless the Admin-User provides an override"
+          },
+          "classification": {
+            "op": "firewall_policy_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 196,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "By increasing the MTU to 9216 on both eth1 and eth2, prepare Router-B for jumbo frame support required by the Storage-Cluster."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set MTU 9216 on interface eth1",
+          "anchors": [
+            "Router-B",
+            "eth1",
+            "9216",
+            "Storage-Cluster"
+          ],
+          "notes": {
+            "attribute_type": "mtu",
+            "network_goal": "jumbo_frame_support"
+          },
+          "classification": {
+            "op": "interface_attribute_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set MTU 9216 on interface eth2",
+          "anchors": [
+            "Router-B",
+            "eth2",
+            "9216",
+            "Storage-Cluster"
+          ],
+          "notes": {
+            "attribute_type": "mtu",
+            "network_goal": "jumbo_frame_support"
+          },
+          "classification": {
+            "op": "interface_attribute_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 197,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Mirroring the configuration of Port-1, set Port-2 to an administrative 'up' state with the same 192.168.50.0/24 subnet mapping."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Enable interface Port-2",
+          "anchors": [
+            "Port-1",
+            "Port-2"
+          ],
+          "notes": {
+            "enabled": true,
+            "selector_relation": "mirror_admin_state_of_Port-1"
+          },
+          "classification": {
+            "op": "interface_admin_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Assign interface Port-2 an IPv4 address using the same 192.168.50.0/24 subnet mapping as Port-1",
+          "anchors": [
+            "Port-1",
+            "Port-2",
+            "192.168.50.0/24"
+          ],
+          "notes": {
+            "address_family": "ipv4",
+            "selector_relation": "same_subnet_mapping_as_Port-1"
+          },
+          "classification": {
+            "op": "interface_l3_address_config"
+          }
+        }
+      ]
+    }
+  },
+    {
+    "id": 198,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Within the BGP 65100 process, advertise the Customer-Network-A and Customer-Network-B prefixes while ensuring the 'no-export' community is attached."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Advertise the Customer-Network-A prefix in BGP 65100 with the no-export community attached",
+          "anchors": [
+            "BGP 65100",
+            "Customer-Network-A",
+            "no-export"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "process",
+            "state": "present",
+            "attribute": "community_no_export"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Advertise the Customer-Network-B prefix in BGP 65100 with the no-export community attached",
+          "anchors": [
+            "BGP 65100",
+            "Customer-Network-B",
+            "no-export"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "scope": "process",
+            "state": "present",
+            "attribute": "community_no_export"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 199,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "To prevent ARP spoofing, on Access-Switch-5, map the MAC address 00:aa:bb:cc:dd:ee statically to the Server-IP-01."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Create a static ARP entry on Access-Switch-5 mapping Server-IP-01 to MAC address 00:aa:bb:cc:dd:ee",
+          "anchors": [
+            "Access-Switch-5",
+            "Server-IP-01",
+            "00:aa:bb:cc:dd:ee"
+          ],
+          "notes": {
+            "network_goal": "arp_spoofing_prevention"
+          },
+          "classification": {
+            "op": "arp_static_entry_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 200,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Through the Diagnostic-Probe, monitor the latency to Google-DNS every 30 seconds, flagging a threshold warning at 100ms."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Measure latency to Google-DNS using the Diagnostic-Probe",
+          "anchors": [
+            "Diagnostic-Probe",
+            "Google-DNS"
+          ],
+          "notes": {
+            "metric": "latency"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set the Diagnostic-Probe to run every 30 seconds when measuring latency to Google-DNS",
+          "anchors": [
+            "Diagnostic-Probe",
+            "Google-DNS",
+            "30 seconds"
+          ],
+          "notes": {
+            "metric": "latency"
+          },
+          "classification": {
+            "op": "probe_execution_config"
+          }
+        },
+        {
+          "id": "S3",
+          "text": "Set a latency threshold warning at 100ms for the Diagnostic-Probe monitoring Google-DNS",
+          "anchors": [
+            "Diagnostic-Probe",
+            "Google-DNS",
+            "100ms"
+          ],
+          "notes": {
+            "metric": "latency"
+          },
+          "classification": {
+            "op": "probe_threshold_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 201,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "To troubleshoot the intermittent drops reported by Sales-Dept, apply a 2% packet loss and 20ms jitter to the link between Switch-Core and Host-Sales."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set packet loss to 2% on the link between Switch-Core and Host-Sales",
+          "anchors": [
+            "Switch-Core",
+            "Host-Sales",
+            "2%"
+          ],
+          "notes": {
+            "metric": "loss",
+            "network_goal": "troubleshooting"
+          },
+          "classification": {
+            "op": "link_impairment_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set jitter to 20ms on the link between Switch-Core and Host-Sales",
+          "anchors": [
+            "Switch-Core",
+            "Host-Sales",
+            "20ms"
+          ],
+          "notes": {
+            "metric": "jitter",
+            "network_goal": "troubleshooting"
+          },
+          "classification": {
+            "op": "link_impairment_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 202,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Against the congestion on the backup path, limit the bandwidth to 50Mbps for the connection between Router-West and Router-South."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Limit the bandwidth to 50Mbps on the connection between Router-West and Router-South",
+          "anchors": [
+            "Router-West",
+            "Router-South",
+            "50Mbps"
+          ],
+          "notes": {
+            "path_role": "backup",
+            "network_goal": "congestion_control"
+          },
+          "classification": {
+            "op": "link_impairment_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 203,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Run a TCP bandwidth test using iperf from Client-A to Server-B for exactly 60 seconds."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Measure TCP bandwidth from Client-A to Server-B using iperf for 60 seconds",
+          "anchors": [
+            "Client-A",
+            "Server-B",
+            "iperf",
+            "TCP",
+            "60 seconds"
+          ],
+          "notes": {
+            "metric": "bandwidth",
+            "protocol_scope": "tcp",
+            "tool": "iperf",
+            "duration": "60 seconds"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 204,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Between Server-DB-01 and Backup-Node, increase the link delay to 100ms to simulate geographical distance for latency testing."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Set link delay to 100ms between Server-DB-01 and Backup-Node",
+          "anchors": [
+            "Server-DB-01",
+            "Backup-Node",
+            "100ms"
+          ],
+          "notes": {
+            "metric": "delay",
+            "network_goal": "latency_testing"
+          },
+          "classification": {
+            "op": "link_impairment_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 205,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "By executing an iperf test from Node-Alpha to Node-Beta, verify if the current link can handle a 1Gbps throughput."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Measure bandwidth from Node-Alpha to Node-Beta using iperf",
+          "anchors": [
+            "Node-Alpha",
+            "Node-Beta",
+            "iperf"
+          ],
+          "notes": {
+            "metric": "bandwidth"
+          },
+          "classification": {
+            "op": "probe_measure"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Set a throughput threshold of 1Gbps for the bandwidth test from Node-Alpha to Node-Beta",
+          "anchors": [
+            "Node-Alpha",
+            "Node-Beta",
+            "1Gbps"
+          ],
+          "notes": {
+            "metric": "bandwidth",
+            "comparison": "minimum_supported"
+          },
+          "classification": {
+            "op": "probe_threshold_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 206,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Isolate Infra-Switch-2 from the rest of the topology by disabling the virtual port connected to Core-Switch-1 during the emergency window."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Disable the virtual port on Infra-Switch-2 connected to Core-Switch-1",
+          "anchors": [
+            "Infra-Switch-2",
+            "Core-Switch-1",
+            "virtual port"
+          ],
+          "notes": {
+            "enabled": false,
+            "network_goal": "isolation",
+            "run_condition": "run during the emergency window"
+          },
+          "classification": {
+            "op": "interface_admin_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 207,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "On the interface of Host-Dev, capture all TCP port 80 traffic and stream the pcap data to Admin-Analyzer."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Capture all TCP port 80 traffic on the interface of Host-Dev",
+          "anchors": [
+            "Host-Dev",
+            "TCP port 80"
+          ],
+          "notes": {
+            "protocol_scope": "tcp",
+            "capture_filter": "port 80"
+          },
+          "classification": {
+            "op": "traffic_capture_config"
+          }
+        },
+        {
+          "id": "S2",
+          "text": "Stream the captured pcap data from Host-Dev to Admin-Analyzer",
+          "anchors": [
+            "Host-Dev",
+            "Admin-Analyzer",
+            "pcap data"
+          ],
+          "notes": {
+            "stream_mode": "pcap_forwarding"
+          },
+          "classification": {
+            "op": "traffic_capture_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 208,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Into the BGP process of Edge-Router-Alpha, implement a route-map that tags all prefixes from Partner-AS with a community value of 65000:500."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Tag all prefixes from Partner-AS in BGP on Edge-Router-Alpha with community 65000:500",
+          "anchors": [
+            "Edge-Router-Alpha",
+            "Partner-AS",
+            "65000:500"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "feature": "community_tagging",
+            "scope": "imported_prefixes"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 209,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Against the routes coming from ISP-London, prepend our AS number four times to force traffic to prefer the ISP-Paris link."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Prepend the local AS number four times for routes advertised to ISP-London",
+          "anchors": [
+            "ISP-London",
+            "four times",
+            "ISP-Paris"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "feature": "as_path_prepend",
+            "prepend_count": 4,
+            "direction": "export",
+            "traffic_goal": "prefer_isp_paris_for_inbound_traffic"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 210,
+    "task_view": "discretize_intent",
+    "input": {
+      "intent": "Against the routes coming from ISP-London, prepend our AS number four times to force traffic to prefer the ISP-Paris link."
+    },
+    "target": {
+      "subintents": [
+        {
+          "id": "S1",
+          "text": "Prepend the local AS number four times for routes advertised to ISP-London",
+          "anchors": [
+            "ISP-London",
+            "four times",
+            "ISP-Paris"
+          ],
+          "notes": {
+            "protocol": "bgp",
+            "feature": "as_path_prepend",
+            "prepend_count": 4,
+            "direction": "export",
+            "traffic_goal": "prefer_isp_paris_for_inbound_traffic"
+          },
+          "classification": {
+            "op": "protocols_config"
+          }
+        }
+      ]
+    }
+  }
+]
