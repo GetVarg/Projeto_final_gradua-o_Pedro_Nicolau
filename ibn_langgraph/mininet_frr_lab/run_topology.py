@@ -18,6 +18,8 @@ from mininet.topo import Topo
 FRR_BASE_DIR = Path("/tmp/tcc-mininet-frr")
 ZEBRA_BIN = "/usr/lib/frr/zebra"
 OSPFD_BIN = "/usr/lib/frr/ospfd"
+STATICD_BIN = "/usr/lib/frr/staticd"
+BGPD_BIN = "/usr/lib/frr/bgpd"
 
 
 class LinuxRouter(Node):
@@ -28,7 +30,7 @@ class LinuxRouter(Node):
         self.cmd("sysctl -w net.ipv4.conf.all.rp_filter=0")
 
     def terminate(self):
-        self.cmd("pkill -f '/usr/lib/frr/(zebra|ospfd)'")
+        self.cmd("pkill -f '/usr/lib/frr/(zebra|ospfd|staticd|bgpd)'")
         super().terminate()
 
 
@@ -141,6 +143,8 @@ def write_frr_configs(router_id: str, router_data: dict) -> Path:
 
     zebra_conf = config_dir / "zebra.conf"
     ospfd_conf = config_dir / "ospfd.conf"
+    staticd_conf = config_dir / "staticd.conf"
+    bgpd_conf = config_dir / "bgpd.conf"
 
     zebra_conf.write_text(
         "\n".join(
@@ -190,6 +194,17 @@ def write_frr_configs(router_id: str, router_data: dict) -> Path:
         encoding="utf-8",
     )
 
+    common_config = "\n".join(
+        [
+            "frr defaults traditional",
+            f"hostname {name}",
+            "service integrated-vtysh-config",
+            "",
+        ]
+    )
+    staticd_conf.write_text(common_config, encoding="utf-8")
+    bgpd_conf.write_text(common_config, encoding="utf-8")
+
     return config_dir
 
 
@@ -209,6 +224,8 @@ def start_frr(net: Mininet, topology: dict) -> None:
         zserv = config_dir / "zserv.api"
         zebra_pid = config_dir / "zebra.pid"
         ospfd_pid = config_dir / "ospfd.pid"
+        staticd_pid = config_dir / "staticd.pid"
+        bgpd_pid = config_dir / "bgpd.pid"
 
         router.cmd(
             f"{ZEBRA_BIN} "
@@ -221,6 +238,20 @@ def start_frr(net: Mininet, topology: dict) -> None:
             f"{OSPFD_BIN} "
             f"-d -f {config_dir}/ospfd.conf "
             f"-i {ospfd_pid} "
+            f"-z {zserv} "
+            "-A 127.0.0.1"
+        )
+        router.cmd(
+            f"{STATICD_BIN} "
+            f"-d -f {config_dir}/staticd.conf "
+            f"-i {staticd_pid} "
+            f"-z {zserv} "
+            "-A 127.0.0.1"
+        )
+        router.cmd(
+            f"{BGPD_BIN} "
+            f"-d -f {config_dir}/bgpd.conf "
+            f"-i {bgpd_pid} "
             f"-z {zserv} "
             "-A 127.0.0.1"
         )

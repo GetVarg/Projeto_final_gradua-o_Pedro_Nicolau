@@ -1,0 +1,520 @@
+{
+  "mode": "direct_baseline",
+  "run_label": "llama_8b",
+  "temperature": 0.0,
+  "model": "meta-llama/Llama-3.1-8B-Instruct",
+  "suite_elapsed_sec": 117.916,
+  "num_intents": 4,
+  "token_totals": {
+    "calls": 46,
+    "prompt_tokens": 250703,
+    "completion_tokens": 10865,
+    "total_tokens": 261568,
+    "missing_usage_count": 0
+  },
+  "comparison_summary": {
+    "cases": 4,
+    "comparable_cases": 4,
+    "all_ok": 4,
+    "commands_ok": 4,
+    "commands_total": 4,
+    "needs_human_ok": 4,
+    "needs_human_total": 4,
+    "ops_ok": 0,
+    "ops_total": 0
+  },
+  "profile": "all_modules_llama_8b_hf",
+  "split_report_paths": {
+    "correct": "outputs\\meta-llama_Llama-3.1-8B-Instruct\\direct_baseline_20260628_164819_correct.json",
+    "incorrect": "outputs\\meta-llama_Llama-3.1-8B-Instruct\\direct_baseline_20260628_164819_incorrect.json"
+  },
+  "status_filter": "correct",
+  "test_outputs": [
+    {
+      "intent_id": 3,
+      "case_id": "B03",
+      "intent_text": "On router 7, configure a static route to 172.16.0.0/24 via 10.0.6.1 with administrative distance 50.",
+      "ok": true,
+      "has_expected": true,
+      "commands_ok": true,
+      "needs_human_ok": true,
+      "actual_needs_human": false,
+      "expected_needs_human": false,
+      "actual_commands": [
+        {
+          "target_device": "7",
+          "command": "vtysh -c 'configure terminal' -c 'ip route 172.16.0.0/24 10.0.6.1 50'"
+        }
+      ],
+      "expected_commands": [
+        {
+          "target_device": "7",
+          "command": "vtysh -c 'configure terminal' -c 'ip route 172.16.0.0/24 10.0.6.1 50'"
+        }
+      ],
+      "first_diff": null,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "intent_id": 7,
+      "case_id": "B07",
+      "intent_text": "Configure router 5 to reach 172.16.7.0/24 using next-hop 10.0.5.1.",
+      "ok": true,
+      "has_expected": true,
+      "commands_ok": true,
+      "needs_human_ok": true,
+      "actual_needs_human": false,
+      "expected_needs_human": false,
+      "actual_commands": [
+        {
+          "target_device": "5",
+          "command": "vtysh -c 'configure terminal' -c 'ip route 172.16.7.0/24 10.0.5.1'"
+        }
+      ],
+      "expected_commands": [
+        {
+          "target_device": "5",
+          "command": "vtysh -c 'configure terminal' -c 'ip route 172.16.7.0/24 10.0.5.1'"
+        }
+      ],
+      "first_diff": null,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "intent_id": 15,
+      "case_id": "B15",
+      "intent_text": "Enable IPv6 forwarding on router 2.",
+      "ok": true,
+      "has_expected": true,
+      "commands_ok": true,
+      "needs_human_ok": true,
+      "actual_needs_human": false,
+      "expected_needs_human": false,
+      "actual_commands": [
+        {
+          "target_device": "2",
+          "command": "sysctl -w net.ipv6.conf.all.forwarding=1"
+        }
+      ],
+      "expected_commands": [
+        {
+          "target_device": "2",
+          "command": "sysctl -w net.ipv6.conf.all.forwarding=1"
+        }
+      ],
+      "first_diff": null,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "intent_id": 43,
+      "case_id": "B43",
+      "intent_text": "Configure router 2 with BGP ASN 65100 and advertise network 172.16.2.0/24.",
+      "ok": true,
+      "has_expected": true,
+      "commands_ok": true,
+      "needs_human_ok": true,
+      "actual_needs_human": false,
+      "expected_needs_human": false,
+      "actual_commands": [
+        {
+          "target_device": "2",
+          "command": "vtysh -c 'configure terminal' -c 'router bgp 65100' -c 'network 172.16.2.0/24'"
+        }
+      ],
+      "expected_commands": [
+        {
+          "target_device": "2",
+          "command": "vtysh -c 'configure terminal' -c 'router bgp 65100' -c 'network 172.16.2.0/24'"
+        }
+      ],
+      "first_diff": null,
+      "errors": [],
+      "warnings": []
+    }
+  ],
+  "results": [
+    {
+      "intent_id": 3,
+      "intent_text": "On router 7, configure a static route to 172.16.0.0/24 via 10.0.6.1 with administrative distance 50.",
+      "elapsed_sec": 2.215,
+      "parse_success": true,
+      "error": null,
+      "predicted_ops": [],
+      "commands": [
+        {
+          "target_device": "7",
+          "command": "vtysh -c 'configure terminal' -c 'ip route 172.16.0.0/24 10.0.6.1 50'"
+        }
+      ],
+      "needs_human": false,
+      "step_count": 0,
+      "steps": [],
+      "raw": "{\n  \"intent_summary\": \"Configure static route on router 7\",\n  \"reasoning\": \"1. Network action: configure static route. 2. Device involved: router 7. 3. Relevant interface: 7-eth1. 4. Required values: destination prefix 172.16.0.0/24, next-hop IP 10.0.6.1, administrative distance 50. 5. Correct tool: vtysh. 6. Correct syntax: vtysh -c 'ip route 172.16.0.0/24 10.0.6.1 50'.\",\n  \"commands\": [\n    {\n      \"target_device\": \"7\",\n      \"command\": \"vtysh -c 'configure terminal' -c 'ip route 172.16.0.0/24 10.0.6.1 50'\"\n    }\n  ],\n  \"needs_human\": false,\n  \"missing\": [],\n  \"warnings\": []\n}",
+      "token_usage": {
+        "calls": 1,
+        "prompt_tokens": 5463,
+        "completion_tokens": 212,
+        "total_tokens": 5675,
+        "missing_usage_count": 0,
+        "events": [
+          {
+            "model": "meta-llama/Llama-3.1-8B-Instruct",
+            "prompt_source": "hf_router",
+            "message_count": 2,
+            "prompt_tokens": 5463,
+            "completion_tokens": 212,
+            "total_tokens": 5675,
+            "usage_available": true
+          }
+        ]
+      },
+      "expected_comparison": {
+        "case_id": "B03",
+        "target_node": null,
+        "case_type": null,
+        "golden_source": "C:\\Pesquisa\\tcc\\Ic-llmToNetworkConfig\\testTcc\\benchmark_final_corrigido.json",
+        "ok": true,
+        "checks": {
+          "needs_human": {
+            "ok": true,
+            "expected": false,
+            "actual": false
+          },
+          "commands": {
+            "ok": true,
+            "comparison": "exact_ordered_targeted_command_list",
+            "expected_commands": [
+              {
+                "target_device": "7",
+                "command": "vtysh -c 'configure terminal' -c 'ip route 172.16.0.0/24 10.0.6.1 50'"
+              }
+            ],
+            "actual_commands": [
+              {
+                "target_device": "7",
+                "command": "vtysh -c 'configure terminal' -c 'ip route 172.16.0.0/24 10.0.6.1 50'"
+              }
+            ],
+            "expected_count": 1,
+            "actual_count": 1,
+            "first_diff": null
+          }
+        }
+      },
+      "test_output": {
+        "intent_id": 3,
+        "case_id": "B03",
+        "intent_text": "On router 7, configure a static route to 172.16.0.0/24 via 10.0.6.1 with administrative distance 50.",
+        "ok": true,
+        "has_expected": true,
+        "commands_ok": true,
+        "needs_human_ok": true,
+        "actual_needs_human": false,
+        "expected_needs_human": false,
+        "actual_commands": [
+          {
+            "target_device": "7",
+            "command": "vtysh -c 'configure terminal' -c 'ip route 172.16.0.0/24 10.0.6.1 50'"
+          }
+        ],
+        "expected_commands": [
+          {
+            "target_device": "7",
+            "command": "vtysh -c 'configure terminal' -c 'ip route 172.16.0.0/24 10.0.6.1 50'"
+          }
+        ],
+        "first_diff": null,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "intent_id": 7,
+      "intent_text": "Configure router 5 to reach 172.16.7.0/24 using next-hop 10.0.5.1.",
+      "elapsed_sec": 2.263,
+      "parse_success": true,
+      "error": null,
+      "predicted_ops": [],
+      "commands": [
+        {
+          "target_device": "5",
+          "command": "vtysh -c 'configure terminal' -c 'ip route 172.16.7.0/24 10.0.5.1'"
+        }
+      ],
+      "needs_human": false,
+      "step_count": 0,
+      "steps": [],
+      "raw": "```json\n{\n  \"intent_summary\": \"Configure router 5 to reach 172.16.7.0/24 using next-hop 10.0.5.1\",\n  \"reasoning\": \"1. Network action: configure static route. 2. Device involved: router 5. 3. Relevant interface: 5-eth1. 4. Required values: next-hop IP (10.0.5.1), destination prefix (172.16.7.0/24). 5. Correct tool: vtysh. 6. Correct syntax: vtysh -c 'ip route 172.16.7.0/24 10.0.5.1'.\",\n  \"commands\": [\n    {\n      \"target_device\": \"5\",\n      \"command\": \"vtysh -c 'configure terminal' -c 'ip route 172.16.7.0/24 10.0.5.1'\"\n    }\n  ],\n  \"needs_human\": false,\n  \"missing\": [],\n  \"warnings\": []\n}\n```",
+      "token_usage": {
+        "calls": 1,
+        "prompt_tokens": 5456,
+        "completion_tokens": 227,
+        "total_tokens": 5683,
+        "missing_usage_count": 0,
+        "events": [
+          {
+            "model": "meta-llama/Llama-3.1-8B-Instruct",
+            "prompt_source": "hf_router",
+            "message_count": 2,
+            "prompt_tokens": 5456,
+            "completion_tokens": 227,
+            "total_tokens": 5683,
+            "usage_available": true
+          }
+        ]
+      },
+      "expected_comparison": {
+        "case_id": "B07",
+        "target_node": null,
+        "case_type": null,
+        "golden_source": "C:\\Pesquisa\\tcc\\Ic-llmToNetworkConfig\\testTcc\\benchmark_final_corrigido.json",
+        "ok": true,
+        "checks": {
+          "needs_human": {
+            "ok": true,
+            "expected": false,
+            "actual": false
+          },
+          "commands": {
+            "ok": true,
+            "comparison": "exact_ordered_targeted_command_list",
+            "expected_commands": [
+              {
+                "target_device": "5",
+                "command": "vtysh -c 'configure terminal' -c 'ip route 172.16.7.0/24 10.0.5.1'"
+              }
+            ],
+            "actual_commands": [
+              {
+                "target_device": "5",
+                "command": "vtysh -c 'configure terminal' -c 'ip route 172.16.7.0/24 10.0.5.1'"
+              }
+            ],
+            "expected_count": 1,
+            "actual_count": 1,
+            "first_diff": null
+          }
+        }
+      },
+      "test_output": {
+        "intent_id": 7,
+        "case_id": "B07",
+        "intent_text": "Configure router 5 to reach 172.16.7.0/24 using next-hop 10.0.5.1.",
+        "ok": true,
+        "has_expected": true,
+        "commands_ok": true,
+        "needs_human_ok": true,
+        "actual_needs_human": false,
+        "expected_needs_human": false,
+        "actual_commands": [
+          {
+            "target_device": "5",
+            "command": "vtysh -c 'configure terminal' -c 'ip route 172.16.7.0/24 10.0.5.1'"
+          }
+        ],
+        "expected_commands": [
+          {
+            "target_device": "5",
+            "command": "vtysh -c 'configure terminal' -c 'ip route 172.16.7.0/24 10.0.5.1'"
+          }
+        ],
+        "first_diff": null,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "intent_id": 15,
+      "intent_text": "Enable IPv6 forwarding on router 2.",
+      "elapsed_sec": 1.839,
+      "parse_success": true,
+      "error": null,
+      "predicted_ops": [],
+      "commands": [
+        {
+          "target_device": "2",
+          "command": "sysctl -w net.ipv6.conf.all.forwarding=1"
+        }
+      ],
+      "needs_human": false,
+      "step_count": 0,
+      "steps": [],
+      "raw": "{\n  \"intent_summary\": \"Enable IPv6 forwarding on router 2\",\n  \"reasoning\": \"1. Network action: Enable IPv6 forwarding. 2. Device: Router 2. 3. Interface: Not specified, assuming all interfaces. 4. All required values are present. 5. Correct tool: sysctl. 6. Correct syntax: sysctl -w net.ipv6.conf.all.forwarding=1.\",\n  \"commands\": [\n    {\n      \"target_device\": \"2\",\n      \"command\": \"sysctl -w net.ipv6.conf.all.forwarding=1\"\n    }\n  ],\n  \"needs_human\": false,\n  \"missing\": [],\n  \"warnings\": []\n}",
+      "token_usage": {
+        "calls": 1,
+        "prompt_tokens": 5437,
+        "completion_tokens": 148,
+        "total_tokens": 5585,
+        "missing_usage_count": 0,
+        "events": [
+          {
+            "model": "meta-llama/Llama-3.1-8B-Instruct",
+            "prompt_source": "hf_router",
+            "message_count": 2,
+            "prompt_tokens": 5437,
+            "completion_tokens": 148,
+            "total_tokens": 5585,
+            "usage_available": true
+          }
+        ]
+      },
+      "expected_comparison": {
+        "case_id": "B15",
+        "target_node": null,
+        "case_type": null,
+        "golden_source": "C:\\Pesquisa\\tcc\\Ic-llmToNetworkConfig\\testTcc\\benchmark_final_corrigido.json",
+        "ok": true,
+        "checks": {
+          "needs_human": {
+            "ok": true,
+            "expected": false,
+            "actual": false
+          },
+          "commands": {
+            "ok": true,
+            "comparison": "exact_ordered_targeted_command_list",
+            "expected_commands": [
+              {
+                "target_device": "2",
+                "command": "sysctl -w net.ipv6.conf.all.forwarding=1"
+              }
+            ],
+            "actual_commands": [
+              {
+                "target_device": "2",
+                "command": "sysctl -w net.ipv6.conf.all.forwarding=1"
+              }
+            ],
+            "expected_count": 1,
+            "actual_count": 1,
+            "first_diff": null
+          }
+        }
+      },
+      "test_output": {
+        "intent_id": 15,
+        "case_id": "B15",
+        "intent_text": "Enable IPv6 forwarding on router 2.",
+        "ok": true,
+        "has_expected": true,
+        "commands_ok": true,
+        "needs_human_ok": true,
+        "actual_needs_human": false,
+        "expected_needs_human": false,
+        "actual_commands": [
+          {
+            "target_device": "2",
+            "command": "sysctl -w net.ipv6.conf.all.forwarding=1"
+          }
+        ],
+        "expected_commands": [
+          {
+            "target_device": "2",
+            "command": "sysctl -w net.ipv6.conf.all.forwarding=1"
+          }
+        ],
+        "first_diff": null,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "intent_id": 43,
+      "intent_text": "Configure router 2 with BGP ASN 65100 and advertise network 172.16.2.0/24.",
+      "elapsed_sec": 2.488,
+      "parse_success": true,
+      "error": null,
+      "predicted_ops": [],
+      "commands": [
+        {
+          "target_device": "2",
+          "command": "vtysh -c 'configure terminal' -c 'router bgp 65100' -c 'network 172.16.2.0/24'"
+        }
+      ],
+      "needs_human": false,
+      "step_count": 0,
+      "steps": [],
+      "raw": "```json\n{\n  \"intent_summary\": \"Configure router 2 with BGP ASN 65100 and advertise network 172.16.2.0/24\",\n  \"reasoning\": \"1. Network action: Configure BGP on router 2 and advertise network 172.16.2.0/24.\\n2. Device involved: Router 2.\\n3. Relevant interfaces: 2-eth2 (BGP interface).\\n4. Required values: BGP ASN 65100, network 172.16.2.0/24.\\n5. Correct tool/command family: vtysh (FRRouting).\\n6. Correct syntax and argument order: vtysh -c 'configure terminal' followed by 'router bgp 65100' and 'network 172.16.2.0/24'.\",\n  \"commands\": [\n    {\n      \"target_device\": \"2\",\n      \"command\": \"vtysh -c 'configure terminal' -c 'router bgp 65100' -c 'network 172.16.2.0/24'\"\n    }\n  ],\n  \"needs_human\": false,\n  \"missing\": [],\n  \"warnings\": []\n}\n```",
+      "token_usage": {
+        "calls": 1,
+        "prompt_tokens": 5453,
+        "completion_tokens": 255,
+        "total_tokens": 5708,
+        "missing_usage_count": 0,
+        "events": [
+          {
+            "model": "meta-llama/Llama-3.1-8B-Instruct",
+            "prompt_source": "hf_router",
+            "message_count": 2,
+            "prompt_tokens": 5453,
+            "completion_tokens": 255,
+            "total_tokens": 5708,
+            "usage_available": true
+          }
+        ]
+      },
+      "expected_comparison": {
+        "case_id": "B43",
+        "target_node": null,
+        "case_type": null,
+        "golden_source": "C:\\Pesquisa\\tcc\\Ic-llmToNetworkConfig\\testTcc\\benchmark_final_corrigido.json",
+        "ok": true,
+        "checks": {
+          "needs_human": {
+            "ok": true,
+            "expected": false,
+            "actual": false
+          },
+          "commands": {
+            "ok": true,
+            "comparison": "exact_ordered_targeted_command_list",
+            "expected_commands": [
+              {
+                "target_device": "2",
+                "command": "vtysh -c 'configure terminal' -c 'router bgp 65100' -c 'network 172.16.2.0/24'"
+              }
+            ],
+            "actual_commands": [
+              {
+                "target_device": "2",
+                "command": "vtysh -c 'configure terminal' -c 'router bgp 65100' -c 'network 172.16.2.0/24'"
+              }
+            ],
+            "expected_count": 1,
+            "actual_count": 1,
+            "first_diff": null
+          }
+        }
+      },
+      "test_output": {
+        "intent_id": 43,
+        "case_id": "B43",
+        "intent_text": "Configure router 2 with BGP ASN 65100 and advertise network 172.16.2.0/24.",
+        "ok": true,
+        "has_expected": true,
+        "commands_ok": true,
+        "needs_human_ok": true,
+        "actual_needs_human": false,
+        "expected_needs_human": false,
+        "actual_commands": [
+          {
+            "target_device": "2",
+            "command": "vtysh -c 'configure terminal' -c 'router bgp 65100' -c 'network 172.16.2.0/24'"
+          }
+        ],
+        "expected_commands": [
+          {
+            "target_device": "2",
+            "command": "vtysh -c 'configure terminal' -c 'router bgp 65100' -c 'network 172.16.2.0/24'"
+          }
+        ],
+        "first_diff": null,
+        "errors": [],
+        "warnings": []
+      }
+    }
+  ]
+}

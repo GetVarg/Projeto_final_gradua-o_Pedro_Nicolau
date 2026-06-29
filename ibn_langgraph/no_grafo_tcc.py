@@ -4,6 +4,7 @@ import re
 import ipaddress
 from string import Formatter
 from types import SimpleNamespace
+from pathlib import Path
 
 from openai import OpenAI
 from main import IBNState
@@ -24,15 +25,62 @@ from tools import (
     _normalize_subintent_record,  # Fecha cada subintent com defaults antes do processamento.
     _merge_context_records,  # Acumula o contexto global a partir de cada subintent.
     load_cli_templates,  # Carrega o catalogo concreto de templates CLI.
+    normalize_ipv4_route_cidr_bound_args,
+    normalize_cisco_route_cidr_bound_args,
+    normalize_cisco_acl_cidr_bound_args,
+    normalize_cisco_bgp_network_bound_args,
+    normalize_cisco_rate_bound_args,
+    normalize_cisco_bgp_as_bound_args,
+    force_cisco_enable_only_ops,
+    normalize_cisco_icmp_type_bound_args
 )
 
 DEFAULT_OLLAMA_MODEL = "meta-llama/Llama-3.1-8B-Instruct:novita"
 HF_ROUTER_BASE_URL = "https://router.huggingface.co/v1"
 temperature = 0.0
+HF_REQUEST_TIMEOUT_SECONDS = float(os.environ.get("HF_REQUEST_TIMEOUT_SECONDS", "180"))
+HF_MAX_RETRIES = int(os.environ.get("HF_MAX_RETRIES", "1"))
 LOCAL_DISCRETIZE_MODEL_PATH = os.environ.get(
     "LOCAL_DISCRETIZE_MODEL_PATH",
     r"C:\Pesquisa\models\llama-discretize-finetuned",
 )
+
+# The planner and compiler must always read the same catalog.  Keeping this as
+# runtime configuration lets a benchmark exercise another vendor without
+# editing source files or accidentally mixing planning and rendering contracts.
+DEFAULT_CLI_TEMPLATE_CATALOG = "fewshots/cli_templates.json"
+_active_cli_template_catalog = os.environ.get(
+    "CLI_TEMPLATE_CATALOG",
+    DEFAULT_CLI_TEMPLATE_CATALOG,
+)
+
+
+def _resolve_cli_template_catalog(path: str) -> str:
+    candidate = Path(path).expanduser()
+    candidates = [candidate] if candidate.is_absolute() else [
+        Path.cwd() / candidate,
+        Path(__file__).resolve().parent / candidate,
+    ]
+    for item in candidates:
+        if item.is_file():
+            return str(item.resolve())
+    tried = ", ".join(str(item) for item in candidates)
+    raise FileNotFoundError(f"CLI template catalog not found: {path}. Tried: {tried}")
+
+
+def set_cli_template_catalog(path: str) -> str:
+    """Select and validate the template catalog used by planner and compiler."""
+    global _active_cli_template_catalog
+    resolved_path = _resolve_cli_template_catalog(path)
+    if not load_cli_templates(resolved_path):
+        raise ValueError(f"CLI template catalog is empty or invalid: {resolved_path}")
+    _active_cli_template_catalog = resolved_path
+    return _active_cli_template_catalog
+
+
+def get_cli_template_catalog() -> str:
+    """Return the selected CLI template catalog, resolved for reliable loading."""
+    return _resolve_cli_template_catalog(_active_cli_template_catalog)
 
 
 DISCRETIZE_SYSTEM_PROMPT = """
@@ -255,6 +303,20 @@ DECISION RULES
 - Do not put structured topology lookups inside semantic_only_arguments.
 - Do not put explicit configuration values inside derived_arguments.
 
+FIREWALL SEMANTIC ARGUMENT RULE
+
+For firewall packet-filter intents, explicitly mentioned packet protocols and packet types are semantic_only_arguments.
+
+- "ICMP" -> semantic_only_arguments.protocol = "icmp"
+- "TCP" -> semantic_only_arguments.protocol = "tcp"
+- "UDP" -> semantic_only_arguments.protocol = "udp"
+- "ICMP echo request" or "ICMP echo requests" -> 
+  semantic_only_arguments.protocol = "icmp"
+  semantic_only_arguments.icmp_type = "echo-request"
+
+Do not put protocol, dst_port, src_ip, src_cidr, or icmp_type in derived_arguments.
+Use derived_arguments only for values that must be discovered from topology.
+
 DERIVED TOPOLOGY REFERENCES
 Use these structured objects only inside derived_arguments or topology_arguments, depending on their role.
 
@@ -292,8 +354,6 @@ A phrase like "router X LAN" used as a traffic destination should be represented
 - out_interface = {"kind": "lan_interface_of_device", "device": "router X"} when the command filters by egress interface.
 - dst_cidr = {"kind": "lan_subnet_of_device", "device": "router X"} when the command filters by destination subnet.
 
-
-For firewall intents where traffic is reaching a router LAN, represent the router as topology_arguments.device and represent the LAN-facing interface as derived_arguments.out_interface with kind="lan_interface_of_device". Do not convert "router X LAN" to dst_cidr unless the selected operation filters by destination subnet.
 
 EXAMPLE
 
@@ -444,12 +504,21 @@ class HFRouterChat:
         api_key: str | None = None,
         base_url: str = HF_ROUTER_BASE_URL,
         temperature: float | None = None,
+        timeout: float = HF_REQUEST_TIMEOUT_SECONDS,
+        max_retries: int = HF_MAX_RETRIES,
     ) -> None:
         self.model = model
         self.temperature = temperature if temperature is not None else globals()["temperature"]
         self.base_url = base_url
         self.api_key = api_key or os.environ["HF_TOKEN"]
-        self.client = OpenAI(base_url=self.base_url, api_key=self.api_key)
+        self.timeout = timeout
+        self.max_retries = max_retries
+        self.client = OpenAI(
+            base_url=self.base_url,
+            api_key=self.api_key,
+            timeout=self.timeout,
+            max_retries=self.max_retries,
+        )
 
     def bind(self, **kwargs):
         options = kwargs.get("options") or {}
@@ -459,6 +528,8 @@ class HFRouterChat:
             api_key=self.api_key,
             base_url=self.base_url,
             temperature=temperature,
+            timeout=self.timeout,
+            max_retries=self.max_retries,
         )
 
     def invoke(self, messages):
@@ -694,7 +765,7 @@ def node_discretize_intent(state: IBNState) -> IBNState:
         "intent": root_text,
     }
 
-    llm_i = llm.bind(options={"temperature": 0.0})
+    llm_i = llm.bind(options={"temperature": temperature})
     log_llm_exchange(
         "discretize_intent_tcc",
         "IN",
@@ -1432,17 +1503,6 @@ def _build_context_for_subintent(sub: dict, topo: dict) -> dict:
     }
 
 
-def _build_shared_context(subintents: list, topo: dict) -> dict:
-    shared = {}
-    for sub in subintents or []:
-        if not isinstance(sub, dict):
-            continue
-        local_context = _build_context_for_subintent(sub, topo)
-        shared = _merge_context_records(shared, local_context)
-    shared["scope"] = "root_intent"
-    return shared
-
-
 def node_context(state: IBNState) -> IBNState:
     topo = state.get("topology_full") or {}
 
@@ -1537,7 +1597,7 @@ def node_planner(state: IBNState) -> IBNState:
         state.setdefault("warnings", []).append("planner: missing subintent text")
         return state
 
-    cli_templates = load_cli_templates("fewshots/cli_templates.json")
+    cli_templates = load_cli_templates(get_cli_template_catalog())
     compact_catalog = compact_cli_template_catalog_from_templates(cli_templates)
 
     if not cli_templates:
@@ -1599,6 +1659,11 @@ Do not select an operation only because it shares a protocol name, device type, 
 If an operation requires a conceptual object or relation that is not present in the subintent, reject it as invalid_applicability.
 
 A required command argument is not enough to justify an operation. The operation itself must match the intended network effect.
+
+For interface_l3_address_config:
+Select only for configuring an IP address/prefix on an interface.
+Never select it for permit/deny/allow/block, ACL, firewall, protocol, port, or ICMP objectives.
+If traffic is being permitted or blocked on an interface, prefer a firewall operation.
 
 3. Coverage check:
 Select only operations that directly contribute to achieving the objective.
@@ -2121,6 +2186,19 @@ def _find_peer_ip_between_devices(
 
     return None
 
+def normalize_firewall_interface_direction(intent_frame: dict, operation_plan: list[dict]) -> None:
+    args = intent_frame.get("arguments", {})
+    derived = args.get("derived_arguments", {})
+
+    selected_ops = {item.get("op") for item in operation_plan}
+
+    if "firewall_input_accept" in selected_ops or "firewall_input_drop" in selected_ops:
+        if "in_interface" not in derived and "out_interface" in derived:
+            candidate = derived["out_interface"]
+
+            if isinstance(candidate, dict) and candidate.get("kind") == "lan_interface_of_device":
+                derived["in_interface"] = candidate
+
 def _find_lan_interface_of_device(topo: dict, device: object) -> str | None:
     device_name = _normalize_device_ref(device)
     if not device_name:
@@ -2130,7 +2208,7 @@ def _find_lan_interface_of_device(topo: dict, device: object) -> str | None:
     dev = devices.get(device_name) or {}
     interfaces = dev.get("interfaces") or {}
 
-    # Prefer access LAN interfaces, i.e., interfaces connected to hosts.
+    # 1. Prefer interfaces connected to devices explicitly typed as hosts.
     for if_name, if_data in interfaces.items():
         if not isinstance(if_data, dict):
             continue
@@ -2140,9 +2218,32 @@ def _find_lan_interface_of_device(topo: dict, device: object) -> str | None:
             continue
 
         peer_owner = peer.split("-eth", 1)[0]
-
         peer_dev = devices.get(peer_owner) or {}
+
         if peer_dev.get("type") == "host":
+            return if_name
+
+    # 2. Fallback: infer host-facing links from peer naming convention.
+    for if_name, if_data in interfaces.items():
+        if not isinstance(if_data, dict):
+            continue
+
+        peer = if_data.get("peer")
+        if not isinstance(peer, str):
+            continue
+
+        peer_owner = peer.split("-eth", 1)[0].lower()
+
+        if peer_owner.startswith("h_") or peer_owner.startswith("host"):
+            return if_name
+
+    # 3. Conservative fallback: prefer non-/30 interfaces as LAN-like.
+    for if_name, if_data in interfaces.items():
+        if not isinstance(if_data, dict):
+            continue
+
+        cidr = if_data.get("cidr")
+        if isinstance(cidr, str) and not cidr.endswith("/30"):
             return if_name
 
     return None
@@ -2574,6 +2675,67 @@ def _normalize_tc_bound_args(
 
     return updates
 
+def _normalize_firewall_interface_after_planning(
+    arguments: dict,
+    operations: list[dict],
+) -> list[str]:
+    if not isinstance(arguments, dict):
+        return []
+
+    topology_args = arguments.setdefault("topology_arguments", {})
+    derived_args = arguments.setdefault("derived_arguments", {})
+
+    if not isinstance(topology_args, dict):
+        topology_args = {}
+        arguments["topology_arguments"] = topology_args
+
+    if not isinstance(derived_args, dict):
+        derived_args = {}
+        arguments["derived_arguments"] = derived_args
+
+    selected_ops = {
+        op.get("op")
+        for op in operations
+        if isinstance(op, dict)
+    }
+
+    normalized_firewall_args = _normalize_firewall_interface_after_planning(
+        arguments,
+        operations,
+    )
+
+    if normalized_firewall_args:
+        state.setdefault("warnings", []).append(
+            "argument_resolver: normalized firewall interface after planning"
+        )
+
+    if not (selected_ops & {"firewall_input_accept", "firewall_input_drop"}):
+        return []
+
+    if "in_interface" in derived_args:
+        return []
+
+    requires_interface = any(
+        "interface" in (op.get("concept_requirements") or [])
+        or "in_interface" in (op.get("concept_requirements") or [])
+        for op in operations
+        if isinstance(op, dict)
+    )
+
+    if not requires_interface:
+        return []
+
+    device = topology_args.get("device")
+    if not device:
+        return []
+
+    derived_args["in_interface"] = {
+        "kind": "lan_interface_of_device",
+        "device": device,
+    }
+
+    return ["in_interface"]
+
 def node_argument_resolver(state: IBNState) -> IBNState:
     sub = ((state.get("work") or {}).get("subintent") or {})
     frame = sub.get("intent_frame") or {}
@@ -2767,6 +2929,20 @@ OUTPUT RULES
         if isinstance(op, dict)
     }
 
+    derived = arguments.setdefault("derived_arguments", {})
+    if not isinstance(derived, dict):
+        derived = {}
+        arguments["derived_arguments"] = derived
+
+    if selected_ops & {"firewall_input_accept", "firewall_input_drop"}:
+        if "in_interface" not in derived and "out_interface" in derived:
+            candidate = derived["out_interface"]
+            if (
+                isinstance(candidate, dict)
+                and candidate.get("kind") == "lan_interface_of_device"
+            ):
+                derived["in_interface"] = candidate
+
     firewall_ops = {
         "firewall_input_accept",
         "firewall_input_drop",
@@ -2897,6 +3073,21 @@ OUTPUT RULES
             source = ""
             error = ""
 
+            derived_args = arguments.get("derived_arguments") or {}
+
+            if arg_label in {"interface", "in_interface", "out_interface", "exit_interface"}:
+                if isinstance(derived_args, dict) and arg_label in derived_args:
+                    ok, value, source = _lookup_derived_argument_alias(
+                        arg_label,
+                        arguments,
+                        topo,
+                    )
+                    if ok:
+                        bound_args[arg_label] = value
+                        binding_sources[arg_label] = f"pre_resolve:{source}"
+                        resolution_mode[arg_label] = "deterministic_pre_resolve"
+                        continue
+            
             if call:
                 ok, value, source, error = _execute_resolution_call(call, arg_label, arguments, context, topo)
 
@@ -2993,6 +3184,122 @@ OUTPUT RULES
                     for arg in normalized_attr_args
                 )
             ]
+
+        normalized_route_cidr_args = normalize_ipv4_route_cidr_bound_args(
+            op_name,
+            arguments,
+            bound_args,
+            binding_sources,
+            resolution_mode,
+        )
+
+        if normalized_route_cidr_args:
+            missing_required_args = [
+                arg for arg in missing_required_args
+                if arg not in bound_args
+            ]
+
+            unresolved_derivable_args = [
+                arg for arg in unresolved_derivable_args
+                if arg not in bound_args
+            ]
+
+            resolver_warnings = [
+                warning for warning in resolver_warnings
+                if not any(
+                    f"{op_name}:{arg}:" in warning
+                    for arg in normalized_route_cidr_args
+                )
+            ]
+        cisco_normalized_args = []
+
+        cisco_normalized_args.extend(
+            normalize_cisco_route_cidr_bound_args(
+                op_name,
+                arguments,
+                bound_args,
+                binding_sources,
+                resolution_mode,
+            )
+        )
+
+        cisco_normalized_args.extend(
+            normalize_cisco_acl_cidr_bound_args(
+                op_name,
+                arguments,
+                bound_args,
+                binding_sources,
+                resolution_mode,
+            )
+        )
+
+        cisco_normalized_args.extend(
+            normalize_cisco_bgp_network_bound_args(
+                op_name,
+                arguments,
+                bound_args,
+                binding_sources,
+                resolution_mode,
+            )
+        )
+
+        cisco_normalized_args.extend(
+            normalize_cisco_rate_bound_args(
+                op_name,
+                arguments,
+                bound_args,
+                binding_sources,
+                resolution_mode,
+            )
+        )
+
+        cisco_normalized_args.extend(
+            normalize_cisco_bgp_as_bound_args(
+                op_name,
+                arguments,
+                bound_args,
+                binding_sources,
+                resolution_mode,
+            )
+        )
+
+        cisco_normalized_args.extend(
+            force_cisco_enable_only_ops(
+                op_name,
+                bound_args,
+                binding_sources,
+                resolution_mode,
+            )
+        )
+
+        if cisco_normalized_args:
+            missing_required_args = [
+                arg for arg in missing_required_args
+                if arg not in bound_args
+            ]
+
+            unresolved_derivable_args = [
+                arg for arg in unresolved_derivable_args
+                if arg not in bound_args
+            ]
+
+            resolver_warnings = [
+                warning for warning in resolver_warnings
+                if not any(
+                    f"{op_name}:{arg}:" in warning
+                    for arg in cisco_normalized_args
+                )
+            ]
+
+        cisco_normalized_args.extend(
+            normalize_cisco_icmp_type_bound_args(
+                op_name,
+                arguments,
+                bound_args,
+                binding_sources,
+                resolution_mode,
+            )
+        )
 
         ready_to_compile = len(missing_required_args) == 0
         resolved_operations.append({
@@ -3210,7 +3517,7 @@ def _resolve_target_device_for_compile(
 def node_compile_commands(state: IBNState) -> IBNState:
     argument_resolution = state.get("argument_resolution") or {}
     resolved_operations = argument_resolution.get("resolved_operations") or []
-    cli_templates = load_cli_templates("fewshots/cli_templates.json")
+    cli_templates = load_cli_templates(get_cli_template_catalog())
 
     compiled_operations = []
     compiler_errors = []

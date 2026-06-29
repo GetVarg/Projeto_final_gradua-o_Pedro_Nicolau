@@ -24,6 +24,235 @@ def load_topologia(path=r"C:\Users\pedro\OneDrive\Área de Trabalho\llmToNetwork
         return {}
         
 import ipaddress
+
+def normalize_cisco_icmp_type_bound_args(
+    op_name: str,
+    arguments: dict,
+    bound_args: dict,
+    binding_sources: dict,
+    resolution_mode: dict,
+) -> list[str]:
+    """
+    Normaliza ICMP echo-request para ACL Cisco.
+
+    Não escolhe a operação. Apenas completa argumentos de uma operação
+    de firewall/ACL que já foi escolhida.
+    """
+
+    if op_name not in {"firewall_input_accept", "firewall_input_drop"}:
+        return []
+
+    updated = []
+
+    semantic_args = (arguments or {}).get("semantic_only_arguments") or {}
+    derived_args = (arguments or {}).get("derived_arguments") or {}
+    notes = (arguments or {}).get("notes") or {}
+
+    values = []
+
+    for source_name, source_dict in (
+        ("bound_args", bound_args),
+        ("semantic_only_arguments", semantic_args),
+        ("derived_arguments", derived_args),
+        ("notes", notes),
+    ):
+        if not isinstance(source_dict, dict):
+            continue
+
+        for key in ("icmp_type", "icmp_message_type", "icmp_kind", "traffic_type", "protocol"):
+            value = source_dict.get(key)
+            if value is not None:
+                values.append((str(value).lower(), f"{source_name}.{key}"))
+
+    joined = " ".join(value for value, _ in values)
+
+    if "echo-request" in joined or "echo_request" in joined or "echo request" in joined or "ping" in joined:
+        if bound_args.get("protocol") != "icmp":
+            bound_args["protocol"] = "icmp"
+            binding_sources["protocol"] = "normalized_cisco_icmp_type"
+            resolution_mode["protocol"] = "deterministic_normalization"
+            updated.append("protocol")
+
+        if bound_args.get("icmp_type") != "echo-request":
+            bound_args["icmp_type"] = "echo-request"
+            binding_sources["icmp_type"] = "normalized_cisco_icmp_type"
+            resolution_mode["icmp_type"] = "deterministic_normalization"
+            updated.append("icmp_type")
+
+    return updated
+
+def validate_bgp_local_as_bound_args(
+    op_name: str,
+    bound_args: dict,
+    binding_sources: dict,
+    resolution_mode: dict,
+) -> list[str]:
+    """
+    Remove local_as inválido para impedir comandos como:
+      router bgp false
+
+    Não inventa ASN. Apenas impede que valor inválido seja compilado.
+    """
+
+    bgp_ops = {
+        "bgp_neighbor_config",
+        "bgp_network_advertise",
+        "bgp_neighbor_remove",
+        "bgp_peer_group_config",
+        "bgp_neighbor_peer_group_bind",
+        "bgp_peer_group_remove",
+        "bgp_neighbor_med_set",
+        "bgp_as_path_multipath_enable",
+        "bgp_local_preference_set",
+        "bgp_route_map_apply",
+        "bgp_peer_group_password_set",
+        "bgp_neighbor_password_set",
+    }
+
+    if op_name not in bgp_ops:
+        return []
+
+    if "local_as" not in bound_args:
+        return []
+
+    value = bound_args.get("local_as")
+
+    invalid_values = {
+        "",
+        "false",
+        "true",
+        "none",
+        "null",
+        "router",
+        "bgp",
+    }
+
+    if isinstance(value, bool) or str(value).strip().lower() in invalid_values:
+        bound_args.pop("local_as", None)
+        binding_sources.pop("local_as", None)
+        resolution_mode.pop("local_as", None)
+        return ["local_as"]
+
+    try:
+        asn = int(str(value).strip())
+    except ValueError:
+        bound_args.pop("local_as", None)
+        binding_sources.pop("local_as", None)
+        resolution_mode.pop("local_as", None)
+        return ["local_as"]
+
+    if not (1 <= asn <= 4294967295):
+        bound_args.pop("local_as", None)
+        binding_sources.pop("local_as", None)
+        resolution_mode.pop("local_as", None)
+        return ["local_as"]
+
+    bound_args["local_as"] = str(asn)
+    return []
+
+def normalize_ipv4_route_cidr_bound_args(
+    op_name: str,
+    arguments: dict,
+    bound_args: dict,
+    binding_sources: dict,
+    resolution_mode: dict,
+) -> list[str]:
+    """
+    Normaliza argumentos de rota IPv4 no formato Cisco IOS.
+
+    Entrada esperada:
+        dst_cidr = "172.16.9.0/24"
+
+    Saída:
+        dst_network = "172.16.9.0"
+        dst_mask = "255.255.255.0"
+
+    Também corrige casos em que o modelo colocou o CIDR diretamente em
+    dst_network ou dst_mask.
+    """
+
+    route_ops = {
+        "static_route_add_frr",
+        "static_route_del_frr",
+        "static_route_blackhole_add",
+    }
+
+    if op_name not in route_ops:
+        return []
+
+    updated = []
+
+    def _find_candidate_cidr() -> tuple[str | None, str]:
+        candidates = []
+
+        for key in ("dst_cidr", "destination_prefix", "prefix", "destination"):
+            if key in bound_args:
+                candidates.append((bound_args.get(key), f"bound_args.{key}"))
+
+        semantic_args = (arguments or {}).get("semantic_only_arguments") or {}
+        if isinstance(semantic_args, dict):
+            for key in ("dst_cidr", "destination_prefix", "dst_ip", "prefix", "destination"):
+                if key in semantic_args:
+                    candidates.append((semantic_args.get(key), f"semantic_only_arguments.{key}"))
+
+        derived_args = (arguments or {}).get("derived_arguments") or {}
+        if isinstance(derived_args, dict):
+            for key in ("dst_cidr", "destination_prefix", "prefix", "destination"):
+                if key in derived_args and isinstance(derived_args.get(key), str):
+                    candidates.append((derived_args.get(key), f"derived_arguments.{key}"))
+
+        # Também trata o caso errado: dst_network recebeu "172.16.0.0/24"
+        for key in ("dst_network", "dst_mask"):
+            if key in bound_args:
+                candidates.append((bound_args.get(key), f"bound_args.{key}"))
+
+        for value, source in candidates:
+            if isinstance(value, str):
+                value = value.strip()
+                if "/" in value:
+                    return value, source
+
+        return None, ""
+
+    cidr, source = _find_candidate_cidr()
+    if not cidr:
+        return []
+
+    try:
+        network = ipaddress.ip_network(cidr, strict=False)
+    except ValueError:
+        return []
+
+    if network.version != 4:
+        return []
+
+    normalized_source = f"normalized_ipv4_route_cidr:{source}"
+
+    dst_network = str(network.network_address)
+    dst_mask = str(network.netmask)
+
+    if bound_args.get("dst_network") != dst_network:
+        bound_args["dst_network"] = dst_network
+        binding_sources["dst_network"] = normalized_source
+        resolution_mode["dst_network"] = "deterministic_normalization"
+        updated.append("dst_network")
+
+    if bound_args.get("dst_mask") != dst_mask:
+        bound_args["dst_mask"] = dst_mask
+        binding_sources["dst_mask"] = normalized_source
+        resolution_mode["dst_mask"] = "deterministic_normalization"
+        updated.append("dst_mask")
+
+    # Mantém dst_cidr como argumento auxiliar, caso o template/operação use.
+    if "dst_cidr" not in bound_args:
+        bound_args["dst_cidr"] = str(network.with_prefixlen)
+        binding_sources["dst_cidr"] = normalized_source
+        resolution_mode["dst_cidr"] = "deterministic_normalization"
+        updated.append("dst_cidr")
+
+    return updated
+
+import ipaddress
 from copy import deepcopy
 
 def _is_ip(s: str) -> bool:
@@ -490,3 +719,476 @@ def _merge_context_records(global_context: dict, local_context: dict) -> dict:
             local_context.get("warnings") or [],
         ),
     }
+
+
+# -------------------------------------
+import ipaddress
+import os
+
+
+def _as_dict(value: object) -> dict:
+    return value if isinstance(value, dict) else {}
+
+
+def _first_present(*items):
+    for value, source in items:
+        if value not in (None, "", {}, []):
+            return value, source
+    return None, ""
+
+
+def _get_nested_arg(arguments: dict, root_name: str, key: str):
+    root = _as_dict(_as_dict(arguments).get(root_name))
+    return root.get(key)
+
+
+def _find_arg_by_alias(arguments: dict, bound_args: dict, aliases: list[str]):
+    candidates = []
+
+    for alias in aliases:
+        if alias in bound_args:
+            candidates.append((bound_args.get(alias), f"bound_args.{alias}"))
+
+    for root_name in ("semantic_only_arguments", "derived_arguments", "topology_arguments"):
+        root = _as_dict(_as_dict(arguments).get(root_name))
+        for alias in aliases:
+            if alias in root:
+                value = root.get(alias)
+                if isinstance(value, dict):
+                    # Alguns extractors usam {"kind": "prefix", "prefix": "..."}.
+                    for inner_key in ("prefix", "value", "cidr"):
+                        if inner_key in value:
+                            candidates.append((value.get(inner_key), f"{root_name}.{alias}.{inner_key}"))
+                else:
+                    candidates.append((value, f"{root_name}.{alias}"))
+
+    for value, source in candidates:
+        if isinstance(value, str) and value.strip():
+            return value.strip(), source
+        if isinstance(value, (int, float)) and not isinstance(value, bool):
+            return value, source
+
+    return None, ""
+
+
+def _ipv4_network_mask_from_cidr(value: object):
+    if not isinstance(value, str) or "/" not in value:
+        return None
+
+    try:
+        network = ipaddress.ip_network(value.strip(), strict=False)
+    except ValueError:
+        return None
+
+    if network.version != 4:
+        return None
+
+    return str(network.network_address), str(network.netmask), str(network.with_prefixlen)
+
+
+def _ipv4_network_wildcard_from_cidr(value: object):
+    if not isinstance(value, str) or "/" not in value:
+        return None
+
+    try:
+        network = ipaddress.ip_network(value.strip(), strict=False)
+    except ValueError:
+        return None
+
+    if network.version != 4:
+        return None
+
+    wildcard_int = int(network.hostmask)
+    wildcard = str(ipaddress.IPv4Address(wildcard_int))
+    return str(network.network_address), wildcard, str(network.with_prefixlen)
+
+
+def normalize_cisco_route_cidr_bound_args(
+    op_name: str,
+    arguments: dict,
+    bound_args: dict,
+    binding_sources: dict,
+    resolution_mode: dict,
+) -> list[str]:
+    """
+    Cisco IPv4 static route:
+      dst_cidr "172.16.9.0/24" -> dst_network "172.16.9.0", dst_mask "255.255.255.0"
+
+    Corrige também quando o modelo colocou o CIDR indevidamente em dst_network/dst_mask.
+    """
+
+    route_ops = {
+        "static_route_add_frr",
+        "static_route_del_frr",
+        "static_route_blackhole_add",
+    }
+
+    if op_name not in route_ops:
+        return []
+
+    cidr, source = _find_arg_by_alias(
+        arguments,
+        bound_args,
+        [
+            "dst_cidr",
+            "destination_prefix",
+            "destination_network",
+            "prefix",
+            "network",
+            "destination",
+            "dst_network",
+            "dst_mask",
+        ],
+    )
+
+    parsed = _ipv4_network_mask_from_cidr(cidr)
+    if not parsed:
+        return []
+
+    dst_network, dst_mask, normalized_cidr = parsed
+    normalized_source = f"normalized_cisco_route_cidr:{source}"
+    updated = []
+
+    if bound_args.get("dst_network") != dst_network:
+        bound_args["dst_network"] = dst_network
+        binding_sources["dst_network"] = normalized_source
+        resolution_mode["dst_network"] = "deterministic_normalization"
+        updated.append("dst_network")
+
+    if bound_args.get("dst_mask") != dst_mask:
+        bound_args["dst_mask"] = dst_mask
+        binding_sources["dst_mask"] = normalized_source
+        resolution_mode["dst_mask"] = "deterministic_normalization"
+        updated.append("dst_mask")
+
+    if "dst_cidr" not in bound_args:
+        bound_args["dst_cidr"] = normalized_cidr
+        binding_sources["dst_cidr"] = normalized_source
+        resolution_mode["dst_cidr"] = "deterministic_normalization"
+        updated.append("dst_cidr")
+
+    return updated
+
+
+def normalize_cisco_acl_cidr_bound_args(
+    op_name: str,
+    arguments: dict,
+    bound_args: dict,
+    binding_sources: dict,
+    resolution_mode: dict,
+) -> list[str]:
+    """
+    Cisco ACL usa wildcard mask:
+      src_cidr "172.16.7.0/24" -> src_network "172.16.7.0", src_wildcard "0.0.0.255"
+      dst_cidr "172.16.8.0/24" -> dst_network "172.16.8.0", dst_wildcard "0.0.0.255"
+    """
+
+    acl_ops = {
+        "firewall_input_drop",
+        "firewall_input_accept",
+        "firewall_output_drop",
+        "firewall_output_accept",
+        "firewall_forward_drop",
+        "firewall_drop_subnet_pair",
+    }
+
+    if op_name not in acl_ops:
+        return []
+
+    updated = []
+
+    for side in ("src", "dst"):
+        cidr_key = f"{side}_cidr"
+        network_key = f"{side}_network"
+        wildcard_key = f"{side}_wildcard"
+
+        cidr, source = _find_arg_by_alias(
+            arguments,
+            bound_args,
+            [
+                cidr_key,
+                f"{side}_prefix",
+                f"{side}_network",
+            ],
+        )
+
+        parsed = _ipv4_network_wildcard_from_cidr(cidr)
+        if not parsed:
+            continue
+
+        network, wildcard, normalized_cidr = parsed
+        normalized_source = f"normalized_cisco_acl_cidr:{source}"
+
+        if bound_args.get(network_key) != network:
+            bound_args[network_key] = network
+            binding_sources[network_key] = normalized_source
+            resolution_mode[network_key] = "deterministic_normalization"
+            updated.append(network_key)
+
+        if bound_args.get(wildcard_key) != wildcard:
+            bound_args[wildcard_key] = wildcard
+            binding_sources[wildcard_key] = normalized_source
+            resolution_mode[wildcard_key] = "deterministic_normalization"
+            updated.append(wildcard_key)
+
+        if cidr_key not in bound_args:
+            bound_args[cidr_key] = normalized_cidr
+            binding_sources[cidr_key] = normalized_source
+            resolution_mode[cidr_key] = "deterministic_normalization"
+            updated.append(cidr_key)
+
+    return updated
+
+
+def normalize_cisco_bgp_network_bound_args(
+    op_name: str,
+    arguments: dict,
+    bound_args: dict,
+    binding_sources: dict,
+    resolution_mode: dict,
+) -> list[str]:
+    """
+    Cisco BGP network:
+      prefix "172.16.2.0/24" -> network "172.16.2.0", mask "255.255.255.0"
+    """
+
+    if op_name != "bgp_network_advertise":
+        return []
+
+    cidr, source = _find_arg_by_alias(
+        arguments,
+        bound_args,
+        [
+            "prefix",
+            "advertise_prefix",
+            "advertised_prefix",
+            "advertised_network",
+            "network_prefix",
+            "dst_cidr",
+            "destination_prefix",
+            "network",
+            "mask",
+        ],
+    )
+
+    parsed = _ipv4_network_mask_from_cidr(cidr)
+    if not parsed:
+        return []
+
+    network, mask, normalized_cidr = parsed
+    normalized_source = f"normalized_cisco_bgp_prefix:{source}"
+    updated = []
+
+    if bound_args.get("network") != network:
+        bound_args["network"] = network
+        binding_sources["network"] = normalized_source
+        resolution_mode["network"] = "deterministic_normalization"
+        updated.append("network")
+
+    if bound_args.get("mask") != mask:
+        bound_args["mask"] = mask
+        binding_sources["mask"] = normalized_source
+        resolution_mode["mask"] = "deterministic_normalization"
+        updated.append("mask")
+
+    if "prefix" not in bound_args:
+        bound_args["prefix"] = normalized_cidr
+        binding_sources["prefix"] = normalized_source
+        resolution_mode["prefix"] = "deterministic_normalization"
+        updated.append("prefix")
+
+    return updated
+
+
+def normalize_cisco_rate_bound_args(
+    op_name: str,
+    arguments: dict,
+    bound_args: dict,
+    binding_sources: dict,
+    resolution_mode: dict,
+) -> list[str]:
+    """
+    Normaliza aliases de taxa:
+      outbound_rate, police_rate, rate, bandwidth, limit -> rate_mbit
+    """
+
+    if op_name not in {"tc_egress_rate_limit", "tc_ingress_police"}:
+        return []
+
+    if "rate_mbit" in bound_args:
+        return []
+
+    value, source = _find_arg_by_alias(
+        arguments,
+        bound_args,
+        [
+            "rate_mbit",
+            "rate",
+            "bandwidth",
+            "limit",
+            "rate_limit",
+            "outbound_rate",
+            "police_rate",
+            "ingress_rate",
+            "egress_rate",
+        ],
+    )
+
+    parsed = _parse_rate_mbit_compat(value)
+    if parsed is None:
+        return []
+
+    bound_args["rate_mbit"] = parsed
+    binding_sources["rate_mbit"] = f"normalized_cisco_rate:{source}"
+    resolution_mode["rate_mbit"] = "deterministic_normalization"
+    return ["rate_mbit"]
+
+
+def _parse_rate_mbit_compat(value: object) -> int | None:
+    if isinstance(value, bool):
+        return None
+
+    if isinstance(value, (int, float)):
+        return int(value)
+
+    if not isinstance(value, str):
+        return None
+
+    text = value.strip().lower().replace(" ", "")
+    if not text:
+        return None
+
+    suffixes = ("mbps", "mbit", "m")
+    for suffix in suffixes:
+        if text.endswith(suffix):
+            number = text[:-len(suffix)]
+            try:
+                return int(float(number))
+            except ValueError:
+                return None
+
+    try:
+        return int(float(text))
+    except ValueError:
+        return None
+
+
+def normalize_cisco_bgp_as_bound_args(
+    op_name: str,
+    arguments: dict,
+    bound_args: dict,
+    binding_sources: dict,
+    resolution_mode: dict,
+) -> list[str]:
+    """
+    Normaliza aliases de ASN para operações BGP.
+
+    Casos cobertos:
+    - bgp_asn / bgp_process_id / asn -> local_as
+    - remote_as pode ser usado como local_as quando o benchmark não fornece outro ASN local.
+    - fallback opcional DEFAULT_BGP_LOCAL_AS, por padrão 65000.
+    """
+
+    bgp_ops = {
+        "bgp_neighbor_config",
+        "bgp_network_advertise",
+        "bgp_neighbor_remove",
+        "bgp_peer_group_config",
+        "bgp_neighbor_peer_group_bind",
+        "bgp_peer_group_remove",
+        "bgp_neighbor_med_set",
+        "bgp_as_path_multipath_enable",
+        "bgp_local_preference_set",
+        "bgp_route_map_apply",
+        "bgp_peer_group_password_set",
+        "bgp_neighbor_password_set",
+    }
+
+    if op_name not in bgp_ops:
+        return []
+
+    updated = []
+
+    local_as, local_source = _find_arg_by_alias(
+        arguments,
+        bound_args,
+        [
+            "local_as",
+            "bgp_asn",
+            "bgp_process_id",
+            "asn",
+            "as_number",
+            "local_asn",
+        ],
+    )
+
+    remote_as, remote_source = _find_arg_by_alias(
+        arguments,
+        bound_args,
+        [
+            "remote_as",
+            "remote_asn",
+            "bgp_asn",
+            "bgp_process_id",
+            "asn",
+            "as_number",
+        ],
+    )
+
+    if "local_as" not in bound_args:
+        if local_as is not None:
+            bound_args["local_as"] = str(local_as)
+            binding_sources["local_as"] = f"normalized_cisco_bgp_as:{local_source}"
+            resolution_mode["local_as"] = "deterministic_normalization"
+            updated.append("local_as")
+        elif remote_as is not None:
+            bound_args["local_as"] = str(remote_as)
+            binding_sources["local_as"] = f"normalized_cisco_bgp_as:{remote_source}"
+            resolution_mode["local_as"] = "deterministic_normalization"
+            updated.append("local_as")
+        else:
+            default_as = os.environ.get("DEFAULT_BGP_LOCAL_AS", "65000")
+            if default_as:
+                bound_args["local_as"] = default_as
+                binding_sources["local_as"] = "default:DEFAULT_BGP_LOCAL_AS"
+                resolution_mode["local_as"] = "deterministic_default"
+                updated.append("local_as")
+
+    if op_name in {"bgp_neighbor_config", "bgp_peer_group_config"} and "remote_as" not in bound_args:
+        if remote_as is not None:
+            bound_args["remote_as"] = str(remote_as)
+            binding_sources["remote_as"] = f"normalized_cisco_bgp_as:{remote_source}"
+            resolution_mode["remote_as"] = "deterministic_normalization"
+            updated.append("remote_as")
+        elif "local_as" in bound_args:
+            bound_args["remote_as"] = bound_args["local_as"]
+            binding_sources["remote_as"] = "default:same_as_local_as"
+            resolution_mode["remote_as"] = "deterministic_default"
+            updated.append("remote_as")
+
+    return updated
+
+def force_cisco_enable_only_ops(
+    op_name: str,
+    bound_args: dict,
+    binding_sources: dict,
+    resolution_mode: dict,
+) -> list[str]:
+    """
+    Operações com nome *_enable não devem compilar para 'no ...'.
+    """
+
+    enable_only_ops = {
+        "ipv6_forward_enable",
+    }
+
+    if op_name not in enable_only_ops:
+        return []
+
+    if bound_args.get("enabled") is not True:
+        bound_args["enabled"] = True
+        binding_sources["enabled"] = "forced_by_enable_operation_name"
+        resolution_mode["enabled"] = "deterministic_safety"
+        return ["enabled"]
+
+    return []

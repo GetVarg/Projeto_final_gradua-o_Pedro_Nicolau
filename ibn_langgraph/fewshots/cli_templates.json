@@ -234,7 +234,7 @@
     "derivable_step_args": [],
     "default_args": {},
     "templates": [
-      "ip neigh add {target_ip} lladdr {mac_address} dev {interface} nud permanent"
+      "ip neigh replace {target_ip} lladdr {mac_address} dev {interface} nud permanent"
     ]
   },
   "ipv6_forward_enable": {
@@ -460,18 +460,11 @@
   },
   "static_route_del_frr": {
     "context": "router frr",
-    "description": "Remove an IPv4 static route from FRR by destination prefix, with optional next-hop and distance for precision. Use for delete/remove route intents targeting FRR routing table. Only use this when the intent explicitly says delete, remove, withdraw, or no route; do not use for ordinary add/configure static route intents.",
-    "required_step_args": ["dst_cidr"],
-    "optional_step_args": ["next_hop_ip", "administrative_distance"],
+    "description": "Remove a specific IPv4 static route from FRR using its destination prefix and next-hop. Use for delete/remove route intents targeting the FRR routing table. The next-hop may be stated explicitly or derived from the topology. Only use this when the intent explicitly says delete, remove, withdraw, or no route; do not use for ordinary add/configure static route intents.",
+    "required_step_args": ["dst_cidr", "next_hop_ip"],
+    "optional_step_args": ["administrative_distance"],
     "derivable_step_args": [],
     "variants": [
-      {
-        "variant": "prefix_only",
-        "match": {},
-        "templates": [
-          "vtysh -c 'configure terminal' -c 'no ip route {dst_cidr}'"
-        ]
-      },
       {
         "variant": "with_next_hop",
         "match": {

@@ -1,0 +1,101 @@
+{
+  "defaults": {
+    "protocol": "telnet",
+    "username": "",
+    "password": "",
+    "enable_password": "",
+    "command_timeout": 10
+  },
+  "devices": {
+    "0": {
+      "hostname": "R0",
+      "protocol": "telnet",
+      "host": "127.0.0.1",
+      "port": null,
+      "username": "",
+      "password": "",
+      "enable_password": ""
+    },
+    "1": {
+      "hostname": "R1",
+      "protocol": "telnet",
+      "host": "127.0.0.1",
+      "port": null,
+      "username": "",
+      "password": "",
+      "enable_password": ""
+    },
+    "2": {
+      "hostname": "R2",
+      "protocol": "telnet",
+      "host": "127.0.0.1",
+      "port": null,
+      "username": "",
+      "password": "",
+      "enable_password": ""
+    },
+    "3": {
+      "hostname": "R3",
+      "protocol": "telnet",
+      "host": "127.0.0.1",
+      "port": null,
+      "username": "",
+      "password": "",
+      "enable_password": ""
+    },
+    "4": {
+      "hostname": "R4",
+      "protocol": "telnet",
+      "host": "127.0.0.1",
+      "port": null,
+      "username": "",
+      "password": "",
+      "enable_password": ""
+    },
+    "5": {
+      "hostname": "R5",
+      "protocol": "telnet",
+      "host": "127.0.0.1",
+      "port": null,
+      "username": "",
+      "password": "",
+      "enable_password": ""
+    },
+    "6": {
+      "hostname": "R6",
+      "protocol": "telnet",
+      "host": "127.0.0.1",
+      "port": null,
+      "username": "",
+      "password": "",
+      "enable_password": ""
+    },
+    "7": {
+      "hostname": "R7",
+      "protocol": "telnet",
+      "host": "127.0.0.1",
+      "port": null,
+      "username": "",
+      "password": "",
+      "enable_password": ""
+    },
+    "8": {
+      "hostname": "R8",
+      "protocol": "telnet",
+      "host": "127.0.0.1",
+      "port": null,
+      "username": "",
+      "password": "",
+      "enable_password": ""
+    },
+    "9": {
+      "hostname": "R9",
+      "protocol": "telnet",
+      "host": "127.0.0.1",
+      "port": null,
+      "username": "",
+      "password": "",
+      "enable_password": ""
+    }
+  }
+}

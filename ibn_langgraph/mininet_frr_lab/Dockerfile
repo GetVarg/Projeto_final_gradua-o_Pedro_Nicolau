@@ -9,6 +9,7 @@ RUN apt-get update \
         frr-pythontools \
         iproute2 \
         iputils-ping \
+        iptables \
         mininet \
         net-tools \
         python3 \
@@ -20,6 +21,7 @@ RUN apt-get update \
 WORKDIR /lab
 
 COPY mininet_frr_lab/run_topology.py /lab/run_topology.py
+COPY mininet_frr_lab/apply_model_output.py /lab/apply_model_output.py
 COPY dataset/topologias_convertidas/gabriel/10/0.json /lab/topology.json
 
 CMD ["python3", "/lab/run_topology.py", "--topology", "/lab/topology.json"]

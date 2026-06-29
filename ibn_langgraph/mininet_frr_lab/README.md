@@ -6,7 +6,7 @@ Este laboratorio recria a topologia `gabriel/10/0` do dataset convertido:
 
 Ele cria:
 
-- 10 roteadores Mininet (`r0` ... `r9`) rodando FRR `zebra` + `ospfd`
+- 10 roteadores Mininet (`r0` ... `r9`) rodando FRR `zebra`, `ospfd`, `staticd` e `bgpd`
 - 10 hosts (`h_0_1` ... `h_9_1`)
 - enlaces ponto-a-ponto `10.0.x.0/30`
 - LANs `172.16.x.0/24`
@@ -61,6 +61,34 @@ docker run --rm -it --privileged \
   -v "$PWD/dataset:/dataset:ro" \
   tcc-mininet-frr \
   python3 /lab/run_topology.py --topology /dataset/topologias_convertidas/gabriel/10/0.json
+```
+
+## Aplicar uma saida do modelo
+
+O script `apply_model_output.py` inicia a topologia, aplica os itens de
+`test_outputs[].actual_commands` nos dispositivos correspondentes e salva um
+relatorio com a saida e o codigo de retorno de cada comando.
+
+No PowerShell, execute a partir de `Ic-llmToNetworkConfig/ibn_langgraph`:
+
+```powershell
+New-Item -ItemType Directory -Force mininet_frr_lab/results | Out-Null
+
+docker run --rm --privileged `
+  -v "${PWD}/outputs/meta-llama_Llama-3.1-8B-Instruct/pipeline_20260610_163248_correct.json:/lab/model_output.json:ro" `
+  -v "${PWD}/mininet_frr_lab/results:/results" `
+  tcc-mininet-frr `
+  python3 /lab/apply_model_output.py
+```
+
+Para aplicar apenas um caso e evitar acumular configuracoes de outros casos:
+
+```powershell
+docker run --rm --privileged `
+  -v "${PWD}/outputs/meta-llama_Llama-3.1-8B-Instruct/pipeline_20260610_163248_correct.json:/lab/model_output.json:ro" `
+  -v "${PWD}/mininet_frr_lab/results:/results" `
+  tcc-mininet-frr `
+  python3 /lab/apply_model_output.py --case-id B02
 ```
 
 ## Observacoes

@@ -28,16 +28,23 @@ BENCHMARK_TEMPERATURE = 0.0
 TOPOLOGY_PATH = "dataset/topologias_convertidas/gabriel/10/0.json"
 GOLDEN_COMMANDS_PATH = "golden_intents_topology_gabriel_10_0.json"
 CORRECTED_BENCHMARK_PATH = "../testTcc/benchmark_final_corrigido.json"
+CORRECTED_CISCO_IOS_BENCHMARK_PATH = "../testTcc/benchmark_final_corrigido_cisco_ios.json"
 SBRC_BENCHMARK_PATH = "../testTcc/benchmark_test_sbrc.json"
 
-LLAMA_1B_MODEL = "meta-llama/Llama-3.2-1B-Instruct"
+VENDOR_TEMPLATE_CATALOGS = {
+    "frr": "fewshots/cli_templates.json",
+    "cisco_ios": "fewshots/cli_templates_cisco_ios.json",
+}
+VENDOR_BENCHMARKS = {
+    "frr": CORRECTED_BENCHMARK_PATH,
+    "cisco_ios": CORRECTED_CISCO_IOS_BENCHMARK_PATH,
+}
+
 LLAMA_8B_MODEL = "meta-llama/Llama-3.1-8B-Instruct"
 LLAMA_70B_MODEL = "meta-llama/Llama-3.3-70B-Instruct"
 QWEN_4B_MODEL = "Qwen/Qwen3-4B-Instruct-2507"
+QWEN_9B_MODEL = "Qwen/Qwen3.5-9B"
 QWEN_35B_MODEL = "Qwen/Qwen3.5-35B-A3B"
-
-# Backwards-compatible alias for old experiments that referenced this name.
-LLAMA_3B_MODEL = LLAMA_1B_MODEL
 
 RUN_PIPELINE_BENCHMARK = True
 RUN_DIRECT_BASELINE_BENCHMARK = False
@@ -224,21 +231,34 @@ def _topo_compact_with_ips(topo: dict) -> dict:
 BASELINE_SYSTEM_PROMPT = """
 You are a baseline network intent translator.
 
-Convert one user intent directly into final CLI commands.
-Do not explain your reasoning.
-Return JSON only.
+Convert one user intent into final CLI commands by reasoning step by step before emitting the final answer.
+Return JSON only. Do not include markdown or shell prompts outside the JSON structure.
 
-This is a baseline, not a full planner.
-Try to identify the main network action and emit the concrete Linux/FRRouting command strings.
+EXECUTION ENVIRONMENT
+- Commands will be executed directly inside a simulated network built with Mininet and FRRouting.
+- Each topology router is a Linux Mininet node running FRRouting daemons.
+- FRRouting configuration commands must be issued through vtysh.
+- Linux networking, interface, forwarding, firewall, neighbor, and traffic-control operations may use ip, sysctl, iptables, and tc.
+- Interface names are exactly those provided by the topology, such as 0-eth0 or 7-eth1.
+- target_device must contain the topology device ID, such as "0" for the Mininet router node r0.
+- The command field must contain only the command executed inside the target Mininet node. Do not prefix it with r0, r1, or mininet>.
 
-Prefer a compact answer.
-Use the topology to resolve explicit topology references, peer IPs, connected interfaces, and LAN subnets.
-If the intent contains more than one action, return commands in execution order.
-If a required command value is missing or ambiguous, return no commands and set needs_human=true.
+REASONING STEPS
+Before emitting commands, reason through the following steps inside the "reasoning" field:
+1. What is the network action being requested?
+2. Which device or devices are involved?
+3. Which interfaces, addresses, prefixes, or neighbors from the topology are relevant?
+4. Are all required argument values present in the intent or resolvable from the topology?
+5. What is the correct tool or command family for this action in this environment?
+6. What is the correct syntax and argument order for each command?
+
+Only after completing this reasoning should you emit the final commands.
+If a required value is missing or ambiguous after reasoning, return no commands and set needs_human=true.
 
 Use a structure like this:
 {
   "intent_summary": "short summary",
+  "reasoning": "step by step reasoning following the six steps above",
   "commands": [
     {
       "target_device": "router/device id where the command should run, such as 0",
@@ -254,14 +274,15 @@ Guidelines:
 - Use fully rendered commands, not templates.
 - Each command must be an object with target_device and command.
 - target_device must be the topology device id where the command should run, for example "0" for router 0.
-- Do not include markdown or shell prompts.
-- Do not invent values that are absent from the intent.
+- Do not invent values that are absent from the intent or topology.
 - Do not use a destination prefix as a next-hop IP.
 - For static routes with no next-hop, interface, or blackhole target, set needs_human=true and commands=[].
+- Use vtysh -c 'configure terminal' followed by the required FRRouting configuration command.
 - For MTU and description on FRR interfaces, use vtysh commands.
 - For interface up/down, use ip link set.
 - For IPv4 forwarding, use sysctl -w net.ipv4.ip_forward=1.
 - For IPv6 forwarding, use sysctl -w net.ipv6.conf.all.forwarding=1.
+- If the intent contains more than one action, return commands in execution order.
 - Keep notes small.
 """.strip()
 
@@ -1310,16 +1331,16 @@ def build_graph():
 def build_baseline_user_prompt(intent: str, compact_topo: dict) -> str:
     topology_json = json.dumps(compact_topo, ensure_ascii=False, indent=2)
     return f"""
-Convert this network intent into final targeted CLI commands.
+Generate commands compatible with the provided Mininet + FRRouting simulated network.
 
 Intent:
 {intent}
 
-Topology context:
+Complete topology available to resolve devices, peer interfaces, peer IPs, and LAN subnets:
 {topology_json}
 
 Return JSON only.
-Use fully rendered Linux or FRRouting commands.
+Use fully rendered Linux or vtysh FRRouting commands that can be executed directly inside each target Mininet node.
 Each item in commands must be an object: {{"target_device": "...", "command": "..."}}.
 If a required command value cannot be resolved, return commands=[] and needs_human=true.
 """.strip()
@@ -1400,13 +1421,15 @@ def run_intent_suite(
     model_name: str,
     run_label: str = "r1",
     downstream_model_name: str | None = None,
+    topology_path: str | Path = TOPOLOGY_PATH,
 ) -> dict:
     global ACTIVE_DOWNSTREAM_MODEL_OVERRIDE
     ACTIVE_DOWNSTREAM_MODEL_OVERRIDE = downstream_model_name
 
     suite_start = time.perf_counter()
     results = []
-    topology = load_experiment_topology(TOPOLOGY_PATH)
+    resolved_topology_path = resolve_existing_path(topology_path)
+    topology = load_experiment_topology(str(resolved_topology_path))
     partial_ts = datetime.now().strftime("%Y%m%d_%H%M%S")
     partial_model_dir = Path("outputs") / _safe_model_tag(model_name)
     partial_model_dir.mkdir(parents=True, exist_ok=True)
@@ -1422,6 +1445,8 @@ def run_intent_suite(
             "model": model_name,
             "discretize_model": model_name,
             "downstream_model": downstream_model_name or model_name,
+            "topology_path": str(resolved_topology_path),
+            "template_catalog": tcc_nodes.get_cli_template_catalog(),
             "suite_elapsed_sec": round(time.perf_counter() - suite_start, 3),
             "num_intents": len(intents),
             "completed_intents": len(results),
@@ -1440,6 +1465,8 @@ def run_intent_suite(
             "model": model_name,
             "discretize_model": model_name,
             "downstream_model": downstream_model_name or model_name,
+            "topology_path": str(resolved_topology_path),
+            "template_catalog": tcc_nodes.get_cli_template_catalog(),
             "suite_elapsed_sec": round(time.perf_counter() - suite_start, 3),
             "num_intents": len(intents),
             "completed_intents": len(results),
@@ -1615,6 +1642,8 @@ def run_intent_suite(
             "model": model_name,
             "discretize_model": model_name,
             "downstream_model": downstream_model_name or model_name,
+            "topology_path": str(resolved_topology_path),
+            "template_catalog": tcc_nodes.get_cli_template_catalog(),
             "suite_elapsed_sec": round(suite_elapsed, 3),
             "num_intents": len(intents),
             "token_totals_by_node": aggregate_token_totals_by_node(results),
@@ -1631,9 +1660,29 @@ def run_direct_baseline_suite(intents: list[str], model_name: str, topology: dic
 
     suite_start = time.perf_counter()
     results = []
+    partial_ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+    partial_model_dir = Path("outputs") / _safe_model_tag(model_name)
+    partial_model_dir.mkdir(parents=True, exist_ok=True)
+    partial_baseline_path = partial_model_dir / f"direct_baseline_{run_label}_partial_{partial_ts}.json"
 
     topo_compact = _topo_compact_with_ips(topology)
     baseline_llm = HFRouterChat(model=model_name)
+
+    def write_partial_baseline_report() -> None:
+        partial_report = {
+            "mode": "direct_baseline_partial",
+            "run_label": run_label,
+            "temperature": BENCHMARK_TEMPERATURE,
+            "model": model_name,
+            "suite_elapsed_sec": round(time.perf_counter() - suite_start, 3),
+            "num_intents": len(intents),
+            "completed_intents": len(results),
+            "test_outputs": [result.get("test_output") for result in results if result.get("test_output")],
+            "results": results,
+        }
+        partial_report["comparison_summary"] = summarize_expected_comparisons(partial_report)
+        with partial_baseline_path.open("w", encoding="utf-8") as f:
+            json.dump(partial_report, f, ensure_ascii=False, indent=2)
 
     for i, intent_text in enumerate(intents, start=1):
         start = time.perf_counter()
@@ -1649,7 +1698,7 @@ def run_direct_baseline_suite(intents: list[str], model_name: str, topology: dic
                 ("user", user_prompt),
             ])
             token_events = tcc_nodes.get_llm_token_events_since(token_start)
-            raw = (resp.content or "").strip()
+            raw = resp.content or ""
             parsed = try_parse_json_fragment(raw)
         except Exception as exc:
             parse_error = str(exc)
@@ -1703,6 +1752,7 @@ def run_direct_baseline_suite(intents: list[str], model_name: str, topology: dic
         attach_test_output_summary(result, "direct_baseline")
 
         results.append(result)
+        write_partial_baseline_report()
         print_baseline_result(i, intent_text, result)
 
     suite_elapsed = time.perf_counter() - suite_start
@@ -1725,6 +1775,7 @@ def run_direct_baseline_suite(intents: list[str], model_name: str, topology: dic
         "results": results,
     }
     report["comparison_summary"] = summarize_expected_comparisons(report)
+    write_partial_baseline_report()
     return report
 
 
@@ -1991,6 +2042,30 @@ def save_text_report(report: dict, base_dir: str = "outputs") -> str:
 
     return str(out_path)
 
+
+def save_baseline_raw_outputs(report: dict, base_dir: str = "outputs") -> str:
+    if report.get("mode") != "direct_baseline":
+        raise ValueError("Raw output files are only available for direct baseline reports.")
+
+    ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+    model_tag = _safe_model_tag(report["model"])
+    model_dir = Path(base_dir) / model_tag
+    model_dir.mkdir(parents=True, exist_ok=True)
+    raw_path = model_dir / f"direct_baseline_raw_{ts}.txt"
+
+    with raw_path.open("w", encoding="utf-8", newline="") as f:
+        for index, result in enumerate(report.get("results", [])):
+            if index:
+                f.write("\n\n")
+            f.write("=" * 100 + "\n")
+            f.write(f"[INTENT {result.get('intent_id')}] {result.get('intent_text')}\n")
+            f.write("=" * 100 + "\n")
+            raw = result.get("raw")
+            f.write(raw if isinstance(raw, str) else "")
+
+    return str(raw_path)
+
+
 def build_llama_hf_benchmark_profiles(selected_models: list[str] | None = None) -> list[dict]:
     model_specs = {
         "8b": {
@@ -2007,6 +2082,11 @@ def build_llama_hf_benchmark_profiles(selected_models: list[str] | None = None) 
             "run_label": "qwen_4b",
             "model": QWEN_4B_MODEL,
             "description": "all_modules_qwen_4b_hf",
+        },
+        "qwen9b": {
+            "run_label": "qwen_9b",
+            "model": QWEN_9B_MODEL,
+            "description": "all_modules_qwen_9b_hf",
         },
         "qwen35b": {
             "run_label": "qwen_35b",
@@ -2042,8 +2122,25 @@ def parse_benchmark_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--benchmark-file",
-        default=CORRECTED_BENCHMARK_PATH,
-        help="JSON benchmark file containing intent and expected_commands fields.",
+        default=None,
+        help="Custom JSON benchmark file. By default, the file matching --vendor is used.",
+    )
+    template_group = parser.add_mutually_exclusive_group()
+    template_group.add_argument(
+        "--vendor",
+        choices=sorted(VENDOR_TEMPLATE_CATALOGS),
+        default="frr",
+        help="Vendor profile to test. It selects both the matching templates and default benchmark.",
+    )
+    template_group.add_argument(
+        "--template-catalog",
+        default=None,
+        help="Custom CLI template-catalog JSON path. Overrides the default FRR catalog.",
+    )
+    parser.add_argument(
+        "--topology",
+        default=TOPOLOGY_PATH,
+        help="Topology JSON path. Defaults to the current gabriel/10/0 topology.",
     )
     parser.add_argument(
         "--sbrc-benchmark-file",
@@ -2082,27 +2179,43 @@ def parse_benchmark_args() -> argparse.Namespace:
     parser.add_argument(
         "--models",
         nargs="+",
-        choices=["8b", "70b", "qwen4b", "qwen35b"],
+        choices=["8b", "70b", "qwen4b", "qwen9b", "qwen35b"],
         default=["8b", "70b", "qwen4b", "qwen35b"],
-        help="Subset of HF models to run. Default: 8b 70b qwen4b qwen35b.",
+        help="Subset of HF models to run. Available: 8b 70b qwen4b qwen9b qwen35b. Default: 8b 70b qwen4b qwen35b.",
     )
     parser.add_argument(
         "--direct-baseline",
         action="store_true",
-        help="Also run the direct baseline for each selected model.",
+        help="Run only the direct baseline for each selected model, without running the graph pipeline.",
     )
     parser.add_argument(
         "--pipeline-only",
         action="store_true",
         help="Run only the graph pipeline, even if --direct-baseline is passed.",
     )
+    parser.add_argument(
+        "--temperature",
+        type=float,
+        default=BENCHMARK_TEMPERATURE,
+        help=f"Sampling temperature used by benchmark model calls. Default: {BENCHMARK_TEMPERATURE}.",
+    )
     return parser.parse_args()
 
 
 if __name__ == "__main__":
     args = parse_benchmark_args()
-    app = build_graph_debug()
-    topology = load_experiment_topology(TOPOLOGY_PATH)
+    BENCHMARK_TEMPERATURE = args.temperature
+    selected_template_catalog = args.template_catalog or VENDOR_TEMPLATE_CATALOGS.get(
+        args.vendor,
+        VENDOR_TEMPLATE_CATALOGS["frr"],
+    )
+    selected_template_catalog = tcc_nodes.set_cli_template_catalog(selected_template_catalog)
+    selected_benchmark_file = args.benchmark_file or VENDOR_BENCHMARKS[args.vendor]
+    run_direct_baseline = bool(args.direct_baseline and not args.pipeline_only)
+    run_pipeline = not run_direct_baseline
+    app = build_graph_debug() if run_pipeline else None
+    topology_path = resolve_existing_path(args.topology)
+    topology = load_experiment_topology(str(topology_path))
 
     using_range = args.start_case is not None or args.end_case is not None
     benchmark_limit = None if (args.all_cases or args.case_ids or using_range) else args.limit
@@ -2120,22 +2233,21 @@ if __name__ == "__main__":
                 end_case=args.end_case,
             )
     else:
-        benchmark_cases = load_corrected_benchmark_cases(args.benchmark_file, limit=benchmark_limit)
+        benchmark_cases = load_corrected_benchmark_cases(selected_benchmark_file, limit=benchmark_limit)
         if args.case_ids:
             benchmark_cases = filter_benchmark_cases_by_id(
-                load_corrected_benchmark_cases(args.benchmark_file, limit=None),
+                load_corrected_benchmark_cases(selected_benchmark_file, limit=None),
                 args.case_ids,
             )
         elif using_range:
             benchmark_cases = slice_benchmark_cases_by_range(
-                load_corrected_benchmark_cases(args.benchmark_file, limit=None),
+                load_corrected_benchmark_cases(selected_benchmark_file, limit=None),
                 start_case=args.start_case,
                 end_case=args.end_case,
             )
     register_expected_cases(benchmark_cases)
     test_intents = [case["intent"] for case in benchmark_cases]
     benchmark_profiles = build_llama_hf_benchmark_profiles(args.models)
-    run_direct_baseline = bool(args.direct_baseline and not args.pipeline_only)
 
     all_reports = []
 
@@ -2143,7 +2255,10 @@ if __name__ == "__main__":
     print("[BENCHMARK CONFIG]")
     print("=" * 100)
     print(f"suite={args.suite}")
-    print(f"benchmark_file={resolve_existing_path(args.sbrc_benchmark_file if args.suite == 'intents_da_ic' else args.benchmark_file)}")
+    print(f"benchmark_file={resolve_existing_path(args.sbrc_benchmark_file if args.suite == 'intents_da_ic' else selected_benchmark_file)}")
+    print(f"vendor={args.vendor}")
+    print(f"template_catalog={selected_template_catalog}")
+    print(f"topology={topology_path}")
     print(f"start_case={args.start_case}")
     print(f"end_case={args.end_case}")
     print(f"intents={len(test_intents)}")
@@ -2155,11 +2270,12 @@ if __name__ == "__main__":
             "8b": LLAMA_8B_MODEL,
             "70b": LLAMA_70B_MODEL,
             "qwen4b": QWEN_4B_MODEL,
+            "qwen9b": QWEN_9B_MODEL,
             "qwen35b": QWEN_35B_MODEL,
         },
         ensure_ascii=False,
     ))
-    print(f"run_pipeline={RUN_PIPELINE_BENCHMARK}")
+    print(f"run_pipeline={run_pipeline}")
     print(f"run_direct_baseline={run_direct_baseline}")
 
     for profile in benchmark_profiles:
@@ -2175,13 +2291,14 @@ if __name__ == "__main__":
         )
         print("=" * 100)
 
-        if RUN_PIPELINE_BENCHMARK:
+        if run_pipeline:
             pipeline_report = run_intent_suite(
                 app,
                 test_intents,
                 discretize_model,
                 run_label=run_label,
                 downstream_model_name=downstream_model,
+                topology_path=topology_path,
             )
             pipeline_report["profile"] = profile_description
             pipeline_json_path = save_benchmark_report(pipeline_report)
@@ -2212,6 +2329,7 @@ if __name__ == "__main__":
             direct_report["profile"] = profile_description
             baseline_json_path = save_benchmark_report(direct_report)
             baseline_txt_path = save_text_report(direct_report)
+            baseline_raw_path = save_baseline_raw_outputs(direct_report)
             all_reports.append(direct_report)
 
             print("\n" + "#" * 100)
@@ -2225,6 +2343,7 @@ if __name__ == "__main__":
                 print(f"[BASELINE SUMMARY] correct_json_saved_to={direct_report['split_report_paths']['correct']}")
                 print(f"[BASELINE SUMMARY] incorrect_json_saved_to={direct_report['split_report_paths']['incorrect']}")
             print(f"[BASELINE SUMMARY] txt_saved_to={baseline_txt_path}")
+            print(f"[BASELINE SUMMARY] raw_outputs_saved_to={baseline_raw_path}")
             print_comparison_summary(direct_report)
             print("#" * 100)
 

@@ -1,0 +1,1330 @@
+{
+  "_catalog_metadata": {
+    "target_environment": "cisco_ios_like",
+    "description": "Cisco IOS-style command catalog adapted from the original FRR/Linux/Mininet templates. It keeps the same operation-centered contract style, but replaces Linux/FRR primitives with IOS configuration-mode commands.",
+    "notes": [
+      "IPv4 Cisco commands generally require network plus dotted-decimal mask rather than CIDR. The resolver should derive *_network and *_mask arguments from CIDR inputs.",
+      "ACL and QoS operations are modeled as Cisco IOS named ACLs, class-maps, policy-maps, and service-policy bindings.",
+      "Interface names are left as placeholders because the benchmark topology uses Mininet-style interface identifiers such as 0-eth3. A Cisco topology adapter may normalize them to IOS names such as GigabitEthernet0/3 before compilation."
+    ]
+  },
+  "ip_forward_enable": {
+    "context": "router cisco",
+    "description": "Enable or disable global IPv4 or IPv6 routing on a Cisco IOS-like router. Use for forwarding/routing enablement, not interface up/down.",
+    "required_step_args": [
+      "address_family"
+    ],
+    "optional_step_args": [
+      "enabled"
+    ],
+    "derivable_step_args": [],
+    "default_args": {
+      "enabled": true
+    },
+    "variants": [
+      {
+        "variant": "ipv4_enable",
+        "match": {
+          "address_family": "ipv4",
+          "enabled": true
+        },
+        "templates": [
+          "configure terminal ; ip routing"
+        ]
+      },
+      {
+        "variant": "ipv4_disable",
+        "match": {
+          "address_family": "ipv4",
+          "enabled": false
+        },
+        "templates": [
+          "configure terminal ; no ip routing"
+        ]
+      },
+      {
+        "variant": "ipv6_enable",
+        "match": {
+          "address_family": "ipv6",
+          "enabled": true
+        },
+        "templates": [
+          "configure terminal ; ipv6 unicast-routing"
+        ]
+      },
+      {
+        "variant": "ipv6_disable",
+        "match": {
+          "address_family": "ipv6",
+          "enabled": false
+        },
+        "templates": [
+          "configure terminal ; no ipv6 unicast-routing"
+        ]
+      }
+    ]
+  },
+  "ipv6_forward_enable": {
+    "context": "router cisco",
+    "description": "Enable global IPv6 unicast routing on a Cisco IOS-like router. Prefer ip_forward_enable when choosing by address_family.",
+    "required_step_args": [],
+    "optional_step_args": [
+      "enabled"
+    ],
+    "derivable_step_args": [],
+    "default_args": {
+      "enabled": true
+    },
+    "variants": [
+      {
+        "variant": "enable",
+        "match": {
+          "enabled": true
+        },
+        "templates": [
+          "configure terminal ; ipv6 unicast-routing"
+        ]
+      },
+      {
+        "variant": "disable",
+        "match": {
+          "enabled": false
+        },
+        "templates": [
+          "configure terminal ; no ipv6 unicast-routing"
+        ]
+      }
+    ]
+  },
+  "connectivity_verify": {
+    "context": "router/host cisco",
+    "description": "Run ping as a verification step or explicit connectivity test.",
+    "required_step_args": [
+      "dst_ip"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "templates": [
+      "ping {dst_ip}"
+    ]
+  },
+  "interface_l3_address_config": {
+    "context": "router cisco",
+    "description": "Configure IPv4 or IPv6 address on a Cisco interface; do not use for MTU, description, or administrative state.",
+    "required_step_args": [
+      "interface",
+      "address_family"
+    ],
+    "derivable_step_args": [
+      "ipv4",
+      "prefix_len",
+      "ipv4_mask",
+      "ipv6_address",
+      "prefix_length"
+    ],
+    "optional_step_args": [
+      "secondary"
+    ],
+    "default_args": {},
+    "variants": [
+      {
+        "variant": "ipv4_primary",
+        "match": {
+          "address_family": "ipv4"
+        },
+        "templates": [
+          "configure terminal ; interface {interface} ; ip address {ipv4} {ipv4_mask}"
+        ]
+      },
+      {
+        "variant": "ipv4_secondary",
+        "match": {
+          "address_family": "ipv4",
+          "secondary": true
+        },
+        "templates": [
+          "configure terminal ; interface {interface} ; ip address {ipv4} {ipv4_mask} secondary"
+        ]
+      },
+      {
+        "variant": "ipv6",
+        "match": {
+          "address_family": "ipv6"
+        },
+        "templates": [
+          "configure terminal ; interface {interface} ; ipv6 address {ipv6_address}/{prefix_length}"
+        ]
+      }
+    ]
+  },
+  "interface_l3_address_remove": {
+    "context": "router cisco",
+    "description": "Remove an IPv4 or IPv6 address from a Cisco interface. Prefer the specific-address variant when the current address is known from topology; otherwise use the catchall variant.",
+    "required_step_args": [
+      "interface",
+      "address_family"
+    ],
+    "derivable_step_args": [
+      "ipv4",
+      "prefix_len",
+      "ipv4_mask",
+      "ipv6_address",
+      "prefix_length"
+    ],
+    "default_args": {},
+    "variants": [
+      {
+        "variant": "ipv4_specific",
+        "match": {
+          "address_family": "ipv4",
+          "ipv4": "*",
+          "ipv4_mask": "*"
+        },
+        "templates": [
+          "configure terminal ; interface {interface} ; no ip address {ipv4} {ipv4_mask}"
+        ]
+      },
+      {
+        "variant": "ipv4_all",
+        "match": {
+          "address_family": "ipv4"
+        },
+        "templates": [
+          "configure terminal ; interface {interface} ; no ip address"
+        ]
+      },
+      {
+        "variant": "ipv6_specific",
+        "match": {
+          "address_family": "ipv6",
+          "ipv6_address": "*",
+          "prefix_length": "*"
+        },
+        "templates": [
+          "configure terminal ; interface {interface} ; no ipv6 address {ipv6_address}/{prefix_length}"
+        ]
+      },
+      {
+        "variant": "ipv6_all",
+        "match": {
+          "address_family": "ipv6"
+        },
+        "templates": [
+          "configure terminal ; interface {interface} ; no ipv6 address"
+        ]
+      }
+    ]
+  },
+  "interface_admin_config": {
+    "context": "router/switch cisco",
+    "description": "Enable or disable a Cisco interface administratively. Use enabled=true for no shutdown and enabled=false for shutdown.",
+    "required_step_args": [
+      "interface",
+      "enabled"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "variants": [
+      {
+        "variant": "enable",
+        "match": {
+          "enabled": true
+        },
+        "templates": [
+          "configure terminal ; interface {interface} ; no shutdown"
+        ]
+      },
+      {
+        "variant": "disable",
+        "match": {
+          "enabled": false
+        },
+        "templates": [
+          "configure terminal ; interface {interface} ; shutdown"
+        ]
+      }
+    ]
+  },
+  "interface_mtu_kernel": {
+    "context": "router/switch cisco",
+    "description": "Set interface MTU on Cisco IOS. Kept under the original operation name to preserve pipeline compatibility.",
+    "required_step_args": [
+      "interface",
+      "mtu"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "templates": [
+      "configure terminal ; interface {interface} ; mtu {mtu}"
+    ]
+  },
+  "interface_attribute_config": {
+    "context": "router/switch cisco",
+    "description": "Configure interface attributes such as description. Do not use for MTU, administrative state, MAC address, or IP address.",
+    "required_step_args": [
+      "interface",
+      "attribute_type"
+    ],
+    "derivable_step_args": [
+      "description"
+    ],
+    "default_args": {},
+    "variants": [
+      {
+        "variant": "description",
+        "match": {
+          "attribute_type": "description"
+        },
+        "templates": [
+          "configure terminal ; interface {interface} ; description {description}"
+        ]
+      }
+    ]
+  },
+  "interface_attribute_remove": {
+    "context": "router/switch cisco",
+    "description": "Remove an interface attribute such as description.",
+    "required_step_args": [
+      "interface",
+      "attribute_type"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "variants": [
+      {
+        "variant": "description",
+        "match": {
+          "attribute_type": "description"
+        },
+        "templates": [
+          "configure terminal ; interface {interface} ; no description"
+        ]
+      }
+    ]
+  },
+  "iface_mac_config": {
+    "context": "router/switch cisco",
+    "description": "Set the MAC address of a Cisco interface when supported by the platform.",
+    "required_step_args": [
+      "interface",
+      "mac_address"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "templates": [
+      "configure terminal ; interface {interface} ; mac-address {mac_address}"
+    ]
+  },
+  "arp_static_entry_config": {
+    "context": "router cisco",
+    "description": "Create a static ARP entry on a Cisco router. Interface is not part of the standard global IOS arp command, but may still be used by the pipeline to resolve the target device.",
+    "required_step_args": [
+      "target_ip",
+      "mac_address"
+    ],
+    "optional_step_args": [
+      "interface",
+      "encapsulation"
+    ],
+    "derivable_step_args": [],
+    "default_args": {
+      "encapsulation": "arpa"
+    },
+    "templates": [
+      "configure terminal ; arp {target_ip} {mac_address} {encapsulation}"
+    ]
+  },
+  "arp_static_entry_del": {
+    "context": "router cisco",
+    "description": "Delete a static ARP entry from a Cisco router.",
+    "required_step_args": [
+      "target_ip"
+    ],
+    "optional_step_args": [
+      "interface"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "templates": [
+      "configure terminal ; no arp {target_ip}"
+    ]
+  },
+  "arp_encapsulation_set": {
+    "context": "router/switch cisco",
+    "description": "Enable or disable ARP on a Cisco interface. Use with care because exact support depends on IOS platform and interface type.",
+    "required_step_args": [
+      "interface",
+      "arp_enabled"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "variants": [
+      {
+        "variant": "enable",
+        "match": {
+          "arp_enabled": "on"
+        },
+        "templates": [
+          "configure terminal ; interface {interface} ; arp arpa"
+        ]
+      },
+      {
+        "variant": "disable",
+        "match": {
+          "arp_enabled": "off"
+        },
+        "templates": [
+          "configure terminal ; interface {interface} ; no arp arpa"
+        ]
+      },
+      {
+        "variant": "enable_bool",
+        "match": {
+          "arp_enabled": true
+        },
+        "templates": [
+          "configure terminal ; interface {interface} ; arp arpa"
+        ]
+      },
+      {
+        "variant": "disable_bool",
+        "match": {
+          "arp_enabled": false
+        },
+        "templates": [
+          "configure terminal ; interface {interface} ; no arp arpa"
+        ]
+      }
+    ]
+  },
+  "static_route_add_frr": {
+    "context": "router cisco",
+    "description": "Add an IPv4 static route on Cisco IOS using destination network, dotted-decimal mask, and next-hop IP. Administrative distance is optional and must only be used when explicitly requested.",
+    "required_step_args": [
+      "dst_network",
+      "dst_mask",
+      "next_hop_ip"
+    ],
+    "optional_step_args": [
+      "dst_cidr",
+      "administrative_distance"
+    ],
+    "derivable_step_args": [
+      "dst_network",
+      "dst_mask"
+    ],
+    "default_args": {},
+    "variants": [
+      {
+        "variant": "standard",
+        "match": {},
+        "templates": [
+          "configure terminal ; ip route {dst_network} {dst_mask} {next_hop_ip}"
+        ]
+      },
+      {
+        "variant": "with_administrative_distance",
+        "match": {
+          "administrative_distance": "*"
+        },
+        "templates": [
+          "configure terminal ; ip route {dst_network} {dst_mask} {next_hop_ip} {administrative_distance}"
+        ]
+      }
+    ]
+  },
+  "static_route_del_frr": {
+    "context": "router cisco",
+    "description": "Remove an IPv4 static route from Cisco IOS. Use next-hop and administrative distance only when they are known or explicitly part of the intent.",
+    "required_step_args": [
+      "dst_network",
+      "dst_mask",
+      "next_hop_ip"
+    ],
+    "optional_step_args": [
+      "dst_cidr",
+      "administrative_distance"
+    ],
+    "derivable_step_args": [
+      "dst_network",
+      "dst_mask"
+    ],
+    "variants": [
+      {
+        "variant": "with_next_hop_and_no_distance",
+        "match": {
+          "next_hop_ip": "*"
+        },
+        "templates": [
+          "configure terminal ; no ip route {dst_network} {dst_mask} {next_hop_ip}"
+        ]
+      },
+      {
+        "variant": "with_next_hop_and_distance",
+        "match": {
+          "next_hop_ip": "*",
+          "administrative_distance": "*"
+        },
+        "templates": [
+          "configure terminal ; no ip route {dst_network} {dst_mask} {next_hop_ip} {administrative_distance}"
+        ]
+      },
+      {
+        "variant": "destination_only",
+        "match": {},
+        "templates": [
+          "configure terminal ; no ip route {dst_network} {dst_mask}"
+        ]
+      }
+    ]
+  },
+  "static_route_blackhole_add": {
+    "context": "router cisco",
+    "description": "Add an IPv4 discard/blackhole route by pointing the destination prefix to Null0.",
+    "required_step_args": [
+      "dst_network",
+      "dst_mask"
+    ],
+    "optional_step_args": [
+      "dst_cidr"
+    ],
+    "derivable_step_args": [
+      "dst_network",
+      "dst_mask"
+    ],
+    "default_args": {},
+    "templates": [
+      "configure terminal ; ip route {dst_network} {dst_mask} Null0"
+    ]
+  },
+  "static_route_add_ipv6_frr": {
+    "context": "router cisco",
+    "description": "Add an IPv6 static route using either a next-hop IP or an exit interface. Administrative distance is optional and must only be used when explicitly requested.",
+    "required_step_args": [
+      "dst_cidr"
+    ],
+    "optional_step_args": [
+      "next_hop_ip",
+      "exit_interface",
+      "administrative_distance"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "variants": [
+      {
+        "variant": "via_next_hop_distance",
+        "match": {
+          "next_hop_ip": "*",
+          "administrative_distance": "*"
+        },
+        "templates": [
+          "configure terminal ; ipv6 route {dst_cidr} {next_hop_ip} {administrative_distance}"
+        ]
+      },
+      {
+        "variant": "via_exit_interface_distance",
+        "match": {
+          "exit_interface": "*",
+          "administrative_distance": "*"
+        },
+        "templates": [
+          "configure terminal ; ipv6 route {dst_cidr} {exit_interface} {administrative_distance}"
+        ]
+      },
+      {
+        "variant": "via_next_hop",
+        "match": {
+          "next_hop_ip": "*"
+        },
+        "templates": [
+          "configure terminal ; ipv6 route {dst_cidr} {next_hop_ip}"
+        ]
+      },
+      {
+        "variant": "via_exit_interface",
+        "match": {
+          "exit_interface": "*"
+        },
+        "templates": [
+          "configure terminal ; ipv6 route {dst_cidr} {exit_interface}"
+        ]
+      }
+    ]
+  },
+  "bgp_neighbor_config": {
+    "context": "router cisco",
+    "description": "Configure a direct BGP neighbor with remote-as, without using a peer-group.",
+    "applicability": {
+      "requires_concepts": [
+        "neighbor_or_peer_relation"
+      ]
+    },
+    "required_step_args": [
+      "local_as",
+      "neighbor_ip",
+      "remote_as"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "templates": [
+      "configure terminal ; router bgp {local_as} ; neighbor {neighbor_ip} remote-as {remote_as}"
+    ]
+  },
+  "bgp_network_advertise": {
+    "context": "router cisco",
+    "description": "Advertise an IPv4 network prefix into BGP on Cisco IOS. Derive network and mask from prefix/CIDR.",
+    "applicability": {
+      "requires_concepts": [
+        "advertised_prefix"
+      ]
+    },
+    "required_step_args": [
+      "local_as",
+      "network",
+      "mask"
+    ],
+    "optional_step_args": [
+      "prefix"
+    ],
+    "derivable_step_args": [
+      "network",
+      "mask"
+    ],
+    "default_args": {},
+    "templates": [
+      "configure terminal ; router bgp {local_as} ; network {network} mask {mask}"
+    ]
+  },
+  "bgp_neighbor_remove": {
+    "context": "router cisco",
+    "description": "Remove a BGP neighbor by IP address from a BGP process.",
+    "required_step_args": [
+      "local_as",
+      "neighbor_ip"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "templates": [
+      "configure terminal ; router bgp {local_as} ; no neighbor {neighbor_ip}"
+    ]
+  },
+  "bgp_peer_group_config": {
+    "context": "router cisco",
+    "description": "Create/configure an explicitly named BGP peer-group and set its remote AS. Use only when the intent explicitly mentions a peer-group/group name.",
+    "applicability": {
+      "requires_concepts": [
+        "explicit_peer_group_name"
+      ]
+    },
+    "required_step_args": [
+      "local_as",
+      "peer_group_name",
+      "remote_as"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "templates": [
+      "configure terminal ; router bgp {local_as} ; neighbor {peer_group_name} peer-group ; neighbor {peer_group_name} remote-as {remote_as}"
+    ]
+  },
+  "bgp_neighbor_peer_group_bind": {
+    "context": "router cisco",
+    "description": "Bind a BGP neighbor IP to an explicitly existing or configured peer-group.",
+    "applicability": {
+      "requires_concepts": [
+        "explicit_peer_group_name",
+        "neighbor_ip"
+      ]
+    },
+    "required_step_args": [
+      "local_as",
+      "neighbor_ip",
+      "peer_group_name"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "templates": [
+      "configure terminal ; router bgp {local_as} ; neighbor {neighbor_ip} peer-group {peer_group_name}"
+    ]
+  },
+  "bgp_peer_group_remove": {
+    "context": "router cisco",
+    "description": "Remove a BGP peer-group from a BGP process.",
+    "required_step_args": [
+      "local_as",
+      "peer_group_name"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "templates": [
+      "configure terminal ; router bgp {local_as} ; no neighbor {peer_group_name} peer-group"
+    ]
+  },
+  "bgp_neighbor_med_set": {
+    "context": "router cisco",
+    "description": "Set outbound MED for a BGP neighbor using a route-map.",
+    "required_step_args": [
+      "local_as",
+      "neighbor_ip",
+      "med"
+    ],
+    "derivable_step_args": [
+      "route_map_name"
+    ],
+    "default_args": {
+      "route_map_name": "SET_MED_OUT"
+    },
+    "templates": [
+      "configure terminal ; route-map {route_map_name} permit 10 ; set metric {med}",
+      "configure terminal ; router bgp {local_as} ; neighbor {neighbor_ip} route-map {route_map_name} out"
+    ]
+  },
+  "bgp_as_path_multipath_enable": {
+    "context": "router cisco",
+    "description": "Enable BGP AS-path multipath relax under a local BGP process.",
+    "required_step_args": [
+      "local_as"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "templates": [
+      "configure terminal ; router bgp {local_as} ; bgp bestpath as-path multipath-relax"
+    ]
+  },
+  "bgp_local_preference_set": {
+    "context": "router cisco",
+    "description": "Set BGP local-preference for a neighbor or peer-group using a route-map applied inbound.",
+    "required_step_args": [
+      "local_as",
+      "local_preference"
+    ],
+    "derivable_step_args": [
+      "neighbor_ip",
+      "peer_group_name",
+      "route_map_name"
+    ],
+    "default_args": {
+      "route_map_name": "SET_LOCALPREF"
+    },
+    "variants": [
+      {
+        "variant": "peer_group",
+        "match": {
+          "peer_group_name": "*"
+        },
+        "templates": [
+          "configure terminal ; route-map {route_map_name} permit 10 ; set local-preference {local_preference}",
+          "configure terminal ; router bgp {local_as} ; neighbor {peer_group_name} route-map {route_map_name} in"
+        ]
+      },
+      {
+        "variant": "neighbor",
+        "match": {
+          "neighbor_ip": "*"
+        },
+        "templates": [
+          "configure terminal ; route-map {route_map_name} permit 10 ; set local-preference {local_preference}",
+          "configure terminal ; router bgp {local_as} ; neighbor {neighbor_ip} route-map {route_map_name} in"
+        ]
+      }
+    ]
+  },
+  "bgp_route_map_apply": {
+    "context": "router cisco",
+    "description": "Apply an existing named route-map to a BGP neighbor in a given direction.",
+    "required_step_args": [
+      "local_as",
+      "neighbor_ip",
+      "route_map_name",
+      "direction"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "templates": [
+      "configure terminal ; router bgp {local_as} ; neighbor {neighbor_ip} route-map {route_map_name} {direction}"
+    ]
+  },
+  "bgp_peer_group_password_set": {
+    "context": "router cisco",
+    "description": "Set BGP authentication password for an explicitly named peer-group. This extends the original catalog to cover BGP password intents.",
+    "applicability": {
+      "requires_concepts": [
+        "explicit_peer_group_name",
+        "bgp_password"
+      ]
+    },
+    "required_step_args": [
+      "local_as",
+      "peer_group_name",
+      "password"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "templates": [
+      "configure terminal ; router bgp {local_as} ; neighbor {peer_group_name} password {password}"
+    ]
+  },
+  "bgp_neighbor_password_set": {
+    "context": "router cisco",
+    "description": "Set BGP authentication password for a BGP neighbor.",
+    "applicability": {
+      "requires_concepts": [
+        "neighbor_ip",
+        "bgp_password"
+      ]
+    },
+    "required_step_args": [
+      "local_as",
+      "neighbor_ip",
+      "password"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "templates": [
+      "configure terminal ; router bgp {local_as} ; neighbor {neighbor_ip} password {password}"
+    ]
+  },
+  "ospf_interface_cost": {
+    "context": "router cisco",
+    "description": "Set the OSPF cost of an interface.",
+    "required_step_args": [
+      "interface",
+      "cost"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "templates": [
+      "configure terminal ; interface {interface} ; ip ospf cost {cost}"
+    ]
+  },
+  "logging_config": {
+    "context": "router cisco",
+    "description": "Configure Cisco logging target and optional log level.",
+    "required_step_args": [
+      "log_target"
+    ],
+    "derivable_step_args": [
+      "log_level"
+    ],
+    "default_args": {
+      "log_level": "informational"
+    },
+    "templates": [
+      "configure terminal ; logging host {log_target} ; logging trap {log_level}"
+    ]
+  },
+  "firewall_allow_pair": {
+    "context": "router cisco",
+    "description": "Permit bidirectional traffic between two explicit IP endpoints using a named extended ACL. Use only when both src_ip and dst_ip are available.",
+    "required_step_args": [
+      "src_ip",
+      "dst_ip"
+    ],
+    "optional_step_args": [
+      "acl_name",
+      "in_interface",
+      "out_interface",
+      "direction"
+    ],
+    "derivable_step_args": [],
+    "default_args": {
+      "acl_name": "IBN_PAIR_ACL"
+    },
+    "templates": [
+      "configure terminal ; ip access-list extended {acl_name} ; permit ip host {src_ip} host {dst_ip} ; permit ip host {dst_ip} host {src_ip}"
+    ]
+  },
+  "firewall_drop_subnet_pair": {
+    "context": "router cisco",
+    "description": "Deny traffic between explicit source and destination CIDR blocks using a named extended ACL.",
+    "required_step_args": [
+      "src_network",
+      "src_wildcard",
+      "dst_network",
+      "dst_wildcard"
+    ],
+    "optional_step_args": [
+      "src_cidr",
+      "dst_cidr",
+      "acl_name",
+      "interface",
+      "direction"
+    ],
+    "derivable_step_args": [
+      "src_network",
+      "src_wildcard",
+      "dst_network",
+      "dst_wildcard"
+    ],
+    "default_args": {
+      "acl_name": "IBN_SUBNET_ACL",
+      "direction": "in"
+    },
+    "variants": [
+      {
+        "variant": "with_interface",
+        "match": {
+          "interface": "*"
+        },
+        "templates": [
+          "configure terminal ; ip access-list extended {acl_name} ; deny ip {src_network} {src_wildcard} {dst_network} {dst_wildcard} ; permit ip any any",
+          "configure terminal ; interface {interface} ; ip access-group {acl_name} {direction}"
+        ]
+      },
+      {
+        "variant": "define_only",
+        "match": {},
+        "templates": [
+          "configure terminal ; ip access-list extended {acl_name} ; deny ip {src_network} {src_wildcard} {dst_network} {dst_wildcard} ; permit ip any any"
+        ]
+      }
+    ]
+  },
+  "firewall_input_drop": {
+    "context": "router cisco",
+    "description": "Deny traffic conceptually inbound to a router or inbound on a router interface. For Cisco, when an interface is available the ACL is applied inbound on that interface.",
+    "required_step_args": [],
+    "derivable_step_args": [
+      "in_interface",
+      "protocol",
+      "dst_port",
+      "src_ip",
+      "src_cidr",
+      "src_network",
+      "src_wildcard"
+    ],
+    "optional_step_args": [
+      "acl_name"
+    ],
+    "default_args": {
+      "acl_name": "IBN_INPUT_ACL"
+    },
+    "variants": [
+      {
+        "variant": "src_ip_proto_port",
+        "match": {
+          "src_ip": "*",
+          "protocol": "*",
+          "dst_port": "*"
+        },
+        "templates": [
+          "configure terminal ; ip access-list extended {acl_name} ; deny {protocol} host {src_ip} any eq {dst_port} ; permit ip any any"
+        ]
+      },
+      {
+        "variant": "src_cidr_proto",
+        "match": {
+          "src_network": "*",
+          "src_wildcard": "*",
+          "protocol": "*"
+        },
+        "templates": [
+          "configure terminal ; ip access-list extended {acl_name} ; deny {protocol} {src_network} {src_wildcard} any ; permit ip any any"
+        ]
+      },
+      {
+        "variant": "proto_port_iface",
+        "match": {
+          "protocol": "*",
+          "dst_port": "*",
+          "in_interface": "*"
+        },
+        "templates": [
+          "configure terminal ; ip access-list extended {acl_name} ; deny {protocol} any any eq {dst_port} ; permit ip any any",
+          "configure terminal ; interface {in_interface} ; ip access-group {acl_name} in"
+        ]
+      },
+      {
+        "variant": "proto_port",
+        "match": {
+          "protocol": "*",
+          "dst_port": "*"
+        },
+        "templates": [
+          "configure terminal ; ip access-list extended {acl_name} ; deny {protocol} any any eq {dst_port} ; permit ip any any"
+        ]
+      },
+      {
+        "variant": "iface_catchall",
+        "match": {
+          "in_interface": "*"
+        },
+        "templates": [
+          "configure terminal ; ip access-list extended {acl_name} ; deny ip any any",
+          "configure terminal ; interface {in_interface} ; ip access-group {acl_name} in"
+        ]
+      }
+    ]
+  },
+  "firewall_forward_drop": {
+    "context": "router cisco",
+    "description": "Deny forwarded/routed traffic using an extended ACL applied on the relevant egress or ingress interface.",
+    "required_step_args": [],
+    "derivable_step_args": [
+      "src_ip",
+      "src_cidr",
+      "src_network",
+      "src_wildcard",
+      "in_interface",
+      "out_interface"
+    ],
+    "optional_step_args": [
+      "acl_name"
+    ],
+    "default_args": {
+      "acl_name": "IBN_FORWARD_ACL"
+    },
+    "variants": [
+      {
+        "variant": "src_cidr_out_interface",
+        "match": {
+          "src_network": "*",
+          "src_wildcard": "*",
+          "out_interface": "*"
+        },
+        "templates": [
+          "configure terminal ; ip access-list extended {acl_name} ; deny ip {src_network} {src_wildcard} any ; permit ip any any",
+          "configure terminal ; interface {out_interface} ; ip access-group {acl_name} out"
+        ]
+      },
+      {
+        "variant": "src_ip_out_interface",
+        "match": {
+          "src_ip": "*",
+          "out_interface": "*"
+        },
+        "templates": [
+          "configure terminal ; ip access-list extended {acl_name} ; deny ip host {src_ip} any ; permit ip any any",
+          "configure terminal ; interface {out_interface} ; ip access-group {acl_name} out"
+        ]
+      }
+    ]
+  },
+  "firewall_input_accept": {
+    "context": "router cisco",
+    "description": "Permit traffic inbound to a router or inbound on a router interface using a named extended ACL.",
+    "required_step_args": [],
+    "derivable_step_args": [
+      "in_interface",
+      "protocol",
+      "dst_port",
+      "src_ip",
+      "src_cidr",
+      "src_network",
+      "src_wildcard",
+      "icmp_type"
+    ],
+    "optional_step_args": [
+      "acl_name"
+    ],
+    "default_args": {
+      "acl_name": "IBN_INPUT_ACL"
+    },
+    "variants": [
+      {
+        "variant": "icmp_type_iface",
+        "match": {
+          "protocol": "icmp",
+          "icmp_type": "*",
+          "in_interface": "*"
+        },
+        "templates": [
+          "configure terminal ; ip access-list extended {acl_name} ; permit icmp any any {icmp_type}",
+          "configure terminal ; interface {in_interface} ; ip access-group {acl_name} in"
+        ]
+      },
+      {
+        "variant": "proto_port",
+        "match": {
+          "protocol": "*",
+          "dst_port": "*"
+        },
+        "templates": [
+          "configure terminal ; ip access-list extended {acl_name} ; permit {protocol} any any eq {dst_port}"
+        ]
+      },
+      {
+        "variant": "src_ip_proto_port",
+        "match": {
+          "src_ip": "*",
+          "protocol": "*",
+          "dst_port": "*"
+        },
+        "templates": [
+          "configure terminal ; ip access-list extended {acl_name} ; permit {protocol} host {src_ip} any eq {dst_port}"
+        ]
+      },
+      {
+        "variant": "proto_port_iface",
+        "match": {
+          "protocol": "*",
+          "dst_port": "*",
+          "in_interface": "*"
+        },
+        "templates": [
+          "configure terminal ; ip access-list extended {acl_name} ; permit {protocol} any any eq {dst_port}",
+          "configure terminal ; interface {in_interface} ; ip access-group {acl_name} in"
+        ]
+      },
+      {
+        "variant": "icmp_type",
+        "match": {
+          "protocol": "icmp",
+          "icmp_type": "*"
+        },
+        "templates": [
+          "configure terminal ; ip access-list extended {acl_name} ; permit icmp any any {icmp_type}"
+        ]
+      }
+    ]
+  },
+  "firewall_output_drop": {
+    "context": "router cisco",
+    "description": "Deny outbound traffic using a named extended ACL. If out_interface is available, apply the ACL outbound on that interface.",
+    "required_step_args": [],
+    "derivable_step_args": [
+      "out_interface",
+      "protocol",
+      "dst_port"
+    ],
+    "optional_step_args": [
+      "acl_name"
+    ],
+    "default_args": {
+      "acl_name": "IBN_OUTPUT_ACL"
+    },
+    "variants": [
+      {
+        "variant": "proto_port_iface",
+        "match": {
+          "protocol": "*",
+          "dst_port": "*",
+          "out_interface": "*"
+        },
+        "templates": [
+          "configure terminal ; ip access-list extended {acl_name} ; deny {protocol} any any eq {dst_port} ; permit ip any any",
+          "configure terminal ; interface {out_interface} ; ip access-group {acl_name} out"
+        ]
+      },
+      {
+        "variant": "proto_iface",
+        "match": {
+          "protocol": "*",
+          "out_interface": "*"
+        },
+        "templates": [
+          "configure terminal ; ip access-list extended {acl_name} ; deny {protocol} any any ; permit ip any any",
+          "configure terminal ; interface {out_interface} ; ip access-group {acl_name} out"
+        ]
+      },
+      {
+        "variant": "proto_port",
+        "match": {
+          "protocol": "*",
+          "dst_port": "*"
+        },
+        "templates": [
+          "configure terminal ; ip access-list extended {acl_name} ; deny {protocol} any any eq {dst_port} ; permit ip any any"
+        ]
+      },
+      {
+        "variant": "iface_catchall",
+        "match": {
+          "out_interface": "*"
+        },
+        "templates": [
+          "configure terminal ; ip access-list extended {acl_name} ; deny ip any any",
+          "configure terminal ; interface {out_interface} ; ip access-group {acl_name} out"
+        ]
+      }
+    ]
+  },
+  "firewall_output_accept": {
+    "context": "router cisco",
+    "description": "Permit outbound traffic using a named extended ACL. If out_interface is available, apply the ACL outbound on that interface.",
+    "required_step_args": [
+      "protocol"
+    ],
+    "derivable_step_args": [
+      "out_interface",
+      "dst_port"
+    ],
+    "optional_step_args": [
+      "acl_name"
+    ],
+    "default_args": {
+      "acl_name": "IBN_OUTPUT_ACL"
+    },
+    "variants": [
+      {
+        "variant": "proto_port_iface",
+        "match": {
+          "protocol": "*",
+          "dst_port": "*",
+          "out_interface": "*"
+        },
+        "templates": [
+          "configure terminal ; ip access-list extended {acl_name} ; permit {protocol} any any eq {dst_port}",
+          "configure terminal ; interface {out_interface} ; ip access-group {acl_name} out"
+        ]
+      },
+      {
+        "variant": "proto_port",
+        "match": {
+          "protocol": "*",
+          "dst_port": "*"
+        },
+        "templates": [
+          "configure terminal ; ip access-list extended {acl_name} ; permit {protocol} any any eq {dst_port}"
+        ]
+      },
+      {
+        "variant": "proto_iface",
+        "match": {
+          "protocol": "*",
+          "out_interface": "*"
+        },
+        "templates": [
+          "configure terminal ; ip access-list extended {acl_name} ; permit {protocol} any any",
+          "configure terminal ; interface {out_interface} ; ip access-group {acl_name} out"
+        ]
+      }
+    ]
+  },
+  "tc_egress_rate_limit": {
+    "context": "router/switch cisco",
+    "description": "Apply an egress rate limit using Cisco class-map, policy-map, and service-policy output. Kept under the original tc_* operation name for pipeline compatibility.",
+    "required_step_args": [
+      "interface",
+      "rate_mbit"
+    ],
+    "derivable_step_args": [
+      "protocol",
+      "ip_proto_num",
+      "dst_port",
+      "acl_name",
+      "class_name",
+      "policy_name"
+    ],
+    "default_args": {
+      "acl_name": "IBN_QOS_ACL",
+      "class_name": "IBN_QOS_CLASS",
+      "policy_name": "IBN_QOS_POLICY"
+    },
+    "variants": [
+      {
+        "variant": "by_protocol",
+        "match": {
+          "protocol": "*"
+        },
+        "templates": [
+          "configure terminal ; ip access-list extended {acl_name} ; permit {protocol} any any",
+          "configure terminal ; class-map match-any {class_name} ; match access-group name {acl_name}",
+          "configure terminal ; policy-map {policy_name} ; class {class_name} ; police {rate_mbit}000000 conform-action transmit exceed-action drop",
+          "configure terminal ; interface {interface} ; service-policy output {policy_name}"
+        ]
+      },
+      {
+        "variant": "by_dst_port",
+        "match": {
+          "dst_port": "*"
+        },
+        "templates": [
+          "configure terminal ; ip access-list extended {acl_name} ; permit tcp any any eq {dst_port}",
+          "configure terminal ; class-map match-any {class_name} ; match access-group name {acl_name}",
+          "configure terminal ; policy-map {policy_name} ; class {class_name} ; police {rate_mbit}000000 conform-action transmit exceed-action drop",
+          "configure terminal ; interface {interface} ; service-policy output {policy_name}"
+        ]
+      },
+      {
+        "variant": "all_traffic",
+        "match": {},
+        "templates": [
+          "configure terminal ; policy-map {policy_name} ; class class-default ; police {rate_mbit}000000 conform-action transmit exceed-action drop",
+          "configure terminal ; interface {interface} ; service-policy output {policy_name}"
+        ]
+      }
+    ]
+  },
+  "tc_ingress_police": {
+    "context": "router/switch cisco",
+    "description": "Police inbound traffic using Cisco service-policy input.",
+    "required_step_args": [
+      "interface",
+      "rate_mbit"
+    ],
+    "derivable_step_args": [
+      "protocol",
+      "ip_proto_num",
+      "acl_name",
+      "class_name",
+      "policy_name"
+    ],
+    "default_args": {
+      "acl_name": "IBN_INGRESS_QOS_ACL",
+      "class_name": "IBN_INGRESS_QOS_CLASS",
+      "policy_name": "IBN_INGRESS_QOS_POLICY"
+    },
+    "variants": [
+      {
+        "variant": "by_protocol",
+        "match": {
+          "protocol": "*"
+        },
+        "templates": [
+          "configure terminal ; ip access-list extended {acl_name} ; permit {protocol} any any",
+          "configure terminal ; class-map match-any {class_name} ; match access-group name {acl_name}",
+          "configure terminal ; policy-map {policy_name} ; class {class_name} ; police {rate_mbit}000000 conform-action transmit exceed-action drop",
+          "configure terminal ; interface {interface} ; service-policy input {policy_name}"
+        ]
+      },
+      {
+        "variant": "all_traffic",
+        "match": {},
+        "templates": [
+          "configure terminal ; policy-map {policy_name} ; class class-default ; police {rate_mbit}000000 conform-action transmit exceed-action drop",
+          "configure terminal ; interface {interface} ; service-policy input {policy_name}"
+        ]
+      }
+    ]
+  },
+  "tc_priority_by_port": {
+    "context": "router/switch cisco",
+    "description": "Apply priority treatment for traffic matching a destination port using Cisco MQC.",
+    "required_step_args": [
+      "interface",
+      "dst_port"
+    ],
+    "derivable_step_args": [
+      "acl_name",
+      "class_name",
+      "policy_name",
+      "priority_percent"
+    ],
+    "default_args": {
+      "acl_name": "IBN_PRIORITY_ACL",
+      "class_name": "IBN_PRIORITY_CLASS",
+      "policy_name": "IBN_PRIORITY_POLICY",
+      "priority_percent": 30
+    },
+    "templates": [
+      "configure terminal ; ip access-list extended {acl_name} ; permit tcp any any eq {dst_port}",
+      "configure terminal ; class-map match-any {class_name} ; match access-group name {acl_name}",
+      "configure terminal ; policy-map {policy_name} ; class {class_name} ; priority percent {priority_percent}",
+      "configure terminal ; interface {interface} ; service-policy output {policy_name}"
+    ]
+  },
+  "ovs_set_controller": {
+    "context": "unsupported in cisco_ios_like",
+    "description": "Open vSwitch controller configuration has no direct Cisco IOS template in this catalog.",
+    "required_step_args": [
+      "bridge",
+      "controller_ip",
+      "controller_port"
+    ],
+    "derivable_step_args": [],
+    "default_args": {},
+    "unsupported": true,
+    "templates": []
+  }
+}

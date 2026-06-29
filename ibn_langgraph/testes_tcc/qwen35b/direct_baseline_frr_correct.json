@@ -1,0 +1,34 @@
+{
+  "mode": "direct_baseline",
+  "run_label": "qwen_35b",
+  "temperature": 0.0,
+  "model": "Qwen/Qwen3.5-35B-A3B",
+  "suite_elapsed_sec": 8.602,
+  "num_intents": 0,
+  "token_totals": {
+    "calls": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "total_tokens": 0,
+    "missing_usage_count": 0
+  },
+  "comparison_summary": {
+    "cases": 0,
+    "comparable_cases": 0,
+    "all_ok": 0,
+    "commands_ok": 0,
+    "commands_total": 0,
+    "needs_human_ok": 0,
+    "needs_human_total": 0,
+    "ops_ok": 0,
+    "ops_total": 0
+  },
+  "profile": "all_modules_qwen_35b_hf",
+  "split_report_paths": {
+    "correct": "outputs\\Qwen_Qwen3.5-35B-A3B\\direct_baseline_20260628_165625_correct.json",
+    "incorrect": "outputs\\Qwen_Qwen3.5-35B-A3B\\direct_baseline_20260628_165625_incorrect.json"
+  },
+  "status_filter": "correct",
+  "test_outputs": [],
+  "results": []
+}
